@@ -43,7 +43,7 @@ export function Footer() {
     <footer className="mt-24 bg-ink text-ink-foreground">
       <div className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10">
         <div className="flex flex-col items-center text-center">
-          <LogoMark className="h-16 opacity-95" />
+          <LogoMark variant="white" className="h-16 opacity-95" />
           <p className="font-display mt-6 text-2xl tracking-[0.14em] uppercase">Loner Leather</p>
           <p className="mt-3 text-sm tracking-[0.2em] text-ink-foreground/60 uppercase">
             Handmade Leather Goods
