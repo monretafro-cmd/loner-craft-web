@@ -6,7 +6,7 @@ export const BRAND = {
   email: "hello@lonerleather.ma",
   instagram: "https://instagram.com/lonerleather",
   facebook: "https://facebook.com/lonerleather",
-  address: "142 Rue Dar El Bacha, Medina, Marrakech 40000, Morocco",
+  address: "Quartier El Mellah, Medina, Taroudant 83000, Morocco",
   hours: [
     { day: "Monday – Friday", time: "09:00 – 19:00" },
     { day: "Saturday", time: "10:00 – 18:00" },

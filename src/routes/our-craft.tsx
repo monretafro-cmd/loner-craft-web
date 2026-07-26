@@ -12,7 +12,7 @@ export const Route = createFileRoute("/our-craft")({
       {
         name: "description",
         content:
-          "From vegetable-tanned hide to saddle stitch and burnished edge — the six stages behind every Loner Leather piece, made by hand in Marrakech.",
+          "From vegetable-tanned hide to saddle stitch and burnished edge — the six stages behind every Loner Leather piece, made by hand in Taroudant.",
       },
       { property: "og:title", content: "Our Craft — Loner Leather" },
       {
@@ -30,7 +30,7 @@ const STEPS = [
   {
     n: "01",
     title: "Choosing the hide",
-    text: "We select full-grain hides at a family tannery in the Marrakech medina, tanned with oak bark and pomegranate rind over 30 days. We reject any panel with a scar we can't stand behind.",
+    text: "We select full-grain hides at a family tannery in the Taroudant medina, tanned with oak bark and pomegranate rind over 30 days. We reject any panel with a scar we can't stand behind.",
   },
   {
     n: "02",

@@ -9,16 +9,16 @@ import packaging from "@/assets/packaging.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Loner Leather — A Marrakech Leather Workshop" },
+      { title: "About Loner Leather — A Taroudant Leather Workshop" },
       {
         name: "description",
         content:
-          "Loner Leather is a small Marrakech workshop making full-grain leather wallets and accessories by hand since 2016. Meet the makers behind the stitch.",
+          "Loner Leather is a small Taroudant workshop making full-grain leather wallets and accessories by hand since 2016. Meet the makers behind the stitch.",
       },
       { property: "og:title", content: "About Loner Leather" },
       {
         property: "og:description",
-        content: "A small Marrakech workshop making full-grain leather goods by hand since 2016.",
+        content: "A small Taroudant workshop making full-grain leather goods by hand since 2016.",
       },
       { property: "og:url", content: "/about" },
     ],

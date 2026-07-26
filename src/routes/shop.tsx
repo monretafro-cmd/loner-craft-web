@@ -40,7 +40,7 @@ export const Route = createFileRoute("/shop")({
       { property: "og:title", content: "Shop Handmade Leather Goods — Loner Leather" },
       {
         property: "og:description",
-        content: "Full-grain leather goods handmade in Marrakech. Cash on Delivery across Morocco.",
+        content: "Full-grain leather goods handmade in Taroudant. Cash on Delivery across Morocco.",
       },
       { property: "og:url", content: "/shop" },
     ],
@@ -168,7 +168,7 @@ function ShopPage() {
       <PageHero
         eyebrow="The Collection"
         title="Shop"
-        intro="Every piece below is cut, stitched and finished by hand in our Marrakech workshop. Pay cash on delivery, anywhere in Morocco."
+        intro="Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco."
       />
 
       <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 lg:px-10 lg:py-14">

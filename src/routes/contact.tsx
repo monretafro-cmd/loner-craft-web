@@ -13,16 +13,16 @@ import { BRAND, whatsappLink } from "@/lib/brand";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Loner Leather — Marrakech Workshop & WhatsApp" },
+      { title: "Contact Loner Leather — Taroudant Workshop & WhatsApp" },
       {
         name: "description",
         content:
-          "Reach the Loner Leather workshop in Marrakech by WhatsApp, phone or email. Open Monday to Saturday, 9:00–19:00.",
+          "Reach the Loner Leather workshop in Taroudant by WhatsApp, phone or email. Open Monday to Saturday, 9:00–19:00.",
       },
       { property: "og:title", content: "Contact Loner Leather" },
       {
         property: "og:description",
-        content: "WhatsApp, call or email our Marrakech leather workshop.",
+        content: "WhatsApp, call or email our Taroudant leather workshop.",
       },
       { property: "og:url", content: "/contact" },
     ],
@@ -90,7 +90,7 @@ function ContactPage() {
 
             <div className="overflow-hidden rounded-2xl border border-border shadow-soft">
               <iframe
-                title="Loner Leather workshop location in Marrakech"
+                title="Loner Leather workshop location in Taroudant"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-8.0130%2C31.6220%2C-7.9770%2C31.6420&layer=mapnik&marker=31.6320%2C-7.9950"
                 loading="lazy"
                 className="h-64 w-full border-0"

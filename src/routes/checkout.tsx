@@ -39,7 +39,7 @@ export const Route = createFileRoute("/checkout")({
 const CITIES = [
   "Casablanca",
   "Rabat",
-  "Marrakech",
+  "Taroudant",
   "Tangier",
   "Fès",
   "Agadir",

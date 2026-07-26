@@ -49,7 +49,7 @@ export function Footer() {
               <span className="font-display text-lg tracking-[0.18em] uppercase">Loner Leather</span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-foreground/70">
-              Hand-cut, saddle-stitched leather goods made in a small Marrakech workshop. One maker
+              Hand-cut, saddle-stitched leather goods made in a small Taroudant workshop. One maker
               per piece, from hide to box.
             </p>
             <ul className="mt-6 space-y-2.5 text-sm text-ink-foreground/70">

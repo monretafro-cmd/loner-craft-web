@@ -16,7 +16,7 @@ export const Route = createFileRoute("/order-success")({
       {
         name: "description",
         content:
-          "Your Loner Leather order is confirmed. We'll call to verify, then dispatch from Marrakech within 24–48 hours.",
+          "Your Loner Leather order is confirmed. We'll call to verify, then dispatch from Taroudant within 24–48 hours.",
       },
       { property: "og:title", content: "Order Confirmed — Loner Leather" },
       { property: "og:description", content: "Your handmade leather order is on its way." },
@@ -44,7 +44,7 @@ function OrderSuccess() {
       </span>
       <h1 className="font-display mt-6 text-4xl leading-tight sm:text-5xl">Thank you — your order is confirmed</h1>
       <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-        A maker in Marrakech is already wrapping your piece. You'll pay the courier in cash when it
+        A maker in Taroudant is already wrapping your piece. You'll pay the courier in cash when it
         arrives — no card, no prepayment.
       </p>
 
