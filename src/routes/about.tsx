@@ -37,6 +37,15 @@ const STATS = [
 function AboutPage() {
   return (
     <>
+      <section className="bg-cream">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center px-5 py-20 text-center sm:px-6 lg:px-10">
+          <LogoMark className="h-28 sm:h-36" />
+          <p className="eyebrow mt-8">Handmade in Taroudant</p>
+          <h2 className="font-display mt-4 max-w-2xl text-3xl leading-tight sm:text-4xl">
+            Genuine leather, cut and stitched by hand in Morocco.
+          </h2>
+        </div>
+      </section>
       <PageHero
         eyebrow="Our Story"
         title="About Loner Leather"

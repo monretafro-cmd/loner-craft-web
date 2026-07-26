@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LogoMark } from "./Logo";
-import { BRAND } from "@/lib/brand";
+import { BRAND, whatsappLink } from "@/lib/brand";
 
 const COLUMNS = [
   {
@@ -23,7 +23,7 @@ const COLUMNS = [
       { to: "/contact", label: "Contact" },
       { to: "/track-order", label: "Track Order" },
       { to: "/faq", label: "FAQ" },
-      { to: "/wishlist", label: "Wishlist" },
+      { to: "/shipping", label: "Shipping" },
     ],
   },
   {
@@ -42,55 +42,48 @@ export function Footer() {
   return (
     <footer className="mt-24 bg-ink text-ink-foreground">
       <div className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
-          <div>
-            <div className="flex items-center gap-3">
-              <LogoMark className="h-11 w-11" />
-              <span className="font-display text-lg tracking-[0.18em] uppercase">Loner Leather</span>
-            </div>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-foreground/70">
-              Hand-cut, saddle-stitched leather goods made in a small Taroudant workshop. One maker
-              per piece, from hide to box.
-            </p>
-            <ul className="mt-6 space-y-2.5 text-sm text-ink-foreground/70">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>{BRAND.address}</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0" />
-                <a href={`tel:+${BRAND.whatsapp}`} className="hover:text-ink-foreground">
-                  {BRAND.phoneDisplay}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0" />
-                <a href={`mailto:${BRAND.email}`} className="hover:text-ink-foreground">
-                  {BRAND.email}
-                </a>
-              </li>
-            </ul>
-            <div className="mt-6 flex gap-2">
-              <a
-                href={BRAND.instagram}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="grid h-11 w-11 place-items-center rounded-lg border border-ink-foreground/15 transition-colors hover:border-accent hover:text-accent"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href={BRAND.facebook}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Facebook"
-                className="grid h-11 w-11 place-items-center rounded-lg border border-ink-foreground/15 transition-colors hover:border-accent hover:text-accent"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-            </div>
+        <div className="flex flex-col items-center text-center">
+          <LogoMark className="h-16 opacity-95" />
+          <p className="font-display mt-6 text-2xl tracking-[0.14em] uppercase">Loner Leather</p>
+          <p className="mt-3 text-sm tracking-[0.2em] text-ink-foreground/60 uppercase">
+            Handmade Leather Goods
+          </p>
+          <p className="mt-1 text-sm tracking-[0.2em] text-ink-foreground/60 uppercase">
+            Taroudant, Morocco
+          </p>
+          <div className="mt-8 flex gap-3">
+            <a
+              href={BRAND.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="grid h-11 w-11 place-items-center rounded-[14px] border border-ink-foreground/15 transition-colors hover:border-accent hover:text-accent"
+            >
+              <Instagram className="h-4 w-4" strokeWidth={1.5} />
+            </a>
+            <a
+              href={whatsappLink(`Hello ${BRAND.name}, I would like to order a handmade piece.`)}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+              className="grid h-11 w-11 place-items-center rounded-[14px] border border-ink-foreground/15 transition-colors hover:border-accent hover:text-accent"
+            >
+              <Phone className="h-4 w-4" strokeWidth={1.5} />
+            </a>
+            <a
+              href={`mailto:${BRAND.email}`}
+              aria-label="Email"
+              className="grid h-11 w-11 place-items-center rounded-[14px] border border-ink-foreground/15 transition-colors hover:border-accent hover:text-accent"
+            >
+              <Mail className="h-4 w-4" strokeWidth={1.5} />
+            </a>
           </div>
+          <p className="mt-6 flex items-center gap-2 text-sm text-ink-foreground/60">
+            <MapPin className="h-4 w-4" strokeWidth={1.5} /> {BRAND.address}
+          </p>
+        </div>
+
+        <div className="mt-16 grid gap-10 text-center sm:grid-cols-3 sm:text-left">
 
           {COLUMNS.map((col) => (
             <div key={col.title}>

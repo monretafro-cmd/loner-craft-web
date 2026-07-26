@@ -1,3 +1,4 @@
+import { LogoMark } from "@/components/site/Logo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Package, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,8 @@ function OrderSuccess() {
   const { order, total } = Route.useSearch();
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:py-28">
+    <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:px-6 lg:py-28">
+      <LogoMark className="mx-auto mb-10 h-14 opacity-90" />
       <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent/15 text-accent">
         <Check className="h-8 w-8" />
       </span>
@@ -48,7 +50,7 @@ function OrderSuccess() {
         arrives — no card, no prepayment.
       </p>
 
-      <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-2xl border border-border bg-card px-8 py-5 text-left shadow-soft">
+      <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-[18px] border border-border bg-card px-8 py-6 text-left shadow-soft">
         <div>
           <p className="eyebrow">Order number</p>
           <p className="font-display mt-1 text-lg">{order ?? "LL-000000"}</p>
