@@ -8,9 +8,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/site/Reveal";
-import { ProductCard } from "@/components/site/ProductCard";
 import { whatsappLink, productOrderMessage } from "@/lib/brand";
-import { products, categories, faqs, testimonials } from "@/lib/products";
+import { faqs, testimonials } from "@/lib/products";
 import { BrandPhoto } from "@/components/site/BrandPhoto";
 import { PHOTOS } from "@/lib/photos";
 
@@ -44,10 +43,6 @@ const WHY = [
 ];
 
 function Index() {
-  const featured = products.filter((p) => p.bestSeller || p.isNew).slice(0, 4);
-  const newest = [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
-  const best = [...products].sort((a, b) => b.sold - a.sold).slice(0, 4);
-
   return (
     <>
       {/* Hero */}
@@ -170,62 +165,6 @@ function Index() {
         </Reveal>
       </section>
 
-      {/* Categories strip */}
-      <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow">The Collection</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">Shop by category</h2>
-          </div>
-          <Link
-            to="/categories"
-            className="text-sm text-primary underline-offset-4 hover:underline"
-          >
-            View all categories
-          </Link>
-        </Reveal>
-        <div className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {categories.map((cat, i) => (
-            <Reveal key={cat.slug} delay={i * 60}>
-              <Link
-                to="/shop"
-                search={{ category: cat.slug }}
-                className="group block overflow-hidden rounded-xl bg-secondary"
-              >
-                <div className="aspect-square overflow-hidden">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    width={1200}
-                    height={1200}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-                  />
-                </div>
-                <p className="px-3 py-3 text-center text-sm font-medium">{cat.name}</p>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured */}
-      <section className="bg-secondary/40 py-16 lg:py-24">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-          <Reveal>
-            <p className="eyebrow">Featured</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">Pieces we're proud of</h2>
-          </Reveal>
-          <div className="mt-9 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-            {featured.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 80}>
-                <ProductCard product={p} priority={i < 2} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Craftsmanship */}
       <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-3xl">
@@ -277,41 +216,6 @@ function Index() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* New collection */}
-      <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow">Just Released</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">The new collection</h2>
-          </div>
-          <Link to="/shop" search={{ sort: "newest" }} className="text-sm text-primary underline-offset-4 hover:underline">
-            See everything new
-          </Link>
-        </Reveal>
-        <div className="mt-9 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-3">
-          {newest.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 80}>
-              <ProductCard product={p} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Best sellers */}
-      <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
-        <Reveal>
-          <p className="eyebrow">Best Sellers</p>
-          <h2 className="font-display mt-2 text-3xl sm:text-4xl">What Morocco is carrying</h2>
-        </Reveal>
-        <div className="mt-9 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-          {best.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 80}>
-              <ProductCard product={p} />
-            </Reveal>
-          ))}
         </div>
       </section>
 
