@@ -65,7 +65,7 @@ function AboutPage() {
             />
           </Reveal>
           <Reveal delay={120} className="space-y-5 text-[0.95rem] leading-relaxed text-muted-foreground">
-            <LogoMark className="h-14 w-14" />
+            <LogoMark className="h-14 w-auto" />
             <h2 className="font-display text-3xl leading-tight text-foreground sm:text-4xl">
               One maker, one piece, start to finish.
             </h2>
