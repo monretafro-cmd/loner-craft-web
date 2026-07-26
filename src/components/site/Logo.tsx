@@ -19,7 +19,7 @@ export function LogoMark({
       width={381}
       height={456}
       style={style}
-      className={cn("w-auto max-w-full object-contain", className)}
+      className={cn("h-auto max-w-full object-contain", className)}
     />
   );
 }
