@@ -93,7 +93,7 @@ function ShopPage() {
               type="button"
               onClick={() =>
                 navigate({
-                  search: (prev) => ({ ...prev, category: c.slug === "all" ? undefined : c.slug }),
+                  search: { ...search, category: c.slug === "all" ? undefined : c.slug },
                 })
               }
               className={`min-h-11 rounded-lg px-3 text-left text-sm transition-colors ${
@@ -206,10 +206,10 @@ function ShopPage() {
                   value={sort}
                   onValueChange={(value) =>
                     navigate({
-                      search: (prev) => ({
-                        ...prev,
+                      search: {
+                        ...search,
                         sort: value === "featured" ? undefined : (value as never),
-                      }),
+                      },
                     })
                   }
                 >
