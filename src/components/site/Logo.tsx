@@ -19,7 +19,7 @@ export function LogoMark({
       width={381}
       height={456}
       style={style}
-      className={cn("w-auto max-w-full object-contain", className)}
+      className={cn("h-auto max-w-full object-contain", className)}
     />
   );
 }
@@ -39,7 +39,10 @@ export function Logo({
       className={cn("flex items-center", className)}
       aria-label="Loner Leather — home"
     >
-      <LogoMark className={cn("h-11 lg:h-14", markClassName)} style={markStyle} />
+      <LogoMark
+        className={cn("w-16 md:w-20 lg:w-[92px]", markClassName)}
+        style={markStyle}
+      />
     </Link>
   );
 }

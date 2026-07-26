@@ -71,7 +71,9 @@ export function Navbar() {
         <nav
           className={cn(
             "mx-auto grid max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 transition-all duration-500 ease-out sm:px-6 lg:px-10",
-            scrolled ? "h-[72px]" : "h-[72px] md:h-[84px] lg:h-[90px]",
+            scrolled
+              ? "h-[64px] md:h-[78px] lg:h-[88px]"
+              : "h-[74px] md:h-[92px] lg:h-[110px]",
           )}
         >
           <div className="flex min-w-0 items-center gap-2">
@@ -114,9 +116,12 @@ export function Navbar() {
               </SheetContent>
             </Sheet>
             <Logo
+              className="py-1"
               markClassName={cn(
                 "transition-all duration-500 ease-out",
-                scrolled ? "h-11 lg:h-12" : "h-11 md:h-13 lg:h-[58px]",
+                scrolled
+                  ? "w-[56px] md:w-[70px] lg:w-[78px]"
+                  : "w-16 md:w-20 lg:w-[92px]",
               )}
             />
           </div>
