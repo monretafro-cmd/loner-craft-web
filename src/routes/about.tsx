@@ -1,4 +1,3 @@
-import { LogoMark } from "@/components/site/Logo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
@@ -47,7 +46,6 @@ function AboutPage() {
           </h2>
         </div>
       </section>
-    <>
       <PageHero
         eyebrow="Our Story"
         title="About Loner Leather"
@@ -127,7 +125,6 @@ function AboutPage() {
           </Reveal>
         </div>
       </section>
-    </>
     </>
   );
 }
