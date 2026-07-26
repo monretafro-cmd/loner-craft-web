@@ -18,6 +18,7 @@ import { BRAND, whatsappLink } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const NAV = [
+  { to: "/", label: "Home" },
   { to: "/shop", label: "Shop" },
   { to: "/categories", label: "Products" },
   { to: "/our-craft", label: "Our Craft" },
@@ -61,11 +62,18 @@ export function Navbar() {
 
       <header
         className={cn(
-          "sticky top-0 z-50 transition-all duration-500",
-          scrolled ? "glass shadow-soft" : "bg-background border-b border-border",
+          "sticky top-0 z-50 border-b transition-all duration-500 ease-out",
+          scrolled
+            ? "border-border/70 bg-background/80 shadow-soft backdrop-blur-md"
+            : "border-border bg-background",
         )}
       >
-        <nav className="mx-auto grid max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:px-10">
+        <nav
+          className={cn(
+            "mx-auto grid max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 transition-all duration-500 ease-out sm:px-6 lg:px-10",
+            scrolled ? "h-[72px]" : "h-[72px] md:h-[84px] lg:h-[90px]",
+          )}
+        >
           <div className="flex min-w-0 items-center gap-2">
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
@@ -105,7 +113,12 @@ export function Navbar() {
                 </div>
               </SheetContent>
             </Sheet>
-            <Logo />
+            <Logo
+              markClassName={cn(
+                "transition-all duration-500 ease-out",
+                scrolled ? "h-11 lg:h-12" : "h-11 md:h-13 lg:h-[58px]",
+              )}
+            />
           </div>
 
           <div className="hidden items-center justify-center gap-1 lg:flex">
