@@ -22,11 +22,16 @@ export const Route = createFileRoute("/product/$slug")({
     if (!product) throw notFound();
     return { product };
   },
-  head: ({ params, loaderData }) => {
-    if (!loaderData) {
-      return { meta: [{ title: "Product unavailable — Loner Leather" }, { name: "robots", content: "noindex" }] };
+  head: ({ params }) => {
+    const p = getProduct(params.slug);
+    if (!p) {
+      return {
+        meta: [
+          { title: "Product unavailable — Loner Leather" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
-    const p = loaderData.product;
     const title = `${p.name} — Handmade Leather | Loner Leather`;
     const description = `${p.short} ${p.leather}. ${formatMAD(p.price)} with Cash on Delivery across Morocco.`;
     return {
@@ -83,7 +88,8 @@ export const Route = createFileRoute("/product/$slug")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const product = getProduct(slug)!;
   const { addLine, setCartOpen, toggleWish, wishlist, pushRecent, recent } = useStore();
   const [image, setImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]);
