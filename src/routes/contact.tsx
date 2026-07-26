@@ -62,8 +62,8 @@ function ContactPage() {
                 </li>
                 <li className="flex gap-3">
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                  <a href={`tel:${BRAND.phone.replace(/\s/g, "")}`} className="hover:text-foreground">
-                    {BRAND.phone}
+                  <a href={`tel:${BRAND.phoneDisplay.replace(/\s/g, "")}`} className="hover:text-foreground">
+                    {BRAND.phoneDisplay}
                   </a>
                 </li>
                 <li className="flex gap-3">
