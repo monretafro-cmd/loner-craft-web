@@ -77,12 +77,11 @@ function Index() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-secondary p-4 sm:p-6">
+          <div className="aspect-video w-full overflow-hidden rounded-[24px] bg-secondary">
             <BrandPhoto
               photo={PHOTOS.heroPackaged}
               priority
-              className="aspect-4/3 w-full rounded-xl"
-              imgClassName="object-contain"
+              className="h-full w-full rounded-[24px]"
             />
           </div>
         </div>
@@ -91,13 +90,14 @@ function Index() {
       {/* Featured product */}
       <section className="border-y border-border bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
-          <Reveal>
-            <BrandPhoto
-              photo={PHOTOS.walletOpen}
-              className="aspect-4/3 w-full rounded-2xl bg-background"
-              imgClassName="object-contain"
-            />
-          </Reveal>
+          {PHOTOS.walletOpen.src ? (
+            <Reveal>
+              <BrandPhoto
+                photo={PHOTOS.walletOpen}
+                className="aspect-4/3 w-full rounded-2xl bg-background"
+              />
+            </Reveal>
+          ) : null}
           <Reveal delay={100}>
             <p className="eyebrow">The Product</p>
             <h2 className="font-display mt-3 text-3xl sm:text-4xl">The Loner Leather Wallet</h2>
@@ -157,11 +157,9 @@ function Index() {
           </div>
         </Reveal>
         <Reveal delay={100}>
-          <BrandPhoto
-            photo={PHOTOS.packagingBox}
-            className="aspect-4/3 w-full rounded-2xl bg-secondary"
-            imgClassName="object-contain"
-          />
+          <div className="aspect-4/3 w-full overflow-hidden rounded-2xl bg-secondary">
+            <BrandPhoto photo={PHOTOS.packagingBox} className="h-full w-full" />
+          </div>
         </Reveal>
       </section>
 
