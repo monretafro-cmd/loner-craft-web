@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
       {
         property: "og:description",
-        content: "Full-grain leather, saddle-stitched by hand in Marrakech. Cash on Delivery across Morocco.",
+        content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD.",
       },
       { property: "og:url", content: "/" },
     ],

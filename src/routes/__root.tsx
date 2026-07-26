@@ -87,12 +87,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery across Morocco.",
+          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD.",
       },
       { name: "author", content: "Loner Leather" },
       { property: "og:site_name", content: "Loner Leather" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
+      { name: "twitter:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
+      { property: "og:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD." },
+      { name: "twitter:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/h4v9ljNWM2TOhPL7cECb4lgUCqQ2/social-images/social-1785095770004-3.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/h4v9ljNWM2TOhPL7cECb4lgUCqQ2/social-images/social-1785095770004-3.webp" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -105,7 +111,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
     scripts: [
       {
