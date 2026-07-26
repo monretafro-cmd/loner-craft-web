@@ -247,7 +247,7 @@ function ProductPage() {
               </div>
               <div>
                 <dt className="eyebrow">Made in</dt>
-                <dd className="mt-1">Marrakech, Morocco</dd>
+                <dd className="mt-1">Taroudant, Morocco</dd>
               </div>
             </dl>
 
@@ -348,8 +348,8 @@ function ProductPage() {
                 <AccordionTrigger className="font-display text-base">Shipping & Returns</AccordionTrigger>
                 <AccordionContent className="space-y-2 text-sm leading-relaxed text-muted-foreground">
                   <p>
-                    Dispatched from Marrakech within 24–48 hours. Delivery is 24–48h in Casablanca,
-                    Rabat and Marrakech, and 2–4 working days elsewhere in Morocco.
+                    Dispatched from Taroudant within 24–48 hours. Delivery is 24–48h in Casablanca,
+                    Rabat and Taroudant, and 2–4 working days elsewhere in Morocco.
                   </p>
                   <p>
                     Delivery is 35 MAD, free above 500 MAD. Exchanges accepted within 14 days on

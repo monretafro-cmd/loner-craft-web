@@ -25,13 +25,13 @@ function ShippingPage() {
       <PageHero
         eyebrow="Policies"
         title="Shipping & Returns"
-        intro="Everything about how your piece travels from our bench in Marrakech to your hands."
+        intro="Everything about how your piece travels from our bench in Taroudant to your hands."
       />
       <Prose>
         <h2>Delivery times</h2>
         <p>
-          Orders are dispatched from our Marrakech workshop within 24–48 hours of the confirmation
-          call. Delivery takes 24–48 hours in Casablanca, Rabat and Marrakech, and 2–4 working days
+          Orders are dispatched from our Taroudant workshop within 24–48 hours of the confirmation
+          call. Delivery takes 24–48 hours in Casablanca, Rabat and Taroudant, and 2–4 working days
           everywhere else in Morocco. Remote rural addresses may take one extra day.
         </p>
 

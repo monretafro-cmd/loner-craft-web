@@ -62,7 +62,7 @@ export const products: Product[] = [
     images: [wallet, packaging, craft],
     short: "Our signature bifold — eight card slots, two note compartments.",
     description:
-      "Cut from a single panel of full-grain hide tanned in Marrakech, the Atlas bifold is saddle-stitched by hand with waxed linen thread. Edges are bevelled, sanded and burnished four times so they stay sealed for years. The leather starts firm and darkens into a deep, personal patina after a few months in the pocket.",
+      "Cut from a single panel of full-grain hide tanned in Taroudant, the Atlas bifold is saddle-stitched by hand with waxed linen thread. Edges are bevelled, sanded and burnished four times so they stay sealed for years. The leather starts firm and darkens into a deep, personal patina after a few months in the pocket.",
     createdAt: "2025-11-02",
   },
   {
@@ -213,7 +213,7 @@ export const relatedProducts = (product: Product) =>
 export const faqs = [
   {
     q: "How long does shipping take?",
-    a: "Orders leave our Marrakech workshop within 24–48 hours. Delivery takes 24–48 hours in Casablanca, Rabat and Marrakech, and 2–4 working days everywhere else in Morocco.",
+    a: "Orders leave our Taroudant workshop within 24–48 hours. Delivery takes 24–48 hours in Casablanca, Rabat and Taroudant, and 2–4 working days everywhere else in Morocco.",
   },
   {
     q: "Do you deliver all over Morocco?",
@@ -246,7 +246,7 @@ export const testimonials = [
   },
   {
     name: "Sara El M.",
-    city: "Marrakech",
+    city: "Taroudant",
     text: "I bought the engraved belt set for my husband's birthday. The initials were perfect and the leather smells incredible.",
   },
 ];

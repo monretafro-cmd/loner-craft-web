@@ -16,7 +16,7 @@ export const Route = createFileRoute("/track-order")({
       {
         name: "description",
         content:
-          "Enter your Loner Leather order number to see where your handmade leather piece is between Marrakech and your door.",
+          "Enter your Loner Leather order number to see where your handmade leather piece is between Taroudant and your door.",
       },
       { property: "og:title", content: "Track Your Order — Loner Leather" },
       { property: "og:description", content: "Check the delivery status of your handmade leather order." },
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/track-order")({
 
 const STAGES = [
   { title: "Order confirmed", text: "We received your order and called to verify the address." },
-  { title: "In the workshop", text: "Your piece is being finished, buffed and boxed in Marrakech." },
+  { title: "In the workshop", text: "Your piece is being finished, buffed and boxed in Taroudant." },
   { title: "Handed to courier", text: "Collected by our delivery partner and on the road." },
   { title: "Out for delivery", text: "Arriving today — have the cash amount ready for the courier." },
 ];

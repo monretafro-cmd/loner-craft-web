@@ -22,12 +22,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD.",
+          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Taroudant. Cash on Delivery, free shipping over 500 MAD.",
       },
       { property: "og:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
       {
         property: "og:description",
-        content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD.",
+        content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Taroudant. Cash on Delivery, free shipping over 500 MAD.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -41,7 +41,7 @@ const WHY = [
   { icon: BadgeCheck, title: "Premium Genuine Leather", text: "Full-grain hides, vegetable-tanned in Morocco." },
   { icon: Truck, title: "Fast Shipping", text: "Dispatched in 24–48h, delivered anywhere in Morocco." },
   { icon: Banknote, title: "Cash On Delivery", text: "Pay the courier in cash. Nothing upfront, ever." },
-  { icon: MapPin, title: "Made In Morocco", text: "A small workshop in the Marrakech medina." },
+  { icon: MapPin, title: "Made In Morocco", text: "A small workshop in the Taroudant medina." },
 ];
 
 function Index() {
@@ -55,7 +55,7 @@ function Index() {
       <section className="relative isolate overflow-hidden">
         <img
           src={hero}
-          alt="Artisan hand-stitching a leather wallet in a sunlit Marrakech workshop"
+          alt="Artisan hand-stitching a leather wallet in a sunlit Taroudant workshop"
           width={1920}
           height={1280}
           className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
@@ -64,7 +64,7 @@ function Index() {
         <div className="relative mx-auto flex min-h-[78svh] max-w-[1400px] flex-col justify-center px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
           <div className="max-w-2xl animate-fade-up">
             <p className="text-[0.7rem] font-medium tracking-[0.28em] text-accent uppercase">
-              Marrakech · Est. 2016
+              Taroudant · Est. 2016
             </p>
             <h1 className="font-display mt-5 text-[2.6rem] leading-[1.03] text-ink-foreground sm:text-6xl lg:text-7xl">
               Handmade Leather

@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD.",
+          "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Taroudant. Cash on Delivery, free shipping over 500 MAD.",
       },
       { name: "author", content: "Loner Leather" },
       { property: "og:site_name", content: "Loner Leather" },
@@ -95,8 +95,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
       { name: "twitter:title", content: "Loner Leather — Handmade Moroccan Leather Goods" },
-      { property: "og:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD." },
-      { name: "twitter:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Marrakech. Cash on Delivery, free shipping over 500 MAD." },
+      { property: "og:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Taroudant. Cash on Delivery, free shipping over 500 MAD." },
+      { name: "twitter:description", content: "Hand-stitched full-grain leather wallets, card holders and custom pieces made in Taroudant. Cash on Delivery, free shipping over 500 MAD." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/h4v9ljNWM2TOhPL7cECb4lgUCqQ2/social-images/social-1785095770004-3.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/h4v9ljNWM2TOhPL7cECb4lgUCqQ2/social-images/social-1785095770004-3.webp" },
     ],
@@ -119,11 +119,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Loner Leather",
-          description: "Handmade Moroccan leather goods, made in Marrakech.",
+          description: "Handmade Moroccan leather goods, made in Taroudant.",
           address: {
             "@type": "PostalAddress",
             streetAddress: "142 Rue Dar El Bacha, Medina",
-            addressLocality: "Marrakech",
+            addressLocality: "Taroudant",
             postalCode: "40000",
             addressCountry: "MA",
           },

@@ -80,7 +80,7 @@ function TermsPage() {
         <h2>9. Governing law</h2>
         <p>
           These terms are governed by Moroccan law, and any dispute falls to the competent courts of
-          Marrakech.
+          Taroudant.
         </p>
       </Prose>
     </>
