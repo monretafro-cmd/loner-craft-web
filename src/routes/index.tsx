@@ -46,9 +46,9 @@ function Index() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-background">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
-          <div className="animate-fade-up max-w-[650px]">
+      <section className="leather-grain relative w-full overflow-hidden bg-background">
+        <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-5 py-14 sm:px-6 lg:min-h-[720px] lg:flex-row lg:items-center lg:gap-0 lg:px-8 lg:py-0 xl:min-h-[780px]">
+          <div className="animate-hero-in relative z-10 max-w-[650px] lg:w-[42%] lg:shrink-0 lg:py-24">
             <p className="eyebrow">Handmade in Taroudant</p>
             <h1 className="font-display mt-4 text-[2.25rem] leading-[1.1] md:text-[3rem] lg:text-[4rem] lg:leading-[1.05]">
               Handmade Leather Wallets, Made to Last.
@@ -56,13 +56,21 @@ function Index() {
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               Genuine leather wallets, stitched by hand and packed with care in Taroudant, Morocco.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div
+              className="animate-fade-up mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
+              style={{ animationDelay: "260ms" }}
+            >
               <Button size="xl" className="w-full min-h-11 sm:w-auto" asChild>
                 <Link to="/shop">
                   Shop Now <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button size="xl" variant="outline" className="w-full min-h-11 sm:w-auto" asChild>
+              <Button
+                size="xl"
+                variant="outline"
+                className="w-full min-h-11 border-foreground/20 bg-white text-foreground hover:bg-white sm:w-auto"
+                asChild
+              >
                 <a
                   href={whatsappLink(productOrderMessage({ product: "Loner Leather Wallet" }))}
                   target="_blank"
@@ -72,16 +80,26 @@ function Index() {
                 </a>
               </Button>
             </div>
-            <p className="mt-8 text-xs tracking-wide text-muted-foreground">
-              Cash on Delivery • Delivery Across Morocco • Handmade in Taroudant
-            </p>
+            <ul
+              className="animate-fade-up mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs tracking-wide text-muted-foreground uppercase"
+              style={{ animationDelay: "380ms" }}
+            >
+              {["Cash on Delivery", "Delivery Across Morocco", "Handmade in Taroudant"].map(
+                (item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
+                    {item}
+                  </li>
+                ),
+              )}
+            </ul>
           </div>
 
-          <div className="aspect-video w-full overflow-hidden rounded-[24px] bg-secondary">
+          <div className="animate-slide-from-right relative -mx-5 sm:-mx-6 lg:absolute lg:inset-y-0 lg:right-0 lg:mx-0 lg:w-[62%] xl:-mr-[6vw] xl:w-[64%]">
             <BrandPhoto
               photo={PHOTOS.heroPackaged}
               priority
-              className="h-full w-full rounded-[24px]"
+              className="hero-image-fade h-[320px] w-full object-cover object-center sm:h-[420px] lg:h-full"
             />
           </div>
         </div>
