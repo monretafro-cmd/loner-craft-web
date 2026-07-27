@@ -1,0 +1,100 @@
+{
+  "announcement": "Cash on Delivery · Delivery across Morocco · Handmade in Taroudant",
+  "lang": { "label": "Language", "select": "Select language", "en": "English", "fr": "Français", "ar": "العربية" },
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "ourCraft": "Our Craft",
+    "about": "About",
+    "contact": "Contact",
+    "trackOrder": "Track Order",
+    "faq": "FAQ",
+    "shipping": "Shipping",
+    "menu": "Menu",
+    "openMenu": "Open menu"
+  },
+  "actions": {
+    "shopNow": "Shop Now",
+    "orderWhatsapp": "Order on WhatsApp",
+    "addToBag": "Add to Bag",
+    "checkout": "Checkout · Cash on Delivery",
+    "continueShopping": "Continue shopping",
+    "browseCollection": "Browse the collection",
+    "apply": "Apply",
+    "subscribe": "Subscribe",
+    "backToTop": "Back to top",
+    "search": "Search",
+    "viewAll": "View all",
+    "readMore": "Read more"
+  },
+  "search": {
+    "placeholder": "Search wallets, card holders, custom pieces…",
+    "empty": "Nothing matched. Try \"wallet\" or \"custom\".",
+    "products": "Products",
+    "categories": "Categories"
+  },
+  "cart": {
+    "title": "Your Bag",
+    "open": "Open bag, {{count}} items",
+    "empty": "Your bag is empty",
+    "emptyHint": "Pieces you add will appear here, ready for cash on delivery.",
+    "freeDeliveryProgress": "Add {{amount}} for free delivery",
+    "freeDeliveryUnlocked": "Free delivery unlocked",
+    "remove": "Remove {{name}}",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "coupon": "Coupon code",
+    "couponApplied": "Coupon {{code}} applied.",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "delivery": "Delivery",
+    "free": "Free",
+    "total": "Total",
+    "codNote": "Pay in cash when the courier hands you the parcel.",
+    "added": "{{name}} added to your bag."
+  },
+  "badges": {
+    "new": "New",
+    "bestSeller": "Best seller",
+    "soldOut": "Sold out",
+    "inStock": "In stock",
+    "sale": "Sale"
+  },
+  "footer": {
+    "handmadeGoods": "Handmade Leather Goods",
+    "location": "Taroudant, Morocco",
+    "quickLinks": "Quick Links",
+    "customerService": "Customer Service",
+    "policies": "Policies",
+    "shopAll": "Shop All",
+    "aboutUs": "About Us",
+    "shippingReturns": "Shipping & Returns",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "newsletterTitle": "Join the workshop letter",
+    "newsletterText": "New drops, restocks and care tips. Once a month, never more.",
+    "emailPlaceholder": "you@example.com",
+    "emailLabel": "Email address",
+    "rights": "© {{year}} Loner Leather. Handmade in Morocco.",
+    "codLine": "Cash on Delivery across all 12 regions · No online payment required"
+  },
+  "toast": {
+    "invalidEmail": "Please enter a valid email address.",
+    "subscribed": "You're on the list. Welcome to Loner Leather.",
+    "wishAdded": "Saved to your wishlist.",
+    "wishRemoved": "Removed from your wishlist."
+  },
+  "whatsapp": {
+    "intro": "Hello, I would like to order a Loner Leather wallet.",
+    "product": "Product",
+    "name": "Name",
+    "phone": "Phone",
+    "city": "City",
+    "address": "Address",
+    "quantity": "Quantity",
+    "note": "Note",
+    "color": "Color",
+    "ask": "Hello Loner Leather, I would like to ask about your handmade leather pieces."
+  },
+  "price": { "currency": "MAD" }
+}

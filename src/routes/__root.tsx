@@ -17,6 +17,7 @@ import { CartDrawer } from "@/components/site/CartDrawer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { BrandLoader } from "@/components/site/BrandLoader";
 import { StoreProvider } from "@/lib/store";
+import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -106,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..600&family=Inter:wght@300..700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..600&family=Inter:wght@300..700&family=Noto+Kufi+Arabic:wght@300..700&family=Noto+Naskh+Arabic:wght@400..700&display=swap",
       },
       {
         rel: "stylesheet",
@@ -160,7 +161,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
+      <I18nProvider>
+        <StoreProvider>
         <div className="site-reveal flex min-h-screen flex-col overflow-x-clip">
           <Navbar />
           <main className="flex-1">
@@ -172,8 +174,9 @@ function RootComponent() {
         <BrandLoader />
         <CartDrawer />
         <FloatingActions />
-        <Toaster position="bottom-left" />
-      </StoreProvider>
+          <Toaster position="bottom-left" />
+        </StoreProvider>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }

@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "eyebrow": "The Collection",
+    "title": "Shop",
+    "intro": "Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco."
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "allPieces": "All pieces",
+    "maxPrice": "Max price",
+    "maxPriceLabel": "Maximum price",
+    "upTo": "Up to {{amount}}",
+    "colour": "Colour",
+    "inStockOnly": "In stock only",
+    "clear": "Clear filters",
+    "openFilters": "Filters"
+  },
+  "toolbar": {
+    "searchPlaceholder": "Search the collection",
+    "searchLabel": "Search products",
+    "sortLabel": "Sort products",
+    "sort": {
+      "featured": "Featured",
+      "newest": "Newest",
+      "best": "Best selling",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low"
+    }
+  },
+  "results": {
+    "count_one": "{{count}} piece",
+    "count_other": "{{count}} pieces"
+  },
+  "empty": {
+    "title": "Nothing matches those filters",
+    "text": "Try widening the price range or clearing the colour selection.",
+    "cta": "Clear filters"
+  },
+  "sr": {
+    "shopFilters": "Shop filters"
+  },
+  "wishlist": {
+    "eyebrow": "Saved pieces",
+    "title": "Your Wishlist",
+    "intro": "Keep an eye on the pieces you love. Nothing is reserved until you order.",
+    "emptyTitle": "Nothing saved yet",
+    "emptyText": "Tap the heart on any piece to keep it here for later.",
+    "browse": "Browse the collection"
+  }
+}

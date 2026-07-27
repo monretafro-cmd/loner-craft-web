@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import type { ReactNode } from "react";
+import { useI18n } from "@/lib/i18n";
 
 export function PageHero({
   eyebrow,
@@ -13,14 +14,16 @@ export function PageHero({
   intro?: string;
   children?: ReactNode;
 }) {
+  const { t, isRTL } = useI18n();
+  const Chevron = isRTL ? ChevronLeft : ChevronRight;
   return (
     <section className="border-b border-border bg-secondary/40">
       <div className="mx-auto max-w-[1400px] px-4 py-12 sm:px-6 sm:py-16 lg:px-10">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-center gap-1.5 text-xs text-muted-foreground">
           <Link to="/" className="hover:text-foreground">
-            Home
+            {t("pages.breadcrumb.home")}
           </Link>
-          <ChevronRight className="h-3 w-3" />
+          <Chevron className="h-3 w-3" />
           <span className="text-foreground">{title}</span>
         </nav>
         <p className="eyebrow">{eyebrow}</p>
@@ -36,7 +39,7 @@ export function PageHero({
 
 export function Prose({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-14 text-[0.95rem] leading-[1.85] text-muted-foreground sm:px-6 sm:py-20 [&_h2]:font-display [&_h2]:pt-4 [&_h2]:text-2xl [&_h2]:text-foreground [&_li]:ml-5 [&_li]:list-disc [&_strong]:text-foreground">
+    <div className="mx-auto max-w-3xl space-y-6 px-4 py-14 text-[0.95rem] leading-[1.85] text-muted-foreground sm:px-6 sm:py-20 [&_h2]:font-display [&_h2]:pt-4 [&_h2]:text-2xl [&_h2]:text-foreground [&_li]:ms-5 [&_li]:list-disc [&_strong]:text-foreground">
       {children}
     </div>
   );

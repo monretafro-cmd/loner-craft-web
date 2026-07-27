@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "eyebrow": "Paiement sécurisé",
+    "title": "Commande",
+    "subtitle": "Paiement à la livraison uniquement. Nous appelons pour confirmer chaque commande avant qu'elle ne quitte l'atelier."
+  },
+  "empty": {
+    "title": "Votre panier est vide",
+    "text": "Ajoutez une pièce à votre panier et elle apparaîtra ici, prête pour le paiement à la livraison."
+  },
+  "cities": {
+    "casablanca": "Casablanca",
+    "rabat": "Rabat",
+    "taroudant": "Taroudant",
+    "tangier": "Tanger",
+    "fes": "Fès",
+    "agadir": "Agadir",
+    "meknes": "Meknès",
+    "oujda": "Oujda",
+    "kenitra": "Kénitra",
+    "tetouan": "Tétouan",
+    "essaouira": "Essaouira",
+    "other": "Autre"
+  },
+  "delivery": {
+    "legend": "Détails de livraison",
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Yassine Bennani",
+    "phone": "Numéro de téléphone",
+    "phonePlaceholder": "0612345678",
+    "email": "E-mail (facultatif)",
+    "emailPlaceholder": "vous@email.com",
+    "city": "Ville",
+    "cityPlaceholder": "Choisissez votre ville",
+    "address": "Adresse complète",
+    "addressPlaceholder": "Immeuble, rue, quartier, point de repère…",
+    "notes": "Notes de commande (facultatif)",
+    "notesPlaceholder": "Initiales à graver, emballage cadeau, horaire de livraison…"
+  },
+  "payment": {
+    "legend": "Paiement",
+    "codTitle": "Paiement à la livraison",
+    "codText": "Réglez le livreur en espèces à la réception. Ouvrez le colis, vérifiez les coutures et la couleur, puis remettez le montant. C'est le seul mode de paiement que nous proposons."
+  },
+  "errors": {
+    "fullName": "Veuillez indiquer votre nom complet",
+    "phone": "Entrez un numéro marocain valide, ex. 0612345678",
+    "email": "Entrez un e-mail valide",
+    "city": "Sélectionnez votre ville",
+    "address": "Veuillez indiquer une adresse complète",
+    "toast": "Veuillez vérifier les champs surlignés."
+  },
+  "submit": {
+    "placing": "Envoi de votre commande…",
+    "placeOrder": "Passer la commande · {{price}}",
+    "whatsapp": "Vous préférez WhatsApp ? Envoyez cette commande"
+  },
+  "success": {
+    "toast": "Commande passée — nous vous appelons très vite."
+  },
+  "summary": {
+    "title": "Récapitulatif de commande",
+    "qty": "Qté {{qty}}",
+    "subtotal": "Sous-total",
+    "discount": "Remise ({{coupon}})",
+    "delivery": "Livraison",
+    "free": "Gratuite",
+    "total": "Total",
+    "inspect": "Inspectez avant de payer",
+    "exchange": "Échange sous 14 jours pour les pièces non utilisées"
+  },
+  "orderSuccess": {
+    "title": "Merci — votre commande est confirmée",
+    "text": "Un artisan à Taroudant est déjà en train d'emballer votre pièce. Vous réglerez le livreur en espèces à la réception — sans carte, sans prépaiement.",
+    "orderNumber": "Numéro de commande",
+    "amountDue": "Montant dû à la livraison",
+    "fallbackOrder": "LL-000000",
+    "steps": {
+      "received": { "title": "Commande reçue", "text": "Nous avons enregistré votre commande et réservé votre pièce." },
+      "call": { "title": "Appel de confirmation", "text": "Un appel rapide dans quelques heures pour confirmer votre adresse." },
+      "delivery": { "title": "En cours de livraison", "text": "24 à 48h dans les grandes villes, 2 à 4 jours ailleurs. Réglez le livreur." }
+    },
+    "continueShopping": "Continuer mes achats",
+    "askOrder": "Suivre ma commande",
+    "whatsappNote": "Je souhaite avoir des nouvelles de la commande {{order}}."
+  }
+}

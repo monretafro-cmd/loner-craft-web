@@ -1,0 +1,130 @@
+{
+  "products": {
+    "atlas-bifold-wallet": {
+      "name": "Atlas Bifold Wallet",
+      "short": "Our signature bifold — eight card slots, two note compartments.",
+      "description": "Cut from a single panel of full-grain hide tanned in Taroudant, the Atlas bifold is saddle-stitched by hand with waxed linen thread. Edges are bevelled, sanded and burnished four times so they stay sealed for years. The leather starts firm and darkens into a deep, personal patina after a few months in the pocket.",
+      "leather": "Full-grain vegetable-tanned cowhide",
+      "dimensions": "11.5 × 9.5 × 1.4 cm"
+    },
+    "medina-slim-card-holder": {
+      "name": "Medina Slim Card Holder",
+      "short": "Four slots and a centre pull-tab. Slimmer than your phone.",
+      "description": "Three external card slots plus a centre pocket for folded notes. Skived down to a whisper at the edges so it disappears in a front pocket, yet strong enough to keep its shape after years of daily use.",
+      "leather": "Full-grain calfskin",
+      "dimensions": "10.2 × 7.4 × 0.5 cm"
+    },
+    "voyager-passport-holder": {
+      "name": "Voyager Passport Holder",
+      "short": "Passport, two cards and a boarding pass — nothing more.",
+      "description": "A travel cover embossed with a compass rose, lined in soft suede so your passport never scuffs. Sized for all standard passports with a slot for a spare card and folded documents.",
+      "leather": "Full-grain vegetable-tanned cowhide",
+      "dimensions": "14 × 10 × 1 cm"
+    },
+    "sahara-money-clip": {
+      "name": "Sahara Money Clip Wallet",
+      "short": "Brushed stainless clip, riveted through reinforced leather.",
+      "description": "For those who carry light. A solid brushed-steel clip holds notes flat against the body while four rear slots keep your essential cards to hand. Riveted, not glued.",
+      "leather": "Full-grain calfskin",
+      "dimensions": "10.5 × 7 × 0.9 cm"
+    },
+    "riad-key-holder": {
+      "name": "Riad Key Holder",
+      "short": "Keeps up to six keys silent and out of the way.",
+      "description": "Solid brass hardware and a snap closure wrap your keys into a quiet bundle. No jangling, no torn pocket linings. The brass develops a warm patina alongside the leather.",
+      "leather": "Full-grain vegetable-tanned cowhide",
+      "dimensions": "9 × 3.5 × 2 cm"
+    },
+    "custom-engraved-belt": {
+      "name": "Custom Engraved Belt & Tag Set",
+      "short": "Your initials, hand-embossed. Cut to your exact size.",
+      "description": "A bridle-leather belt with a solid brass buckle and a matching luggage tag, both hand-embossed with up to three initials. Cut and finished to your measurement, so it sits right from the first day.",
+      "leather": "Full-grain bridle leather",
+      "dimensions": "Made to your waist measurement"
+    },
+    "fes-long-wallet": {
+      "name": "Fès Long Wallet",
+      "short": "Twelve slots, a zip coin pouch and room for full-size notes.",
+      "description": "Built for those who carry everything. Twelve card slots, a zipped coin pouch and a full-length note section, all saddle-stitched and edge-burnished by the same hands from start to finish.",
+      "leather": "Full-grain vegetable-tanned cowhide",
+      "dimensions": "19 × 9.5 × 2 cm"
+    },
+    "nomad-card-sleeve": {
+      "name": "Nomad Card Sleeve",
+      "short": "One pocket. Three cards. The lightest thing we make.",
+      "description": "A single-pocket sleeve, hand-stitched on two edges and left open at the top. It moulds to your cards in a week and never loses grip.",
+      "leather": "Full-grain calfskin",
+      "dimensions": "9.8 × 6.8 × 0.3 cm"
+    }
+  },
+  "categories": {
+    "wallets": { "name": "Wallets", "blurb": "Everyday bifolds cut from full-grain hides." },
+    "card-holders": { "name": "Card Holders", "blurb": "Slim carry, hand-burnished edges." },
+    "passport-holders": { "name": "Passport Holders", "blurb": "Travel companions built to age well." },
+    "money-clips": { "name": "Money Clips", "blurb": "Minimal cash carry with brushed steel." },
+    "key-holders": { "name": "Key Holders", "blurb": "Quiet keys, solid brass hardware." },
+    "custom": { "name": "Custom Leather", "blurb": "Made to your initials and measurements." }
+  },
+  "colors": {
+    "dark-brown": "Dark Brown",
+    "cognac": "Cognac",
+    "black": "Black",
+    "tan": "Tan"
+  },
+  "faqs": [
+    {
+      "q": "How long does shipping take?",
+      "a": "Orders leave our Taroudant workshop within 24–48 hours. Delivery takes 24–48 hours in Casablanca, Rabat and Taroudant, and 2–4 working days everywhere else in Morocco."
+    },
+    {
+      "q": "Do you deliver all over Morocco?",
+      "a": "Yes. We deliver to all 12 regions, including rural communes, through our courier partners. Free delivery on every order above 500 MAD."
+    },
+    {
+      "q": "Can I pay cash on delivery?",
+      "a": "Cash on Delivery is our only payment method. You pay the courier in cash when the parcel reaches your hands — nothing upfront, no card details."
+    },
+    {
+      "q": "Can I exchange products?",
+      "a": "You have 14 days from delivery to exchange any unused piece in its original box. Custom-engraved items are excluded because they are made to your initials."
+    },
+    {
+      "q": "Is the leather genuine?",
+      "a": "Every piece is full-grain leather, vegetable-tanned in Morocco. No bonded leather, no PU coating. Each item ships with a certificate of origin from the tannery."
+    },
+    {
+      "q": "How do I care for my leather piece?",
+      "a": "Wipe with a soft, dry cloth after use and keep it away from prolonged sun and moisture. Apply a neutral leather balm every few months to nourish the hide and let its natural patina deepen."
+    },
+    {
+      "q": "Can I order a custom piece?",
+      "a": "Yes. Send us your initials, measurements and colour preference on WhatsApp and our workshop will confirm the design and price before we start cutting."
+    },
+    {
+      "q": "How can I contact you?",
+      "a": "The fastest way is WhatsApp — tap the order or ask button on any page. Our team replies within the same day, every day of the week."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Youssef B.",
+      "city": "Casablanca",
+      "text": "I've carried the Atlas bifold for eight months. The colour has deepened beautifully and not one stitch has moved. Worth every dirham."
+    },
+    {
+      "name": "Amine T.",
+      "city": "Rabat",
+      "text": "Ordered by WhatsApp on a Tuesday, paid the courier cash on Thursday morning. The packaging alone made it feel like a gift to myself."
+    },
+    {
+      "name": "Sara El M.",
+      "city": "Taroudant",
+      "text": "I bought the engraved belt set for my husband's birthday. The initials were perfect and the leather smells incredible."
+    },
+    {
+      "name": "Khadija R.",
+      "city": "Marrakech",
+      "text": "The Fès long wallet is exactly what I needed for work — sturdy, elegant and it only gets better with time. Fast delivery too."
+    }
+  ]
+}

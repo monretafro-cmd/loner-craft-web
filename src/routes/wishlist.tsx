@@ -3,6 +3,7 @@ import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
 import { ProductCard } from "@/components/site/ProductCard";
+import { useI18n } from "@/lib/i18n";
 import { getProduct } from "@/lib/products";
 import { useStore } from "@/lib/store";
 
@@ -26,25 +27,24 @@ export const Route = createFileRoute("/wishlist")({
 
 function WishlistPage() {
   const { wishlist } = useStore();
+  const { t } = useI18n();
   const items = wishlist.map(getProduct).filter((p) => p !== undefined);
 
   return (
     <>
       <PageHero
-        eyebrow="Saved pieces"
-        title="Your Wishlist"
-        intro="Keep an eye on the pieces you love. Nothing is reserved until you order."
+        eyebrow={t("shop.wishlist.eyebrow")}
+        title={t("shop.wishlist.title")}
+        intro={t("shop.wishlist.intro")}
       />
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
         {items.length === 0 ? (
           <div className="mx-auto max-w-md rounded-2xl border border-border bg-card p-10 text-center shadow-soft">
             <Heart className="mx-auto h-8 w-8 text-accent" />
-            <h2 className="font-display mt-4 text-2xl">Nothing saved yet</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Tap the heart on any piece to keep it here for later.
-            </p>
+            <h2 className="font-display mt-4 text-2xl">{t("shop.wishlist.emptyTitle")}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{t("shop.wishlist.emptyText")}</p>
             <Button variant="hero" size="lg" className="mt-6" asChild>
-              <Link to="/shop">Browse the collection</Link>
+              <Link to="/shop">{t("shop.wishlist.browse")}</Link>
             </Button>
           </div>
         ) : (

@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "eyebrow": "La Collection",
+    "title": "Boutique",
+    "intro": "Chaque pièce ci-dessous est coupée, cousue et finie à la main dans notre atelier de Taroudant. Payez à la livraison, partout au Maroc."
+  },
+  "filters": {
+    "title": "Filtres",
+    "category": "Catégorie",
+    "allPieces": "Toutes les pièces",
+    "maxPrice": "Prix maximum",
+    "maxPriceLabel": "Prix maximum",
+    "upTo": "Jusqu'à {{amount}}",
+    "colour": "Couleur",
+    "inStockOnly": "En stock uniquement",
+    "clear": "Effacer les filtres",
+    "openFilters": "Filtres"
+  },
+  "toolbar": {
+    "searchPlaceholder": "Rechercher dans la collection",
+    "searchLabel": "Rechercher des produits",
+    "sortLabel": "Trier les produits",
+    "sort": {
+      "featured": "En vedette",
+      "newest": "Nouveautés",
+      "best": "Meilleures ventes",
+      "priceAsc": "Prix croissant",
+      "priceDesc": "Prix décroissant"
+    }
+  },
+  "results": {
+    "count_one": "{{count}} pièce",
+    "count_other": "{{count}} pièces"
+  },
+  "empty": {
+    "title": "Aucun résultat pour ces filtres",
+    "text": "Essayez d'élargir la fourchette de prix ou de désélectionner une couleur.",
+    "cta": "Effacer les filtres"
+  },
+  "sr": {
+    "shopFilters": "Filtres de la boutique"
+  },
+  "wishlist": {
+    "eyebrow": "Pièces enregistrées",
+    "title": "Votre liste de souhaits",
+    "intro": "Gardez un œil sur les pièces que vous aimez. Rien n'est réservé tant que vous n'avez pas commandé.",
+    "emptyTitle": "Rien d'enregistré pour l'instant",
+    "emptyText": "Touchez le cœur sur une pièce pour la garder ici pour plus tard.",
+    "browse": "Parcourir la collection"
+  }
+}

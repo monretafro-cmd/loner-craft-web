@@ -2,7 +2,9 @@ import { LogoMark } from "@/components/site/Logo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Package, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BRAND, whatsappLink } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
 
 type Search = { order?: string; total?: number };
 
@@ -29,14 +31,14 @@ export const Route = createFileRoute("/order-success")({
   component: OrderSuccess,
 });
 
-const STEPS = [
-  { icon: Check, title: "Order received", text: "We've logged your order and reserved your piece." },
-  { icon: Package, title: "Confirmation call", text: "A quick call within a few hours to confirm your address." },
-  { icon: Truck, title: "Out for delivery", text: "24–48h in major cities, 2–4 days elsewhere. Pay the courier." },
-];
+const STEP_KEYS = ["received", "call", "delivery"] as const;
+const STEP_ICONS = { received: Check, call: Package, delivery: Truck };
 
 function OrderSuccess() {
   const { order, total } = Route.useSearch();
+  const { t } = useI18n();
+  const { price } = useCatalog();
+  const { orderLink } = useWhatsapp();
 
   return (
     <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:px-6 lg:py-28">
@@ -44,46 +46,50 @@ function OrderSuccess() {
       <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent/15 text-accent">
         <Check className="h-8 w-8" />
       </span>
-      <h1 className="font-display mt-6 text-4xl leading-tight sm:text-5xl">Thank you — your order is confirmed</h1>
+      <h1 className="font-display mt-6 text-4xl leading-tight sm:text-5xl">{t("checkout.orderSuccess.title")}</h1>
       <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-        A maker in Taroudant is already wrapping your piece. You'll pay the courier in cash when it
-        arrives — no card, no prepayment.
+        {t("checkout.orderSuccess.text")}
       </p>
 
-      <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-[18px] border border-border bg-card px-8 py-6 text-left shadow-soft">
+      <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-[18px] border border-border bg-card px-8 py-6 text-start shadow-soft">
         <div>
-          <p className="eyebrow">Order number</p>
-          <p className="font-display mt-1 text-lg">{order ?? "LL-000000"}</p>
+          <p className="eyebrow">{t("checkout.orderSuccess.orderNumber")}</p>
+          <p className="font-display mt-1 text-lg">{order ?? t("checkout.orderSuccess.fallbackOrder")}</p>
         </div>
         {total !== undefined && (
           <div>
-            <p className="eyebrow">Amount due on delivery</p>
-            <p className="font-display mt-1 text-lg">{total.toLocaleString("fr-MA")} MAD</p>
+            <p className="eyebrow">{t("checkout.orderSuccess.amountDue")}</p>
+            <p className="font-display mt-1 text-lg">{price(total)}</p>
           </div>
         )}
       </div>
 
-      <ol className="mt-12 grid gap-5 text-left sm:grid-cols-3">
-        {STEPS.map((s) => (
-          <li key={s.title} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-            <s.icon className="h-5 w-5 text-accent" />
-            <p className="font-display mt-3 text-base">{s.title}</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
-          </li>
-        ))}
+      <ol className="mt-12 grid gap-5 text-start sm:grid-cols-3">
+        {STEP_KEYS.map((key) => {
+          const Icon = STEP_ICONS[key];
+          return (
+            <li key={key} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+              <Icon className="h-5 w-5 text-accent" />
+              <p className="font-display mt-3 text-base">{t(`checkout.orderSuccess.steps.${key}.title`)}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                {t(`checkout.orderSuccess.steps.${key}.text`)}
+              </p>
+            </li>
+          );
+        })}
       </ol>
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Button variant="hero" size="lg" asChild>
-          <Link to="/shop">Continue shopping</Link>
+          <Link to="/shop">{t("checkout.orderSuccess.continueShopping")}</Link>
         </Button>
         <Button variant="whatsapp" size="lg" asChild>
           <a
-            href={whatsappLink(`Hello ${BRAND.name}, I'd like an update on order ${order ?? ""}.`)}
+            href={orderLink({ note: t("checkout.orderSuccess.whatsappNote", { order: order ?? "" }) })}
             target="_blank"
             rel="noreferrer"
           >
-            Ask about my order
+            {t("checkout.orderSuccess.askOrder")}
           </a>
         </Button>
       </div>

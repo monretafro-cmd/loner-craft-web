@@ -265,3 +265,33 @@
   text-transform: uppercase;
   color: var(--color-primary);
 }
+
+/* ---------- Multilingual typography & RTL ---------- */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+.lang-ar {
+  font-family: "Noto Naskh Arabic", "Noto Kufi Arabic", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.lang-ar .font-display,
+.lang-ar h1,
+.lang-ar h2,
+.lang-ar h3,
+.lang-ar h4 {
+  font-family: "Noto Kufi Arabic", "Noto Naskh Arabic", serif;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+/* Latin letter-spacing utilities read as broken Arabic — neutralise them. */
+.lang-ar .eyebrow,
+.lang-ar [class*="tracking-"] {
+  letter-spacing: 0;
+}
+
+.lang-ar .uppercase {
+  text-transform: none;
+}

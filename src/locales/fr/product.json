@@ -1,0 +1,64 @@
+{
+  "breadcrumb": {
+    "home": "Accueil",
+    "shop": "Boutique"
+  },
+  "gallery": {
+    "hoverZoom": "Survolez pour zoomer",
+    "viewImage": "Voir l'image {{index}}",
+    "imageAlt": "{{name}} — vue {{index}}"
+  },
+  "meta": {
+    "reviews_one": "{{count}} avis",
+    "reviews_other": "{{count}} avis",
+    "sold": "{{count}} vendus"
+  },
+  "specs": {
+    "leather": "Cuir",
+    "dimensions": "Dimensions",
+    "availability": "Disponibilité",
+    "madeIn": "Fabriqué à",
+    "madeInValue": "Taroudant, Maroc",
+    "inStock": "En stock — expédié sous 24–48h",
+    "outOfStock": "Épuisé — de retour dans 2 semaines"
+  },
+  "colour": {
+    "label": "Couleur — {{color}}"
+  },
+  "quantity": {
+    "decrease": "Diminuer la quantité",
+    "increase": "Augmenter la quantité"
+  },
+  "actions": {
+    "wishlistAdd": "Ajouter à la liste de souhaits",
+    "orderNow": "Commander",
+    "soldOut": "Épuisé",
+    "whatsappOrder": "Commander sur WhatsApp"
+  },
+  "toast": {
+    "added": "{{name}} ajouté à votre panier",
+    "wishAdded": "Ajouté à la liste de souhaits",
+    "wishRemoved": "Retiré de la liste de souhaits"
+  },
+  "delivery": {
+    "freeOver": "Livraison gratuite dès {{amount}} · 2 à 4 jours partout au Maroc",
+    "cod": "Paiement à la livraison — inspectez la pièce avant de payer"
+  },
+  "tabs": {
+    "description": "Description",
+    "shipping": "Livraison & Retours",
+    "shippingText1": "Expédié depuis Taroudant sous 24 à 48 heures. La livraison prend 24 à 48h à Casablanca, Rabat et Taroudant, et 2 à 4 jours ouvrables ailleurs au Maroc.",
+    "shippingText2": "La livraison coûte {{fee}}, gratuite dès {{freeThreshold}}. Échanges acceptés sous 14 jours pour les pièces non utilisées dans leur boîte d'origine.",
+    "faq": "FAQ"
+  },
+  "related": {
+    "eyebrow": "Vous aimerez aussi",
+    "title": "Pièces associées"
+  },
+  "recentlyViewed": {
+    "title": "Consultés récemment"
+  },
+  "unavailable": {
+    "title": "Produit indisponible"
+  }
+}

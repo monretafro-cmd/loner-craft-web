@@ -14,19 +14,25 @@ import {
 import { Logo } from "./Logo";
 import { products, categories } from "@/lib/products";
 import { useStore } from "@/lib/store";
-import { BRAND, whatsappLink } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { LanguageSelector } from "./LanguageSelector";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/shop", label: "Shop" },
-  { to: "/our-craft", label: "Our Craft" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
+  { to: "/", label: "nav.home" },
+  { to: "/shop", label: "nav.shop" },
+  { to: "/our-craft", label: "nav.ourCraft" },
+  { to: "/about", label: "nav.about" },
+  { to: "/contact", label: "nav.contact" },
 ] as const;
 
 export function Navbar() {
   const { count, setCartOpen } = useStore();
+  const { t } = useI18n();
+  const { productName, categoryName } = useCatalog();
+  const { askLink } = useWhatsapp();
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,7 +62,7 @@ export function Navbar() {
   return (
     <>
       <div className="bg-ink px-4 py-2 text-center text-[0.7rem] tracking-[0.16em] text-ink-foreground uppercase">
-        Cash on Delivery · Delivery across Morocco · Handmade in Taroudant
+        {t("announcement")}
       </div>
 
       <header
@@ -78,12 +84,12 @@ export function Navbar() {
           <div className="flex min-w-0 items-center gap-2">
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+                <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t("nav.openMenu")}>
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[85vw] max-w-xs p-0">
-                <SheetTitle className="sr-only">Menu</SheetTitle>
+                <SheetTitle className="sr-only">{t("nav.menu")}</SheetTitle>
                 <div className="border-b border-border p-5">
                   <Logo />
                 </div>
@@ -94,23 +100,25 @@ export function Navbar() {
                       to={item.to}
                       className="font-display rounded-lg px-4 py-3.5 text-lg hover:bg-secondary"
                     >
-                      {item.label}
+                      {t(item.label)}
                     </Link>
                   ))}
                   <div className="my-2 h-px bg-border" />
                   {[
-                    { to: "/track-order", label: "Track Order" },
-                    { to: "/faq", label: "FAQ" },
-                    { to: "/shipping", label: "Shipping" },
+                    { to: "/track-order", label: "nav.trackOrder" },
+                    { to: "/faq", label: "nav.faq" },
+                    { to: "/shipping", label: "nav.shipping" },
                   ].map((item) => (
                     <Link
                       key={item.to}
                       to={item.to}
                       className="rounded-lg px-4 py-3 text-sm text-muted-foreground hover:bg-secondary"
                     >
-                      {item.label}
+                      {t(item.label)}
                     </Link>
                   ))}
+                  <div className="my-2 h-px bg-border" />
+                  <LanguageSelector size="lg" className="px-4 py-3" />
                 </div>
               </SheetContent>
             </Sheet>
@@ -133,18 +141,19 @@ export function Navbar() {
                 activeProps={{ className: "text-primary" }}
                 className="rounded-md px-3.5 py-2 text-sm tracking-wide text-foreground/75 transition-colors hover:text-primary"
               >
-                {item.label}
+                {t(item.label)}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-0.5 justify-self-end">
-            <Button variant="ghost" size="icon" aria-label="Search" onClick={() => setSearchOpen(true)}>
+            <LanguageSelector className="mr-1 hidden md:flex" />
+            <Button variant="ghost" size="icon" aria-label={t("actions.search")} onClick={() => setSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" asChild aria-label="Order on WhatsApp">
+            <Button variant="ghost" size="icon" asChild aria-label={t("actions.orderWhatsapp")}>
               <a
-                href={whatsappLink(`Hello ${BRAND.name}, I would like to order a handmade wallet.`)}
+                href={askLink()}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -157,7 +166,7 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               className="relative"
-              aria-label={`Open bag, ${count} items`}
+              aria-label={t("cart.open", { count })}
               onClick={() => setCartOpen(true)}
             >
               <ShoppingBag className="h-5 w-5" />
@@ -172,34 +181,34 @@ export function Navbar() {
       </header>
 
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <CommandInput placeholder="Search wallets, card holders, custom pieces…" />
+        <CommandInput placeholder={t("search.placeholder")} />
         <CommandList>
-          <CommandEmpty>Nothing matched. Try &ldquo;wallet&rdquo; or &ldquo;custom&rdquo;.</CommandEmpty>
-          <CommandGroup heading="Products">
+          <CommandEmpty>{t("search.empty")}</CommandEmpty>
+          <CommandGroup heading={t("search.products")}>
             {products.map((p) => (
               <CommandItem
                 key={p.slug}
-                value={`${p.name} ${p.category}`}
+                value={`${p.name} ${productName(p)} ${p.category}`}
                 onSelect={() => {
                   setSearchOpen(false);
                   navigate({ to: "/product/$slug", params: { slug: p.slug } });
                 }}
               >
-                {p.name}
+                {productName(p)}
               </CommandItem>
             ))}
           </CommandGroup>
-          <CommandGroup heading="Categories">
+          <CommandGroup heading={t("search.categories")}>
             {categories.map((c) => (
               <CommandItem
                 key={c.slug}
-                value={c.name}
+                value={`${c.name} ${categoryName(c.slug)}`}
                 onSelect={() => {
                   setSearchOpen(false);
                   navigate({ to: "/shop", search: { category: c.slug } });
                 }}
               >
-                {c.name}
+                {categoryName(c.slug)}
               </CommandItem>
             ))}
           </CommandGroup>

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { BRAND, whatsappLink } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
 import { cn } from "@/lib/utils";
 
 export function FloatingActions() {
   const [show, setShow] = useState(false);
+  const { t, isRTL } = useI18n();
+  const { askLink } = useWhatsapp();
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 600);
@@ -13,10 +16,15 @@ export function FloatingActions() {
   }, []);
 
   return (
-    <div className="fixed right-4 bottom-4 z-40 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
+    <div
+      className={cn(
+        "fixed bottom-4 z-40 flex flex-col gap-3 sm:bottom-6",
+        isRTL ? "left-4 items-start sm:left-6" : "right-4 items-end sm:right-6",
+      )}
+    >
       <button
         type="button"
-        aria-label="Back to top"
+        aria-label={t("actions.backToTop")}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className={cn(
           "glass grid h-11 w-11 place-items-center rounded-full shadow-soft transition-all duration-500",
@@ -27,12 +35,10 @@ export function FloatingActions() {
       </button>
 
       <a
-        href={whatsappLink(
-          `Hello ${BRAND.name}, I would like to ask about your handmade leather pieces.`,
-        )}
+        href={askLink()}
         target="_blank"
         rel="noreferrer"
-        aria-label="Order on WhatsApp"
+        aria-label={t("actions.orderWhatsapp")}
         className="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] shadow-lift transition-transform duration-300 hover:scale-105 sm:h-15 sm:w-15"
       >
         <svg viewBox="0 0 24 24" className="h-7 w-7 shrink-0 fill-white" aria-hidden="true">

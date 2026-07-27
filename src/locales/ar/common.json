@@ -1,0 +1,100 @@
+{
+  "announcement": "الدفع عند الاستلام · التوصيل إلى جميع أنحاء المغرب · صناعة يدوية في تارودانت",
+  "lang": { "label": "اللغة", "select": "اختر اللغة", "en": "English", "fr": "Français", "ar": "العربية" },
+  "nav": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "ourCraft": "حرفتنا",
+    "about": "من نحن",
+    "contact": "اتصل بنا",
+    "trackOrder": "تتبع الطلب",
+    "faq": "الأسئلة الشائعة",
+    "shipping": "الشحن",
+    "menu": "القائمة",
+    "openMenu": "فتح القائمة"
+  },
+  "actions": {
+    "shopNow": "تسوق الآن",
+    "orderWhatsapp": "اطلب عبر واتساب",
+    "addToBag": "أضف إلى السلة",
+    "checkout": "إتمام الطلب · الدفع عند الاستلام",
+    "continueShopping": "متابعة التسوق",
+    "browseCollection": "تصفح المجموعة",
+    "apply": "تطبيق",
+    "subscribe": "اشتراك",
+    "backToTop": "العودة إلى الأعلى",
+    "search": "بحث",
+    "viewAll": "عرض الكل",
+    "readMore": "اقرأ المزيد"
+  },
+  "search": {
+    "placeholder": "ابحث عن المحافظ، حاملات البطاقات، القطع المخصصة…",
+    "empty": "لا توجد نتائج. جرّب «محفظة» أو «مخصص».",
+    "products": "المنتجات",
+    "categories": "الفئات"
+  },
+  "cart": {
+    "title": "سلتك",
+    "open": "فتح السلة، {{count}} منتجات",
+    "empty": "سلتك فارغة",
+    "emptyHint": "ستظهر هنا القطع التي تضيفها، جاهزة للدفع عند الاستلام.",
+    "freeDeliveryProgress": "أضف {{amount}} للحصول على توصيل مجاني",
+    "freeDeliveryUnlocked": "تم تفعيل التوصيل المجاني",
+    "remove": "إزالة {{name}}",
+    "decrease": "إنقاص الكمية",
+    "increase": "زيادة الكمية",
+    "coupon": "رمز الخصم",
+    "couponApplied": "تم تطبيق الرمز {{code}}.",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "delivery": "التوصيل",
+    "free": "مجاني",
+    "total": "الإجمالي",
+    "codNote": "ادفع نقداً عند تسلّم الطرد من عامل التوصيل.",
+    "added": "تمت إضافة {{name}} إلى سلتك."
+  },
+  "badges": {
+    "new": "جديد",
+    "bestSeller": "الأكثر مبيعاً",
+    "soldOut": "نفدت الكمية",
+    "inStock": "متوفر",
+    "sale": "تخفيض"
+  },
+  "footer": {
+    "handmadeGoods": "منتجات جلدية يدوية",
+    "location": "تارودانت، المغرب",
+    "quickLinks": "روابط سريعة",
+    "customerService": "خدمة العملاء",
+    "policies": "السياسات",
+    "shopAll": "كل المنتجات",
+    "aboutUs": "من نحن",
+    "shippingReturns": "الشحن والإرجاع",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "newsletterTitle": "انضم إلى نشرة الورشة",
+    "newsletterText": "منتجات جديدة وإعادة توفير ونصائح للعناية. مرة واحدة شهرياً فقط.",
+    "emailPlaceholder": "you@example.com",
+    "emailLabel": "البريد الإلكتروني",
+    "rights": "© {{year}} Loner Leather. صناعة يدوية في المغرب.",
+    "codLine": "الدفع عند الاستلام في جميع الجهات الـ12 · لا حاجة للدفع الإلكتروني"
+  },
+  "toast": {
+    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
+    "subscribed": "تم تسجيلك. مرحباً بك في Loner Leather.",
+    "wishAdded": "تمت الإضافة إلى المفضلة.",
+    "wishRemoved": "تمت الإزالة من المفضلة."
+  },
+  "whatsapp": {
+    "intro": "السلام عليكم، أريد طلب محفظة من Loner Leather.",
+    "product": "المنتج",
+    "name": "الاسم",
+    "phone": "رقم الهاتف",
+    "city": "المدينة",
+    "address": "العنوان",
+    "quantity": "الكمية",
+    "note": "ملاحظة",
+    "color": "اللون",
+    "ask": "السلام عليكم Loner Leather، أود الاستفسار عن قطعكم الجلدية المصنوعة يدوياً."
+  },
+  "price": { "currency": "MAD" }
+}

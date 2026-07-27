@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
+import { useI18n } from "@/lib/i18n";
 import craft from "@/assets/craft.jpg";
 import hero from "@/assets/hero.jpg";
 
@@ -26,52 +27,23 @@ export const Route = createFileRoute("/our-craft")({
   component: CraftPage,
 });
 
-const STEPS = [
-  {
-    n: "01",
-    title: "Choosing the hide",
-    text: "We select full-grain hides at a family tannery in the Taroudant medina, tanned with oak bark and pomegranate rind over 30 days. We reject any panel with a scar we can't stand behind.",
-  },
-  {
-    n: "02",
-    title: "Cutting",
-    text: "Panels are cut with a round knife against a marble slab — never a die press. Cutting by hand lets the maker read the grain and place the strongest fibres where the piece will flex.",
-  },
-  {
-    n: "03",
-    title: "Skiving & folding",
-    text: "Every fold is skived down by hand so the leather bends without bulk. This is the step that separates a wallet that stays slim from one that swells after a month.",
-  },
-  {
-    n: "04",
-    title: "Saddle stitching",
-    text: "Two needles, one thread, waxed linen. A saddle stitch locks on itself, so even a cut thread will not unravel the seam. Roughly 320 stitches go into a bifold.",
-  },
-  {
-    n: "05",
-    title: "Edge finishing",
-    text: "Edges are bevelled, sanded through three grits, wet-slicked with gum tragacanth, then waxed and burnished four times until they shine like polished wood.",
-  },
-  {
-    n: "06",
-    title: "Final inspection",
-    text: "The maker who started the piece buffs it, stamps their mark inside the fold and signs the certificate of origin that ships in the box.",
-  },
-];
-
 function CraftPage() {
+  const { t, tList } = useI18n();
+  const steps = tList<{ n: string; title: string; text: string }>("pages.craft.steps");
+  const careItems = tList<{ title: string; text: string }>("pages.craft.careItems");
+
   return (
     <>
       <PageHero
-        eyebrow="The Workshop"
-        title="Our Craft"
-        intro="Forty-one steps stand between a raw hide and a finished Loner piece. Here are the six that matter most."
+        eyebrow={t("pages.craft.hero.eyebrow")}
+        title={t("pages.craft.hero.title")}
+        intro={t("pages.craft.hero.intro")}
       />
 
       <section className="relative isolate overflow-hidden">
         <img
           src={hero}
-          alt="Hands saddle-stitching leather at a workbench"
+          alt={t("pages.craft.heroImgAlt")}
           width={1920}
           height={1280}
           loading="lazy"
@@ -81,7 +53,7 @@ function CraftPage() {
 
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {STEPS.map((step, i) => (
+          {steps.map((step, i) => (
             <Reveal key={step.n} delay={i * 70}>
               <article className="h-full rounded-2xl border border-border bg-card p-7 shadow-soft transition-shadow duration-500 hover:shadow-lift">
                 <span className="font-display text-3xl text-accent">{step.n}</span>
@@ -98,7 +70,7 @@ function CraftPage() {
           <Reveal>
             <img
               src={craft}
-              alt="Marking a leather panel before cutting"
+              alt={t("pages.craft.markingImgAlt")}
               width={1408}
               height={1600}
               loading="lazy"
@@ -106,30 +78,19 @@ function CraftPage() {
             />
           </Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">Caring for it</p>
+            <p className="eyebrow">{t("pages.craft.careEyebrow")}</p>
             <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">
-              Leather that gets better with you.
+              {t("pages.craft.careTitle")}
             </h2>
             <ul className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
-              <li>
-                <strong className="text-foreground">Let it breathe.</strong> Keep it out of sealed
-                plastic. The dust bag in your box is all the storage it needs.
-              </li>
-              <li>
-                <strong className="text-foreground">Condition twice a year.</strong> A pea-sized
-                amount of neutral balm, worked in with a soft cloth, keeps the fibres supple.
-              </li>
-              <li>
-                <strong className="text-foreground">Let water dry naturally.</strong> Never a hair
-                dryer or radiator — heat cracks vegetable-tanned leather.
-              </li>
-              <li>
-                <strong className="text-foreground">Embrace the patina.</strong> Scratches fade into
-                the surface within weeks. That mottled shine is the leather doing its job.
-              </li>
+              {careItems.map((item) => (
+                <li key={item.title}>
+                  <strong className="text-foreground">{item.title}</strong> {item.text}
+                </li>
+              ))}
             </ul>
             <Button variant="hero" size="lg" className="mt-8" asChild>
-              <Link to="/shop">Shop the collection</Link>
+              <Link to="/shop">{t("pages.craft.shopCta")}</Link>
             </Button>
           </Reveal>
         </div>

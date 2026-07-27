@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHero } from "@/components/site/PageHero";
-import { BRAND, whatsappLink } from "@/lib/brand";
+import { BRAND } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { whatsappHref } from "@/lib/i18n/whatsapp";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -31,30 +33,31 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const schema = z.object({
-  name: z.string().trim().min(2, "Please enter your name").max(80),
-  email: z.string().trim().email("Enter a valid email address").max(160),
-  subject: z.string().trim().min(2, "Please add a subject").max(120),
-  message: z.string().trim().min(10, "Tell us a little more").max(1000),
-});
-
 function ContactPage() {
+  const { t } = useI18n();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+
+  const schema = z.object({
+    name: z.string().trim().min(2, t("pages.contact.errors.name")).max(80),
+    email: z.string().trim().email(t("pages.contact.errors.email")).max(160),
+    subject: z.string().trim().min(2, t("pages.contact.errors.subject")).max(120),
+    message: z.string().trim().min(10, t("pages.contact.errors.message")).max(1000),
+  });
 
   return (
     <>
       <PageHero
-        eyebrow="Get in touch"
-        title="Contact Us"
-        intro="Questions about a piece, a custom order or an existing delivery? We answer every message ourselves."
+        eyebrow={t("pages.contact.hero.eyebrow")}
+        title={t("pages.contact.hero.title")}
+        intro={t("pages.contact.hero.intro")}
       />
 
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div className="space-y-6">
             <div className="rounded-2xl border border-border bg-card p-7 shadow-soft">
-              <h2 className="font-display text-xl">Workshop</h2>
+              <h2 className="font-display text-xl">{t("pages.contact.workshopTitle")}</h2>
               <ul className="mt-5 space-y-4 text-sm text-muted-foreground">
                 <li className="flex gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
@@ -74,23 +77,23 @@ function ContactPage() {
                 </li>
                 <li className="flex gap-3">
                   <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                  <span>Monday–Saturday, 9:00–19:00 (GMT+1)</span>
+                  <span>{t("pages.contact.hours")}</span>
                 </li>
               </ul>
               <Button variant="whatsapp" size="lg" className="mt-6 w-full" asChild>
                 <a
-                  href={whatsappLink("Hello Loner Leather, I'd like some help.")}
+                  href={whatsappHref(t("pages.contact.whatsappMessage"))}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Chat on WhatsApp
+                  {t("pages.contact.whatsappCta")}
                 </a>
               </Button>
             </div>
 
             <div className="overflow-hidden rounded-2xl border border-border shadow-soft">
               <iframe
-                title="Loner Leather workshop location in Taroudant"
+                title={t("pages.contact.mapTitle")}
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-8.0130%2C31.6220%2C-7.9770%2C31.6420&layer=mapnik&marker=31.6320%2C-7.9950"
                 loading="lazy"
                 className="h-64 w-full border-0"
@@ -99,10 +102,8 @@ function ContactPage() {
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-7 shadow-soft sm:p-9">
-            <h2 className="font-display text-2xl">Send a message</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              We reply within one working day, usually much sooner.
-            </p>
+            <h2 className="font-display text-2xl">{t("pages.contact.formTitle")}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{t("pages.contact.formSubtitle")}</p>
             <form
               noValidate
               className="mt-7 space-y-5"
@@ -116,35 +117,57 @@ function ContactPage() {
                     next[String(issue.path[0])] = issue.message;
                   }
                   setErrors(next);
-                  toast.error("Please check the highlighted fields.");
+                  toast.error(t("pages.contact.toastError"));
                   return;
                 }
                 setErrors({});
                 setSent(true);
                 e.currentTarget.reset();
-                toast.success("Message sent — we'll be in touch shortly.");
+                toast.success(t("pages.contact.toastSuccess"));
               }}
             >
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field id="name" label="Full name" error={errors.name}>
-                  <Input id="name" name="name" maxLength={80} placeholder="Yasmine Alaoui" />
+                <Field id="name" label={t("pages.contact.fields.name")} error={errors.name}>
+                  <Input
+                    id="name"
+                    name="name"
+                    maxLength={80}
+                    placeholder={t("pages.contact.fields.namePlaceholder")}
+                  />
                 </Field>
-                <Field id="email" label="Email" error={errors.email}>
-                  <Input id="email" name="email" type="email" maxLength={160} placeholder="you@email.com" />
+                <Field id="email" label={t("pages.contact.fields.email")} error={errors.email}>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    maxLength={160}
+                    placeholder={t("pages.contact.fields.emailPlaceholder")}
+                  />
                 </Field>
               </div>
-              <Field id="subject" label="Subject" error={errors.subject}>
-                <Input id="subject" name="subject" maxLength={120} placeholder="Custom wallet enquiry" />
+              <Field id="subject" label={t("pages.contact.fields.subject")} error={errors.subject}>
+                <Input
+                  id="subject"
+                  name="subject"
+                  maxLength={120}
+                  placeholder={t("pages.contact.fields.subjectPlaceholder")}
+                />
               </Field>
-              <Field id="message" label="Message" error={errors.message}>
-                <Textarea id="message" name="message" rows={6} maxLength={1000} placeholder="Tell us what you have in mind…" />
+              <Field id="message" label={t("pages.contact.fields.message")} error={errors.message}>
+                <Textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  maxLength={1000}
+                  placeholder={t("pages.contact.fields.messagePlaceholder")}
+                />
               </Field>
               <Button variant="hero" size="xl" type="submit" className="w-full">
-                Send message
+                {t("pages.contact.submit")}
               </Button>
               {sent && (
                 <p className="text-center text-sm text-muted-foreground">
-                  Thanks — your message is with the workshop.
+                  {t("pages.contact.sentNote")}
                 </p>
               )}
             </form>

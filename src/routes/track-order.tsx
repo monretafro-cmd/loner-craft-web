@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageHero } from "@/components/site/PageHero";
-import { whatsappLink } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/track-order")({
@@ -27,14 +28,12 @@ export const Route = createFileRoute("/track-order")({
   component: TrackOrderPage,
 });
 
-const STAGES = [
-  { title: "Order confirmed", text: "We received your order and called to verify the address." },
-  { title: "In the workshop", text: "Your piece is being finished, buffed and boxed in Taroudant." },
-  { title: "Handed to courier", text: "Collected by our delivery partner and on the road." },
-  { title: "Out for delivery", text: "Arriving today — have the cash amount ready for the courier." },
-];
+type Stage = { title: string; text: string };
 
 function TrackOrderPage() {
+  const { t, tList } = useI18n();
+  const { askLink } = useWhatsapp();
+  const STAGES = tList<Stage>("pages.track.stages");
   const [code, setCode] = useState("");
   const [status, setStatus] = useState<{ order: string; stage: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -42,9 +41,9 @@ function TrackOrderPage() {
   return (
     <>
       <PageHero
-        eyebrow="Delivery"
-        title="Track Your Order"
-        intro="Your order number looks like LL-482910 and is in your confirmation message."
+        eyebrow={t("pages.track.hero.eyebrow")}
+        title={t("pages.track.hero.title")}
+        intro={t("pages.track.hero.intro")}
       />
 
       <section className="mx-auto max-w-2xl px-4 py-14 sm:px-6 lg:py-20">
@@ -54,7 +53,7 @@ function TrackOrderPage() {
             e.preventDefault();
             const value = code.trim().toUpperCase();
             if (!/^LL-\d{6}$/.test(value)) {
-              toast.error("Order numbers look like LL-482910.");
+              toast.error(t("pages.track.invalid"));
               return;
             }
             setLoading(true);
@@ -66,25 +65,25 @@ function TrackOrderPage() {
           }}
         >
           <div className="flex-1 space-y-2">
-            <Label htmlFor="order">Order number</Label>
+            <Label htmlFor="order">{t("pages.track.label")}</Label>
             <Input
               id="order"
               value={code}
               maxLength={12}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="LL-482910"
+              placeholder={t("pages.track.placeholder")}
             />
           </div>
           <Button variant="hero" size="lg" type="submit" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            Track
+            {t("pages.track.submit")}
           </Button>
         </form>
 
         {status && (
           <div className="mt-8 rounded-2xl border border-border bg-card p-7 shadow-soft">
-            <p className="eyebrow">Order {status.order}</p>
-            <h2 className="font-display mt-2 text-2xl">{STAGES[status.stage - 1].title}</h2>
+            <p className="eyebrow">{t("pages.track.orderPrefix", { order: status.order })}</p>
+            <h2 className="font-display mt-2 text-2xl">{STAGES[status.stage - 1]?.title}</h2>
             <ol className="mt-7 space-y-6">
               {STAGES.map((s, i) => {
                 const done = i < status.stage;
@@ -109,14 +108,14 @@ function TrackOrderPage() {
         )}
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
-          Can't find your number?{" "}
+          {t("pages.track.cantFind")}{" "}
           <a
-            href={whatsappLink("Hello, I'd like to track my Loner Leather order.")}
+            href={askLink()}
             target="_blank"
             rel="noreferrer"
             className="story-link text-foreground"
           >
-            Ask us on WhatsApp
+            {t("pages.track.askWhatsapp")}
           </a>
         </p>
       </section>

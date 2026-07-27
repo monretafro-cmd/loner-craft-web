@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { LogoMark } from "@/components/site/Logo";
+import { useI18n } from "@/lib/i18n";
 import craft from "@/assets/craft.jpg";
 import packaging from "@/assets/packaging.jpg";
 
@@ -27,29 +28,25 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const STATS = [
-  { value: "2016", label: "Workshop founded" },
-  { value: "9", label: "Makers on the bench" },
-  { value: "12", label: "Regions delivered" },
-  { value: "18k+", label: "Pieces stitched" },
-];
-
 function AboutPage() {
+  const { t, tList } = useI18n();
+  const stats = tList<{ value: string; label: string }>("pages.about.stats");
+
   return (
     <>
       <section className="bg-cream">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center px-5 py-20 text-center sm:px-6 lg:px-10">
           <LogoMark className="h-28 sm:h-36" />
-          <p className="eyebrow mt-8">Handmade in Taroudant</p>
+          <p className="eyebrow mt-8">{t("pages.about.topEyebrow")}</p>
           <h2 className="font-display mt-4 max-w-2xl text-3xl leading-tight sm:text-4xl">
-            Genuine leather, cut and stitched by hand in Morocco.
+            {t("pages.about.topTitle")}
           </h2>
         </div>
       </section>
       <PageHero
-        eyebrow="Our Story"
-        title="About Loner Leather"
-        intro="We started with one bench, one round knife and a stubborn belief that a wallet should outlive the trousers you keep it in."
+        eyebrow={t("pages.about.hero.eyebrow")}
+        title={t("pages.about.hero.title")}
+        intro={t("pages.about.hero.intro")}
       />
 
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
@@ -57,7 +54,7 @@ function AboutPage() {
           <Reveal>
             <img
               src={craft}
-              alt="A Loner Leather maker working a hide at the bench"
+              alt={t("pages.about.packagingImgAlt")}
               width={1408}
               height={1600}
               loading="lazy"
@@ -67,25 +64,13 @@ function AboutPage() {
           <Reveal delay={120} className="space-y-5 text-[0.95rem] leading-relaxed text-muted-foreground">
             <LogoMark className="h-14 w-auto" />
             <h2 className="font-display text-3xl leading-tight text-foreground sm:text-4xl">
-              One maker, one piece, start to finish.
+              {t("pages.about.storyTitle")}
             </h2>
-            <p>
-              Loner Leather began in 2016 in a two-room riad off Rue Dar El Bacha. Our founder, Reda,
-              had spent nine years repairing other people's leather and grew tired of glued edges and
-              hidden staples. He bought a hide, a knife and a spool of waxed linen, and made a wallet
-              he would be happy to hand down.
-            </p>
-            <p>
-              Today nine makers share the bench. Nobody works on an assembly line — each person owns
-              a piece from the first cut to the final buff, then stamps it with their own mark inside
-              the fold.
-            </p>
-            <p>
-              We buy our hides from a family tannery three streets away, we finish every edge by
-              hand, and we ship cash on delivery because trust should go both ways.
-            </p>
+            <p>{t("pages.about.storyP1")}</p>
+            <p>{t("pages.about.storyP2")}</p>
+            <p>{t("pages.about.storyP3")}</p>
             <Button variant="hero" size="lg" asChild>
-              <Link to="/our-craft">See how a wallet is made</Link>
+              <Link to="/our-craft">{t("pages.about.storyCta")}</Link>
             </Button>
           </Reveal>
         </div>
@@ -93,7 +78,7 @@ function AboutPage() {
 
       <section className="bg-ink py-14 text-ink-foreground lg:py-20">
         <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-8 px-4 sm:px-6 lg:grid-cols-4 lg:px-10">
-          {STATS.map((s, i) => (
+          {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 70}>
               <p className="font-display text-4xl text-accent sm:text-5xl">{s.value}</p>
               <p className="mt-2 text-sm text-ink-foreground/65">{s.label}</p>
@@ -106,17 +91,16 @@ function AboutPage() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
             <h2 className="font-display text-3xl leading-tight sm:text-4xl">
-              Packed the way we would want to receive it.
+              {t("pages.about.packagingTitle")}
             </h2>
             <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">
-              Kraft box, cotton dust bag, care card, handwritten note. Nothing plastic, nothing
-              wasted. If it's a gift, tell us at checkout and we'll wrap it and leave the price off.
+              {t("pages.about.packagingText")}
             </p>
           </Reveal>
           <Reveal delay={120} className="order-1 lg:order-2">
             <img
               src={packaging}
-              alt="Loner Leather packaging: kraft gift box, dust bag and care card"
+              alt={t("pages.about.packagingCareImgAlt")}
               width={1600}
               height={1200}
               loading="lazy"

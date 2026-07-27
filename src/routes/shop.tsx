@@ -18,8 +18,9 @@ import {
 import { PageHero } from "@/components/site/PageHero";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Reveal } from "@/components/site/Reveal";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
 import { allColors, categories, products } from "@/lib/products";
-import { formatMAD } from "@/lib/brand";
 
 const searchSchema = z.object({
   category: z.string().optional(),
@@ -54,6 +55,8 @@ const MAX_PRICE = 800;
 function ShopPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/shop" });
+  const { t, isRTL } = useI18n();
+  const { categoryName, colorName, price: formatPrice } = useCatalog();
   const [query, setQuery] = useState(search.q ?? "");
   const [price, setPrice] = useState<number[]>([MAX_PRICE]);
   const [colors, setColors] = useState<string[]>([]);
@@ -82,12 +85,20 @@ function ShopPage() {
     return list;
   }, [activeCategory, price, colors, inStockOnly, query, sort]);
 
+  const resetFilters = () => {
+    setPrice([MAX_PRICE]);
+    setColors([]);
+    setInStockOnly(false);
+    setQuery("");
+    navigate({ search: {} });
+  };
+
   const filters = (
     <div className="space-y-8">
       <div>
-        <h3 className="eyebrow">Category</h3>
+        <h3 className="eyebrow">{t("shop.filters.category")}</h3>
         <div className="mt-3 flex flex-col gap-1">
-          {[{ slug: "all", name: "All pieces" }, ...categories].map((c) => (
+          {[{ slug: "all", name: t("shop.filters.allPieces") }, ...categories.map((c) => ({ slug: c.slug, name: categoryName(c.slug) }))].map((c) => (
             <button
               key={c.slug}
               type="button"
@@ -96,7 +107,7 @@ function ShopPage() {
                   search: { ...search, category: c.slug === "all" ? undefined : c.slug },
                 })
               }
-              className={`min-h-11 rounded-lg px-3 text-left text-sm transition-colors ${
+              className={`min-h-11 rounded-lg px-3 text-start text-sm transition-colors ${
                 activeCategory === c.slug
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-secondary"
@@ -109,7 +120,7 @@ function ShopPage() {
       </div>
 
       <div>
-        <h3 className="eyebrow">Max price</h3>
+        <h3 className="eyebrow">{t("shop.filters.maxPrice")}</h3>
         <Slider
           value={price}
           onValueChange={setPrice}
@@ -117,13 +128,15 @@ function ShopPage() {
           max={MAX_PRICE}
           step={10}
           className="mt-5"
-          aria-label="Maximum price"
+          aria-label={t("shop.filters.maxPriceLabel")}
         />
-        <p className="mt-3 text-sm text-muted-foreground">Up to {formatMAD(price[0])}</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          {t("shop.filters.upTo", { amount: formatPrice(price[0]) })}
+        </p>
       </div>
 
       <div>
-        <h3 className="eyebrow">Colour</h3>
+        <h3 className="eyebrow">{t("shop.filters.colour")}</h3>
         <div className="mt-3 space-y-1">
           {allColors.map((color) => (
             <label
@@ -136,7 +149,7 @@ function ShopPage() {
                   setColors((prev) => (checked ? [...prev, color] : prev.filter((c) => c !== color)))
                 }
               />
-              {color}
+              {colorName(color)}
             </label>
           ))}
         </div>
@@ -144,21 +157,11 @@ function ShopPage() {
 
       <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-2 text-sm hover:bg-secondary">
         <Checkbox checked={inStockOnly} onCheckedChange={(c) => setInStockOnly(Boolean(c))} />
-        In stock only
+        {t("shop.filters.inStockOnly")}
       </label>
 
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={() => {
-          setPrice([MAX_PRICE]);
-          setColors([]);
-          setInStockOnly(false);
-          setQuery("");
-          navigate({ search: {} });
-        }}
-      >
-        <X className="h-4 w-4" /> Clear filters
+      <Button variant="outline" className="w-full" onClick={resetFilters}>
+        <X className="h-4 w-4" /> {t("shop.filters.clear")}
       </Button>
     </div>
   );
@@ -166,9 +169,9 @@ function ShopPage() {
   return (
     <>
       <PageHero
-        eyebrow="The Collection"
-        title="Shop"
-        intro="Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco."
+        eyebrow={t("shop.hero.eyebrow")}
+        title={t("shop.hero.title")}
+        intro={t("shop.hero.intro")}
       />
 
       <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 lg:px-10 lg:py-14">
@@ -180,25 +183,25 @@ function ShopPage() {
           <div className="min-w-0">
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
               <div className="relative min-w-0">
-                <SearchIcon className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <SearchIcon className="pointer-events-none absolute top-1/2 start-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   value={query}
                   maxLength={80}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search the collection"
-                  aria-label="Search products"
-                  className="h-11 pl-9 sm:w-72"
+                  placeholder={t("shop.toolbar.searchPlaceholder")}
+                  aria-label={t("shop.toolbar.searchLabel")}
+                  className="h-11 ps-9 sm:w-72"
                 />
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="lg:hidden" aria-label="Filters">
+                    <Button variant="outline" size="icon" className="lg:hidden" aria-label={t("shop.filters.openFilters")}>
                       <SlidersHorizontal className="h-4 w-4" />
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-[85vw] max-w-xs overflow-y-auto">
-                    <SheetTitle className="font-display text-xl">Filters</SheetTitle>
+                  <SheetContent side={isRTL ? "right" : "left"} className="w-[85vw] max-w-xs overflow-y-auto">
+                    <SheetTitle className="font-display text-xl">{t("shop.filters.title")}</SheetTitle>
                     <div className="mt-6">{filters}</div>
                   </SheetContent>
                 </Sheet>
@@ -213,44 +216,35 @@ function ShopPage() {
                     })
                   }
                 >
-                  <SelectTrigger className="h-11 w-[9.5rem]" aria-label="Sort products">
+                  <SelectTrigger className="h-11 w-[9.5rem]" aria-label={t("shop.toolbar.sortLabel")}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="featured">Featured</SelectItem>
-                    <SelectItem value="newest">Newest</SelectItem>
-                    <SelectItem value="best">Best selling</SelectItem>
-                    <SelectItem value="price-asc">Price: low to high</SelectItem>
-                    <SelectItem value="price-desc">Price: high to low</SelectItem>
+                    <SelectItem value="featured">{t("shop.toolbar.sort.featured")}</SelectItem>
+                    <SelectItem value="newest">{t("shop.toolbar.sort.newest")}</SelectItem>
+                    <SelectItem value="best">{t("shop.toolbar.sort.best")}</SelectItem>
+                    <SelectItem value="price-asc">{t("shop.toolbar.sort.priceAsc")}</SelectItem>
+                    <SelectItem value="price-desc">{t("shop.toolbar.sort.priceDesc")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <p className="mt-4 text-sm text-muted-foreground">
-              {results.length} {results.length === 1 ? "piece" : "pieces"}
+              {t(results.length === 1 ? "shop.results.count_one" : "shop.results.count_other", {
+                count: results.length,
+              })}
             </p>
 
             {results.length === 0 ? (
               <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border py-20 text-center">
                 <SearchIcon className="h-7 w-7 text-muted-foreground" />
                 <div>
-                  <p className="font-display text-lg">Nothing matches those filters</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Try widening the price range or clearing the colour selection.
-                  </p>
+                  <p className="font-display text-lg">{t("shop.empty.title")}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{t("shop.empty.text")}</p>
                 </div>
-                <Button
-                  variant="hero"
-                  onClick={() => {
-                    setPrice([MAX_PRICE]);
-                    setColors([]);
-                    setInStockOnly(false);
-                    setQuery("");
-                    navigate({ search: {} });
-                  }}
-                >
-                  Clear filters
+                <Button variant="hero" onClick={resetFilters}>
+                  {t("shop.empty.cta")}
                 </Button>
               </div>
             ) : (
@@ -265,7 +259,7 @@ function ShopPage() {
           </div>
         </div>
       </div>
-      <Label className="sr-only">Shop filters</Label>
+      <Label className="sr-only">{t("shop.sr.shopFilters")}</Label>
     </>
   );
 }

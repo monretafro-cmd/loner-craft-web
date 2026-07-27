@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "eyebrow": "Secure checkout",
+    "title": "Checkout",
+    "subtitle": "Cash on Delivery only. We call to confirm every order before it leaves the workshop."
+  },
+  "empty": {
+    "title": "Your bag is empty",
+    "text": "Add a piece to your bag and it will show up here, ready for Cash on Delivery."
+  },
+  "cities": {
+    "casablanca": "Casablanca",
+    "rabat": "Rabat",
+    "taroudant": "Taroudant",
+    "tangier": "Tangier",
+    "fes": "Fès",
+    "agadir": "Agadir",
+    "meknes": "Meknès",
+    "oujda": "Oujda",
+    "kenitra": "Kénitra",
+    "tetouan": "Tétouan",
+    "essaouira": "Essaouira",
+    "other": "Other"
+  },
+  "delivery": {
+    "legend": "Delivery details",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Yassine Bennani",
+    "phone": "Phone number",
+    "phonePlaceholder": "0612345678",
+    "email": "Email (optional)",
+    "emailPlaceholder": "you@email.com",
+    "city": "City",
+    "cityPlaceholder": "Select your city",
+    "address": "Street address",
+    "addressPlaceholder": "Building, street, neighbourhood, landmark…",
+    "notes": "Order notes (optional)",
+    "notesPlaceholder": "Engraving initials, gift wrapping, delivery timing…"
+  },
+  "payment": {
+    "legend": "Payment",
+    "codTitle": "Cash on Delivery",
+    "codText": "Pay the courier in cash when your parcel arrives. Open the box, check the stitching and the colour, then hand over the money. It's the only payment method we offer."
+  },
+  "errors": {
+    "fullName": "Please enter your full name",
+    "phone": "Enter a valid Moroccan number, e.g. 0612345678",
+    "email": "Enter a valid email",
+    "city": "Select your city",
+    "address": "Please give a full street address",
+    "toast": "Please check the highlighted fields."
+  },
+  "submit": {
+    "placing": "Placing your order…",
+    "placeOrder": "Place order · {{price}}",
+    "whatsapp": "Prefer WhatsApp? Send this order"
+  },
+  "success": {
+    "toast": "Order placed — we'll call you shortly."
+  },
+  "summary": {
+    "title": "Order summary",
+    "qty": "Qty {{qty}}",
+    "subtotal": "Subtotal",
+    "discount": "Discount ({{coupon}})",
+    "delivery": "Delivery",
+    "free": "Free",
+    "total": "Total",
+    "inspect": "Inspect before you pay",
+    "exchange": "14-day exchange on unused pieces"
+  },
+  "orderSuccess": {
+    "title": "Thank you — your order is confirmed",
+    "text": "A maker in Taroudant is already wrapping your piece. You'll pay the courier in cash when it arrives — no card, no prepayment.",
+    "orderNumber": "Order number",
+    "amountDue": "Amount due on delivery",
+    "fallbackOrder": "LL-000000",
+    "steps": {
+      "received": { "title": "Order received", "text": "We've logged your order and reserved your piece." },
+      "call": { "title": "Confirmation call", "text": "A quick call within a few hours to confirm your address." },
+      "delivery": { "title": "Out for delivery", "text": "24–48h in major cities, 2–4 days elsewhere. Pay the courier." }
+    },
+    "continueShopping": "Continue shopping",
+    "askOrder": "Ask about my order",
+    "whatsappNote": "I'd like an update on order {{order}}."
+  }
+}

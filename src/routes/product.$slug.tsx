@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ChevronRight, Heart, Minus, Plus, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Minus, Plus, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +11,11 @@ import {
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductCard } from "@/components/site/ProductCard";
-import { formatMAD, whatsappLink, productOrderMessage } from "@/lib/brand";
-import { faqs, getProduct, categoryName, relatedProducts } from "@/lib/products";
+import { formatMAD } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { getProduct, relatedProducts } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -91,6 +94,10 @@ function ProductPage() {
   const { slug } = Route.useParams();
   const product = getProduct(slug)!;
   const { addLine, setCartOpen, toggleWish, wishlist, pushRecent, recent } = useStore();
+  const { t, isRTL } = useI18n();
+  const { productText, categoryName, colorName, price, faqs } = useCatalog();
+  const { orderLink } = useWhatsapp();
+  const text = productText(product);
   const [image, setImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]);
   const [qty, setQty] = useState(1);
@@ -114,7 +121,7 @@ function ProductPage() {
     addLine(
       {
         slug: product.slug,
-        name: product.name,
+        name: text.name,
         price: product.price,
         image: product.images[0],
         color,
@@ -122,22 +129,24 @@ function ProductPage() {
       qty,
     );
     setCartOpen(true);
-    toast.success(`${product.name} added to your bag`);
+    toast.success(t("product.toast.added", { name: text.name }));
   };
+
+  const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
 
   return (
     <>
       <div className="mx-auto max-w-[1400px] px-4 pt-8 sm:px-6 lg:px-10">
         <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Home</Link>
-          <ChevronRight className="h-3 w-3" />
-          <Link to="/shop" className="hover:text-foreground">Shop</Link>
-          <ChevronRight className="h-3 w-3" />
+          <Link to="/" className="hover:text-foreground">{t("product.breadcrumb.home")}</Link>
+          <ChevronIcon className="h-3 w-3" />
+          <Link to="/shop" className="hover:text-foreground">{t("product.breadcrumb.shop")}</Link>
+          <ChevronIcon className="h-3 w-3" />
           <Link to="/shop" search={{ category: product.category }} className="hover:text-foreground">
             {categoryName(product.category)}
           </Link>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground">{product.name}</span>
+          <ChevronIcon className="h-3 w-3" />
+          <span className="text-foreground">{text.name}</span>
         </nav>
       </div>
 
@@ -157,7 +166,7 @@ function ProductPage() {
             >
               <img
                 src={product.images[image]}
-                alt={`${product.name} — view ${image + 1}`}
+                alt={t("product.gallery.imageAlt", { name: text.name, index: image + 1 })}
                 width={1200}
                 height={1200}
                 className="h-full w-full object-cover transition-transform duration-300 ease-out"
@@ -167,8 +176,8 @@ function ProductPage() {
                     : undefined
                 }
               />
-              <span className="glass pointer-events-none absolute bottom-3 left-3 rounded-md px-2.5 py-1 text-[0.65rem] tracking-wide uppercase max-lg:hidden">
-                Hover to zoom
+              <span className="glass pointer-events-none absolute bottom-3 start-3 rounded-md px-2.5 py-1 text-[0.65rem] tracking-wide uppercase max-lg:hidden">
+                {t("product.gallery.hoverZoom")}
               </span>
             </div>
             <div className="mt-3 grid grid-cols-4 gap-3">
@@ -177,7 +186,7 @@ function ProductPage() {
                   key={img}
                   type="button"
                   onClick={() => setImage(i)}
-                  aria-label={`View image ${i + 1}`}
+                  aria-label={t("product.gallery.viewImage", { index: i + 1 })}
                   className={cn(
                     "aspect-square overflow-hidden rounded-lg border-2 transition-colors",
                     image === i ? "border-primary" : "border-transparent hover:border-border",
@@ -199,7 +208,7 @@ function ProductPage() {
           <div>
             <p className="eyebrow">{categoryName(product.category)}</p>
             <h1 className="font-display mt-2 text-3xl leading-tight sm:text-4xl lg:text-[2.75rem]">
-              {product.name}
+              {text.name}
             </h1>
 
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
@@ -213,46 +222,51 @@ function ProductPage() {
                     )}
                   />
                 ))}
-                <span className="ml-1 text-foreground">{product.rating}</span>
+                <span className="ms-1 text-foreground">{product.rating}</span>
               </span>
-              <span>{product.reviews} reviews</span>
-              <span>{product.sold.toLocaleString("fr-MA")} sold</span>
+              <span>
+                {t(
+                  product.reviews === 1 ? "product.meta.reviews_one" : "product.meta.reviews_other",
+                  { count: product.reviews },
+                )}
+              </span>
+              <span>{t("product.meta.sold", { count: product.sold.toLocaleString("fr-MA") })}</span>
             </div>
 
             <div className="mt-5 flex items-baseline gap-3">
-              <span className="font-display text-3xl font-semibold">{formatMAD(product.price)}</span>
+              <span className="font-display text-3xl font-semibold">{price(product.price)}</span>
               {product.compareAt && (
                 <span className="text-base text-muted-foreground line-through">
-                  {formatMAD(product.compareAt)}
+                  {price(product.compareAt)}
                 </span>
               )}
             </div>
 
-            <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">{product.short}</p>
+            <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">{text.short}</p>
 
             <dl className="mt-6 grid gap-x-6 gap-y-3 border-y border-border py-5 text-sm sm:grid-cols-2">
               <div>
-                <dt className="eyebrow">Leather</dt>
-                <dd className="mt-1">{product.leather}</dd>
+                <dt className="eyebrow">{t("product.specs.leather")}</dt>
+                <dd className="mt-1">{text.leather}</dd>
               </div>
               <div>
-                <dt className="eyebrow">Dimensions</dt>
-                <dd className="mt-1">{product.dimensions}</dd>
+                <dt className="eyebrow">{t("product.specs.dimensions")}</dt>
+                <dd className="mt-1">{text.dimensions}</dd>
               </div>
               <div>
-                <dt className="eyebrow">Availability</dt>
+                <dt className="eyebrow">{t("product.specs.availability")}</dt>
                 <dd className={cn("mt-1", product.inStock ? "text-foreground" : "text-destructive")}>
-                  {product.inStock ? "In stock — ships in 24–48h" : "Sold out — back in 2 weeks"}
+                  {product.inStock ? t("product.specs.inStock") : t("product.specs.outOfStock")}
                 </dd>
               </div>
               <div>
-                <dt className="eyebrow">Made in</dt>
-                <dd className="mt-1">Taroudant, Morocco</dd>
+                <dt className="eyebrow">{t("product.specs.madeIn")}</dt>
+                <dd className="mt-1">{t("product.specs.madeInValue")}</dd>
               </div>
             </dl>
 
             <div className="mt-6">
-              <p className="eyebrow">Colour — {color}</p>
+              <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.colors.map((c) => (
                   <button
@@ -266,7 +280,7 @@ function ProductPage() {
                         : "border-border hover:border-primary/50",
                     )}
                   >
-                    {c}
+                    {colorName(c)}
                   </button>
                 ))}
               </div>
@@ -276,18 +290,18 @@ function ProductPage() {
               <div className="flex items-center rounded-lg border border-border">
                 <button
                   type="button"
-                  aria-label="Decrease quantity"
+                  aria-label={t("product.quantity.decrease")}
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="grid h-12 w-12 place-items-center rounded-l-lg hover:bg-secondary"
+                  className="grid h-12 w-12 place-items-center rounded-s-lg hover:bg-secondary"
                 >
                   <Minus className="h-4 w-4" />
                 </button>
                 <span className="w-10 text-center tabular-nums">{qty}</span>
                 <button
                   type="button"
-                  aria-label="Increase quantity"
+                  aria-label={t("product.quantity.increase")}
                   onClick={() => setQty((q) => Math.min(10, q + 1))}
-                  className="grid h-12 w-12 place-items-center rounded-r-lg hover:bg-secondary"
+                  className="grid h-12 w-12 place-items-center rounded-e-lg hover:bg-secondary"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -295,12 +309,12 @@ function ProductPage() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Add to wishlist"
+                aria-label={t("product.actions.wishlistAdd")}
                 className="h-12 w-12 border border-border"
                 onClick={() => {
                   const added = toggleWish(product.slug);
                   toast[added ? "success" : "message"](
-                    added ? "Saved to wishlist" : "Removed from wishlist",
+                    added ? t("product.toast.wishAdded") : t("product.toast.wishRemoved"),
                   );
                 }}
               >
@@ -311,17 +325,15 @@ function ProductPage() {
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <Button variant="hero" size="xl" disabled={!product.inStock} onClick={add}>
                 <ShoppingBag className="h-4 w-4" />
-                {product.inStock ? "Order Now" : "Sold out"}
+                {product.inStock ? t("product.actions.orderNow") : t("product.actions.soldOut")}
               </Button>
               <Button variant="whatsapp" size="xl" asChild>
                 <a
-                  href={whatsappLink(
-                    productOrderMessage({ product: product.name, color, quantity: qty }),
-                  )}
+                  href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  WhatsApp Order
+                  {t("product.actions.whatsappOrder")}
                 </a>
               </Button>
             </div>
@@ -329,36 +341,30 @@ function ProductPage() {
             <div className="mt-5 grid gap-2.5 text-sm text-muted-foreground">
               <p className="flex items-center gap-2.5">
                 <Truck className="h-4 w-4 shrink-0 text-accent" />
-                Free delivery over 500 MAD · 2–4 days nationwide
+                {t("product.delivery.freeOver", { amount: price(500) })}
               </p>
               <p className="flex items-center gap-2.5">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-accent" />
-                Cash on Delivery — inspect the piece before you pay
+                {t("product.delivery.cod")}
               </p>
             </div>
 
             <Accordion type="single" collapsible className="mt-8 w-full">
               <AccordionItem value="description">
-                <AccordionTrigger className="font-display text-base">Description</AccordionTrigger>
+                <AccordionTrigger className="font-display text-base">{t("product.tabs.description")}</AccordionTrigger>
                 <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                  {product.description}
+                  {text.description}
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="shipping">
-                <AccordionTrigger className="font-display text-base">Shipping & Returns</AccordionTrigger>
+                <AccordionTrigger className="font-display text-base">{t("product.tabs.shipping")}</AccordionTrigger>
                 <AccordionContent className="space-y-2 text-sm leading-relaxed text-muted-foreground">
-                  <p>
-                    Dispatched from Taroudant within 24–48 hours. Delivery is 24–48h in Casablanca,
-                    Rabat and Taroudant, and 2–4 working days elsewhere in Morocco.
-                  </p>
-                  <p>
-                    Delivery is 35 MAD, free above 500 MAD. Exchanges accepted within 14 days on
-                    unused pieces in their original box.
-                  </p>
+                  <p>{t("product.tabs.shippingText1")}</p>
+                  <p>{t("product.tabs.shippingText2", { fee: price(35), freeThreshold: price(500) })}</p>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="faq">
-                <AccordionTrigger className="font-display text-base">FAQ</AccordionTrigger>
+                <AccordionTrigger className="font-display text-base">{t("product.tabs.faq")}</AccordionTrigger>
                 <AccordionContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
                   {faqs.slice(0, 3).map((f) => (
                     <div key={f.q}>
@@ -375,8 +381,8 @@ function ProductPage() {
 
       <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
         <Reveal>
-          <p className="eyebrow">You may also like</p>
-          <h2 className="font-display mt-2 text-3xl">Related pieces</h2>
+          <p className="eyebrow">{t("product.related.eyebrow")}</p>
+          <h2 className="font-display mt-2 text-3xl">{t("product.related.title")}</h2>
         </Reveal>
         <div className="mt-8 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
           {relatedProducts(product).map((p, i) => (
@@ -389,7 +395,7 @@ function ProductPage() {
 
       {recentlyViewed.length > 0 && (
         <section className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-6 lg:px-10 lg:pb-24">
-          <h2 className="font-display text-2xl">Recently viewed</h2>
+          <h2 className="font-display text-2xl">{t("product.recentlyViewed.title")}</h2>
           <div className="mt-6 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
             {recentlyViewed.map((p) => p && <ProductCard key={p.slug} product={p} />)}
           </div>
