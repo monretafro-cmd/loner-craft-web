@@ -8,7 +8,6 @@ import { LogoMark } from "./Logo";
 import { BRAND } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
 import { useWhatsapp } from "@/lib/i18n/whatsapp";
-import { LanguageSelector } from "./LanguageSelector";
 
 const COLUMNS = [
   {
