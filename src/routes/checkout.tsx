@@ -225,7 +225,7 @@ function CheckoutPage() {
               href={orderLink({
                 name: undefined,
                 product: lines
-                  .map((l) => `${getProduct(l.slug) ? productText(getProduct(l.slug)!).name : l.name} (${l.color}) x${l.qty}`)
+                  .map((l) => `${getProduct(l.slug) ? productText(getProduct(l.slug)!).name : l.name} (${colorName(l.color)}) x${l.qty}`)
                   .join(", "),
                 note: `${t("checkout.summary.total")}: ${price(total)}`,
               })}
@@ -257,7 +257,7 @@ function CheckoutPage() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {l.color} · {t("checkout.summary.qty", { qty: l.qty })}
+                        {colorName(l.color)} · {t("checkout.summary.qty", { qty: l.qty })}
                       </p>
                     </div>
                     <span className="text-sm tabular-nums">{price(l.price * l.qty)}</span>
