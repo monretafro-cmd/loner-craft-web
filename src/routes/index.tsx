@@ -58,17 +58,17 @@ function Index() {
     <>
       {/* Hero */}
       <section className="leather-grain relative w-full overflow-hidden bg-background">
-        <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-5 py-14 sm:px-6 lg:min-h-[720px] lg:flex-row lg:items-center lg:gap-0 lg:px-8 lg:py-0 xl:min-h-[780px]">
-          <div className="animate-hero-in relative z-10 max-w-[650px] lg:w-[42%] lg:shrink-0 lg:py-24">
+        <div className="relative mx-auto flex max-w-[1440px] flex-col gap-10 px-5 py-14 sm:px-6 lg:min-h-[680px] lg:flex-row lg:items-center lg:gap-0 lg:px-12 lg:py-0 xl:min-h-[720px] xl:px-16">
+          <div className="animate-hero-in relative z-10 max-w-[620px] lg:w-[44%] lg:shrink-0 lg:py-24">
             <p className="eyebrow">{t("home.hero.eyebrow")}</p>
-            <h1 className="font-display mt-4 text-[2.25rem] leading-[1.1] md:text-[3rem] lg:text-[4rem] lg:leading-[1.05]">
+            <h1 className="font-display mt-4 text-[2.125rem] leading-[1.15] md:text-[2.75rem] lg:text-[3.5rem] lg:leading-[1.05] 2xl:text-[4rem]">
               {t("home.hero.title")}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-5 max-w-[620px] text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t("home.hero.subtitle")}
             </p>
             <div
-              className="animate-fade-up mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
+              className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
               style={{ animationDelay: "260ms" }}
             >
               <Button size="xl" className="w-full min-h-11 sm:w-auto" asChild>
@@ -104,11 +104,11 @@ function Index() {
             </ul>
           </div>
 
-          <div className="animate-slide-from-right relative -mx-5 sm:-mx-6 lg:absolute lg:inset-y-0 lg:end-0 lg:mx-0 lg:w-[62%] xl:-me-[6vw] xl:w-[64%]">
+          <div className="animate-slide-from-right relative lg:absolute lg:inset-y-0 lg:end-0 lg:w-[60%] xl:-me-[4vw] xl:w-[62%]">
             <BrandPhoto
               photo={PHOTOS.heroPackaged}
               priority
-              className="hero-image-fade h-[320px] w-full object-cover object-center sm:h-[420px] lg:h-full"
+              className="hero-image-fade aspect-4/3 h-auto w-full rounded-[18px] object-cover object-center sm:aspect-video lg:aspect-auto lg:h-full lg:rounded-none"
             />
           </div>
         </div>

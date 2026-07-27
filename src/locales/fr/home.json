@@ -1,9 +1,13 @@
 {
   "hero": {
     "eyebrow": "Fabriqué à la main à Taroudant",
-    "title": "Portefeuilles en cuir façonnés à la main, faits pour durer.",
+    "title": "Des portefeuilles en cuir faits pour durer.",
     "subtitle": "Des portefeuilles en cuir véritable, cousus main et emballés avec soin à Taroudant, au Maroc.",
-    "trust": ["Paiement à la livraison", "Livraison partout au Maroc", "Fabriqué à la main à Taroudant"]
+    "trust": [
+      "Paiement à la livraison",
+      "Livraison partout au Maroc",
+      "Fabriqué à la main à Taroudant"
+    ]
   },
   "featured": {
     "eyebrow": "Le produit",
@@ -24,7 +28,12 @@
     "eyebrow": "Emballage",
     "title": "Emballé à la main",
     "description": "Chaque portefeuille est enveloppé dans une toile de jute, une corde naturelle, une carte de remerciement et le logo Loner Leather.",
-    "features": ["Emballé à la main", "Prêt à offrir", "Carte de marque incluse", "Paiement à la livraison"]
+    "features": [
+      "Emballé à la main",
+      "Prêt à offrir",
+      "Carte de marque incluse",
+      "Paiement à la livraison"
+    ]
   },
   "craft": {
     "eyebrow": "Notre savoir-faire",
@@ -40,11 +49,26 @@
     "eyebrow": "Pourquoi Loner Leather",
     "title": "Cinq raisons qui fidélisent nos clients",
     "items": [
-      { "title": "100 % fait main", "text": "Coupé, cousu et lustré par un seul artisan, du début à la fin." },
-      { "title": "Cuir véritable premium", "text": "Cuir pleine fleur, tanné végétal au Maroc." },
-      { "title": "Livraison rapide", "text": "Expédié en 24 à 48h, livré partout au Maroc." },
-      { "title": "Paiement à la livraison", "text": "Payez le livreur en espèces. Rien à avancer, jamais." },
-      { "title": "Fabriqué au Maroc", "text": "Un petit atelier dans la médina de Taroudant." }
+      {
+        "title": "100 % fait main",
+        "text": "Coupé, cousu et lustré par un seul artisan, du début à la fin."
+      },
+      {
+        "title": "Cuir véritable premium",
+        "text": "Cuir pleine fleur, tanné végétal au Maroc."
+      },
+      {
+        "title": "Livraison rapide",
+        "text": "Expédié en 24 à 48h, livré partout au Maroc."
+      },
+      {
+        "title": "Paiement à la livraison",
+        "text": "Payez le livreur en espèces. Rien à avancer, jamais."
+      },
+      {
+        "title": "Fabriqué au Maroc",
+        "text": "Un petit atelier dans la médina de Taroudant."
+      }
     ]
   },
   "testimonials": {

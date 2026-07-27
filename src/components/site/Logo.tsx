@@ -25,6 +25,7 @@ export function LogoMark({
       height={857}
       style={style}
       className={cn("h-auto max-w-full object-contain", className)}
+      loading="eager"
     />
   );
 }

@@ -8,7 +8,6 @@ import { LogoMark } from "./Logo";
 import { BRAND } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
 import { useWhatsapp } from "@/lib/i18n/whatsapp";
-import { LanguageSelector } from "./LanguageSelector";
 
 const COLUMNS = [
   {
@@ -147,7 +146,6 @@ export function Footer() {
         <div className="mt-10 flex flex-col gap-3 border-t border-ink-foreground/12 pt-6 text-xs text-ink-foreground/55 sm:flex-row sm:items-center sm:justify-between">
           <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
           <p>{t("footer.codLine")}</p>
-          <LanguageSelector className="justify-center text-ink-foreground sm:justify-end" />
         </div>
       </div>
     </footer>
