@@ -36,6 +36,47 @@
   }
 }
 
+@keyframes logo-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes site-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.site-reveal {
+  animation: site-reveal 450ms cubic-bezier(0.16, 1, 0.3, 1) 850ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-reveal {
+    animation: logo-fade-in 300ms ease-out 500ms both;
+  }
+}
+
 /* Very subtle leather grain, drawn in CSS — no image, no gradient panels. */
 @utility leather-grain {
   position: relative;
