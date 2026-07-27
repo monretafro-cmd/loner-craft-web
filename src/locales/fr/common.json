@@ -1,1 +1,100 @@
-{}
+{
+  "announcement": "Paiement à la livraison · Livraison partout au Maroc · Fait main à Taroudant",
+  "lang": { "label": "Langue", "select": "Choisir la langue", "en": "English", "fr": "Français", "ar": "العربية" },
+  "nav": {
+    "home": "Accueil",
+    "shop": "Boutique",
+    "ourCraft": "Notre savoir-faire",
+    "about": "À propos",
+    "contact": "Contact",
+    "trackOrder": "Suivre ma commande",
+    "faq": "FAQ",
+    "shipping": "Livraison",
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu"
+  },
+  "actions": {
+    "shopNow": "Voir la boutique",
+    "orderWhatsapp": "Commander sur WhatsApp",
+    "addToBag": "Ajouter au panier",
+    "checkout": "Commander · Paiement à la livraison",
+    "continueShopping": "Continuer mes achats",
+    "browseCollection": "Découvrir la collection",
+    "apply": "Appliquer",
+    "subscribe": "S'inscrire",
+    "backToTop": "Retour en haut",
+    "search": "Rechercher",
+    "viewAll": "Tout voir",
+    "readMore": "En savoir plus"
+  },
+  "search": {
+    "placeholder": "Rechercher portefeuilles, porte-cartes, pièces sur mesure…",
+    "empty": "Aucun résultat. Essayez « portefeuille » ou « sur mesure ».",
+    "products": "Produits",
+    "categories": "Catégories"
+  },
+  "cart": {
+    "title": "Votre panier",
+    "open": "Ouvrir le panier, {{count}} articles",
+    "empty": "Votre panier est vide",
+    "emptyHint": "Les pièces ajoutées apparaîtront ici, prêtes pour le paiement à la livraison.",
+    "freeDeliveryProgress": "Ajoutez {{amount}} pour la livraison offerte",
+    "freeDeliveryUnlocked": "Livraison offerte débloquée",
+    "remove": "Retirer {{name}}",
+    "decrease": "Diminuer la quantité",
+    "increase": "Augmenter la quantité",
+    "coupon": "Code promo",
+    "couponApplied": "Code {{code}} appliqué.",
+    "subtotal": "Sous-total",
+    "discount": "Remise",
+    "delivery": "Livraison",
+    "free": "Offerte",
+    "total": "Total",
+    "codNote": "Payez en espèces quand le livreur vous remet le colis.",
+    "added": "{{name}} ajouté à votre panier."
+  },
+  "badges": {
+    "new": "Nouveau",
+    "bestSeller": "Meilleure vente",
+    "soldOut": "Épuisé",
+    "inStock": "En stock",
+    "sale": "Promo"
+  },
+  "footer": {
+    "handmadeGoods": "Maroquinerie faite main",
+    "location": "Taroudant, Maroc",
+    "quickLinks": "Liens rapides",
+    "customerService": "Service client",
+    "policies": "Politiques",
+    "shopAll": "Toute la boutique",
+    "aboutUs": "À propos",
+    "shippingReturns": "Livraison & retours",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions générales",
+    "newsletterTitle": "Recevez la lettre de l'atelier",
+    "newsletterText": "Nouveautés, réassorts et conseils d'entretien. Une fois par mois, pas plus.",
+    "emailPlaceholder": "vous@exemple.com",
+    "emailLabel": "Adresse e-mail",
+    "rights": "© {{year}} Loner Leather. Fait main au Maroc.",
+    "codLine": "Paiement à la livraison dans les 12 régions · Aucun paiement en ligne requis"
+  },
+  "toast": {
+    "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+    "subscribed": "Vous êtes inscrit. Bienvenue chez Loner Leather.",
+    "wishAdded": "Ajouté à vos favoris.",
+    "wishRemoved": "Retiré de vos favoris."
+  },
+  "whatsapp": {
+    "intro": "Bonjour, je souhaite commander un portefeuille Loner Leather.",
+    "product": "Produit",
+    "name": "Nom",
+    "phone": "Téléphone",
+    "city": "Ville",
+    "address": "Adresse",
+    "quantity": "Quantité",
+    "note": "Note",
+    "color": "Couleur",
+    "ask": "Bonjour Loner Leather, j'aimerais avoir des informations sur vos pièces en cuir faites main."
+  },
+  "price": { "currency": "MAD" }
+}
