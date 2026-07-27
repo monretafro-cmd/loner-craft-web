@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Progress } from "@/components/ui/progress";
-import { BRAND, formatMAD } from "@/lib/brand";
+import { BRAND } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
 import { useStore } from "@/lib/store";
 
 export function CartDrawer() {
@@ -24,6 +26,8 @@ export function CartDrawer() {
     applyCoupon,
   } = useStore();
   const [code, setCode] = useState("");
+  const { t } = useI18n();
+  const { price: formatMAD, colorName } = useCatalog();
 
   const remaining = Math.max(0, BRAND.freeShippingFrom - subtotal);
 
@@ -31,7 +35,7 @@ export function CartDrawer() {
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
       <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <SheetTitle className="font-display text-xl">Your Bag</SheetTitle>
+          <SheetTitle className="font-display text-xl">{t("cart.title")}</SheetTitle>
         </div>
 
         {lines.length === 0 ? (
@@ -40,13 +44,13 @@ export function CartDrawer() {
               <ShoppingBag className="h-6 w-6 text-muted-foreground" />
             </div>
             <div>
-              <p className="font-display text-lg">Your bag is empty</p>
+              <p className="font-display text-lg">{t("cart.empty")}</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Pieces you add will appear here, ready for cash on delivery.
+                {t("cart.emptyHint")}
               </p>
             </div>
             <Button variant="hero" asChild onClick={() => setCartOpen(false)}>
-              <Link to="/shop">Browse the collection</Link>
+              <Link to="/shop">{t("actions.browseCollection")}</Link>
             </Button>
           </div>
         ) : (
@@ -56,11 +60,10 @@ export function CartDrawer() {
                 <Truck className="h-4 w-4 shrink-0" />
                 {remaining > 0 ? (
                   <span>
-                    Add <strong className="text-foreground">{formatMAD(remaining)}</strong> for free
-                    delivery
+                    {t("cart.freeDeliveryProgress", { amount: formatMAD(remaining) })}
                   </span>
                 ) : (
-                  <span className="text-foreground">Free delivery unlocked</span>
+                  <span className="text-foreground">{t("cart.freeDeliveryUnlocked")}</span>
                 )}
               </div>
               <Progress
@@ -85,11 +88,11 @@ export function CartDrawer() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium">{line.name}</p>
-                          <p className="text-xs text-muted-foreground">{line.color}</p>
+                          <p className="text-xs text-muted-foreground">{colorName(line.color)}</p>
                         </div>
                         <button
                           type="button"
-                          aria-label={`Remove ${line.name}`}
+                          aria-label={t("cart.remove", { name: line.name })}
                           onClick={() => removeLine(line.slug, line.color)}
                           className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
                         >
@@ -100,7 +103,7 @@ export function CartDrawer() {
                         <div className="flex items-center rounded-lg border border-border">
                           <button
                             type="button"
-                            aria-label="Decrease quantity"
+                            aria-label={t("cart.decrease")}
                             onClick={() => setQty(line.slug, line.color, line.qty - 1)}
                             className="grid h-10 w-10 place-items-center rounded-l-lg hover:bg-secondary"
                           >
@@ -109,7 +112,7 @@ export function CartDrawer() {
                           <span className="w-8 text-center text-sm tabular-nums">{line.qty}</span>
                           <button
                             type="button"
-                            aria-label="Increase quantity"
+                            aria-label={t("cart.increase")}
                             onClick={() => setQty(line.slug, line.color, line.qty + 1)}
                             className="grid h-10 w-10 place-items-center rounded-r-lg hover:bg-secondary"
                           >
@@ -137,17 +140,17 @@ export function CartDrawer() {
                 <Input
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  placeholder="Coupon code"
-                  aria-label="Coupon code"
+                  placeholder={t("cart.coupon")}
+                  aria-label={t("cart.coupon")}
                   className="h-11"
                 />
                 <Button type="submit" variant="outline" className="shrink-0">
-                  Apply
+                  {t("actions.apply")}
                 </Button>
               </form>
               {coupon && (
                 <p className="mt-2 text-xs text-muted-foreground">
-                  Coupon <strong className="text-foreground">{coupon}</strong> applied.
+                  {t("cart.couponApplied", { code: coupon })}
                 </p>
               )}
             </div>
@@ -155,32 +158,32 @@ export function CartDrawer() {
             <div className="space-y-3 border-t border-border px-5 py-4">
               <dl className="space-y-1.5 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Subtotal</dt>
+                  <dt className="text-muted-foreground">{t("cart.subtotal")}</dt>
                   <dd>{formatMAD(subtotal)}</dd>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-accent">
-                    <dt>Discount</dt>
+                    <dt>{t("cart.discount")}</dt>
                     <dd>−{formatMAD(discount)}</dd>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Delivery</dt>
-                  <dd>{shipping === 0 ? "Free" : formatMAD(shipping)}</dd>
+                  <dt className="text-muted-foreground">{t("cart.delivery")}</dt>
+                  <dd>{shipping === 0 ? t("cart.free") : formatMAD(shipping)}</dd>
                 </div>
                 <div className="flex justify-between border-t border-border pt-2 font-display text-base font-semibold">
-                  <dt>Total</dt>
+                  <dt>{t("cart.total")}</dt>
                   <dd>{formatMAD(total)}</dd>
                 </div>
               </dl>
               <p className="text-xs text-muted-foreground">
-                Pay in cash when the courier hands you the parcel.
+                {t("cart.codNote")}
               </p>
               <Button variant="hero" size="lg" className="w-full" asChild onClick={() => setCartOpen(false)}>
-                <Link to="/checkout">Checkout · Cash on Delivery</Link>
+                <Link to="/checkout">{t("actions.checkout")}</Link>
               </Button>
               <Button variant="quiet" className="w-full" onClick={() => setCartOpen(false)}>
-                Continue shopping
+                {t("actions.continueShopping")}
               </Button>
             </div>
           </>
