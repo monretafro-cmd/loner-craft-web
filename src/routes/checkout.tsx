@@ -72,7 +72,7 @@ const CITY_KEYS: Record<(typeof CITY_VALUES)[number], string> = {
 function CheckoutPage() {
   const navigate = useNavigate();
   const { t, isRTL } = useI18n();
-  const { price, productText } = useCatalog();
+  const { price, productText, colorName } = useCatalog();
   const { orderLink } = useWhatsapp();
   const { lines, subtotal, discount, shipping, total, coupon, clearCart } = useStore();
   const [city, setCity] = useState("");
