@@ -26,10 +26,20 @@ import arCatalog from "@/locales/ar/catalog.json";
 
 export type Dict = Record<string, unknown>;
 
-const merge = (...parts: Dict[]): Dict => Object.assign({}, ...parts);
+// common.json sits at the root (nav.*, actions.*, cart.*); every other file is
+// nested under its own namespace so page keys can never shadow shared ones.
+const build = (
+  common: Dict,
+  home: Dict,
+  shop: Dict,
+  product: Dict,
+  pages: Dict,
+  checkout: Dict,
+  catalog: Dict,
+): Dict => ({ ...common, home, shop, product, pages, checkout, catalog });
 
 export const DICTIONARIES: Record<Lang, Dict> = {
-  en: merge(enCommon, enHome, enShop, enProduct, enPages, enCheckout, enCatalog),
-  fr: merge(frCommon, frHome, frShop, frProduct, frPages, frCheckout, frCatalog),
-  ar: merge(arCommon, arHome, arShop, arProduct, arPages, arCheckout, arCatalog),
+  en: build(enCommon, enHome, enShop, enProduct, enPages, enCheckout, enCatalog),
+  fr: build(frCommon, frHome, frShop, frProduct, frPages, frCheckout, frCatalog),
+  ar: build(arCommon, arHome, arShop, arProduct, arPages, arCheckout, arCatalog),
 };
