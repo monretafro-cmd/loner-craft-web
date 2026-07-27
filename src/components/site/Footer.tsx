@@ -5,38 +5,43 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LogoMark } from "./Logo";
-import { BRAND, whatsappLink } from "@/lib/brand";
+import { BRAND } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { LanguageSelector } from "./LanguageSelector";
 
 const COLUMNS = [
   {
-    title: "Quick Links",
+    title: "footer.quickLinks",
     links: [
-      { to: "/shop", label: "Shop All" },
-      { to: "/our-craft", label: "Our Craft" },
-      { to: "/about", label: "About Us" },
+      { to: "/shop", label: "footer.shopAll" },
+      { to: "/our-craft", label: "nav.ourCraft" },
+      { to: "/about", label: "footer.aboutUs" },
     ],
   },
   {
-    title: "Customer Service",
+    title: "footer.customerService",
     links: [
-      { to: "/contact", label: "Contact" },
-      { to: "/track-order", label: "Track Order" },
-      { to: "/faq", label: "FAQ" },
-      { to: "/shipping", label: "Shipping" },
+      { to: "/contact", label: "nav.contact" },
+      { to: "/track-order", label: "nav.trackOrder" },
+      { to: "/faq", label: "nav.faq" },
+      { to: "/shipping", label: "nav.shipping" },
     ],
   },
   {
-    title: "Policies",
+    title: "footer.policies",
     links: [
-      { to: "/shipping", label: "Shipping & Returns" },
-      { to: "/privacy", label: "Privacy Policy" },
-      { to: "/terms", label: "Terms of Service" },
+      { to: "/shipping", label: "footer.shippingReturns" },
+      { to: "/privacy", label: "footer.privacy" },
+      { to: "/terms", label: "footer.terms" },
     ],
   },
 ] as const;
 
 export function Footer() {
   const [email, setEmail] = useState("");
+  const { t } = useI18n();
+  const { askLink } = useWhatsapp();
 
   return (
     <footer className="mt-24 bg-ink text-ink-foreground">
@@ -45,10 +50,10 @@ export function Footer() {
           <LogoMark variant="white" className="h-16 opacity-95" />
           <p className="font-display mt-6 text-2xl tracking-[0.14em] uppercase">Loner Leather</p>
           <p className="mt-3 text-sm tracking-[0.2em] text-ink-foreground/60 uppercase">
-            Handmade Leather Goods
+            {t("footer.handmadeGoods")}
           </p>
           <p className="mt-1 text-sm tracking-[0.2em] text-ink-foreground/60 uppercase">
-            Taroudant, Morocco
+            {t("footer.location")}
           </p>
           <div className="mt-8 flex gap-3">
             <a
@@ -61,7 +66,7 @@ export function Footer() {
               <Instagram className="h-4 w-4" strokeWidth={1.5} />
             </a>
             <a
-              href={whatsappLink(`Hello ${BRAND.name}, I would like to order a handmade piece.`)}
+              href={askLink()}
               target="_blank"
               rel="noreferrer"
               aria-label="WhatsApp"
@@ -85,9 +90,9 @@ export function Footer() {
         <div className="mt-16 grid gap-10 text-center sm:grid-cols-3 sm:text-left">
 
           {COLUMNS.map((col) => (
-            <div key={col.title}>
+            <div key={t(col.title)}>
               <h3 className="text-[0.7rem] font-semibold tracking-[0.2em] text-ink-foreground/50 uppercase">
-                {col.title}
+                {t(col.title)}
               </h3>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
@@ -96,7 +101,7 @@ export function Footer() {
                       to={link.to}
                       className="text-sm text-ink-foreground/75 transition-colors hover:text-accent"
                     >
-                      {link.label}
+                      {t(link.label)}
                     </Link>
                   </li>
                 ))}
@@ -107,9 +112,9 @@ export function Footer() {
 
         <div className="mt-12 grid gap-5 rounded-xl border border-ink-foreground/12 p-6 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <h3 className="font-display text-xl">Join the workshop letter</h3>
+            <h3 className="font-display text-xl">{t("footer.newsletterTitle")}</h3>
             <p className="mt-1 text-sm text-ink-foreground/70">
-              New drops, restocks and care tips. Once a month, never more.
+              {t("footer.newsletterText")}
             </p>
           </div>
           <form
@@ -117,10 +122,10 @@ export function Footer() {
             onSubmit={(e) => {
               e.preventDefault();
               if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-                toast.error("Please enter a valid email address.");
+                toast.error(t("toast.invalidEmail"));
                 return;
               }
-              toast.success("You're on the list. Welcome to Loner Leather.");
+              toast.success(t("toast.subscribed"));
               setEmail("");
             }}
           >
@@ -129,19 +134,20 @@ export function Footer() {
               value={email}
               maxLength={255}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              aria-label="Email address"
+              placeholder={t("footer.emailPlaceholder")}
+              aria-label={t("footer.emailLabel")}
               className="h-12 min-w-0 border-ink-foreground/20 bg-transparent text-ink-foreground placeholder:text-ink-foreground/40 md:w-72"
             />
             <Button type="submit" variant="gold" size="lg" className="shrink-0">
-              Subscribe
+              {t("actions.subscribe")}
             </Button>
           </form>
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-ink-foreground/12 pt-6 text-xs text-ink-foreground/55 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Loner Leather. Handmade in Morocco.</p>
-          <p>Cash on Delivery across all 12 regions · No online payment required</p>
+          <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
+          <p>{t("footer.codLine")}</p>
+          <LanguageSelector className="justify-center text-ink-foreground sm:justify-end" />
         </div>
       </div>
     </footer>
