@@ -125,7 +125,7 @@ export function Navbar() {
             <Logo
               className="py-1"
               markClassName={cn(
-                "transition-all duration-500 ease-out",
+                "max-h-[56px] transition-all duration-500 ease-out md:max-h-[72px] lg:max-h-[88px]",
                 scrolled
                   ? "w-[58px] md:w-[78px] lg:w-[94px]"
                   : "w-[66px] md:w-[90px] lg:w-[112px]",
