@@ -12,7 +12,6 @@ const COLUMNS = [
     title: "Quick Links",
     links: [
       { to: "/shop", label: "Shop All" },
-      { to: "/categories", label: "Categories" },
       { to: "/our-craft", label: "Our Craft" },
       { to: "/about", label: "About Us" },
     ],
