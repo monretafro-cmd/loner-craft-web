@@ -16,10 +16,12 @@ export function FloatingActions() {
   }, []);
 
   return (
-    <div className={cn(
+    <div
+      className={cn(
         "fixed bottom-4 z-40 flex flex-col gap-3 sm:bottom-6",
         isRTL ? "left-4 items-start sm:left-6" : "right-4 items-end sm:right-6",
-      )>
+      )}
+    >
       <button
         type="button"
         aria-label={t("actions.backToTop")}
