@@ -30,7 +30,7 @@ const NAV = [
 
 export function Navbar() {
   const { count, setCartOpen } = useStore();
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
   const { productName, categoryName } = useCatalog();
   const { askLink } = useWhatsapp();
   const [scrolled, setScrolled] = useState(false);
@@ -78,7 +78,7 @@ export function Navbar() {
             "mx-auto grid max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 transition-all duration-500 ease-out sm:px-6 lg:px-10",
             scrolled
               ? "h-[64px] md:h-[78px] lg:h-[88px]"
-              : "h-[74px] md:h-[92px] lg:h-[110px]",
+              : "h-[72px] md:h-[88px] lg:h-[104px]",
           )}
         >
           <div className="flex min-w-0 items-center gap-2">
@@ -88,7 +88,7 @@ export function Navbar() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[85vw] max-w-xs p-0">
+              <SheetContent side={isRTL ? "right" : "left"} className="w-[85vw] max-w-xs p-0">
                 <SheetTitle className="sr-only">{t("nav.menu")}</SheetTitle>
                 <div className="border-b border-border p-5">
                   <Logo />
@@ -118,7 +118,7 @@ export function Navbar() {
                     </Link>
                   ))}
                   <div className="my-2 h-px bg-border" />
-                  <LanguageSelector size="lg" className="px-4 py-3" />
+                  <LanguageSelector variant="inline" className="px-1 py-1" />
                 </div>
               </SheetContent>
             </Sheet>
@@ -127,8 +127,8 @@ export function Navbar() {
               markClassName={cn(
                 "transition-all duration-500 ease-out",
                 scrolled
-                  ? "w-[56px] md:w-[70px] lg:w-[78px]"
-                  : "w-16 md:w-20 lg:w-[92px]",
+                  ? "w-[58px] md:w-[78px] lg:w-[94px]"
+                  : "w-[66px] md:w-[90px] lg:w-[112px]",
               )}
             />
           </div>
@@ -147,7 +147,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-0.5 justify-self-end">
-            <LanguageSelector className="mr-1 hidden md:flex" />
+            <LanguageSelector className="me-1 hidden lg:flex" />
             <Button variant="ghost" size="icon" aria-label={t("actions.search")} onClick={() => setSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </Button>
