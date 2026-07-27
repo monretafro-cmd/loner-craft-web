@@ -73,7 +73,7 @@ function Index() {
             >
               <Button size="xl" className="w-full min-h-11 sm:w-auto" asChild>
                 <Link to="/shop">
-                  {t("common.actions.shopNow")} <ForwardArrow className="h-4 w-4" />
+                  {t("actions.shopNow")} <ForwardArrow className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -87,7 +87,7 @@ function Index() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {t("common.actions.orderWhatsapp")}
+                  {t("actions.orderWhatsapp")}
                 </a>
               </Button>
             </div>
