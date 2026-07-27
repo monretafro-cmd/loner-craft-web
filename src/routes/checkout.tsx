@@ -270,7 +270,7 @@ function CheckoutPage() {
               <Row label={t("checkout.summary.subtotal")} value={price(subtotal)} />
               {discount > 0 && (
                 <Row
-                  label={t("checkout.summary.discount", { coupon })}
+                  label={t("checkout.summary.discount", { coupon: coupon ?? "" })}
                   value={`− ${price(discount)}`}
                 />
               )}
