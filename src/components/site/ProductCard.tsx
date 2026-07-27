@@ -47,7 +47,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           )}
           {!product.inStock && (
             <span className="rounded-md bg-muted px-2 py-1 text-[0.6rem] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              Sold out
+              {t("badges.soldOut")}
             </span>
           )}
         </div>
