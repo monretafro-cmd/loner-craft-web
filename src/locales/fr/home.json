@@ -1,1 +1,60 @@
-{}
+{
+  "hero": {
+    "eyebrow": "Fabriqué à la main à Taroudant",
+    "title": "Portefeuilles en cuir façonnés à la main, faits pour durer.",
+    "subtitle": "Des portefeuilles en cuir véritable, cousus main et emballés avec soin à Taroudant, au Maroc.",
+    "trust": ["Paiement à la livraison", "Livraison partout au Maroc", "Fabriqué à la main à Taroudant"]
+  },
+  "featured": {
+    "eyebrow": "Le produit",
+    "title": "Le portefeuille Loner Leather",
+    "description": "Un portefeuille fin fait main avec plusieurs fentes à cartes, un compartiment à billets, du cuir véritable et une couture blanche à la main.",
+    "features": [
+      "Cuir véritable",
+      "Couture faite main",
+      "Plusieurs fentes à cartes",
+      "Compartiment à billets",
+      "Design fin du quotidien",
+      "Fabriqué à Taroudant"
+    ],
+    "viewProduct": "Voir le produit",
+    "orderNow": "Commander"
+  },
+  "packaging": {
+    "eyebrow": "Emballage",
+    "title": "Emballé à la main",
+    "description": "Chaque portefeuille est enveloppé dans une toile de jute, une corde naturelle, une carte de remerciement et le logo Loner Leather.",
+    "features": ["Emballé à la main", "Prêt à offrir", "Carte de marque incluse", "Paiement à la livraison"]
+  },
+  "craft": {
+    "eyebrow": "Notre savoir-faire",
+    "title": "Quarante et une étapes. Deux mains. Aucune machine.",
+    "paragraphs": [
+      "Chaque pièce Loner commence par une peau entière, tannée à l'écorce de chêne et à la grenade dans une tannerie à trois rues de notre atelier. Nous choisissons nous-mêmes chaque panneau, refusant tout défaut que nous ne pourrions assumer.",
+      "Le cuir est découpé au couteau rond, refendu aux plis, puis cousu-sellier au fil de lin ciré — une couture qui ne se défait pas même si un fil casse. Les tranches sont biseautées, poncées, lissées à l'eau et cirées quatre fois.",
+      "Un portefeuille demande six heures de travail. Il ne quitte l'établi que lorsque l'artisan qui l'a commencé valide chaque détail."
+    ],
+    "cta": "Lire toute l'histoire"
+  },
+  "why": {
+    "eyebrow": "Pourquoi Loner Leather",
+    "title": "Cinq raisons qui fidélisent nos clients",
+    "items": [
+      { "title": "100 % fait main", "text": "Coupé, cousu et lustré par un seul artisan, du début à la fin." },
+      { "title": "Cuir véritable premium", "text": "Cuir pleine fleur, tanné végétal au Maroc." },
+      { "title": "Livraison rapide", "text": "Expédié en 24 à 48h, livré partout au Maroc." },
+      { "title": "Paiement à la livraison", "text": "Payez le livreur en espèces. Rien à avancer, jamais." },
+      { "title": "Fabriqué au Maroc", "text": "Un petit atelier dans la médina de Taroudant." }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Témoignages",
+    "title": "Dans leurs propres mots"
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "title": "Avant de commander",
+    "text": "Encore un doute ? Écrivez-nous sur WhatsApp — nous répondons généralement en moins d'une heure.",
+    "ask": "Demander sur WhatsApp"
+  }
+}

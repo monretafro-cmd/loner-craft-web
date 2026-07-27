@@ -1,1 +1,64 @@
-{}
+{
+  "breadcrumb": {
+    "home": "Home",
+    "shop": "Shop"
+  },
+  "gallery": {
+    "hoverZoom": "Hover to zoom",
+    "viewImage": "View image {{index}}",
+    "imageAlt": "{{name}} — view {{index}}"
+  },
+  "meta": {
+    "reviews_one": "{{count}} review",
+    "reviews_other": "{{count}} reviews",
+    "sold": "{{count}} sold"
+  },
+  "specs": {
+    "leather": "Leather",
+    "dimensions": "Dimensions",
+    "availability": "Availability",
+    "madeIn": "Made in",
+    "madeInValue": "Taroudant, Morocco",
+    "inStock": "In stock — ships in 24–48h",
+    "outOfStock": "Sold out — back in 2 weeks"
+  },
+  "colour": {
+    "label": "Colour — {{color}}"
+  },
+  "quantity": {
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "actions": {
+    "wishlistAdd": "Add to wishlist",
+    "orderNow": "Order Now",
+    "soldOut": "Sold out",
+    "whatsappOrder": "WhatsApp Order"
+  },
+  "toast": {
+    "added": "{{name}} added to your bag",
+    "wishAdded": "Saved to wishlist",
+    "wishRemoved": "Removed from wishlist"
+  },
+  "delivery": {
+    "freeOver": "Free delivery over {{amount}} · 2–4 days nationwide",
+    "cod": "Cash on Delivery — inspect the piece before you pay"
+  },
+  "tabs": {
+    "description": "Description",
+    "shipping": "Shipping & Returns",
+    "shippingText1": "Dispatched from Taroudant within 24–48 hours. Delivery is 24–48h in Casablanca, Rabat and Taroudant, and 2–4 working days elsewhere in Morocco.",
+    "shippingText2": "Delivery is {{fee}}, free above {{freeThreshold}}. Exchanges accepted within 14 days on unused pieces in their original box.",
+    "faq": "FAQ"
+  },
+  "related": {
+    "eyebrow": "You may also like",
+    "title": "Related pieces"
+  },
+  "recentlyViewed": {
+    "title": "Recently viewed"
+  },
+  "unavailable": {
+    "title": "Product unavailable"
+  }
+}

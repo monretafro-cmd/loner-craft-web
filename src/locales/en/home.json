@@ -1,1 +1,60 @@
-{}
+{
+  "hero": {
+    "eyebrow": "Handmade in Taroudant",
+    "title": "Handmade Leather Wallets, Made to Last.",
+    "subtitle": "Genuine leather wallets, stitched by hand and packed with care in Taroudant, Morocco.",
+    "trust": ["Cash on Delivery", "Delivery Across Morocco", "Handmade in Taroudant"]
+  },
+  "featured": {
+    "eyebrow": "The Product",
+    "title": "The Loner Leather Wallet",
+    "description": "A slim handmade wallet with multiple card slots, a cash compartment, genuine leather, and white hand stitching.",
+    "features": [
+      "Genuine leather",
+      "Handmade stitching",
+      "Multiple card slots",
+      "Cash compartment",
+      "Slim everyday design",
+      "Made in Taroudant"
+    ],
+    "viewProduct": "View Product",
+    "orderNow": "Order Now"
+  },
+  "packaging": {
+    "eyebrow": "Packaging",
+    "title": "Packed by Hand",
+    "description": "Every wallet is wrapped with burlap fabric, natural rope, a thank-you card, and Loner Leather branding.",
+    "features": ["Hand-packed", "Gift-ready", "Brand card included", "Cash on Delivery"]
+  },
+  "craft": {
+    "eyebrow": "Our Craft",
+    "title": "Forty-one steps. Two hands. No machines.",
+    "paragraphs": [
+      "Every Loner piece begins as a full hide, tanned with oak bark and pomegranate in a tannery three streets from our workshop. We choose the panels ourselves, rejecting anything with a scar we can't stand behind.",
+      "The leather is cut with a round knife, skived at the folds, then saddle-stitched with waxed linen thread — a stitch that will not unravel even if a thread breaks. Edges are bevelled, sanded, wet-slicked and waxed four times.",
+      "A wallet takes six hours. It leaves the bench only when the maker who started it signs off on it."
+    ],
+    "cta": "Read the full story"
+  },
+  "why": {
+    "eyebrow": "Why Loner Leather",
+    "title": "Five reasons customers stay",
+    "items": [
+      { "title": "100% Handmade", "text": "Cut, stitched and burnished by one maker, start to finish." },
+      { "title": "Premium Genuine Leather", "text": "Full-grain hides, vegetable-tanned in Morocco." },
+      { "title": "Fast Shipping", "text": "Dispatched in 24–48h, delivered anywhere in Morocco." },
+      { "title": "Cash On Delivery", "text": "Pay the courier in cash. Nothing upfront, ever." },
+      { "title": "Made In Morocco", "text": "A small workshop in the Taroudant medina." }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "In their own words"
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "title": "Before you order",
+    "text": "Still unsure? Message us on WhatsApp — we usually reply within the hour.",
+    "ask": "Ask on WhatsApp"
+  }
+}

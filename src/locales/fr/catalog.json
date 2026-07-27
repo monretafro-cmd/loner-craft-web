@@ -1,1 +1,130 @@
-{}
+{
+  "products": {
+    "atlas-bifold-wallet": {
+      "name": "Portefeuille Bifold Atlas",
+      "short": "Notre bifold signature — huit fentes à cartes, deux compartiments à billets.",
+      "description": "Taillé dans un seul panneau de cuir pleine fleur tanné à Taroudant, le bifold Atlas est cousu-sellier à la main avec un fil de lin ciré. Les bords sont biseautés, poncés et lustrés à quatre reprises pour rester scellés pendant des années. Le cuir, ferme au départ, se pare peu à peu d'une patine profonde et personnelle après quelques mois en poche.",
+      "leather": "Cuir de vache pleine fleur, tannage végétal",
+      "dimensions": "11,5 × 9,5 × 1,4 cm"
+    },
+    "medina-slim-card-holder": {
+      "name": "Porte-cartes Fin Medina",
+      "short": "Quatre fentes et une languette centrale. Plus fin que votre téléphone.",
+      "description": "Trois fentes à cartes extérieures et une poche centrale pour billets pliés. Aminci jusqu'au bord pour disparaître dans une poche avant, tout en restant assez solide pour garder sa forme après des années d'usage quotidien.",
+      "leather": "Veau pleine fleur",
+      "dimensions": "10,2 × 7,4 × 0,5 cm"
+    },
+    "voyager-passport-holder": {
+      "name": "Étui à Passeport Voyager",
+      "short": "Passeport, deux cartes et une carte d'embarquement — rien de plus.",
+      "description": "Un étui de voyage gaufré d'une rose des vents, doublé de daim doux pour que votre passeport ne s'abîme jamais. Conçu pour tous les formats de passeport standards, avec une fente pour une carte de secours et des documents pliés.",
+      "leather": "Cuir de vache pleine fleur, tannage végétal",
+      "dimensions": "14 × 10 × 1 cm"
+    },
+    "sahara-money-clip": {
+      "name": "Pince à Billets Sahara",
+      "short": "Pince en acier brossé, rivetée à travers un cuir renforcé.",
+      "description": "Pour ceux qui voyagent léger. Une pince en acier brossé massif maintient les billets bien à plat contre le corps, tandis que quatre fentes arrière gardent vos cartes essentielles à portée de main. Rivetée, jamais collée.",
+      "leather": "Veau pleine fleur",
+      "dimensions": "10,5 × 7 × 0,9 cm"
+    },
+    "riad-key-holder": {
+      "name": "Porte-clés Riad",
+      "short": "Garde jusqu'à six clés silencieuses et à l'abri.",
+      "description": "Une quincaillerie en laiton massif et une fermeture pression enveloppent vos clés dans un ensemble silencieux. Fini les cliquetis et les doublures de poche déchirées. Le laiton développe une patine chaleureuse aux côtés du cuir.",
+      "leather": "Cuir de vache pleine fleur, tannage végétal",
+      "dimensions": "9 × 3,5 × 2 cm"
+    },
+    "custom-engraved-belt": {
+      "name": "Ceinture Gravée sur Mesure & Étiquette",
+      "short": "Vos initiales, gaufrées à la main. Coupée à votre taille exacte.",
+      "description": "Une ceinture en cuir bridle avec une boucle en laiton massif et une étiquette de bagage assortie, toutes deux gaufrées à la main avec jusqu'à trois initiales. Coupée et finie à votre mesure, pour qu'elle vous aille parfaitement dès le premier jour.",
+      "leather": "Cuir bridle pleine fleur",
+      "dimensions": "Réalisée sur votre tour de taille"
+    },
+    "fes-long-wallet": {
+      "name": "Portefeuille Long Fès",
+      "short": "Douze fentes, une poche à monnaie zippée et de la place pour les grands billets.",
+      "description": "Conçu pour ceux qui emportent tout. Douze fentes à cartes, une poche à monnaie zippée et une section pour billets pleine longueur, le tout cousu-sellier et aux bords lustrés par les mêmes mains du début à la fin.",
+      "leather": "Cuir de vache pleine fleur, tannage végétal",
+      "dimensions": "19 × 9,5 × 2 cm"
+    },
+    "nomad-card-sleeve": {
+      "name": "Étui à Cartes Nomad",
+      "short": "Une poche. Trois cartes. La pièce la plus légère de notre collection.",
+      "description": "Un étui à poche unique, cousu à la main sur deux bords et laissé ouvert en haut. Il épouse la forme de vos cartes en une semaine et ne perd jamais sa tenue.",
+      "leather": "Veau pleine fleur",
+      "dimensions": "9,8 × 6,8 × 0,3 cm"
+    }
+  },
+  "categories": {
+    "wallets": { "name": "Portefeuilles", "blurb": "Des bifolds du quotidien taillés dans des cuirs pleine fleur." },
+    "card-holders": { "name": "Porte-cartes", "blurb": "Un port fin, aux bords lustrés à la main." },
+    "passport-holders": { "name": "Étuis à Passeport", "blurb": "Des compagnons de voyage faits pour bien vieillir." },
+    "money-clips": { "name": "Pinces à Billets", "blurb": "Un port de liquide minimaliste, en acier brossé." },
+    "key-holders": { "name": "Porte-clés", "blurb": "Des clés silencieuses, une quincaillerie en laiton massif." },
+    "custom": { "name": "Cuir Sur Mesure", "blurb": "Réalisé à vos initiales et à vos mesures." }
+  },
+  "colors": {
+    "dark-brown": "Marron Foncé",
+    "cognac": "Cognac",
+    "black": "Noir",
+    "tan": "Havane"
+  },
+  "faqs": [
+    {
+      "q": "Combien de temps prend la livraison ?",
+      "a": "Les commandes quittent notre atelier de Taroudant sous 24 à 48 heures. La livraison prend 24 à 48 heures à Casablanca, Rabat et Taroudant, et 2 à 4 jours ouvrables partout ailleurs au Maroc."
+    },
+    {
+      "q": "Livrez-vous partout au Maroc ?",
+      "a": "Oui. Nous livrons dans les 12 régions, y compris les communes rurales, grâce à nos partenaires coursiers. Livraison gratuite pour toute commande supérieure à 500 MAD."
+    },
+    {
+      "q": "Puis-je payer à la livraison ?",
+      "a": "Le paiement à la livraison est notre seul mode de paiement. Vous réglez le coursier en espèces à la réception du colis — rien à l'avance, aucune donnée bancaire."
+    },
+    {
+      "q": "Puis-je échanger un article ?",
+      "a": "Vous disposez de 14 jours après la livraison pour échanger toute pièce non utilisée dans sa boîte d'origine. Les articles gravés sur mesure sont exclus car réalisés à vos initiales."
+    },
+    {
+      "q": "Le cuir est-il authentique ?",
+      "a": "Chaque pièce est en cuir pleine fleur, tanné végétal au Maroc. Aucun cuir reconstitué, aucun revêtement en PU. Chaque article est livré avec un certificat d'origine de la tannerie."
+    },
+    {
+      "q": "Comment entretenir mon article en cuir ?",
+      "a": "Essuyez-le avec un chiffon doux et sec après usage, et évitez toute exposition prolongée au soleil et à l'humidité. Appliquez un baume neutre pour cuir tous les quelques mois afin de nourrir la peau et de laisser sa patine naturelle s'approfondir."
+    },
+    {
+      "q": "Puis-je commander une pièce personnalisée ?",
+      "a": "Oui. Envoyez-nous vos initiales, vos mesures et votre couleur préférée sur WhatsApp, et notre atelier confirmera le design et le prix avant de commencer la découpe."
+    },
+    {
+      "q": "Comment vous contacter ?",
+      "a": "Le moyen le plus rapide est WhatsApp — appuyez sur le bouton commander ou poser une question sur n'importe quelle page. Notre équipe répond le jour même, tous les jours de la semaine."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Youssef B.",
+      "city": "Casablanca",
+      "text": "Je porte le bifold Atlas depuis huit mois. La couleur s'est magnifiquement approfondie et pas une seule couture n'a bougé. Chaque dirham en valait la peine."
+    },
+    {
+      "name": "Amine T.",
+      "city": "Rabat",
+      "text": "Commandé par WhatsApp un mardi, payé au coursier en espèces le jeudi matin. Rien que l'emballage m'a donné l'impression de m'offrir un cadeau."
+    },
+    {
+      "name": "Sara El M.",
+      "city": "Taroudant",
+      "text": "J'ai acheté l'ensemble ceinture gravée pour l'anniversaire de mon mari. Les initiales étaient parfaites et le cuir sent merveilleusement bon."
+    },
+    {
+      "name": "Khadija R.",
+      "city": "Marrakech",
+      "text": "Le portefeuille long Fès est exactement ce qu'il me fallait pour le travail — robuste, élégant, et il ne fait que s'embellir avec le temps. Livraison rapide en plus."
+    }
+  ]
+}

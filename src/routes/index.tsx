@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BadgeCheck, Banknote, Hammer, MapPin, Star, Truck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Banknote, Hammer, MapPin, Star, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -8,8 +8,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/site/Reveal";
-import { whatsappLink, productOrderMessage } from "@/lib/brand";
-import { faqs, testimonials } from "@/lib/products";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { products } from "@/lib/products";
 import { BrandPhoto } from "@/components/site/BrandPhoto";
 import { PHOTOS } from "@/lib/photos";
 
@@ -34,27 +36,36 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const WHY = [
-  { icon: Hammer, title: "100% Handmade", text: "Cut, stitched and burnished by one maker, start to finish." },
-  { icon: BadgeCheck, title: "Premium Genuine Leather", text: "Full-grain hides, vegetable-tanned in Morocco." },
-  { icon: Truck, title: "Fast Shipping", text: "Dispatched in 24–48h, delivered anywhere in Morocco." },
-  { icon: Banknote, title: "Cash On Delivery", text: "Pay the courier in cash. Nothing upfront, ever." },
-  { icon: MapPin, title: "Made In Morocco", text: "A small workshop in the Taroudant medina." },
-];
+const WHY_ICONS = [Hammer, BadgeCheck, Truck, Banknote, MapPin];
+
+const featuredProduct = products[0];
 
 function Index() {
+  const { t, tList, isRTL } = useI18n();
+  const { productName, testimonials, faqs } = useCatalog();
+  const { orderLink, askLink } = useWhatsapp();
+
+  const ForwardArrow = isRTL ? ArrowLeft : ArrowRight;
+
+  const heroTrust = tList<string>("home.hero.trust");
+  const featuredFeatures = tList<string>("home.featured.features");
+  const packagingFeatures = tList<string>("home.packaging.features");
+  const craftParagraphs = tList<string>("home.craft.paragraphs");
+  const whyItems = tList<{ title: string; text: string }>("home.why.items");
+  const featuredName = productName(featuredProduct);
+
   return (
     <>
       {/* Hero */}
       <section className="leather-grain relative w-full overflow-hidden bg-background">
         <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-5 py-14 sm:px-6 lg:min-h-[720px] lg:flex-row lg:items-center lg:gap-0 lg:px-8 lg:py-0 xl:min-h-[780px]">
           <div className="animate-hero-in relative z-10 max-w-[650px] lg:w-[42%] lg:shrink-0 lg:py-24">
-            <p className="eyebrow">Handmade in Taroudant</p>
+            <p className="eyebrow">{t("home.hero.eyebrow")}</p>
             <h1 className="font-display mt-4 text-[2.25rem] leading-[1.1] md:text-[3rem] lg:text-[4rem] lg:leading-[1.05]">
-              Handmade Leather Wallets, Made to Last.
+              {t("home.hero.title")}
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Genuine leather wallets, stitched by hand and packed with care in Taroudant, Morocco.
+              {t("home.hero.subtitle")}
             </p>
             <div
               className="animate-fade-up mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
@@ -62,7 +73,7 @@ function Index() {
             >
               <Button size="xl" className="w-full min-h-11 sm:w-auto" asChild>
                 <Link to="/shop">
-                  Shop Now <ArrowRight className="h-4 w-4" />
+                  {t("common.actions.shopNow")} <ForwardArrow className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -72,11 +83,11 @@ function Index() {
                 asChild
               >
                 <a
-                  href={whatsappLink(productOrderMessage({ product: "Loner Leather Wallet" }))}
+                  href={orderLink({ product: featuredName })}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Order on WhatsApp
+                  {t("common.actions.orderWhatsapp")}
                 </a>
               </Button>
             </div>
@@ -84,18 +95,16 @@ function Index() {
               className="animate-fade-up mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs tracking-wide text-muted-foreground uppercase"
               style={{ animationDelay: "380ms" }}
             >
-              {["Cash on Delivery", "Delivery Across Morocco", "Handmade in Taroudant"].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
-                    {item}
-                  </li>
-                ),
-              )}
+              {heroTrust.map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div className="animate-slide-from-right relative -mx-5 sm:-mx-6 lg:absolute lg:inset-y-0 lg:right-0 lg:mx-0 lg:w-[62%] xl:-mr-[6vw] xl:w-[64%]">
+          <div className="animate-slide-from-right relative -mx-5 sm:-mx-6 lg:absolute lg:inset-y-0 lg:end-0 lg:mx-0 lg:w-[62%] xl:-me-[6vw] xl:w-[64%]">
             <BrandPhoto
               photo={PHOTOS.heroPackaged}
               priority
@@ -117,21 +126,13 @@ function Index() {
             </Reveal>
           ) : null}
           <Reveal delay={100}>
-            <p className="eyebrow">The Product</p>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">The Loner Leather Wallet</h2>
+            <p className="eyebrow">{t("home.featured.eyebrow")}</p>
+            <h2 className="font-display mt-3 text-3xl sm:text-4xl">{t("home.featured.title")}</h2>
             <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-              A slim handmade wallet with multiple card slots, a cash compartment, genuine leather,
-              and white hand stitching.
+              {t("home.featured.description")}
             </p>
             <ul className="mt-6 grid gap-2.5 text-sm sm:grid-cols-2">
-              {[
-                "Genuine leather",
-                "Handmade stitching",
-                "Multiple card slots",
-                "Cash compartment",
-                "Slim everyday design",
-                "Made in Taroudant",
-              ].map((item) => (
+              {featuredFeatures.map((item) => (
                 <li key={item} className="flex items-center gap-2.5">
                   <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
                   {item}
@@ -140,15 +141,15 @@ function Index() {
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="w-full min-h-11 sm:w-auto" asChild>
-                <Link to="/shop">View Product</Link>
+                <Link to="/shop">{t("home.featured.viewProduct")}</Link>
               </Button>
               <Button size="lg" variant="outline" className="w-full min-h-11 sm:w-auto" asChild>
                 <a
-                  href={whatsappLink(productOrderMessage({ product: "The Loner Leather Wallet" }))}
+                  href={orderLink({ product: featuredName })}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Order Now
+                  {t("home.featured.orderNow")}
                 </a>
               </Button>
             </div>
@@ -159,14 +160,13 @@ function Index() {
       {/* Packaging */}
       <section className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
         <Reveal>
-          <p className="eyebrow">Packaging</p>
-          <h2 className="font-display mt-3 text-3xl sm:text-4xl">Packed by Hand</h2>
+          <p className="eyebrow">{t("home.packaging.eyebrow")}</p>
+          <h2 className="font-display mt-3 text-3xl sm:text-4xl">{t("home.packaging.title")}</h2>
           <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-            Every wallet is wrapped with burlap fabric, natural rope, a thank-you card, and Loner
-            Leather branding.
+            {t("home.packaging.description")}
           </p>
           <div className="mt-7 grid grid-cols-2 gap-3">
-            {["Hand-packed", "Gift-ready", "Brand card included", "Cash on Delivery"].map((f) => (
+            {packagingFeatures.map((f) => (
               <div key={f} className="rounded-xl border border-border bg-card p-4 text-sm">
                 <BadgeCheck className="h-4 w-4 text-primary" />
                 <p className="mt-2 font-medium">{f}</p>
@@ -185,29 +185,18 @@ function Index() {
       <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-3xl">
           <Reveal delay={120}>
-            <p className="eyebrow">Our Craft</p>
+            <p className="eyebrow">{t("home.craft.eyebrow")}</p>
             <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl lg:text-5xl">
-              Forty-one steps. Two hands. No machines.
+              {t("home.craft.title")}
             </h2>
             <div className="mt-6 space-y-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-              <p>
-                Every Loner piece begins as a full hide, tanned with oak bark and pomegranate in a
-                tannery three streets from our workshop. We choose the panels ourselves, rejecting
-                anything with a scar we can't stand behind.
-              </p>
-              <p>
-                The leather is cut with a round knife, skived at the folds, then saddle-stitched with
-                waxed linen thread — a stitch that will not unravel even if a thread breaks. Edges
-                are bevelled, sanded, wet-slicked and waxed four times.
-              </p>
-              <p>
-                A wallet takes six hours. It leaves the bench only when the maker who started it
-                signs off on it.
-              </p>
+              {craftParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
             <Button variant="hero" size="lg" className="mt-8" asChild>
               <Link to="/our-craft">
-                Read the full story <ArrowRight className="h-4 w-4" />
+                {t("home.craft.cta")} <ForwardArrow className="h-4 w-4" />
               </Link>
             </Button>
           </Reveal>
@@ -218,19 +207,22 @@ function Index() {
       <section className="bg-ink py-16 text-ink-foreground lg:py-24">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Reveal>
-            <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase">Why Loner Leather</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">Five reasons customers stay</h2>
+            <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase">{t("home.why.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("home.why.title")}</h2>
           </Reveal>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {WHY.map((item, i) => (
-              <Reveal key={item.title} delay={i * 70}>
-                <div className="h-full rounded-xl border border-ink-foreground/12 p-6 transition-colors duration-500 hover:border-accent/60">
-                  <item.icon className="h-6 w-6 text-accent" />
-                  <h3 className="font-display mt-4 text-lg">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-foreground/65">{item.text}</p>
-                </div>
-              </Reveal>
-            ))}
+            {whyItems.map((item, i) => {
+              const Icon = WHY_ICONS[i] ?? Hammer;
+              return (
+                <Reveal key={item.title} delay={i * 70}>
+                  <div className="h-full rounded-xl border border-ink-foreground/12 p-6 transition-colors duration-500 hover:border-accent/60">
+                    <Icon className="h-6 w-6 text-accent" />
+                    <h3 className="font-display mt-4 text-lg">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-foreground/65">{item.text}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -239,12 +231,12 @@ function Index() {
       <section className="bg-secondary/40 py-16 lg:py-24">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Reveal>
-            <p className="eyebrow">Testimonials</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">In their own words</h2>
+            <p className="eyebrow">{t("home.testimonials.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("home.testimonials.title")}</h2>
           </Reveal>
           <div className="mt-9 grid gap-5 md:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 90}>
+            {testimonials.map((tItem, i) => (
+              <Reveal key={tItem.name} delay={i * 90}>
                 <figure className="h-full rounded-xl border border-border bg-card p-7 shadow-soft">
                   <div className="flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, s) => (
@@ -252,10 +244,10 @@ function Index() {
                     ))}
                   </div>
                   <blockquote className="font-display mt-5 text-lg leading-snug">
-                    &ldquo;{t.text}&rdquo;
+                    &ldquo;{tItem.text}&rdquo;
                   </blockquote>
                   <figcaption className="mt-5 text-sm text-muted-foreground">
-                    {t.name} · {t.city}
+                    {tItem.name} · {tItem.city}
                   </figcaption>
                 </figure>
               </Reveal>
@@ -268,14 +260,14 @@ function Index() {
       <section className="bg-secondary/40 py-16 lg:py-24">
         <div className="mx-auto grid max-w-[1400px] gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-10">
           <Reveal>
-            <p className="eyebrow">Questions</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">Before you order</h2>
+            <p className="eyebrow">{t("home.faq.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("home.faq.title")}</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Still unsure? Message us on WhatsApp — we usually reply within the hour.
+              {t("home.faq.text")}
             </p>
             <Button variant="whatsapp" size="lg" className="mt-6" asChild>
-              <a href={whatsappLink("Hello, I have a question about your leather goods.")} target="_blank" rel="noreferrer">
-                Ask on WhatsApp
+              <a href={askLink()} target="_blank" rel="noreferrer">
+                {t("home.faq.ask")}
               </a>
             </Button>
           </Reveal>
@@ -283,7 +275,7 @@ function Index() {
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((f) => (
                 <AccordionItem key={f.q} value={f.q}>
-                  <AccordionTrigger className="text-left font-display text-base">{f.q}</AccordionTrigger>
+                  <AccordionTrigger className="text-start font-display text-base">{f.q}</AccordionTrigger>
                   <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
                     {f.a}
                   </AccordionContent>
