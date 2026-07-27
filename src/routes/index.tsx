@@ -104,7 +104,7 @@ function Index() {
             </ul>
           </div>
 
-          <div className="animate-slide-from-right relative -mx-5 sm:-mx-6 lg:absolute lg:inset-y-0 lg:end-0 lg:mx-0 lg:w-[60%] xl:-me-[4vw] xl:w-[62%]">
+          <div className="animate-slide-from-right relative lg:absolute lg:inset-y-0 lg:end-0 lg:w-[60%] xl:-me-[4vw] xl:w-[62%]">
             <BrandPhoto
               photo={PHOTOS.heroPackaged}
               priority
