@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Prose } from "@/components/site/PageHero";
 import { BRAND } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -20,55 +21,32 @@ export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
 });
 
+type Section = { title: string; body: string };
+
 function PrivacyPage() {
+  const { t, tList } = useI18n();
+  const sections = tList<Section>("pages.privacy.sections");
+
   return (
     <>
-      <PageHero eyebrow="Legal" title="Privacy Policy" intro="Last updated: 1 January 2026" />
+      <PageHero
+        eyebrow={t("pages.privacy.hero.eyebrow")}
+        title={t("pages.privacy.hero.title")}
+        intro={t("pages.privacy.hero.intro")}
+      />
       <Prose>
-        <h2>What we collect</h2>
-        <p>
-          When you place an order we collect your name, phone number, delivery address, and — if you
-          provide it — your email address and order notes. That is the minimum needed to make and
-          deliver your piece.
-        </p>
+        {sections.map((s) => (
+          <div key={s.title}>
+            <h2>{s.title}</h2>
+            <p>{s.body}</p>
+          </div>
+        ))}
 
-        <h2>How we use it</h2>
-        <p>
-          We use your details to confirm your order by phone, to hand the correct address to our
-          delivery partner, and to contact you about that specific order. If you opt in to our
-          newsletter, we use your email to send occasional notes about new collections. You can
-          unsubscribe at any time from any email.
-        </p>
+        <h2>{t("pages.privacy.rightsTitle")}</h2>
+        <p>{t("pages.privacy.rightsBody", { email: BRAND.email })}</p>
 
-        <h2>What stays in your browser</h2>
-        <p>
-          Your bag, wishlist and recently viewed items are stored locally in your own browser, not
-          on our servers. Clearing your browser data removes them.
-        </p>
-
-        <h2>Who we share it with</h2>
-        <p>
-          Only our delivery partners, and only the details they need to bring your parcel to your
-          door. We never sell your data, and we do not share it for advertising.
-        </p>
-
-        <h2>How long we keep it</h2>
-        <p>
-          Order records are kept for three years so we can honour exchanges and the stitching
-          guarantee. After that they are deleted.
-        </p>
-
-        <h2>Your rights</h2>
-        <p>
-          You can ask us for a copy of the data we hold about you, ask us to correct it, or ask us
-          to delete it. Write to {BRAND.email} and we will respond within 30 days, in line with
-          Moroccan law 09-08 on the protection of personal data.
-        </p>
-
-        <h2>Contact</h2>
-        <p>
-          Questions about this policy: {BRAND.email} · {BRAND.address}
-        </p>
+        <h2>{t("pages.privacy.contactTitle")}</h2>
+        <p>{t("pages.privacy.contactBody", { email: BRAND.email, address: BRAND.address })}</p>
       </Prose>
     </>
   );

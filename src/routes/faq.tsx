@@ -7,10 +7,13 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/site/PageHero";
-import { faqs } from "@/lib/products";
-import { whatsappLink } from "@/lib/brand";
+import { useI18n } from "@/lib/i18n";
+import { useCatalog } from "@/lib/i18n/catalog";
+import { whatsappHref } from "@/lib/i18n/whatsapp";
+import { faqs as faqsData } from "@/lib/products";
 
-const EXTRA = [
+// Static English copy for JSON-LD structured data only (head() cannot use hooks).
+const EXTRA_FAQS_EN = [
   {
     q: "Do you offer engraving?",
     a: "Yes. Up to three initials can be hand-embossed on most pieces for 60 MAD. Mention it in the order notes at checkout or on WhatsApp.",
@@ -48,7 +51,7 @@ export const Route = createFileRoute("/faq")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: [...faqs, ...EXTRA].map((f) => ({
+          mainEntity: [...faqsData, ...EXTRA_FAQS_EN].map((f) => ({
             "@type": "Question",
             name: f.q,
             acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -61,18 +64,23 @@ export const Route = createFileRoute("/faq")({
 });
 
 function FaqPage() {
+  const { t, tList } = useI18n();
+  const { faqs } = useCatalog();
+  const extra = tList<{ q: string; a: string }>("pages.faq.extra");
+  const allFaqs = [...faqs, ...extra];
+
   return (
     <>
       <PageHero
-        eyebrow="Help Centre"
-        title="Frequently Asked Questions"
-        intro="Everything customers ask us before their first order. If yours isn't here, WhatsApp us — we reply within the hour."
+        eyebrow={t("pages.faq.hero.eyebrow")}
+        title={t("pages.faq.hero.title")}
+        intro={t("pages.faq.hero.intro")}
       />
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
         <Accordion type="single" collapsible className="w-full">
-          {[...faqs, ...EXTRA].map((f) => (
+          {allFaqs.map((f) => (
             <AccordionItem key={f.q} value={f.q}>
-              <AccordionTrigger className="text-left font-display text-base">{f.q}</AccordionTrigger>
+              <AccordionTrigger className="text-start font-display text-base">{f.q}</AccordionTrigger>
               <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
                 {f.a}
               </AccordionContent>
@@ -81,17 +89,11 @@ function FaqPage() {
         </Accordion>
 
         <div className="mt-12 rounded-2xl border border-border bg-card p-8 text-center shadow-soft">
-          <h2 className="font-display text-2xl">Still have a question?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Our team answers WhatsApp messages seven days a week.
-          </p>
+          <h2 className="font-display text-2xl">{t("pages.faq.stillQuestion")}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{t("pages.faq.stillQuestionText")}</p>
           <Button variant="hero" size="lg" className="mt-6" asChild>
-            <a
-              href={whatsappLink("Hello, I have a question about Loner Leather.")}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Message us on WhatsApp
+            <a href={whatsappHref(t("pages.faq.whatsappMessage"))} target="_blank" rel="noreferrer">
+              {t("pages.faq.whatsappCta")}
             </a>
           </Button>
         </div>
