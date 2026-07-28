@@ -392,16 +392,16 @@ function ShopPage() {
     ),
 
     shop_craft: (
-      <section key="craft" className="border-y border-border bg-secondary/40 py-16 lg:py-24">
+      <section key="craft" className="border-y border-border bg-ink py-20 text-ink-foreground lg:py-28">
         <Shell>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <Reveal>
-              <div className="overflow-hidden rounded-[24px] bg-secondary">
+              <div className="relative overflow-hidden rounded-[28px] bg-secondary shadow-[0_50px_100px_-60px_rgba(0,0,0,0.9)]">
                 <img
                   src={craftFallback}
                   alt={text("shop_craft", "title", "Our craft")}
                   loading="lazy"
-                  className="aspect-[4/3] h-full w-full object-cover"
+                  className="aspect-[4/5] h-full w-full object-cover transition-transform duration-[1400ms] hover:scale-105"
                 />
               </div>
             </Reveal>
@@ -409,14 +409,18 @@ function ShopPage() {
               <div>
                 <SectionHeading
                   center={false}
+                  tone="dark"
                   eyebrow={text("shop_craft", "eyebrow", "Our craft")}
                   title={text("shop_craft", "title")}
                   subtitle={text("shop_craft", "body")}
                 />
-                <ul className="mt-6 space-y-3">
+                <ul className="mt-8 space-y-4">
                   {((pick<string[]>(content("shop_craft").points, lang) ?? []) as string[]).map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <li
+                      key={point}
+                      className="flex items-start gap-3 border-b border-ink-foreground/10 pb-4 text-sm text-ink-foreground/75"
+                    >
+                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       {point}
                     </li>
                   ))}
@@ -429,9 +433,9 @@ function ShopPage() {
     ),
 
     shop_packaging: (
-      <section key="packaging" className="py-16 lg:py-24">
+      <section key="packaging" className="py-20 lg:py-28">
         <Shell>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <Reveal>
               <div>
                 <SectionHeading
@@ -443,12 +447,12 @@ function ShopPage() {
               </div>
             </Reveal>
             <Reveal delay={100}>
-              <div className="overflow-hidden rounded-[24px] bg-secondary">
+              <div className="overflow-hidden rounded-[28px] bg-secondary shadow-[0_40px_90px_-60px_rgba(36,24,18,0.8)]">
                 <img
                   src={packagingFallback}
                   alt={text("shop_packaging", "title", "Packaging")}
                   loading="lazy"
-                  className="aspect-[4/3] h-full w-full object-cover"
+                  className="aspect-[4/3] h-full w-full object-cover transition-transform duration-[1400ms] hover:scale-105"
                 />
               </div>
             </Reveal>
