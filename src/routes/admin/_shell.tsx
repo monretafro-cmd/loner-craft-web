@@ -6,7 +6,10 @@ export const Route = createFileRoute("/admin/_shell")({
   ssr: false,
   beforeLoad: async () => {
     const session = await loadAdminSession();
-    if (!session?.role) throw redirect({ to: "/admin/login" });
+    if (!session) throw redirect({ to: "/admin/login" });
+    if (session.status !== "approved" || !session.role) {
+      throw redirect({ to: session.status === "pending" ? "/admin/pending" : "/admin/login" });
+    }
     return { session };
   },
   component: () => (
