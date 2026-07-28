@@ -636,10 +636,10 @@ function ShopPage() {
           <section className="border-y border-border bg-secondary/50">
             <Shell className="grid grid-cols-2 divide-x divide-border/70 rtl:divide-x-reverse sm:grid-cols-4">
               {[
-                { Icon: BadgeCheck, label: t("shop.showcase.badges.handmade", { defaultValue: "Handmade in Taroudant" }) },
-                { Icon: Sparkles, label: t("shop.showcase.badges.leather", { defaultValue: "Genuine full-grain leather" }) },
-                { Icon: Wallet, label: t("shop.showcase.badges.cod", { defaultValue: "Cash on Delivery" }) },
-                { Icon: Truck, label: t("shop.showcase.badges.shipping", { defaultValue: "Delivery across Morocco" }) },
+                { Icon: BadgeCheck, label: t("shop.landing.trust.handmade") },
+                { Icon: Sparkles, label: t("shop.landing.trust.leather") },
+                { Icon: Wallet, label: t("shop.landing.trust.cod") },
+                { Icon: Truck, label: t("shop.landing.trust.shipping") },
               ].map(({ Icon, label }) => (
                 <div key={label} className="flex items-center justify-center gap-2 px-3 py-5 text-center">
                   <Icon className="h-4 w-4 shrink-0 text-primary" />
