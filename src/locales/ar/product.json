@@ -8,7 +8,40 @@
     "viewImage": "عرض الصورة {{index}}",
     "imageAlt": "{{name}} — عرض {{index}}",
     "fullscreen": "عرض بملء الشاشة",
-    "close": "إغلاق"
+    "close": "إغلاق",
+    "scrollUp": "تمرير الصور المصغّرة للأعلى",
+    "scrollDown": "تمرير الصور المصغّرة للأسفل",
+    "zoomHint": "استخدم العجلة أو النقر المزدوج للتكبير",
+    "labels": {
+      "overview": "نظرة عامة",
+      "front": "الأمام",
+      "back": "الخلف",
+      "inside": "الداخل",
+      "capacity": "السعة",
+      "stitching": "الخياطة",
+      "leather": "الجلد",
+      "embossing": "النقش",
+      "details": "التفاصيل",
+      "profile": "الجانب",
+      "slim": "النحافة",
+      "inUse": "أثناء الاستعمال",
+      "packaging": "التغليف",
+      "giftReady": "جاهزة للإهداء",
+      "package": "الطقم الكامل",
+      "craftsmanship": "الحرفية",
+      "workshop": "الورشة"
+    },
+    "sections": {
+      "overview": "المحفظة",
+      "capacity": "السعة",
+      "leather": "ملمس الجلد",
+      "stitching": "تفاصيل الخياطة",
+      "embossing": "نقش الشعار",
+      "inUse": "أثناء الاستعمال",
+      "packaging": "التغليف",
+      "craft": "الحرفية",
+      "workshop": "الورشة"
+    }
   },
   "meta": {
     "reviews_one": "{{count}} تقييم",
