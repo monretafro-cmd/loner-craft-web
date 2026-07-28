@@ -1,11 +1,11 @@
-import wallet from "@/assets/p-wallet.jpg";
-import cardholder from "@/assets/p-cardholder.jpg";
-import passport from "@/assets/p-passport.jpg";
-import moneyclip from "@/assets/p-moneyclip.jpg";
-import keyholder from "@/assets/p-keyholder.jpg";
-import custom from "@/assets/p-custom.jpg";
-import packaging from "@/assets/packaging.jpg";
-import craft from "@/assets/craft.jpg";
+import { galleryImages, PHOTOS } from "@/lib/photos";
+
+const wallet = PHOTOS.walletOpenCards.src ?? PHOTOS.walletWrappedThankYou.src ?? "";
+const cardholder = wallet;
+const passport = wallet;
+const moneyclip = wallet;
+const keyholder = wallet;
+const custom = wallet;
 
 export type Category = {
   slug: string;
@@ -46,24 +46,24 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    slug: "atlas-bifold-wallet",
-    name: "Atlas Bifold Wallet",
+    slug: "alpha-wallet",
+    name: "ALPHA WALLET",
     category: "wallets",
-    price: 449,
-    compareAt: 590,
-    colors: ["Dark Brown", "Cognac", "Black"],
-    leather: "Full-grain vegetable-tanned cowhide",
-    dimensions: "11.5 × 9.5 × 1.4 cm",
+    price: 300,
+    colors: ["Dark Brown"],
+    leather: "100% genuine Moroccan goat leather",
+    dimensions: "Approx. 12 × 7.5 cm",
     inStock: true,
     bestSeller: true,
-    sold: 1240,
-    rating: 4.9,
-    reviews: 186,
-    images: [wallet, packaging, craft],
-    short: "Our signature bifold — eight card slots, two note compartments.",
+    sold: 0,
+    rating: 5,
+    reviews: 0,
+    images: galleryImages(),
+    short:
+      "A slim handmade leather wallet designed for everyday carry, made from genuine Moroccan goat leather.",
     description:
-      "Cut from a single panel of full-grain hide tanned in Taroudant, the Atlas bifold is saddle-stitched by hand with waxed linen thread. Edges are bevelled, sanded and burnished four times so they stay sealed for years. The leather starts firm and darkens into a deep, personal patina after a few months in the pocket.",
-    createdAt: "2025-11-02",
+      "Discover the Alpha Wallet by Loner Leather. A slim handmade leather wallet designed for everyday carry. Made from genuine Moroccan goat leather using traditional craftsmanship. Compact, elegant, durable, and built to age beautifully.",
+    createdAt: "2026-07-01",
   },
 ];
 
@@ -107,7 +107,7 @@ export const testimonials = [
   {
     name: "Youssef B.",
     city: "Casablanca",
-    text: "I've carried the Atlas bifold for eight months. The colour has deepened beautifully and not one stitch has moved. Worth every dirham.",
+    text: "I've carried the Alpha Wallet for eight months. The colour has deepened beautifully and not one stitch has moved. Worth every dirham.",
   },
   {
     name: "Amine T.",

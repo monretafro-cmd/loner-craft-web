@@ -6,7 +6,9 @@
   "gallery": {
     "hoverZoom": "Survolez pour zoomer",
     "viewImage": "Voir l'image {{index}}",
-    "imageAlt": "{{name}} — vue {{index}}"
+    "imageAlt": "{{name}} — vue {{index}}",
+    "fullscreen": "Voir en plein écran",
+    "close": "Fermer"
   },
   "meta": {
     "reviews_one": "{{count}} avis",
@@ -33,7 +35,8 @@
     "wishlistAdd": "Ajouter à la liste de souhaits",
     "orderNow": "Commander",
     "soldOut": "Épuisé",
-    "whatsappOrder": "Commander sur WhatsApp"
+    "whatsappOrder": "Commander sur WhatsApp",
+    "buyNow": "Acheter"
   },
   "toast": {
     "added": "{{name}} ajouté à votre panier",
@@ -60,5 +63,55 @@
   },
   "unavailable": {
     "title": "Produit indisponible"
+  },
+  "status": {
+    "items": [
+      "Fait main au Maroc",
+      "Cuir de chèvre véritable",
+      "Paiement à la livraison",
+      "Disponible"
+    ]
+  },
+  "features": {
+    "title": "Caractéristiques"
+  },
+  "material": {
+    "title": "Matière"
+  },
+  "highlights": {
+    "title": "Pourquoi vous le garderez des années",
+    "items": [
+      "Cuir 100 % véritable",
+      "Fait main",
+      "Fabriqué au Maroc",
+      "Paiement à la livraison",
+      "Livraison rapide",
+      "Emballage cadeau"
+    ]
+  },
+  "packaging": {
+    "eyebrow": "Emballage",
+    "title": "Livré prêt à offrir",
+    "text": "Chaque Alpha Wallet quitte l'atelier emballé à la main, pour vous parvenir exactement tel qu'il a quitté l'établi.",
+    "items": [
+      "Portefeuille fait main",
+      "Emballage protecteur",
+      "Carte de remerciement",
+      "Présentation prête à offrir"
+    ]
+  },
+  "craft": {
+    "eyebrow": "Savoir-faire",
+    "title": "Coupé, cousu et contrôlé à la main",
+    "paragraphs": [
+      "Chaque portefeuille est coupé, cousu, fini et contrôlé à la main dans notre atelier de Taroudant.",
+      "Le cuir naturel prend du caractère avec le temps — chaque marque et chaque nuance fait partie de la pièce.",
+      "Aucune production de masse. Une seule paire de mains par portefeuille, de la première coupe au contrôle final."
+    ]
+  },
+  "trust": {
+    "cod": "Paiement à la livraison",
+    "delivery": "Livraison partout au Maroc",
+    "handmade": "Fait main à Taroudant"
   }
 }

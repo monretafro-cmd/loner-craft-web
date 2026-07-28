@@ -106,7 +106,7 @@ function Index() {
 
           <div className="animate-slide-from-right relative lg:absolute lg:inset-y-0 lg:end-0 lg:w-[60%] xl:-me-[4vw] xl:w-[62%]">
             <BrandPhoto
-              photo={PHOTOS.heroPackaged}
+              photo={PHOTOS.walletWrappedThankYou}
               priority
               className="hero-image-fade aspect-4/3 h-auto w-full rounded-[18px] object-cover object-center sm:aspect-video lg:aspect-auto lg:h-full lg:rounded-none"
             />
@@ -117,10 +117,10 @@ function Index() {
       {/* Featured product */}
       <section className="border-y border-border bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
-          {PHOTOS.walletOpen.src ? (
+          {PHOTOS.walletOpenCards.src ? (
             <Reveal>
               <BrandPhoto
-                photo={PHOTOS.walletOpen}
+                photo={PHOTOS.walletOpenCards}
                 className="aspect-4/3 w-full rounded-2xl bg-background"
               />
             </Reveal>

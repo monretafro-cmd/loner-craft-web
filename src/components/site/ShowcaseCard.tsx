@@ -21,6 +21,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
   const { productText, price } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
+  const subtitle = t(`catalog.products.${product.slug}.subtitle`);
 
   return (
     <article className="group mx-auto w-full max-w-[520px] overflow-hidden rounded-[22px] border border-border bg-card shadow-[0_18px_50px_-30px_rgba(36,24,18,0.55)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-32px_rgba(36,24,18,0.6)]">
@@ -36,7 +37,10 @@ export function ShowcaseCard({ product }: { product: Product }) {
           width={1200}
           height={1200}
           loading="eager"
-          className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+          fetchPriority="high"
+          decoding="async"
+          sizes="(max-width: 640px) 100vw, 520px"
+          className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
         />
       </Link>
 
@@ -46,6 +50,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
             {text.name}
           </Link>
         </h2>
+        {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text.short}</p>
 
         <div className="mt-4 flex items-baseline gap-2.5">

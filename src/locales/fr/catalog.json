@@ -1,69 +1,56 @@
 {
   "products": {
-    "atlas-bifold-wallet": {
-      "name": "Portefeuille Bifold Atlas",
-      "short": "Notre bifold signature — huit fentes à cartes, deux compartiments à billets.",
-      "description": "Taillé dans un seul panneau de cuir pleine fleur tanné à Taroudant, le bifold Atlas est cousu-sellier à la main avec un fil de lin ciré. Les bords sont biseautés, poncés et lustrés à quatre reprises pour rester scellés pendant des années. Le cuir, ferme au départ, se pare peu à peu d'une patine profonde et personnelle après quelques mois en poche.",
-      "leather": "Cuir de vache pleine fleur, tannage végétal",
-      "dimensions": "11,5 × 9,5 × 1,4 cm"
-    },
-    "medina-slim-card-holder": {
-      "name": "Porte-cartes Fin Medina",
-      "short": "Quatre fentes et une languette centrale. Plus fin que votre téléphone.",
-      "description": "Trois fentes à cartes extérieures et une poche centrale pour billets pliés. Aminci jusqu'au bord pour disparaître dans une poche avant, tout en restant assez solide pour garder sa forme après des années d'usage quotidien.",
-      "leather": "Veau pleine fleur",
-      "dimensions": "10,2 × 7,4 × 0,5 cm"
-    },
-    "voyager-passport-holder": {
-      "name": "Étui à Passeport Voyager",
-      "short": "Passeport, deux cartes et une carte d'embarquement — rien de plus.",
-      "description": "Un étui de voyage gaufré d'une rose des vents, doublé de daim doux pour que votre passeport ne s'abîme jamais. Conçu pour tous les formats de passeport standards, avec une fente pour une carte de secours et des documents pliés.",
-      "leather": "Cuir de vache pleine fleur, tannage végétal",
-      "dimensions": "14 × 10 × 1 cm"
-    },
-    "sahara-money-clip": {
-      "name": "Pince à Billets Sahara",
-      "short": "Pince en acier brossé, rivetée à travers un cuir renforcé.",
-      "description": "Pour ceux qui voyagent léger. Une pince en acier brossé massif maintient les billets bien à plat contre le corps, tandis que quatre fentes arrière gardent vos cartes essentielles à portée de main. Rivetée, jamais collée.",
-      "leather": "Veau pleine fleur",
-      "dimensions": "10,5 × 7 × 0,9 cm"
-    },
-    "riad-key-holder": {
-      "name": "Porte-clés Riad",
-      "short": "Garde jusqu'à six clés silencieuses et à l'abri.",
-      "description": "Une quincaillerie en laiton massif et une fermeture pression enveloppent vos clés dans un ensemble silencieux. Fini les cliquetis et les doublures de poche déchirées. Le laiton développe une patine chaleureuse aux côtés du cuir.",
-      "leather": "Cuir de vache pleine fleur, tannage végétal",
-      "dimensions": "9 × 3,5 × 2 cm"
-    },
-    "custom-engraved-belt": {
-      "name": "Ceinture Gravée sur Mesure & Étiquette",
-      "short": "Vos initiales, gaufrées à la main. Coupée à votre taille exacte.",
-      "description": "Une ceinture en cuir bridle avec une boucle en laiton massif et une étiquette de bagage assortie, toutes deux gaufrées à la main avec jusqu'à trois initiales. Coupée et finie à votre mesure, pour qu'elle vous aille parfaitement dès le premier jour.",
-      "leather": "Cuir bridle pleine fleur",
-      "dimensions": "Réalisée sur votre tour de taille"
-    },
-    "fes-long-wallet": {
-      "name": "Portefeuille Long Fès",
-      "short": "Douze fentes, une poche à monnaie zippée et de la place pour les grands billets.",
-      "description": "Conçu pour ceux qui emportent tout. Douze fentes à cartes, une poche à monnaie zippée et une section pour billets pleine longueur, le tout cousu-sellier et aux bords lustrés par les mêmes mains du début à la fin.",
-      "leather": "Cuir de vache pleine fleur, tannage végétal",
-      "dimensions": "19 × 9,5 × 2 cm"
-    },
-    "nomad-card-sleeve": {
-      "name": "Étui à Cartes Nomad",
-      "short": "Une poche. Trois cartes. La pièce la plus légère de notre collection.",
-      "description": "Un étui à poche unique, cousu à la main sur deux bords et laissé ouvert en haut. Il épouse la forme de vos cartes en une semaine et ne perd jamais sa tenue.",
-      "leather": "Veau pleine fleur",
-      "dimensions": "9,8 × 6,8 × 0,3 cm"
+    "alpha-wallet": {
+      "name": "ALPHA WALLET",
+      "subtitle": "Portefeuille en cuir minimaliste fait main",
+      "short": "Un portefeuille en cuir fin et fait main, pensé pour le quotidien, en cuir de chèvre marocain véritable.",
+      "description": "Découvrez l'Alpha Wallet de Loner Leather. Un portefeuille en cuir fin, fait main, conçu pour le quotidien. Réalisé en cuir de chèvre marocain véritable selon un savoir-faire traditionnel. Compact, élégant, durable et fait pour vieillir magnifiquement.",
+      "leather": "100 % cuir de chèvre marocain véritable",
+      "dimensions": "Env. 12 × 7,5 cm — assez fin pour toutes les poches",
+      "features": [
+        "Design minimaliste et fin",
+        "Contient 6 à 8 cartes",
+        "2 poches cachées",
+        "Fente à accès rapide",
+        "Cousu à la main",
+        "Cuir de chèvre marocain premium",
+        "Développe une patine vintage naturelle avec le temps",
+        "Idéal comme portefeuille personnel ou comme cadeau"
+      ],
+      "material": [
+        "100 % cuir de chèvre marocain véritable",
+        "Cuir naturel",
+        "Cousu à la main",
+        "Tannage végétal",
+        "Fabriqué à Taroudant, Maroc"
+      ]
     }
   },
   "categories": {
-    "wallets": { "name": "Portefeuilles", "blurb": "Des bifolds du quotidien taillés dans des cuirs pleine fleur." },
-    "card-holders": { "name": "Porte-cartes", "blurb": "Un port fin, aux bords lustrés à la main." },
-    "passport-holders": { "name": "Étuis à Passeport", "blurb": "Des compagnons de voyage faits pour bien vieillir." },
-    "money-clips": { "name": "Pinces à Billets", "blurb": "Un port de liquide minimaliste, en acier brossé." },
-    "key-holders": { "name": "Porte-clés", "blurb": "Des clés silencieuses, une quincaillerie en laiton massif." },
-    "custom": { "name": "Cuir Sur Mesure", "blurb": "Réalisé à vos initiales et à vos mesures." }
+    "wallets": {
+      "name": "Portefeuilles",
+      "blurb": "Des bifolds du quotidien taillés dans des cuirs pleine fleur."
+    },
+    "card-holders": {
+      "name": "Porte-cartes",
+      "blurb": "Un port fin, aux bords lustrés à la main."
+    },
+    "passport-holders": {
+      "name": "Étuis à Passeport",
+      "blurb": "Des compagnons de voyage faits pour bien vieillir."
+    },
+    "money-clips": {
+      "name": "Pinces à Billets",
+      "blurb": "Un port de liquide minimaliste, en acier brossé."
+    },
+    "key-holders": {
+      "name": "Porte-clés",
+      "blurb": "Des clés silencieuses, une quincaillerie en laiton massif."
+    },
+    "custom": {
+      "name": "Cuir Sur Mesure",
+      "blurb": "Réalisé à vos initiales et à vos mesures."
+    }
   },
   "colors": {
     "dark-brown": "Marron Foncé",
@@ -109,7 +96,7 @@
     {
       "name": "Youssef B.",
       "city": "Casablanca",
-      "text": "Je porte le bifold Atlas depuis huit mois. La couleur s'est magnifiquement approfondie et pas une seule couture n'a bougé. Chaque dirham en valait la peine."
+      "text": "Je porte le Alpha Wallet depuis huit mois. La couleur s'est magnifiquement approfondie et pas une seule couture n'a bougé. Chaque dirham en valait la peine."
     },
     {
       "name": "Amine T.",
