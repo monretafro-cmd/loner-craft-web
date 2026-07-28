@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { loadAdminSession } from "@/lib/admin/session";
+import { syncAdminAccess } from "@/lib/admin/access.functions";
 import { Button } from "@/components/ui/button";
 import { Loader2, Clock } from "lucide-react";
 
@@ -10,10 +11,16 @@ export const Route = createFileRoute("/admin/pending")({
   head: () => ({
     meta: [
       { title: "Access Request Pending — Loner Leather" },
-      { name: "description", content: "Your Loner Leather administration access request is awaiting approval." },
+      {
+        name: "description",
+        content: "Your Loner Leather administration access request is awaiting approval.",
+      },
       { name: "robots", content: "noindex" },
       { property: "og:title", content: "Access Request Pending — Loner Leather" },
-      { property: "og:description", content: "Your Loner Leather administration access request is awaiting approval." },
+      {
+        property: "og:description",
+        content: "Your Loner Leather administration access request is awaiting approval.",
+      },
     ],
   }),
   component: PendingPage,
@@ -21,21 +28,31 @@ export const Route = createFileRoute("/admin/pending")({
 
 function PendingPage() {
   const navigate = useNavigate();
+  const sync = useServerFn(syncAdminAccess);
   const [email, setEmail] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    loadAdminSession().then(async (session) => {
-      if (!session) return navigate({ to: "/admin/login", replace: true });
-      if (session.status === "blocked" || session.status === "rejected") {
-        await supabase.auth.signOut();
-        return navigate({ to: "/admin/login", replace: true });
-      }
-      if (session.role) return navigate({ to: "/admin", replace: true });
-      setEmail(session.email);
-      setChecking(false);
-    });
-  }, [navigate]);
+    let active = true;
+    sync({ data: undefined as never })
+      .then(async (access) => {
+        if (!active) return;
+        await supabase.auth.refreshSession();
+        if (access.status === "blocked" || access.status === "rejected") {
+          await supabase.auth.signOut();
+          return navigate({ to: "/admin/login", replace: true });
+        }
+        if (access.status === "approved" && access.role) {
+          return navigate({ to: "/admin", replace: true });
+        }
+        setEmail(access.email);
+        setChecking(false);
+      })
+      .catch(() => navigate({ to: "/admin/login", replace: true }));
+    return () => {
+      active = false;
+    };
+  }, [navigate, sync]);
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -62,7 +79,10 @@ function PendingPage() {
           requires approval from the owner.
         </p>
         {email ? <p className="mt-4 text-xs text-white/40">{email}</p> : null}
-        <Button onClick={signOut} className="mt-8 h-11 w-full bg-cognac text-white hover:bg-cognac/90">
+        <Button
+          onClick={signOut}
+          className="mt-8 h-11 w-full bg-cognac text-white hover:bg-cognac/90"
+        >
           Sign out
         </Button>
       </div>
