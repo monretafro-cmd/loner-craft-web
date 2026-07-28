@@ -85,18 +85,44 @@ function SectionHeading({
   title,
   subtitle,
   center = true,
+  tone = "light",
 }: {
   eyebrow?: string;
   title?: string;
   subtitle?: string;
   center?: boolean;
+  tone?: "light" | "dark";
 }) {
   if (!title && !eyebrow) return null;
   return (
     <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      {title && <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">{title}</h2>}
-      {subtitle && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{subtitle}</p>}
+      {eyebrow && (
+        <p
+          className={`flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.34em] ${
+            center ? "justify-center" : ""
+          } ${tone === "dark" ? "text-accent" : "text-primary"}`}
+        >
+          <span
+            className={`h-px w-8 ${tone === "dark" ? "bg-accent/50" : "bg-primary/40"}`}
+            aria-hidden="true"
+          />
+          {eyebrow}
+        </p>
+      )}
+      {title && (
+        <h2 className="font-display mt-4 text-[2rem] leading-[1.08] tracking-[-0.01em] sm:text-[2.6rem] lg:text-[3rem]">
+          {title}
+        </h2>
+      )}
+      {subtitle && (
+        <p
+          className={`mt-5 text-base leading-relaxed ${
+            tone === "dark" ? "text-ink-foreground/70" : "text-muted-foreground"
+          }`}
+        >
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 }
