@@ -199,7 +199,11 @@ function ShopPage() {
 
   const blocks: Record<string, React.ReactNode> = {
     shop_featured: featured.length ? (
-      <section key="featured" className="py-16 lg:py-24">
+      <section key="featured" className="relative overflow-hidden py-20 lg:py-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--accent)_22%,transparent),transparent_70%)]"
+        />
         <Shell>
           <Reveal>
             <SectionHeading
