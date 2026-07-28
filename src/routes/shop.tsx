@@ -85,18 +85,44 @@ function SectionHeading({
   title,
   subtitle,
   center = true,
+  tone = "light",
 }: {
   eyebrow?: string;
   title?: string;
   subtitle?: string;
   center?: boolean;
+  tone?: "light" | "dark";
 }) {
   if (!title && !eyebrow) return null;
   return (
     <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      {title && <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">{title}</h2>}
-      {subtitle && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{subtitle}</p>}
+      {eyebrow && (
+        <p
+          className={`flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.34em] ${
+            center ? "justify-center" : ""
+          } ${tone === "dark" ? "text-accent" : "text-primary"}`}
+        >
+          <span
+            className={`h-px w-8 ${tone === "dark" ? "bg-accent/50" : "bg-primary/40"}`}
+            aria-hidden="true"
+          />
+          {eyebrow}
+        </p>
+      )}
+      {title && (
+        <h2 className="font-display mt-4 text-[2rem] leading-[1.08] tracking-[-0.01em] sm:text-[2.6rem] lg:text-[3rem]">
+          {title}
+        </h2>
+      )}
+      {subtitle && (
+        <p
+          className={`mt-5 text-base leading-relaxed ${
+            tone === "dark" ? "text-ink-foreground/70" : "text-muted-foreground"
+          }`}
+        >
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 }
@@ -173,7 +199,11 @@ function ShopPage() {
 
   const blocks: Record<string, React.ReactNode> = {
     shop_featured: featured.length ? (
-      <section key="featured" className="py-16 lg:py-24">
+      <section key="featured" className="relative overflow-hidden py-20 lg:py-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--accent)_22%,transparent),transparent_70%)]"
+        />
         <Shell>
           <Reveal>
             <SectionHeading
@@ -362,16 +392,16 @@ function ShopPage() {
     ),
 
     shop_craft: (
-      <section key="craft" className="border-y border-border bg-secondary/40 py-16 lg:py-24">
+      <section key="craft" className="border-y border-border bg-ink py-20 text-ink-foreground lg:py-28">
         <Shell>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <Reveal>
-              <div className="overflow-hidden rounded-[24px] bg-secondary">
+              <div className="relative overflow-hidden rounded-[28px] bg-secondary shadow-[0_50px_100px_-60px_rgba(0,0,0,0.9)]">
                 <img
                   src={craftFallback}
                   alt={text("shop_craft", "title", "Our craft")}
                   loading="lazy"
-                  className="aspect-[4/3] h-full w-full object-cover"
+                  className="aspect-[4/5] h-full w-full object-cover transition-transform duration-[1400ms] hover:scale-105"
                 />
               </div>
             </Reveal>
@@ -379,14 +409,18 @@ function ShopPage() {
               <div>
                 <SectionHeading
                   center={false}
+                  tone="dark"
                   eyebrow={text("shop_craft", "eyebrow", "Our craft")}
                   title={text("shop_craft", "title")}
                   subtitle={text("shop_craft", "body")}
                 />
-                <ul className="mt-6 space-y-3">
+                <ul className="mt-8 space-y-4">
                   {((pick<string[]>(content("shop_craft").points, lang) ?? []) as string[]).map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <li
+                      key={point}
+                      className="flex items-start gap-3 border-b border-ink-foreground/10 pb-4 text-sm text-ink-foreground/75"
+                    >
+                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                       {point}
                     </li>
                   ))}
@@ -399,9 +433,9 @@ function ShopPage() {
     ),
 
     shop_packaging: (
-      <section key="packaging" className="py-16 lg:py-24">
+      <section key="packaging" className="py-20 lg:py-28">
         <Shell>
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <Reveal>
               <div>
                 <SectionHeading
@@ -413,12 +447,12 @@ function ShopPage() {
               </div>
             </Reveal>
             <Reveal delay={100}>
-              <div className="overflow-hidden rounded-[24px] bg-secondary">
+              <div className="overflow-hidden rounded-[28px] bg-secondary shadow-[0_40px_90px_-60px_rgba(36,24,18,0.8)]">
                 <img
                   src={packagingFallback}
                   alt={text("shop_packaging", "title", "Packaging")}
                   loading="lazy"
-                  className="aspect-[4/3] h-full w-full object-cover"
+                  className="aspect-[4/3] h-full w-full object-cover transition-transform duration-[1400ms] hover:scale-105"
                 />
               </div>
             </Reveal>
@@ -444,9 +478,11 @@ function ShopPage() {
               const Icon = [Wallet, Truck, MessageCircle, Sparkles][i % 4];
               return (
                 <Reveal key={item.title} delay={i * 70}>
-                  <div className="h-full rounded-[18px] border border-border bg-card p-6">
-                    <Icon className="h-5 w-5 text-primary" />
-                    <h3 className="font-display mt-4 text-lg">{item.title}</h3>
+                  <div className="group h-full rounded-[20px] border border-border bg-card p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_60px_-40px_rgba(36,24,18,0.6)]">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-display mt-5 text-xl">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                   </div>
                 </Reveal>
@@ -470,7 +506,7 @@ function ShopPage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review, i) => (
               <Reveal key={review.id} delay={i * 70}>
-                <figure className="h-full rounded-[18px] border border-border bg-card p-6">
+                <figure className="h-full rounded-[20px] border border-border bg-card p-7 transition-shadow duration-500 hover:shadow-[0_28px_60px_-44px_rgba(36,24,18,0.6)]">
                   <div className="flex gap-1">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <Star
@@ -529,8 +565,12 @@ function ShopPage() {
       <section key="cta" className="py-16 lg:py-24">
         <Shell>
           <Reveal>
-            <div className="relative overflow-hidden rounded-[28px] bg-ink px-6 py-14 text-center text-ink-foreground sm:px-12 lg:py-20">
-              <h2 className="font-display mx-auto max-w-3xl text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            <div className="leather-grain relative isolate overflow-hidden rounded-[32px] bg-ink px-6 py-16 text-center text-ink-foreground sm:px-12 lg:py-24">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--accent)_18%,transparent),transparent_70%)]"
+              />
+              <h2 className="font-display mx-auto max-w-3xl text-[2.1rem] leading-[1.05] sm:text-5xl lg:text-[3.5rem]">
                 {text("shop_cta", "title", "Order your handmade leather goods today")}
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-80">
@@ -557,42 +597,74 @@ function ShopPage() {
   return (
     <>
       {visible("shop_hero") && (
-        <section className="leather-grain relative overflow-hidden border-b border-border bg-[#F7F3EF]">
-          <Shell className="grid items-center gap-10 py-14 lg:grid-cols-2 lg:gap-14 lg:py-24">
-            <div className="relative z-10">
-              <p className="eyebrow">{text("shop_hero", "eyebrow", "The Collection")}</p>
-              <h1 className="font-display mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
-                {text("shop_hero", "title", t("shop.hero.title"))}
-              </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {text("shop_hero", "subtitle", t("shop.hero.intro"))}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="min-h-12 w-full sm:w-auto">
-                  <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="min-h-12 w-full sm:w-auto">
-                  <a href={waLink} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" />
-                    {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
-                  </a>
-                </Button>
+        <>
+          <section className="relative isolate overflow-hidden bg-ink text-ink-foreground">
+            <img
+              src={heroImage}
+              alt={text("shop_hero", "title", "Loner Leather collection")}
+              width={2000}
+              height={1200}
+              fetchPriority="high"
+              className="absolute inset-0 -z-20 h-full w-full scale-105 object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(20,13,9,0.97),rgba(20,13,9,0.86)_40%,rgba(20,13,9,0.62))]"
+            />
+            <div
+              aria-hidden="true"
+              className="leather-grain pointer-events-none absolute inset-0 -z-10 opacity-40"
+            />
+            <Shell className="relative flex min-h-[78vh] flex-col justify-end py-20 sm:min-h-[82vh] lg:py-28">
+              <div className="max-w-3xl">
+                <p className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-accent">
+                  <span className="h-px w-10 bg-accent/60" aria-hidden="true" />
+                  {text("shop_hero", "eyebrow", "The Collection")}
+                </p>
+                <h1 className="font-display mt-6 text-[2.75rem] leading-[0.98] tracking-[-0.015em] sm:text-6xl lg:text-[4.5rem]">
+                  {text("shop_hero", "title", t("shop.hero.title"))}
+                </h1>
+                <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-foreground/75 sm:text-lg">
+                  {text("shop_hero", "subtitle", t("shop.hero.intro"))}
+                </p>
+                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                  <Button asChild size="lg" variant="secondary" className="min-h-12 w-full sm:w-auto">
+                    <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="min-h-12 w-full border-ink-foreground/40 bg-transparent text-ink-foreground hover:bg-ink-foreground/10 hover:text-ink-foreground sm:w-auto"
+                  >
+                    <a href={waLink} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="h-4 w-4" />
+                      {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="relative">
-              <div className="overflow-hidden rounded-[28px] bg-secondary shadow-[0_40px_90px_-50px_rgba(36,24,18,0.7)]">
-                <img
-                  src={heroImage}
-                  alt={text("shop_hero", "title", "Loner Leather collection")}
-                  width={1400}
-                  height={1050}
-                  fetchPriority="high"
-                  className="aspect-[4/3] h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          </Shell>
-        </section>
+            </Shell>
+          </section>
+
+          <section className="border-y border-border bg-secondary/50">
+            <Shell className="grid grid-cols-2 divide-x divide-border/70 rtl:divide-x-reverse sm:grid-cols-4">
+              {[
+                { Icon: BadgeCheck, label: t("shop.landing.trust.handmade") },
+                { Icon: Sparkles, label: t("shop.landing.trust.leather") },
+                { Icon: Wallet, label: t("shop.landing.trust.cod") },
+                { Icon: Truck, label: t("shop.landing.trust.shipping") },
+              ].map(({ Icon, label }) => (
+                <div key={label} className="flex items-center justify-center gap-2 px-3 py-5 text-center">
+                  <Icon className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground sm:text-xs">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </Shell>
+          </section>
+        </>
       )}
 
       {order
