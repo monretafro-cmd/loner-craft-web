@@ -15,10 +15,16 @@ export const Route = createFileRoute("/admin/login")({
   head: () => ({
     meta: [
       { title: "Admin Sign In — Loner Leather" },
-      { name: "description", content: "Secure sign in for the Loner Leather store administration panel." },
+      {
+        name: "description",
+        content: "Secure sign in for the Loner Leather store administration panel.",
+      },
       { name: "robots", content: "noindex" },
       { property: "og:title", content: "Admin Sign In — Loner Leather" },
-      { property: "og:description", content: "Secure sign in for the Loner Leather store administration panel." },
+      {
+        property: "og:description",
+        content: "Secure sign in for the Loner Leather store administration panel.",
+      },
     ],
   }),
   component: AdminLogin,
@@ -37,6 +43,7 @@ function AdminLogin() {
 
   async function routeByAccess() {
     const access = await sync({ data: undefined as never });
+    await supabase.auth.refreshSession();
     if (access.status === "blocked" || access.status === "rejected") {
       await supabase.auth.signOut();
       throw new Error(
@@ -45,7 +52,10 @@ function AdminLogin() {
           : "This access request was rejected.",
       );
     }
-    navigate({ to: access.role ? "/admin" : "/admin/pending", replace: true });
+    navigate({
+      to: access.status === "approved" && access.role ? "/admin" : "/admin/pending",
+      replace: true,
+    });
   }
 
   useEffect(() => {
@@ -74,7 +84,9 @@ function AdminLogin() {
     try {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
-        await logFailure({ data: { email, provider: "email", reason: signInError.message } }).catch(() => {});
+        await logFailure({ data: { email, provider: "email", reason: signInError.message } }).catch(
+          () => {},
+        );
         throw signInError;
       }
       await routeByAccess();
@@ -98,7 +110,11 @@ function AdminLogin() {
       await routeByAccess();
     } catch (caught) {
       await logFailure({
-        data: { email, provider: "google", reason: caught instanceof Error ? caught.message : "unknown" },
+        data: {
+          email,
+          provider: "google",
+          reason: caught instanceof Error ? caught.message : "unknown",
+        },
       }).catch(() => {});
       setError(caught instanceof Error ? caught.message : "Google sign in failed");
     } finally {
@@ -139,7 +155,9 @@ function AdminLogin() {
           className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur sm:p-7"
         >
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-white/80">Email</Label>
+            <Label htmlFor="email" className="text-white/80">
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
@@ -151,7 +169,9 @@ function AdminLogin() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-white/80">Password</Label>
+            <Label htmlFor="password" className="text-white/80">
+              Password
+            </Label>
             <Input
               id="password"
               type="password"
