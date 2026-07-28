@@ -8,7 +8,40 @@
     "viewImage": "View image {{index}}",
     "imageAlt": "{{name}} — view {{index}}",
     "fullscreen": "View fullscreen",
-    "close": "Close"
+    "close": "Close",
+    "scrollUp": "Scroll thumbnails up",
+    "scrollDown": "Scroll thumbnails down",
+    "zoomHint": "Scroll or double-click to zoom",
+    "labels": {
+      "overview": "Overview",
+      "front": "Front",
+      "back": "Back",
+      "inside": "Inside",
+      "capacity": "Capacity",
+      "stitching": "Stitching",
+      "leather": "Leather",
+      "embossing": "Embossing",
+      "details": "Details",
+      "profile": "Profile",
+      "slim": "Slim",
+      "inUse": "In use",
+      "packaging": "Packaging",
+      "giftReady": "Gift Ready",
+      "package": "Package",
+      "craftsmanship": "Craftsmanship",
+      "workshop": "Workshop"
+    },
+    "sections": {
+      "overview": "The wallet",
+      "capacity": "Capacity",
+      "leather": "Leather texture",
+      "stitching": "Stitching details",
+      "embossing": "Logo embossing",
+      "inUse": "Wallet in use",
+      "packaging": "Packaging",
+      "craft": "Craftsmanship",
+      "workshop": "Workshop"
+    }
   },
   "meta": {
     "reviews_one": "{{count}} review",

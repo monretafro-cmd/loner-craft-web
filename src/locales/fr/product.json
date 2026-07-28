@@ -8,7 +8,40 @@
     "viewImage": "Voir l'image {{index}}",
     "imageAlt": "{{name}} — vue {{index}}",
     "fullscreen": "Voir en plein écran",
-    "close": "Fermer"
+    "close": "Fermer",
+    "scrollUp": "Faire défiler les miniatures vers le haut",
+    "scrollDown": "Faire défiler les miniatures vers le bas",
+    "zoomHint": "Molette ou double-clic pour zoomer",
+    "labels": {
+      "overview": "Vue d'ensemble",
+      "front": "Avant",
+      "back": "Arrière",
+      "inside": "Intérieur",
+      "capacity": "Capacité",
+      "stitching": "Couture",
+      "leather": "Cuir",
+      "embossing": "Gaufrage",
+      "details": "Détails",
+      "profile": "Profil",
+      "slim": "Finesse",
+      "inUse": "À l'usage",
+      "packaging": "Emballage",
+      "giftReady": "Prêt à offrir",
+      "package": "Coffret",
+      "craftsmanship": "Savoir-faire",
+      "workshop": "Atelier"
+    },
+    "sections": {
+      "overview": "Le portefeuille",
+      "capacity": "Capacité",
+      "leather": "Texture du cuir",
+      "stitching": "Détails de couture",
+      "embossing": "Gaufrage du logo",
+      "inUse": "À l'usage",
+      "packaging": "Emballage",
+      "craft": "Savoir-faire",
+      "workshop": "Atelier"
+    }
   },
   "meta": {
     "reviews_one": "{{count}} avis",
