@@ -31,6 +31,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell/index'
 import { Route as AdminShellWhatsappRouteImport } from './routes/admin/_shell/whatsapp'
+import { Route as AdminShellShopPageRouteImport } from './routes/admin/_shell/shop-page'
 import { Route as AdminShellSettingsRouteImport } from './routes/admin/_shell/settings'
 import { Route as AdminShellReviewsRouteImport } from './routes/admin/_shell/reviews'
 import { Route as AdminShellNotificationsRouteImport } from './routes/admin/_shell/notifications'
@@ -159,6 +160,11 @@ const AdminShellWhatsappRoute = AdminShellWhatsappRouteImport.update({
   path: '/whatsapp',
   getParentRoute: () => AdminShellRoute,
 } as any)
+const AdminShellShopPageRoute = AdminShellShopPageRouteImport.update({
+  id: '/shop-page',
+  path: '/shop-page',
+  getParentRoute: () => AdminShellRoute,
+} as any)
 const AdminShellSettingsRoute = AdminShellSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -279,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/admin/notifications': typeof AdminShellNotificationsRoute
   '/admin/reviews': typeof AdminShellReviewsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/shop-page': typeof AdminShellShopPageRoute
   '/admin/whatsapp': typeof AdminShellWhatsappRoute
   '/admin/': typeof AdminShellIndexRoute
   '/admin/orders/$id': typeof AdminShellOrdersIdRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/admin/notifications': typeof AdminShellNotificationsRoute
   '/admin/reviews': typeof AdminShellReviewsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/shop-page': typeof AdminShellShopPageRoute
   '/admin/whatsapp': typeof AdminShellWhatsappRoute
   '/admin': typeof AdminShellIndexRoute
   '/admin/orders/$id': typeof AdminShellOrdersIdRoute
@@ -361,6 +369,7 @@ export interface FileRoutesById {
   '/admin/_shell/notifications': typeof AdminShellNotificationsRoute
   '/admin/_shell/reviews': typeof AdminShellReviewsRoute
   '/admin/_shell/settings': typeof AdminShellSettingsRoute
+  '/admin/_shell/shop-page': typeof AdminShellShopPageRoute
   '/admin/_shell/whatsapp': typeof AdminShellWhatsappRoute
   '/admin/_shell/': typeof AdminShellIndexRoute
   '/admin/_shell/orders/$id': typeof AdminShellOrdersIdRoute
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/admin/notifications'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/shop-page'
     | '/admin/whatsapp'
     | '/admin/'
     | '/admin/orders/$id'
@@ -444,6 +454,7 @@ export interface FileRouteTypes {
     | '/admin/notifications'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/shop-page'
     | '/admin/whatsapp'
     | '/admin'
     | '/admin/orders/$id'
@@ -485,6 +496,7 @@ export interface FileRouteTypes {
     | '/admin/_shell/notifications'
     | '/admin/_shell/reviews'
     | '/admin/_shell/settings'
+    | '/admin/_shell/shop-page'
     | '/admin/_shell/whatsapp'
     | '/admin/_shell/'
     | '/admin/_shell/orders/$id'
@@ -672,6 +684,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellWhatsappRouteImport
       parentRoute: typeof AdminShellRoute
     }
+    '/admin/_shell/shop-page': {
+      id: '/admin/_shell/shop-page'
+      path: '/shop-page'
+      fullPath: '/admin/shop-page'
+      preLoaderRoute: typeof AdminShellShopPageRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
     '/admin/_shell/settings': {
       id: '/admin/_shell/settings'
       path: '/settings'
@@ -808,6 +827,7 @@ interface AdminShellRouteChildren {
   AdminShellNotificationsRoute: typeof AdminShellNotificationsRoute
   AdminShellReviewsRoute: typeof AdminShellReviewsRoute
   AdminShellSettingsRoute: typeof AdminShellSettingsRoute
+  AdminShellShopPageRoute: typeof AdminShellShopPageRoute
   AdminShellWhatsappRoute: typeof AdminShellWhatsappRoute
   AdminShellIndexRoute: typeof AdminShellIndexRoute
   AdminShellOrdersIdRoute: typeof AdminShellOrdersIdRoute
@@ -830,6 +850,7 @@ const AdminShellRouteChildren: AdminShellRouteChildren = {
   AdminShellNotificationsRoute: AdminShellNotificationsRoute,
   AdminShellReviewsRoute: AdminShellReviewsRoute,
   AdminShellSettingsRoute: AdminShellSettingsRoute,
+  AdminShellShopPageRoute: AdminShellShopPageRoute,
   AdminShellWhatsappRoute: AdminShellWhatsappRoute,
   AdminShellIndexRoute: AdminShellIndexRoute,
   AdminShellOrdersIdRoute: AdminShellOrdersIdRoute,
