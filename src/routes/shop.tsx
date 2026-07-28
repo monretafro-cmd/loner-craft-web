@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { PageHero } from "@/components/site/PageHero";
 import { ProductCard } from "@/components/site/ProductCard";
+import { ComingSoonCard, ShowcaseCard } from "@/components/site/ShowcaseCard";
 import { Reveal } from "@/components/site/Reveal";
 import { useI18n } from "@/lib/i18n";
 import { useCatalog } from "@/lib/i18n/catalog";
@@ -51,6 +52,47 @@ export const Route = createFileRoute("/shop")({
 });
 
 const MAX_PRICE = 800;
+/** Below this many products the marketplace chrome (sidebar, search, sort, counter) stays hidden. */
+const MARKETPLACE_THRESHOLD = 6;
+
+const UPCOMING = ["cardHolder", "passportHolder", "moneyClip"] as const;
+
+function ShopShowcase() {
+  const { t } = useI18n();
+  return (
+    <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
+      <div className="flex justify-center">
+        <Reveal>
+          <ShowcaseCard product={products[0]} />
+        </Reveal>
+      </div>
+
+      <div className="mt-20 border-t border-border pt-14 lg:mt-24 lg:pt-16">
+        <Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">{t("shop.showcase.comingSoonEyebrow")}</p>
+            <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">
+              {t("shop.showcase.comingSoonTitle")}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              {t("shop.showcase.comingSoonIntro")}
+            </p>
+          </div>
+        </Reveal>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {UPCOMING.map((key, i) => (
+            <Reveal key={key} delay={i * 80}>
+              <ComingSoonCard
+                title={t(`shop.showcase.upcoming.${key}.title`)}
+                blurb={t(`shop.showcase.upcoming.${key}.blurb`)}
+              />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ShopPage() {
   const search = Route.useSearch();
@@ -61,6 +103,7 @@ function ShopPage() {
   const [price, setPrice] = useState<number[]>([MAX_PRICE]);
   const [colors, setColors] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
+  const isMarketplace = products.length >= MARKETPLACE_THRESHOLD;
 
   const activeCategory = search.category ?? "all";
   const sort = search.sort ?? "featured";
@@ -171,9 +214,12 @@ function ShopPage() {
       <PageHero
         eyebrow={t("shop.hero.eyebrow")}
         title={t("shop.hero.title")}
-        intro={t("shop.hero.intro")}
+        intro={isMarketplace ? t("shop.hero.intro") : t("shop.hero.introShort")}
       />
 
+      {!isMarketplace && <ShopShowcase />}
+
+      {isMarketplace && (
       <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 lg:px-10 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
           <aside className="hidden lg:block">
@@ -259,6 +305,7 @@ function ShopPage() {
           </div>
         </div>
       </div>
+      )}
       <Label className="sr-only">{t("shop.sr.shopFilters")}</Label>
     </>
   );
