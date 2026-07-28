@@ -478,9 +478,11 @@ function ShopPage() {
               const Icon = [Wallet, Truck, MessageCircle, Sparkles][i % 4];
               return (
                 <Reveal key={item.title} delay={i * 70}>
-                  <div className="h-full rounded-[18px] border border-border bg-card p-6">
-                    <Icon className="h-5 w-5 text-primary" />
-                    <h3 className="font-display mt-4 text-lg">{item.title}</h3>
+                  <div className="group h-full rounded-[20px] border border-border bg-card p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_60px_-40px_rgba(36,24,18,0.6)]">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-display mt-5 text-xl">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                   </div>
                 </Reveal>
@@ -504,7 +506,7 @@ function ShopPage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review, i) => (
               <Reveal key={review.id} delay={i * 70}>
-                <figure className="h-full rounded-[18px] border border-border bg-card p-6">
+                <figure className="h-full rounded-[20px] border border-border bg-card p-7 transition-shadow duration-500 hover:shadow-[0_28px_60px_-44px_rgba(36,24,18,0.6)]">
                   <div className="flex gap-1">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <Star
@@ -563,8 +565,12 @@ function ShopPage() {
       <section key="cta" className="py-16 lg:py-24">
         <Shell>
           <Reveal>
-            <div className="relative overflow-hidden rounded-[28px] bg-ink px-6 py-14 text-center text-ink-foreground sm:px-12 lg:py-20">
-              <h2 className="font-display mx-auto max-w-3xl text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            <div className="leather-grain relative isolate overflow-hidden rounded-[32px] bg-ink px-6 py-16 text-center text-ink-foreground sm:px-12 lg:py-24">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--accent)_18%,transparent),transparent_70%)]"
+              />
+              <h2 className="font-display mx-auto max-w-3xl text-[2.1rem] leading-[1.05] sm:text-5xl lg:text-[3.5rem]">
                 {text("shop_cta", "title", "Order your handmade leather goods today")}
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-80">
