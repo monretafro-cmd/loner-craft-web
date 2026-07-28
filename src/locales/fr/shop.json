@@ -1,75 +1,91 @@
 {
-  "hero": {
-    "eyebrow": "La Collection",
-    "title": "Boutique",
-    "intro": "Chaque pièce ci-dessous est coupée, cousue et finie à la main dans notre atelier de Taroudant. Payez à la livraison, partout au Maroc.",
-    "introShort": "Découvrez notre collection de cuir fait main."
-  },
-  "filters": {
-    "title": "Filtres",
-    "category": "Catégorie",
-    "allPieces": "Toutes les pièces",
-    "maxPrice": "Prix maximum",
-    "maxPriceLabel": "Prix maximum",
-    "upTo": "Jusqu'à {{amount}}",
-    "colour": "Couleur",
-    "inStockOnly": "En stock uniquement",
-    "clear": "Effacer les filtres",
-    "openFilters": "Filtres"
-  },
-  "toolbar": {
-    "searchPlaceholder": "Rechercher dans la collection",
-    "searchLabel": "Rechercher des produits",
-    "sortLabel": "Trier les produits",
-    "sort": {
-      "featured": "En vedette",
-      "newest": "Nouveautés",
-      "best": "Meilleures ventes",
-      "priceAsc": "Prix croissant",
-      "priceDesc": "Prix décroissant"
-    }
-  },
-  "results": {
-    "count_one": "{{count}} pièce",
-    "count_other": "{{count}} pièces"
-  },
-  "empty": {
-    "title": "Aucun résultat pour ces filtres",
-    "text": "Essayez d'élargir la fourchette de prix ou de désélectionner une couleur.",
-    "cta": "Effacer les filtres"
-  },
-  "sr": {
-    "shopFilters": "Filtres de la boutique"
-  },
-  "wishlist": {
-    "eyebrow": "Pièces enregistrées",
-    "title": "Votre liste de souhaits",
-    "intro": "Gardez un œil sur les pièces que vous aimez. Rien n'est réservé tant que vous n'avez pas commandé.",
-    "emptyTitle": "Rien d'enregistré pour l'instant",
-    "emptyText": "Touchez le cœur sur une pièce pour la garder ici pour plus tard.",
-    "browse": "Parcourir la collection"
-  },
-  "showcase": {
-    "codBadge": "Paiement à la livraison",
-    "moroccoBadge": "Fabriqué au Maroc",
-    "viewDetails": "Voir les détails",
-    "comingSoonLabel": "Bientôt disponible",
-    "comingSoonEyebrow": "L'atelier",
-    "comingSoonTitle": "D'autres pièces en cuir fait main arrivent bientôt",
-    "comingSoonIntro": "Chaque nouvelle pièce est coupée et cousue une à une à Taroudant. Voici les prochaines sur l'établi.",
-    "upcoming": {
-      "cardHolder": {
-        "title": "Porte-cartes",
-        "blurb": "Un format fin pour la poche avant, bords lissés à la main."
-      },
-      "passportHolder": {
-        "title": "Porte-passeport",
-        "blurb": "Un étui de voyage doublé de daim, fait pour durer."
-      },
-      "moneyClip": {
-        "title": "Pince à billets",
-        "blurb": "Pince en acier brossé rivetée sur du cuir pleine fleur."
-      }
-    }
+ "hero": {
+  "eyebrow": "La Collection",
+  "title": "Boutique",
+  "intro": "Chaque pièce ci-dessous est coupée, cousue et finie à la main dans notre atelier de Taroudant. Payez à la livraison, partout au Maroc.",
+  "introShort": "Découvrez notre collection de cuir fait main."
+ },
+ "filters": {
+  "title": "Filtres",
+  "category": "Catégorie",
+  "allPieces": "Toutes les pièces",
+  "maxPrice": "Prix maximum",
+  "maxPriceLabel": "Prix maximum",
+  "upTo": "Jusqu'à {{amount}}",
+  "colour": "Couleur",
+  "inStockOnly": "En stock uniquement",
+  "clear": "Effacer les filtres",
+  "openFilters": "Filtres"
+ },
+ "toolbar": {
+  "searchPlaceholder": "Rechercher dans la collection",
+  "searchLabel": "Rechercher des produits",
+  "sortLabel": "Trier les produits",
+  "sort": {
+   "featured": "En vedette",
+   "newest": "Nouveautés",
+   "best": "Meilleures ventes",
+   "priceAsc": "Prix croissant",
+   "priceDesc": "Prix décroissant"
   }
+ },
+ "results": {
+  "count_one": "{{count}} pièce",
+  "count_other": "{{count}} pièces"
+ },
+ "empty": {
+  "title": "Aucun résultat pour ces filtres",
+  "text": "Essayez d'élargir la fourchette de prix ou de désélectionner une couleur.",
+  "cta": "Effacer les filtres"
+ },
+ "sr": {
+  "shopFilters": "Filtres de la boutique"
+ },
+ "wishlist": {
+  "eyebrow": "Pièces enregistrées",
+  "title": "Votre liste de souhaits",
+  "intro": "Gardez un œil sur les pièces que vous aimez. Rien n'est réservé tant que vous n'avez pas commandé.",
+  "emptyTitle": "Rien d'enregistré pour l'instant",
+  "emptyText": "Touchez le cœur sur une pièce pour la garder ici pour plus tard.",
+  "browse": "Parcourir la collection"
+ },
+ "showcase": {
+  "codBadge": "Paiement à la livraison",
+  "moroccoBadge": "Fabriqué au Maroc",
+  "viewDetails": "Voir les détails",
+  "comingSoonLabel": "Bientôt disponible",
+  "comingSoonEyebrow": "L'atelier",
+  "comingSoonTitle": "D'autres pièces en cuir fait main arrivent bientôt",
+  "comingSoonIntro": "Chaque nouvelle pièce est coupée et cousue une à une à Taroudant. Voici les prochaines sur l'établi.",
+  "upcoming": {
+   "cardHolder": {
+    "title": "Porte-cartes",
+    "blurb": "Un format fin pour la poche avant, bords lissés à la main."
+   },
+   "passportHolder": {
+    "title": "Porte-passeport",
+    "blurb": "Un étui de voyage doublé de daim, fait pour durer."
+   },
+   "moneyClip": {
+    "title": "Pince à billets",
+    "blurb": "Pince en acier brossé rivetée sur du cuir pleine fleur."
+   }
+  }
+ },
+ "card": {
+  "featured": "En vedette",
+  "soldOut": "Épuisé",
+  "quickView": "Aperçu rapide",
+  "details": "Voir le produit",
+  "whatsapp": "Commander WhatsApp",
+  "cod": "Paiement à la livraison",
+  "handmade": "Fait main"
+ },
+ "landing": {
+  "pieces": "pièces",
+  "piece": "pièce",
+  "viewAll": "Voir la collection",
+  "reviewsCount": "{{count}} avis vérifiés",
+  "empty": "De nouvelles pièces sont en cours de fabrication. Écrivez-nous sur WhatsApp pour connaître les disponibilités."
+ }
 }
