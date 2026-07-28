@@ -21,6 +21,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
   const { productText, price } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
+  const subtitle = t(`catalog.products.${product.slug}.subtitle`);
 
   return (
     <article className="group mx-auto w-full max-w-[520px] overflow-hidden rounded-[22px] border border-border bg-card shadow-[0_18px_50px_-30px_rgba(36,24,18,0.55)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-32px_rgba(36,24,18,0.6)]">
