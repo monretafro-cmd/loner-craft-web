@@ -36,7 +36,10 @@ export function ShowcaseCard({ product }: { product: Product }) {
           width={1200}
           height={1200}
           loading="eager"
-          className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+          fetchPriority="high"
+          decoding="async"
+          sizes="(max-width: 640px) 100vw, 520px"
+          className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
         />
       </Link>
 
@@ -46,6 +49,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
             {text.name}
           </Link>
         </h2>
+        {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text.short}</p>
 
         <div className="mt-4 flex items-baseline gap-2.5">
