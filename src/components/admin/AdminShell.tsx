@@ -53,7 +53,7 @@ const NAV: NavItem[] = [
   { to: "/admin/media", label: "Media Library", icon: Images },
   { to: "/admin/notifications", label: "Notifications", icon: Bell },
   { to: "/admin/settings", label: "Settings", icon: Settings },
-  { to: "/admin/admins", label: "Admins", icon: ShieldCheck, superOnly: true },
+  { to: "/admin/admins", label: "Admins and Access", icon: ShieldCheck, superOnly: true },
   { to: "/admin/audit", label: "Audit Log", icon: ScrollText, superOnly: true },
 ];
 
