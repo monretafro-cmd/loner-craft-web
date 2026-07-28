@@ -2,7 +2,8 @@
   "hero": {
     "eyebrow": "La Collection",
     "title": "Boutique",
-    "intro": "Chaque pièce ci-dessous est coupée, cousue et finie à la main dans notre atelier de Taroudant. Payez à la livraison, partout au Maroc."
+    "intro": "Chaque pièce ci-dessous est coupée, cousue et finie à la main dans notre atelier de Taroudant. Payez à la livraison, partout au Maroc.",
+    "introShort": "Découvrez notre collection de cuir fait main."
   },
   "filters": {
     "title": "Filtres",
@@ -47,5 +48,28 @@
     "emptyTitle": "Rien d'enregistré pour l'instant",
     "emptyText": "Touchez le cœur sur une pièce pour la garder ici pour plus tard.",
     "browse": "Parcourir la collection"
+  },
+  "showcase": {
+    "codBadge": "Paiement à la livraison",
+    "moroccoBadge": "Fabriqué au Maroc",
+    "viewDetails": "Voir les détails",
+    "comingSoonLabel": "Bientôt disponible",
+    "comingSoonEyebrow": "L'atelier",
+    "comingSoonTitle": "D'autres pièces en cuir fait main arrivent bientôt",
+    "comingSoonIntro": "Chaque nouvelle pièce est coupée et cousue une à une à Taroudant. Voici les prochaines sur l'établi.",
+    "upcoming": {
+      "cardHolder": {
+        "title": "Porte-cartes",
+        "blurb": "Un format fin pour la poche avant, bords lissés à la main."
+      },
+      "passportHolder": {
+        "title": "Porte-passeport",
+        "blurb": "Un étui de voyage doublé de daim, fait pour durer."
+      },
+      "moneyClip": {
+        "title": "Pince à billets",
+        "blurb": "Pince en acier brossé rivetée sur du cuir pleine fleur."
+      }
+    }
   }
 }

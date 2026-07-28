@@ -379,19 +379,21 @@ function ProductPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-        <Reveal>
-          <p className="eyebrow">{t("product.related.eyebrow")}</p>
-          <h2 className="font-display mt-2 text-3xl">{t("product.related.title")}</h2>
-        </Reveal>
-        <div className="mt-8 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-          {relatedProducts(product).map((p, i) => (
-            <Reveal key={p.slug} delay={i * 70}>
-              <ProductCard product={p} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {relatedProducts(product).length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
+          <Reveal>
+            <p className="eyebrow">{t("product.related.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl">{t("product.related.title")}</h2>
+          </Reveal>
+          <div className="mt-8 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
+            {relatedProducts(product).map((p, i) => (
+              <Reveal key={p.slug} delay={i * 70}>
+                <ProductCard product={p} />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
 
       {recentlyViewed.length > 0 && (
         <section className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-6 lg:px-10 lg:pb-24">
