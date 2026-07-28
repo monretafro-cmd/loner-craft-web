@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+const INITIAL_OWNER_EMAIL = "valaverde05@gmail.com";
+
 export type AccessState = {
   status: "pending" | "approved" | "rejected" | "blocked";
   role: "super_admin" | "admin" | null;
@@ -11,8 +13,8 @@ export type AccessState = {
 
 /**
  * Runs after every login. Server-side source of truth for admin access:
- * only SUPER_ADMIN_EMAIL is auto-promoted, invited emails are auto-approved,
- * everyone else stays pending.
+ * only INITIAL_OWNER_EMAIL is auto-promoted. Everyone else stays pending
+ * until an approved Super Admin explicitly approves the account.
  */
 export const syncAdminAccess = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -23,7 +25,8 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
     const email: string = (claims?.email ?? "").toLowerCase();
     const meta = (claims?.user_metadata ?? {}) as Record<string, any>;
     const provider = (claims?.app_metadata?.provider ?? "email") as string;
-    const ownerEmail = (process.env.SUPER_ADMIN_EMAIL ?? "").trim().toLowerCase();
+    const isInitialOwner = email === INITIAL_OWNER_EMAIL;
+    const now = new Date().toISOString();
 
     let { data: profile } = await supabaseAdmin
       .from("profiles")
@@ -48,32 +51,22 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
     }
 
     let status = (profile?.status ?? "pending") as AccessState["status"];
-    let grantRole: "super_admin" | "admin" | null = null;
+    const { data: existingRoles } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    const wasSuperAdmin = existingRoles?.some((row) => row.role === "super_admin") ?? false;
+    const ownerNeedsPromotion =
+      isInitialOwner &&
+      (status !== "approved" || !wasSuperAdmin || profile?.approved_by !== userId);
 
-    if (ownerEmail && email === ownerEmail) {
-      grantRole = "super_admin";
+    if (isInitialOwner) {
       status = "approved";
-    } else if (status === "pending") {
-      const { data: invite } = await supabaseAdmin
-        .from("admin_invitations")
-        .select("*")
-        .ilike("email", email)
-        .eq("revoked", false)
-        .is("accepted_at", null)
-        .maybeSingle();
-      if (invite && (!invite.expires_at || new Date(invite.expires_at) > new Date())) {
-        grantRole = invite.role as "super_admin" | "admin";
-        status = "approved";
-        await supabaseAdmin
-          .from("admin_invitations")
-          .update({ accepted_at: new Date().toISOString(), accepted_by: userId })
-          .eq("id", invite.id);
-      }
-    }
-
-    if (grantRole) {
       await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
-      await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: grantRole });
+      await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "super_admin" });
+    } else if (status !== "approved") {
+      // Pending, rejected and blocked users never keep an authorization role.
+      await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
     }
 
     await supabaseAdmin
@@ -82,19 +75,48 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
         status,
         provider,
         email,
-        last_login_at: new Date().toISOString(),
+        last_login_at: now,
         avatar_url: profile?.avatar_url ?? meta.avatar_url ?? null,
         full_name: profile?.full_name ?? meta.full_name ?? meta.name ?? null,
-        ...(status === "approved" && !profile?.approved_at ? { approved_at: new Date().toISOString() } : {}),
+        ...(isInitialOwner
+          ? { approved_at: now, approved_by: userId }
+          : status === "approved" && !profile?.approved_at
+            ? { approved_at: now }
+            : {}),
       })
       .eq("id", userId);
 
-    const { data: roles } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", userId);
+    const { data: roles } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
     const role = roles?.some((r) => r.role === "super_admin")
       ? "super_admin"
       : roles?.length
         ? "admin"
         : null;
+
+    if (ownerNeedsPromotion) {
+      await supabaseAdmin.from("audit_logs").insert({
+        admin_id: userId,
+        admin_name: email,
+        action: "initial_owner_promoted",
+        page: "admin/access",
+        record_type: "profiles",
+        record_id: userId,
+        old_value: {
+          status: profile?.status ?? "pending",
+          role: wasSuperAdmin ? "super_admin" : null,
+        } as never,
+        new_value: {
+          email: INITIAL_OWNER_EMAIL,
+          status: "approved",
+          role: "super_admin",
+          approved_by: userId,
+          initialization: "self_owner_initialization",
+        } as never,
+      });
+    }
 
     await supabaseAdmin.from("audit_logs").insert({
       admin_id: userId,
@@ -113,6 +135,76 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
       fullName: profile?.full_name ?? null,
       avatarUrl: profile?.avatar_url ?? null,
     };
+  });
+
+/**
+ * Sends an admin invitation. The invited account still starts pending with no
+ * role; a Super Admin must approve it after the account signs in.
+ */
+export const inviteAdminByEmail = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(
+    (input: {
+      email: string;
+      requestedRole?: "super_admin" | "admin";
+      expiresAt?: string | null;
+    }) => {
+      const email = String(input.email ?? "")
+        .trim()
+        .toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        throw new Error("Enter a valid email address.");
+      const requestedRole = input.requestedRole === "super_admin" ? "super_admin" : "admin";
+      const expiresAt = input.expiresAt ? new Date(input.expiresAt).toISOString() : null;
+      return { email, requestedRole, expiresAt };
+    },
+  )
+  .handler(async ({ context, data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const userId = context.userId;
+
+    const [{ data: profile }, { data: roles }] = await Promise.all([
+      supabaseAdmin.from("profiles").select("status, email").eq("id", userId).maybeSingle(),
+      supabaseAdmin.from("user_roles").select("role").eq("user_id", userId),
+    ]);
+    const isApprovedSuperAdmin =
+      profile?.status === "approved" && roles?.some((row) => row.role === "super_admin");
+    if (!isApprovedSuperAdmin) throw new Error("Only an approved Super Admin can invite admins.");
+
+    const { data: invitation, error: invitationError } = await supabaseAdmin
+      .from("admin_invitations")
+      .insert({
+        email: data.email,
+        role: data.requestedRole,
+        expires_at: data.expiresAt,
+        created_by: userId,
+      })
+      .select("id")
+      .single();
+    if (invitationError) throw invitationError;
+
+    const { error: emailError } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email);
+    if (emailError) {
+      await supabaseAdmin.from("admin_invitations").delete().eq("id", invitation.id);
+      throw emailError;
+    }
+
+    await supabaseAdmin.from("audit_logs").insert({
+      admin_id: userId,
+      admin_name: profile?.email ?? null,
+      action: "admin_invitation_sent",
+      page: "admins",
+      record_type: "admin_invitations",
+      record_id: invitation.id,
+      new_value: {
+        email: data.email,
+        requested_role: data.requestedRole,
+        expires_at: data.expiresAt,
+        approval_required: true,
+      } as never,
+    });
+
+    return { ok: true };
   });
 
 /** Records a failed sign-in attempt (no session available at that point). */
