@@ -1,6 +1,21 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Heart, Minus, Plus, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react";
+import {
+  BadgeCheck,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Gift,
+  Hammer,
+  Heart,
+  MapPin,
+  Minus,
+  Plus,
+  ShieldCheck,
+  ShoppingBag,
+  Truck,
+  Wallet,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,13 +26,20 @@ import {
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductCard } from "@/components/site/ProductCard";
+import { ProductGallery } from "@/components/site/ProductGallery";
 import { formatMAD } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
 import { useCatalog } from "@/lib/i18n/catalog";
 import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { PHOTOS } from "@/lib/photos";
 import { getProduct, relatedProducts } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+
+const SEO_TITLE =
+  "Leather Wallet for Men – Slim Bifold Wallet – Handmade Leather Gift for Him – Rustic Full Grain Leather – Vegetable Leather and Tanning";
+const SEO_DESCRIPTION =
+  "Discover the ALPHA WALLET by Loner Leather. Handmade minimalist leather wallet crafted from genuine Moroccan goat leather. Cash on Delivery across Morocco.";
 
 export const Route = createFileRoute("/product/$slug")({
   loader: ({ params }) => {
@@ -35,8 +57,11 @@ export const Route = createFileRoute("/product/$slug")({
         ],
       };
     }
-    const title = `${p.name} — Handmade Leather | Loner Leather`;
-    const description = `${p.short} ${p.leather}. ${formatMAD(p.price)} with Cash on Delivery across Morocco.`;
+    const title = p.slug === "alpha-wallet" ? SEO_TITLE : `${p.name} — Loner Leather`;
+    const description =
+      p.slug === "alpha-wallet"
+        ? SEO_DESCRIPTION
+        : `${p.short} ${p.leather}. ${formatMAD(p.price)} with Cash on Delivery across Morocco.`;
     return {
       meta: [
         { title },
@@ -57,11 +82,6 @@ export const Route = createFileRoute("/product/$slug")({
             description: p.description,
             material: p.leather,
             brand: { "@type": "Brand", name: "Loner Leather" },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: p.rating,
-              reviewCount: p.reviews,
-            },
             offers: {
               "@type": "Offer",
               price: p.price,
@@ -90,21 +110,20 @@ export const Route = createFileRoute("/product/$slug")({
   component: ProductPage,
 });
 
+const HIGHLIGHT_ICONS = [BadgeCheck, Hammer, MapPin, Wallet, Truck, Gift];
+
 function ProductPage() {
   const { slug } = Route.useParams();
   const product = getProduct(slug)!;
   const { addLine, setCartOpen, toggleWish, wishlist, pushRecent, recent } = useStore();
-  const { t, isRTL } = useI18n();
+  const { t, tList, isRTL } = useI18n();
   const { productText, categoryName, colorName, price, faqs } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
-  const [image, setImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]);
   const [qty, setQty] = useState(1);
-  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    setImage(0);
     setColor(product.colors[0]);
     setQty(1);
     pushRecent(product.slug);
@@ -116,6 +135,17 @@ function ProductPage() {
     .map(getProduct)
     .filter(Boolean)
     .slice(0, 4);
+
+  const subtitle = t(`catalog.products.${product.slug}.subtitle`);
+  const features = tList<string>(`catalog.products.${product.slug}.features`);
+  const materials = tList<string>(`catalog.products.${product.slug}.material`);
+  const status = tList<string>("product.status.items");
+  const highlights = tList<string>("product.highlights.items");
+  const packagingItems = tList<string>("product.packaging.items");
+  const craftParas = tList<string>("product.craft.paragraphs");
+  const packagingPhotos = [PHOTOS.walletInPackaging, PHOTOS.packagingBox, PHOTOS.walletWrappedThankYou].filter(
+    (p) => p.src,
+  );
 
   const add = () => {
     addLine(
@@ -142,107 +172,39 @@ function ProductPage() {
           <ChevronIcon className="h-3 w-3" />
           <Link to="/shop" className="hover:text-foreground">{t("product.breadcrumb.shop")}</Link>
           <ChevronIcon className="h-3 w-3" />
-          <Link to="/shop" search={{ category: product.category }} className="hover:text-foreground">
-            {categoryName(product.category)}
-          </Link>
-          <ChevronIcon className="h-3 w-3" />
           <span className="text-foreground">{text.name}</span>
         </nav>
       </div>
 
       <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
-          <div>
-            <div
-              className="relative aspect-square overflow-hidden rounded-2xl bg-secondary"
-              onMouseMove={(e) => {
-                const r = e.currentTarget.getBoundingClientRect();
-                setZoom({
-                  x: ((e.clientX - r.left) / r.width) * 100,
-                  y: ((e.clientY - r.top) / r.height) * 100,
-                });
-              }}
-              onMouseLeave={() => setZoom(null)}
-            >
-              <img
-                src={product.images[image]}
-                alt={t("product.gallery.imageAlt", { name: text.name, index: image + 1 })}
-                width={1200}
-                height={1200}
-                className="h-full w-full object-cover transition-transform duration-300 ease-out"
-                style={
-                  zoom
-                    ? { transform: "scale(2)", transformOrigin: `${zoom.x}% ${zoom.y}%` }
-                    : undefined
-                }
-              />
-              <span className="glass pointer-events-none absolute bottom-3 start-3 rounded-md px-2.5 py-1 text-[0.65rem] tracking-wide uppercase max-lg:hidden">
-                {t("product.gallery.hoverZoom")}
-              </span>
-            </div>
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {product.images.map((img, i) => (
-                <button
-                  key={img}
-                  type="button"
-                  onClick={() => setImage(i)}
-                  aria-label={t("product.gallery.viewImage", { index: i + 1 })}
-                  className={cn(
-                    "aspect-square overflow-hidden rounded-lg border-2 transition-colors",
-                    image === i ? "border-primary" : "border-transparent hover:border-border",
-                  )}
-                >
-                  <img
-                    src={img}
-                    alt=""
-                    width={1200}
-                    height={1200}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-14">
+          <div className="lg:sticky lg:top-28">
+            <ProductGallery name={text.name} />
           </div>
 
           <div>
-            <p className="eyebrow">{categoryName(product.category)}</p>
+            <p className="eyebrow">Loner Leather</p>
             <h1 className="font-display mt-2 text-3xl leading-tight sm:text-4xl lg:text-[2.75rem]">
               {text.name}
             </h1>
+            {subtitle && (
+              <p className="mt-1.5 text-base text-muted-foreground sm:text-lg">{subtitle}</p>
+            )}
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      "h-3.5 w-3.5",
-                      i < Math.round(product.rating) ? "fill-accent text-accent" : "text-border",
-                    )}
-                  />
-                ))}
-                <span className="ms-1 text-foreground">{product.rating}</span>
-              </span>
-              <span>
-                {t(
-                  product.reviews === 1 ? "product.meta.reviews_one" : "product.meta.reviews_other",
-                  { count: product.reviews },
-                )}
-              </span>
-              <span>{t("product.meta.sold", { count: product.sold.toLocaleString("fr-MA") })}</span>
-            </div>
+            <p className="font-display mt-5 text-3xl font-semibold">{price(product.price)}</p>
 
-            <div className="mt-5 flex items-baseline gap-3">
-              <span className="font-display text-3xl font-semibold">{price(product.price)}</span>
-              {product.compareAt && (
-                <span className="text-base text-muted-foreground line-through">
-                  {price(product.compareAt)}
-                </span>
-              )}
-            </div>
+            <ul className="mt-5 grid gap-2 text-sm sm:grid-cols-2">
+              {status.map((s) => (
+                <li key={s} className="flex items-center gap-2">
+                  <Check className="h-4 w-4 shrink-0 text-accent" />
+                  {s}
+                </li>
+              ))}
+            </ul>
 
-            <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">{text.short}</p>
+            <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">
+              {text.description}
+            </p>
 
             <dl className="mt-6 grid gap-x-6 gap-y-3 border-y border-border py-5 text-sm sm:grid-cols-2">
               <div>
@@ -265,26 +227,28 @@ function ProductPage() {
               </div>
             </dl>
 
-            <div className="mt-6">
-              <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {product.colors.map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setColor(c)}
-                    className={cn(
-                      "min-h-11 rounded-lg border px-4 text-sm transition-colors",
-                      color === c
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border hover:border-primary/50",
-                    )}
-                  >
-                    {colorName(c)}
-                  </button>
-                ))}
+            {product.colors.length > 1 && (
+              <div className="mt-6">
+                <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {product.colors.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setColor(c)}
+                      className={cn(
+                        "min-h-11 rounded-lg border px-4 text-sm transition-colors",
+                        color === c
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border hover:border-primary/50",
+                      )}
+                    >
+                      {colorName(c)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <div className="flex items-center rounded-lg border border-border">
@@ -323,11 +287,11 @@ function ProductPage() {
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <Button variant="hero" size="xl" disabled={!product.inStock} onClick={add}>
+              <Button variant="hero" size="xl" className="w-full" disabled={!product.inStock} onClick={add}>
                 <ShoppingBag className="h-4 w-4" />
-                {product.inStock ? t("product.actions.orderNow") : t("product.actions.soldOut")}
+                {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
               </Button>
-              <Button variant="whatsapp" size="xl" asChild>
+              <Button variant="whatsapp" size="xl" className="w-full" asChild>
                 <a
                   href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
                   target="_blank"
@@ -340,22 +304,47 @@ function ProductPage() {
 
             <div className="mt-5 grid gap-2.5 text-sm text-muted-foreground">
               <p className="flex items-center gap-2.5">
-                <Truck className="h-4 w-4 shrink-0 text-accent" />
-                {t("product.delivery.freeOver", { amount: price(500) })}
+                <ShieldCheck className="h-4 w-4 shrink-0 text-accent" />
+                {t("product.trust.cod")}
               </p>
               <p className="flex items-center gap-2.5">
-                <ShieldCheck className="h-4 w-4 shrink-0 text-accent" />
-                {t("product.delivery.cod")}
+                <Truck className="h-4 w-4 shrink-0 text-accent" />
+                {t("product.trust.delivery")}
+              </p>
+              <p className="flex items-center gap-2.5">
+                <Hammer className="h-4 w-4 shrink-0 text-accent" />
+                {t("product.trust.handmade")}
               </p>
             </div>
 
+            {features.length > 0 && (
+              <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+                <h2 className="font-display text-xl">{t("product.features.title")}</h2>
+                <ul className="mt-4 grid gap-2.5 text-sm text-muted-foreground">
+                  {features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {materials.length > 0 && (
+              <div className="mt-4 rounded-2xl border border-border bg-secondary/40 p-6">
+                <h2 className="font-display text-xl">{t("product.material.title")}</h2>
+                <ul className="mt-3 flex flex-wrap gap-2 text-sm text-muted-foreground">
+                  {materials.map((m) => (
+                    <li key={m} className="rounded-full border border-border bg-background px-3 py-1.5">
+                      {m}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <Accordion type="single" collapsible className="mt-8 w-full">
-              <AccordionItem value="description">
-                <AccordionTrigger className="font-display text-base">{t("product.tabs.description")}</AccordionTrigger>
-                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                  {text.description}
-                </AccordionContent>
-              </AccordionItem>
               <AccordionItem value="shipping">
                 <AccordionTrigger className="font-display text-base">{t("product.tabs.shipping")}</AccordionTrigger>
                 <AccordionContent className="space-y-2 text-sm leading-relaxed text-muted-foreground">
@@ -376,6 +365,86 @@ function ProductPage() {
               </AccordionItem>
             </Accordion>
           </div>
+        </div>
+      </section>
+
+      {/* Highlights */}
+      <section className="border-y border-border bg-secondary/30">
+        <div className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-16">
+          <Reveal>
+            <h2 className="font-display text-center text-3xl">{t("product.highlights.title")}</h2>
+          </Reveal>
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
+            {highlights.map((h, i) => {
+              const Icon = HIGHLIGHT_ICONS[i % HIGHLIGHT_ICONS.length];
+              return (
+                <Reveal key={h} delay={i * 60}>
+                  <div className="flex h-full flex-col items-center gap-3 rounded-2xl border border-border bg-card p-6 text-center transition-transform duration-500 hover:-translate-y-1">
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <p className="text-sm font-medium">{h}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Packaging */}
+      <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <p className="eyebrow">{t("product.packaging.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("product.packaging.title")}</h2>
+            <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
+              {t("product.packaging.text")}
+            </p>
+            <ul className="mt-5 grid gap-2.5 text-sm">
+              {packagingItems.map((item) => (
+                <li key={item} className="flex items-center gap-2.5">
+                  <Check className="h-4 w-4 shrink-0 text-accent" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          {packagingPhotos.length > 0 && (
+            <Reveal delay={100}>
+              <div className="grid grid-cols-2 gap-4">
+                {packagingPhotos.slice(0, 3).map((photo, i) => (
+                  <img
+                    key={photo.src}
+                    src={photo.src ?? ""}
+                    alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(max-width: 1024px) 50vw, 320px"
+                    className={cn(
+                      "h-full w-full rounded-2xl border border-border object-cover",
+                      i === 0 && packagingPhotos.length > 1 ? "col-span-2 aspect-[16/10]" : "aspect-square",
+                    )}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </section>
+
+      {/* Craftsmanship */}
+      <section className="border-t border-border bg-secondary/30">
+        <div className="mx-auto max-w-[900px] px-4 py-14 text-center sm:px-6 lg:py-20">
+          <Reveal>
+            <p className="eyebrow">{t("product.craft.eyebrow")}</p>
+            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("product.craft.title")}</h2>
+            <div className="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-muted-foreground">
+              {craftParas.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
