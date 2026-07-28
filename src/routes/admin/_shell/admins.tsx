@@ -1,18 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { ShieldCheck, Mail, Ban, Check, X, Trash2, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows, useInvalidate, logAudit } from "@/lib/admin/api";
-import { useAdminSession } from "@/lib/admin/session";
+import { loadAdminSession, useAdminSession } from "@/lib/admin/session";
+import { inviteAdminByEmail } from "@/lib/admin/access.functions";
 import { PageHeader, Panel, EmptyState, LoadingRows, shortDate } from "@/components/admin/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/admin/_shell/admins")({
+  beforeLoad: async () => {
+    const session = await loadAdminSession();
+    if (!session) throw redirect({ to: "/admin/login" });
+    if (session.status !== "approved" || session.role !== "super_admin") {
+      throw redirect({ to: "/admin" });
+    }
+  },
   head: () => ({
-    meta: [{ title: "Admins and Access — Loner Leather Admin" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Admins and Access — Loner Leather Admin" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: AdminsPage,
 });
@@ -27,10 +39,14 @@ const TABS: { key: Tab; label: string }[] = [
 
 function AdminsPage() {
   const { data: session } = useAdminSession();
+  const sendInvitation = useServerFn(inviteAdminByEmail);
   const isSuper = session?.role === "super_admin";
   const profiles = useRows<any>("profiles", { orderBy: "created_at" });
   const roles = useRows<any>("user_roles", {});
-  const invitations = useRows<any>("admin_invitations", { orderBy: "created_at", enabled: !!isSuper });
+  const invitations = useRows<any>("admin_invitations", {
+    orderBy: "created_at",
+    enabled: !!isSuper,
+  });
   const invalidate = useInvalidate();
   const [tab, setTab] = useState<Tab>("pending");
   const [details, setDetails] = useState<any | null>(null);
@@ -51,7 +67,10 @@ function AdminsPage() {
   if (!isSuper) {
     return (
       <>
-        <PageHeader title="Admins and Access" subtitle="Team access to the Loner Leather admin panel" />
+        <PageHeader
+          title="Admins and Access"
+          subtitle="Team access to the Loner Leather admin panel"
+        />
         <Panel className="flex items-center gap-3 text-sm text-muted-foreground">
           <ShieldCheck className="h-4 w-4" /> Only the Super Admin can manage admin access.
         </Panel>
@@ -64,7 +83,7 @@ function AdminsPage() {
       .from("profiles")
       .update({
         status,
-        approved_by: status === "approved" ? session?.userId ?? null : null,
+        approved_by: status === "approved" ? (session?.userId ?? null) : null,
         approved_at: status === "approved" ? new Date().toISOString() : null,
       })
       .eq("id", profile.id);
@@ -77,9 +96,24 @@ function AdminsPage() {
         .insert({ user_id: profile.id, role: role as never });
       if (roleError) return toast.error(roleError.message);
     }
+    if (status === "approved" && profile.email) {
+      await supabase
+        .from("admin_invitations")
+        .update({
+          accepted_at: new Date().toISOString(),
+          accepted_by: profile.id,
+        })
+        .ilike("email", profile.email)
+        .eq("revoked", false)
+        .is("accepted_at", null);
+    }
     await logAudit({
       action:
-        status === "approved" ? "user_approved" : status === "blocked" ? "user_blocked" : "user_rejected",
+        status === "approved"
+          ? "user_approved"
+          : status === "blocked"
+            ? "user_blocked"
+            : "user_rejected",
       page: "admins",
       recordType: "profiles",
       recordId: profile.id,
@@ -109,7 +143,10 @@ function AdminsPage() {
 
   async function removeAdmin(profile: any) {
     await supabase.from("user_roles").delete().eq("user_id", profile.id);
-    const { error } = await supabase.from("profiles").update({ status: "rejected" }).eq("id", profile.id);
+    const { error } = await supabase
+      .from("profiles")
+      .update({ status: "rejected" })
+      .eq("id", profile.id);
     if (error) return toast.error(error.message);
     await logAudit({
       action: "admin_removed",
@@ -123,23 +160,21 @@ function AdminsPage() {
 
   async function createInvitation(event: React.FormEvent) {
     event.preventDefault();
-    const { error } = await supabase.from("admin_invitations").insert({
-      email: inviteEmail.trim().toLowerCase(),
-      role: inviteRole as never,
-      expires_at: inviteExpiry ? new Date(inviteExpiry).toISOString() : null,
-      created_by: session?.userId ?? null,
-    });
-    if (error) return toast.error(error.message);
-    await logAudit({
-      action: "invitation_created",
-      page: "admins",
-      recordType: "admin_invitations",
-      newValue: { email: inviteEmail, role: inviteRole, expires_at: inviteExpiry || null },
-    });
-    setInviteEmail("");
-    setInviteExpiry("");
-    invalidate();
-    toast.success("Invitation created");
+    try {
+      await sendInvitation({
+        data: {
+          email: inviteEmail,
+          requestedRole: inviteRole,
+          expiresAt: inviteExpiry ? new Date(inviteExpiry).toISOString() : null,
+        },
+      });
+      setInviteEmail("");
+      setInviteExpiry("");
+      invalidate();
+      toast.success("Invitation email sent");
+    } catch (caught) {
+      toast.error(caught instanceof Error ? caught.message : "Could not send invitation");
+    }
   }
 
   async function revokeInvitation(invitation: any) {
@@ -160,7 +195,10 @@ function AdminsPage() {
 
   return (
     <>
-      <PageHeader title="Admins and Access" subtitle="Approve, invite and manage administration accounts" />
+      <PageHeader
+        title="Admins and Access"
+        subtitle="Approve, invite and manage administration accounts"
+      />
 
       <div className="mb-6 flex flex-wrap gap-2">
         {TABS.map((item) => (
@@ -238,7 +276,9 @@ function AdminsPage() {
                       </td>
                       <td className="py-3 text-muted-foreground">{profile.email}</td>
                       <td className="py-3 text-muted-foreground">{profile.provider ?? "email"}</td>
-                      <td className="py-3 text-muted-foreground">{shortDate(profile.created_at)}</td>
+                      <td className="py-3 text-muted-foreground">
+                        {shortDate(profile.created_at)}
+                      </td>
                       <td className="py-3">
                         <span className="rounded-full border border-border px-2 py-1 text-xs capitalize">
                           {profile.status}
@@ -276,7 +316,9 @@ function AdminsPage() {
                 <div>Role: {roleOf(details.id) ?? "none"}</div>
                 <div>Requested: {shortDate(details.created_at)}</div>
                 <div>Approved: {details.approved_at ? shortDate(details.approved_at) : "—"}</div>
-                <div>Last login: {details.last_login_at ? shortDate(details.last_login_at) : "—"}</div>
+                <div>
+                  Last login: {details.last_login_at ? shortDate(details.last_login_at) : "—"}
+                </div>
               </dl>
             </div>
             <Button variant="ghost" size="sm" onClick={() => setDetails(null)}>
@@ -289,11 +331,17 @@ function AdminsPage() {
       <Panel className="mt-6">
         <h3 className="font-display text-xl">Invitations</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          An invited email is approved automatically with the chosen role on first sign in.
+          Invited accounts start pending. A Super Admin must approve the account and role after sign
+          in.
         </p>
-        <form onSubmit={createInvitation} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto]">
+        <form
+          onSubmit={createInvitation}
+          className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto]"
+        >
           <div className="space-y-1">
-            <Label htmlFor="inviteEmail" className="text-xs">Email</Label>
+            <Label htmlFor="inviteEmail" className="text-xs">
+              Email
+            </Label>
             <Input
               id="inviteEmail"
               type="email"
@@ -304,7 +352,9 @@ function AdminsPage() {
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="inviteRole" className="text-xs">Role</Label>
+            <Label htmlFor="inviteRole" className="text-xs">
+              Role
+            </Label>
             <select
               id="inviteRole"
               value={inviteRole}
@@ -316,7 +366,9 @@ function AdminsPage() {
             </select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="inviteExpiry" className="text-xs">Expires</Label>
+            <Label htmlFor="inviteExpiry" className="text-xs">
+              Expires
+            </Label>
             <Input
               id="inviteExpiry"
               type="date"
@@ -355,7 +407,12 @@ function AdminsPage() {
                   </p>
                 </div>
                 {!invitation.revoked && !invitation.accepted_at ? (
-                  <Button variant="outline" size="sm" className="min-h-11" onClick={() => revokeInvitation(invitation)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="min-h-11"
+                    onClick={() => revokeInvitation(invitation)}
+                  >
                     <Trash2 className="mr-2 h-4 w-4" /> Revoke
                   </Button>
                 ) : null}
@@ -405,7 +462,11 @@ function Actions({
     <div className="mt-3 flex flex-wrap gap-2 lg:mt-0">
       {profile.status !== "approved" ? (
         <>
-          <Button size="sm" className="min-h-11" onClick={() => onApprove(profile, "approved", "admin")}>
+          <Button
+            size="sm"
+            className="min-h-11"
+            onClick={() => onApprove(profile, "approved", "admin")}
+          >
             <Check className="mr-2 h-4 w-4" /> Approve as Admin
           </Button>
           <Button
@@ -429,12 +490,22 @@ function Actions({
         </Button>
       )}
       {profile.status !== "rejected" ? (
-        <Button size="sm" variant="outline" className="min-h-11" onClick={() => onApprove(profile, "rejected", null)}>
+        <Button
+          size="sm"
+          variant="outline"
+          className="min-h-11"
+          onClick={() => onApprove(profile, "rejected", null)}
+        >
           <X className="mr-2 h-4 w-4" /> Reject
         </Button>
       ) : null}
       {profile.status !== "blocked" ? (
-        <Button size="sm" variant="outline" className="min-h-11" onClick={() => onApprove(profile, "blocked", null)}>
+        <Button
+          size="sm"
+          variant="outline"
+          className="min-h-11"
+          onClick={() => onApprove(profile, "blocked", null)}
+        >
           <Ban className="mr-2 h-4 w-4" /> Block
         </Button>
       ) : null}
