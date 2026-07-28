@@ -1,75 +1,91 @@
 {
-  "hero": {
-    "eyebrow": "The Collection",
-    "title": "Shop",
-    "intro": "Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco.",
-    "introShort": "Explore our handmade leather collection."
-  },
-  "filters": {
-    "title": "Filters",
-    "category": "Category",
-    "allPieces": "All pieces",
-    "maxPrice": "Max price",
-    "maxPriceLabel": "Maximum price",
-    "upTo": "Up to {{amount}}",
-    "colour": "Colour",
-    "inStockOnly": "In stock only",
-    "clear": "Clear filters",
-    "openFilters": "Filters"
-  },
-  "toolbar": {
-    "searchPlaceholder": "Search the collection",
-    "searchLabel": "Search products",
-    "sortLabel": "Sort products",
-    "sort": {
-      "featured": "Featured",
-      "newest": "Newest",
-      "best": "Best selling",
-      "priceAsc": "Price: low to high",
-      "priceDesc": "Price: high to low"
-    }
-  },
-  "results": {
-    "count_one": "{{count}} piece",
-    "count_other": "{{count}} pieces"
-  },
-  "empty": {
-    "title": "Nothing matches those filters",
-    "text": "Try widening the price range or clearing the colour selection.",
-    "cta": "Clear filters"
-  },
-  "sr": {
-    "shopFilters": "Shop filters"
-  },
-  "wishlist": {
-    "eyebrow": "Saved pieces",
-    "title": "Your Wishlist",
-    "intro": "Keep an eye on the pieces you love. Nothing is reserved until you order.",
-    "emptyTitle": "Nothing saved yet",
-    "emptyText": "Tap the heart on any piece to keep it here for later.",
-    "browse": "Browse the collection"
-  },
-  "showcase": {
-    "codBadge": "Cash on Delivery",
-    "moroccoBadge": "Made in Morocco",
-    "viewDetails": "View Details",
-    "comingSoonLabel": "Coming Soon",
-    "comingSoonEyebrow": "The workshop",
-    "comingSoonTitle": "More Handmade Leather Goods Coming Soon",
-    "comingSoonIntro": "New pieces are cut and stitched one at a time in Taroudant. These are next on the bench.",
-    "upcoming": {
-      "cardHolder": {
-        "title": "Card Holder",
-        "blurb": "Slim front-pocket carry with hand-burnished edges."
-      },
-      "passportHolder": {
-        "title": "Passport Holder",
-        "blurb": "A travel cover lined in soft suede, built to age well."
-      },
-      "moneyClip": {
-        "title": "Money Clip",
-        "blurb": "Brushed steel clip riveted through full-grain leather."
-      }
-    }
+ "hero": {
+  "eyebrow": "The Collection",
+  "title": "Shop",
+  "intro": "Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco.",
+  "introShort": "Explore our handmade leather collection."
+ },
+ "filters": {
+  "title": "Filters",
+  "category": "Category",
+  "allPieces": "All pieces",
+  "maxPrice": "Max price",
+  "maxPriceLabel": "Maximum price",
+  "upTo": "Up to {{amount}}",
+  "colour": "Colour",
+  "inStockOnly": "In stock only",
+  "clear": "Clear filters",
+  "openFilters": "Filters"
+ },
+ "toolbar": {
+  "searchPlaceholder": "Search the collection",
+  "searchLabel": "Search products",
+  "sortLabel": "Sort products",
+  "sort": {
+   "featured": "Featured",
+   "newest": "Newest",
+   "best": "Best selling",
+   "priceAsc": "Price: low to high",
+   "priceDesc": "Price: high to low"
   }
+ },
+ "results": {
+  "count_one": "{{count}} piece",
+  "count_other": "{{count}} pieces"
+ },
+ "empty": {
+  "title": "Nothing matches those filters",
+  "text": "Try widening the price range or clearing the colour selection.",
+  "cta": "Clear filters"
+ },
+ "sr": {
+  "shopFilters": "Shop filters"
+ },
+ "wishlist": {
+  "eyebrow": "Saved pieces",
+  "title": "Your Wishlist",
+  "intro": "Keep an eye on the pieces you love. Nothing is reserved until you order.",
+  "emptyTitle": "Nothing saved yet",
+  "emptyText": "Tap the heart on any piece to keep it here for later.",
+  "browse": "Browse the collection"
+ },
+ "showcase": {
+  "codBadge": "Cash on Delivery",
+  "moroccoBadge": "Made in Morocco",
+  "viewDetails": "View Details",
+  "comingSoonLabel": "Coming Soon",
+  "comingSoonEyebrow": "The workshop",
+  "comingSoonTitle": "More Handmade Leather Goods Coming Soon",
+  "comingSoonIntro": "New pieces are cut and stitched one at a time in Taroudant. These are next on the bench.",
+  "upcoming": {
+   "cardHolder": {
+    "title": "Card Holder",
+    "blurb": "Slim front-pocket carry with hand-burnished edges."
+   },
+   "passportHolder": {
+    "title": "Passport Holder",
+    "blurb": "A travel cover lined in soft suede, built to age well."
+   },
+   "moneyClip": {
+    "title": "Money Clip",
+    "blurb": "Brushed steel clip riveted through full-grain leather."
+   }
+  }
+ },
+ "card": {
+  "featured": "Featured",
+  "soldOut": "Sold out",
+  "quickView": "Quick View",
+  "details": "View Details",
+  "whatsapp": "WhatsApp Order",
+  "cod": "Cash on Delivery",
+  "handmade": "Handmade"
+ },
+ "landing": {
+  "pieces": "pieces",
+  "piece": "piece",
+  "viewAll": "View the collection",
+  "reviewsCount": "{{count}} verified reviews",
+  "empty": "New pieces are on the bench right now. Message us on WhatsApp for what is available today."
+ }
 }
