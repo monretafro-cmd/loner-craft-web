@@ -41,6 +41,7 @@ import { Route as AdminShellCouponsRouteImport } from './routes/admin/_shell/cou
 import { Route as AdminShellCategoriesRouteImport } from './routes/admin/_shell/categories'
 import { Route as AdminShellAuditRouteImport } from './routes/admin/_shell/audit'
 import { Route as AdminShellAnalyticsRouteImport } from './routes/admin/_shell/analytics'
+import { Route as AdminShellAdminsRouteImport } from './routes/admin/_shell/admins'
 import { Route as AdminShellProductsIndexRouteImport } from './routes/admin/_shell/products.index'
 import { Route as AdminShellOrdersIndexRouteImport } from './routes/admin/_shell/orders.index'
 import { Route as AdminShellProductsIdRouteImport } from './routes/admin/_shell/products.$id'
@@ -206,6 +207,11 @@ const AdminShellAnalyticsRoute = AdminShellAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AdminShellRoute,
 } as any)
+const AdminShellAdminsRoute = AdminShellAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => AdminShellRoute,
+} as any)
 const AdminShellProductsIndexRoute = AdminShellProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/admins': typeof AdminShellAdminsRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
   '/admin/audit': typeof AdminShellAuditRoute
   '/admin/categories': typeof AdminShellCategoriesRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/admin/login': typeof AdminLoginRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/admins': typeof AdminShellAdminsRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
   '/admin/audit': typeof AdminShellAuditRoute
   '/admin/categories': typeof AdminShellCategoriesRoute
@@ -322,6 +330,7 @@ export interface FileRoutesById {
   '/admin/_shell': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/_shell/admins': typeof AdminShellAdminsRoute
   '/admin/_shell/analytics': typeof AdminShellAnalyticsRoute
   '/admin/_shell/audit': typeof AdminShellAuditRoute
   '/admin/_shell/categories': typeof AdminShellCategoriesRoute
@@ -362,6 +371,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/login'
     | '/product/$slug'
+    | '/admin/admins'
     | '/admin/analytics'
     | '/admin/audit'
     | '/admin/categories'
@@ -399,6 +409,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/login'
     | '/product/$slug'
+    | '/admin/admins'
     | '/admin/analytics'
     | '/admin/audit'
     | '/admin/categories'
@@ -437,6 +448,7 @@ export interface FileRouteTypes {
     | '/admin/_shell'
     | '/admin/login'
     | '/product/$slug'
+    | '/admin/_shell/admins'
     | '/admin/_shell/analytics'
     | '/admin/_shell/audit'
     | '/admin/_shell/categories'
@@ -704,6 +716,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellAnalyticsRouteImport
       parentRoute: typeof AdminShellRoute
     }
+    '/admin/_shell/admins': {
+      id: '/admin/_shell/admins'
+      path: '/admins'
+      fullPath: '/admin/admins'
+      preLoaderRoute: typeof AdminShellAdminsRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
     '/admin/_shell/products/': {
       id: '/admin/_shell/products/'
       path: '/products'
@@ -736,6 +755,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminShellRouteChildren {
+  AdminShellAdminsRoute: typeof AdminShellAdminsRoute
   AdminShellAnalyticsRoute: typeof AdminShellAnalyticsRoute
   AdminShellAuditRoute: typeof AdminShellAuditRoute
   AdminShellCategoriesRoute: typeof AdminShellCategoriesRoute
@@ -757,6 +777,7 @@ interface AdminShellRouteChildren {
 }
 
 const AdminShellRouteChildren: AdminShellRouteChildren = {
+  AdminShellAdminsRoute: AdminShellAdminsRoute,
   AdminShellAnalyticsRoute: AdminShellAnalyticsRoute,
   AdminShellAuditRoute: AdminShellAuditRoute,
   AdminShellCategoriesRoute: AdminShellCategoriesRoute,
