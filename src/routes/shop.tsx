@@ -182,7 +182,15 @@ function ShopPage() {
               subtitle={text("shop_featured", "subtitle")}
             />
           </Reveal>
-          <div className="mt-10 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+          <div
+            className={`mt-10 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 ${
+              featured.length === 1
+                ? "sm:mx-auto sm:max-w-[420px] sm:grid-cols-1"
+                : featured.length === 2
+                  ? "sm:mx-auto sm:max-w-[880px] sm:grid-cols-2"
+                  : "sm:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
             {featured.map((product, i) => (
               <div key={product.id} className="w-[82vw] shrink-0 snap-center sm:w-auto">
                 <Reveal delay={i * 80}>
