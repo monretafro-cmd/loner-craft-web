@@ -6,7 +6,9 @@
   "gallery": {
     "hoverZoom": "Hover to zoom",
     "viewImage": "View image {{index}}",
-    "imageAlt": "{{name}} — view {{index}}"
+    "imageAlt": "{{name}} — view {{index}}",
+    "fullscreen": "View fullscreen",
+    "close": "Close"
   },
   "meta": {
     "reviews_one": "{{count}} review",
@@ -33,7 +35,8 @@
     "wishlistAdd": "Add to wishlist",
     "orderNow": "Order Now",
     "soldOut": "Sold out",
-    "whatsappOrder": "WhatsApp Order"
+    "whatsappOrder": "WhatsApp Order",
+    "buyNow": "Buy Now"
   },
   "toast": {
     "added": "{{name}} added to your bag",
@@ -60,5 +63,55 @@
   },
   "unavailable": {
     "title": "Product unavailable"
+  },
+  "status": {
+    "items": [
+      "Handmade in Morocco",
+      "Genuine Goat Leather",
+      "Cash On Delivery",
+      "Available"
+    ]
+  },
+  "features": {
+    "title": "Features"
+  },
+  "material": {
+    "title": "Material"
+  },
+  "highlights": {
+    "title": "Why you'll keep it for years",
+    "items": [
+      "100% Genuine Leather",
+      "Handmade",
+      "Made in Morocco",
+      "Cash On Delivery",
+      "Fast Delivery",
+      "Gift Ready Packaging"
+    ]
+  },
+  "packaging": {
+    "eyebrow": "Packaging",
+    "title": "Arrives ready to gift",
+    "text": "Every Alpha Wallet leaves the workshop carefully packed by hand, so it reaches you exactly as it left the bench.",
+    "items": [
+      "Handmade wallet",
+      "Protective packaging",
+      "Thank You card",
+      "Gift-ready presentation"
+    ]
+  },
+  "craft": {
+    "eyebrow": "Craftsmanship",
+    "title": "Cut, stitched and inspected by hand",
+    "paragraphs": [
+      "Each wallet is cut, stitched, finished and inspected by hand in our Taroudant workshop.",
+      "Natural leather develops character over time — every mark and every shade shift is part of the piece.",
+      "No mass production. Only one pair of hands per wallet, from the first cut to the final inspection."
+    ]
+  },
+  "trust": {
+    "cod": "Cash On Delivery",
+    "delivery": "Delivery Across Morocco",
+    "handmade": "Handmade in Taroudant"
   }
 }
