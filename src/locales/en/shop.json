@@ -2,7 +2,8 @@
   "hero": {
     "eyebrow": "The Collection",
     "title": "Shop",
-    "intro": "Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco."
+    "intro": "Every piece below is cut, stitched and finished by hand in our Taroudant workshop. Pay cash on delivery, anywhere in Morocco.",
+    "introShort": "Explore our handmade leather collection."
   },
   "filters": {
     "title": "Filters",
@@ -47,5 +48,28 @@
     "emptyTitle": "Nothing saved yet",
     "emptyText": "Tap the heart on any piece to keep it here for later.",
     "browse": "Browse the collection"
+  },
+  "showcase": {
+    "codBadge": "Cash on Delivery",
+    "moroccoBadge": "Made in Morocco",
+    "viewDetails": "View Details",
+    "comingSoonLabel": "Coming Soon",
+    "comingSoonEyebrow": "The workshop",
+    "comingSoonTitle": "More Handmade Leather Goods Coming Soon",
+    "comingSoonIntro": "New pieces are cut and stitched one at a time in Taroudant. These are next on the bench.",
+    "upcoming": {
+      "cardHolder": {
+        "title": "Card Holder",
+        "blurb": "Slim front-pocket carry with hand-burnished edges."
+      },
+      "passportHolder": {
+        "title": "Passport Holder",
+        "blurb": "A travel cover lined in soft suede, built to age well."
+      },
+      "moneyClip": {
+        "title": "Money Clip",
+        "blurb": "Brushed steel clip riveted through full-grain leather."
+      }
+    }
   }
 }
