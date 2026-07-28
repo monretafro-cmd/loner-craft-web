@@ -605,11 +605,11 @@ function ShopPage() {
               width={2000}
               height={1200}
               fetchPriority="high"
-              className="absolute inset-0 -z-20 h-full w-full scale-105 object-cover opacity-70"
+              className="absolute inset-0 -z-20 h-full w-full scale-105 object-cover"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(20,13,9,0.96),rgba(20,13,9,0.72)_45%,rgba(20,13,9,0.35))]"
+              className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(20,13,9,0.97),rgba(20,13,9,0.86)_40%,rgba(20,13,9,0.62))]"
             />
             <div
               aria-hidden="true"
