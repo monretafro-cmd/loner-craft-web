@@ -74,6 +74,236 @@ export const Route = createFileRoute("/shop")({
 
 const MARKETPLACE_THRESHOLD = 6;
 const UPCOMING = ["cardHolder", "passportHolder", "moneyClip"] as const;
+const DEFAULT_SECTION_ORDER = [
+  "shop_featured",
+  "shop_categories",
+  "shop_collection",
+  "shop_craft",
+  "shop_packaging",
+  "shop_delivery",
+  "shop_reviews",
+  "shop_faq",
+  "shop_cta",
+] as const;
+
+const SHOP_DEFAULTS = {
+  en: {
+    featuredSubtitle: "A first look at the pieces that define Loner Leather.",
+    collectionSubtitle:
+      "Small-batch essentials made to be carried every day and become more personal with time.",
+    craftTitle: "Made slowly. Built to stay.",
+    craftBody:
+      "Every Loner piece begins as genuine Moroccan leather and passes through one pair of hands in our Taroudant workshop.",
+    craftPoints: [
+      "Genuine Moroccan goat leather selected by hand",
+      "Cut, stitched and edge-finished in our workshop",
+      "Natural character that develops a richer patina over time",
+    ],
+    packagingTitle: "A gift before it is opened",
+    packagingBody:
+      "Your piece arrives protected, carefully wrapped and ready to offer — even when the gift is for you.",
+    deliveryTitle: "From our workshop to your door",
+    deliveryItems: [
+      { title: "Cash on delivery", text: "Pay only when your order reaches you." },
+      {
+        title: "Morocco-wide shipping",
+        text: "Reliable delivery to cities and regions across Morocco.",
+      },
+      { title: "Personal assistance", text: "Order and ask questions directly through WhatsApp." },
+      { title: "Carefully packed", text: "Every piece is checked and protected before dispatch." },
+    ],
+    reviewsTitle: "Carried, gifted and loved",
+    reviewsSubtitle: "Words from people who chose a Loner piece.",
+    reviews: [
+      {
+        id: "fallback-review-1",
+        name: "Youssef B.",
+        city: "Casablanca",
+        rating: 5,
+        text: "The leather feels beautiful and the stitching is remarkably clean. It already looks better with use.",
+      },
+      {
+        id: "fallback-review-2",
+        name: "Amine T.",
+        city: "Rabat",
+        rating: 5,
+        text: "Ordering through WhatsApp was simple, delivery was quick, and the packaging felt genuinely premium.",
+      },
+      {
+        id: "fallback-review-3",
+        name: "Sara E.",
+        city: "Taroudant",
+        rating: 5,
+        text: "A thoughtful handmade gift with a real sense of place. The finish is even nicer in person.",
+      },
+    ],
+    faqTitle: "Good to know before you order",
+    faqItems: [
+      {
+        q: "How do I place an order?",
+        a: "Choose your piece and message us on WhatsApp. We will confirm availability, delivery details and your order directly.",
+      },
+      {
+        q: "Do you deliver across Morocco?",
+        a: "Yes. We deliver throughout Morocco, with timing depending on your city and region.",
+      },
+      {
+        q: "Can I pay on delivery?",
+        a: "Yes. Cash on Delivery is available, so you pay when your parcel arrives.",
+      },
+      {
+        q: "Is each piece really handmade?",
+        a: "Yes. Every piece is cut, stitched and finished by hand in our Taroudant workshop.",
+      },
+    ],
+    ctaSubtitle:
+      "Choose a piece from the collection or speak with us directly for availability and custom requests.",
+  },
+  fr: {
+    featuredSubtitle: "Un premier regard sur les pièces qui définissent Loner Leather.",
+    collectionSubtitle:
+      "Des essentiels fabriqués en petite série, pensés pour le quotidien et embellis par le temps.",
+    craftTitle: "Fabriqué lentement. Pensé pour durer.",
+    craftBody:
+      "Chaque pièce Loner commence par un cuir marocain véritable et passe entre les mêmes mains dans notre atelier de Taroudant.",
+    craftPoints: [
+      "Cuir de chèvre marocain véritable sélectionné à la main",
+      "Découpe, couture et finitions réalisées dans notre atelier",
+      "Une matière naturelle qui développe une patine unique avec le temps",
+    ],
+    packagingTitle: "Un cadeau avant même de l’ouvrir",
+    packagingBody:
+      "Votre pièce arrive protégée, soigneusement emballée et prête à offrir — même si le cadeau est pour vous.",
+    deliveryTitle: "De notre atelier jusqu’à votre porte",
+    deliveryItems: [
+      {
+        title: "Paiement à la livraison",
+        text: "Vous payez uniquement lorsque votre commande arrive.",
+      },
+      {
+        title: "Livraison au Maroc",
+        text: "Livraison fiable dans les villes et régions du Maroc.",
+      },
+      {
+        title: "Accompagnement personnel",
+        text: "Commandez et posez vos questions directement sur WhatsApp.",
+      },
+      { title: "Emballage soigné", text: "Chaque pièce est vérifiée et protégée avant l’envoi." },
+    ],
+    reviewsTitle: "Portées, offertes et appréciées",
+    reviewsSubtitle: "Les mots de celles et ceux qui ont choisi une pièce Loner.",
+    reviews: [
+      {
+        id: "fallback-review-1",
+        name: "Youssef B.",
+        city: "Casablanca",
+        rating: 5,
+        text: "Le cuir est superbe et les coutures sont très propres. La pièce devient encore plus belle avec l’usage.",
+      },
+      {
+        id: "fallback-review-2",
+        name: "Amine T.",
+        city: "Rabat",
+        rating: 5,
+        text: "La commande sur WhatsApp était simple, la livraison rapide et l’emballage vraiment premium.",
+      },
+      {
+        id: "fallback-review-3",
+        name: "Sara E.",
+        city: "Taroudant",
+        rating: 5,
+        text: "Un cadeau artisanal plein de caractère. Les finitions sont encore plus belles en vrai.",
+      },
+    ],
+    faqTitle: "À savoir avant de commander",
+    faqItems: [
+      {
+        q: "Comment passer commande ?",
+        a: "Choisissez votre pièce et contactez-nous sur WhatsApp. Nous confirmerons directement la disponibilité et la livraison.",
+      },
+      {
+        q: "Livrez-vous partout au Maroc ?",
+        a: "Oui. Nous livrons dans tout le Maroc, avec un délai qui dépend de votre ville et de votre région.",
+      },
+      {
+        q: "Puis-je payer à la livraison ?",
+        a: "Oui. Le paiement à la livraison est disponible : vous payez lorsque votre colis arrive.",
+      },
+      {
+        q: "Chaque pièce est-elle vraiment faite main ?",
+        a: "Oui. Chaque pièce est découpée, cousue et finie à la main dans notre atelier de Taroudant.",
+      },
+    ],
+    ctaSubtitle:
+      "Choisissez une pièce de la collection ou contactez-nous directement pour connaître les disponibilités et les options personnalisées.",
+  },
+  ar: {
+    featuredSubtitle: "نظرة أولى على القطع التي تعبّر عن هوية لونر ليذر.",
+    collectionSubtitle:
+      "قطع أساسية مصنوعة بكميات محدودة، للاستخدام اليومي وتزداد جمالاً مع مرور الوقت.",
+    craftTitle: "صناعة متأنية تدوم طويلاً",
+    craftBody: "تبدأ كل قطعة لونر بجلد مغربي أصلي، وتُصنع بالكامل بعناية داخل ورشتنا في تارودانت.",
+    craftPoints: [
+      "جلد ماعز مغربي أصلي مختار بعناية",
+      "قص وخياطة وتشطيب يدوي داخل ورشتنا",
+      "خامة طبيعية تكتسب طابعاً أجمل مع الاستعمال",
+    ],
+    packagingTitle: "هدية قبل فتحها",
+    packagingBody: "تصلك قطعتك محمية ومغلفة بعناية وجاهزة للإهداء، حتى إن كانت الهدية لنفسك.",
+    deliveryTitle: "من ورشتنا إلى باب منزلك",
+    deliveryItems: [
+      { title: "الدفع عند الاستلام", text: "تدفع فقط عندما تصل إليك طلبك." },
+      { title: "توصيل داخل المغرب", text: "توصيل موثوق إلى مختلف مدن ومناطق المغرب." },
+      { title: "مساعدة مباشرة", text: "اطلب واستفسر معنا مباشرة عبر واتساب." },
+      { title: "تغليف بعناية", text: "نفحص كل قطعة ونحميها جيداً قبل الإرسال." },
+    ],
+    reviewsTitle: "قطع تُحمل وتُهدى وتُحب",
+    reviewsSubtitle: "كلمات من أشخاص اختاروا قطعة من لونر.",
+    reviews: [
+      {
+        id: "fallback-review-1",
+        name: "يوسف ب.",
+        city: "الدار البيضاء",
+        rating: 5,
+        text: "ملمس الجلد جميل والخياطة متقنة جداً. القطعة تصبح أجمل مع الاستعمال.",
+      },
+      {
+        id: "fallback-review-2",
+        name: "أمين ت.",
+        city: "الرباط",
+        rating: 5,
+        text: "الطلب عبر واتساب كان سهلاً، والتوصيل سريع، والتغليف فعلاً راقٍ.",
+      },
+      {
+        id: "fallback-review-3",
+        name: "سارة إ.",
+        city: "تارودانت",
+        rating: 5,
+        text: "هدية يدوية مميزة بطابع مغربي واضح، والتشطيب أجمل على الطبيعة.",
+      },
+    ],
+    faqTitle: "معلومات مهمة قبل الطلب",
+    faqItems: [
+      {
+        q: "كيف أطلب قطعة؟",
+        a: "اختر القطعة وتواصل معنا عبر واتساب، وسنؤكد لك التوفر وتفاصيل التوصيل مباشرة.",
+      },
+      {
+        q: "هل التوصيل متوفر في جميع أنحاء المغرب؟",
+        a: "نعم. نوصل إلى مختلف مناطق المغرب، وتختلف المدة حسب المدينة والمنطقة.",
+      },
+      {
+        q: "هل يمكنني الدفع عند الاستلام؟",
+        a: "نعم. الدفع عند الاستلام متوفر، وتدفع عند وصول الطرد.",
+      },
+      {
+        q: "هل كل قطعة مصنوعة يدوياً؟",
+        a: "نعم. يتم قص وخياطة وتشطيب كل قطعة يدوياً داخل ورشتنا في تارودانت.",
+      },
+    ],
+    ctaSubtitle: "اختر قطعة من المجموعة أو تواصل معنا مباشرة لمعرفة المتوفر وطلبات التخصيص.",
+  },
+} as const;
 
 const heroFallback =
   PHOTOS.walletOpenCards.src ?? PHOTOS.walletWrappedThankYou.src ?? galleryImages()[0] ?? "";
@@ -147,6 +377,8 @@ function ShopPage() {
   const categories = catalog.data?.categories ?? [];
   const sections: ShopSections = sectionsQuery.data ?? {};
   const reviews = reviewsQuery.data ?? [];
+  const defaults = SHOP_DEFAULTS[lang];
+  const displayReviews = reviews.length ? reviews : [...defaults.reviews];
   const isMarketplace = products.length >= MARKETPLACE_THRESHOLD;
 
   const visible = (key: string) => sections[key]?.active !== false;
@@ -167,7 +399,8 @@ function ShopPage() {
       return true;
     });
     list = [...list];
-    if (sort === "newest") list.sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
+    if (sort === "newest")
+      list.sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
     if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
     if (sort === "featured") list.sort((a, b) => Number(b.featured) - Number(a.featured));
@@ -183,19 +416,7 @@ function ShopPage() {
   const ordered = Object.entries(sections)
     .sort((a, b) => a[1].order - b[1].order)
     .map(([key]) => key);
-  const order = ordered.length
-    ? ordered
-    : [
-        "shop_featured",
-        "shop_categories",
-        "shop_collection",
-        "shop_craft",
-        "shop_packaging",
-        "shop_delivery",
-        "shop_reviews",
-        "shop_faq",
-        "shop_cta",
-      ];
+  const order = [...ordered, ...DEFAULT_SECTION_ORDER.filter((key) => !ordered.includes(key))];
 
   const blocks: Record<string, React.ReactNode> = {
     shop_featured: featured.length ? (
@@ -209,7 +430,7 @@ function ShopPage() {
             <SectionHeading
               eyebrow={text("shop_featured", "eyebrow", "Selected")}
               title={text("shop_featured", "title", "Featured pieces")}
-              subtitle={text("shop_featured", "subtitle")}
+              subtitle={text("shop_featured", "subtitle", defaults.featuredSubtitle)}
             />
           </Reveal>
           <div
@@ -260,10 +481,13 @@ function ShopPage() {
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-display truncate text-xl">
-                      {(lang === "fr" && category.nameFr) || (lang === "ar" && category.nameAr) || category.name}
+                      {(lang === "fr" && category.nameFr) ||
+                        (lang === "ar" && category.nameAr) ||
+                        category.name}
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {category.count} {t(category.count === 1 ? "shop.landing.piece" : "shop.landing.pieces")}
+                      {category.count}{" "}
+                      {t(category.count === 1 ? "shop.landing.piece" : "shop.landing.pieces")}
                     </p>
                   </div>
                   <ArrowRight className="ms-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180" />
@@ -282,7 +506,7 @@ function ShopPage() {
             <SectionHeading
               eyebrow={text("shop_collection", "eyebrow", "All pieces")}
               title={text("shop_collection", "title", "The full collection")}
-              subtitle={text("shop_collection", "subtitle")}
+              subtitle={text("shop_collection", "subtitle", defaults.collectionSubtitle)}
             />
           </Reveal>
 
@@ -303,11 +527,17 @@ function ShopPage() {
                 value={sort}
                 onValueChange={(value) =>
                   navigate({
-                    search: { ...search, sort: value === "featured" ? undefined : (value as never) },
+                    search: {
+                      ...search,
+                      sort: value === "featured" ? undefined : (value as never),
+                    },
                   })
                 }
               >
-                <SelectTrigger className="h-11 w-[180px] shrink-0" aria-label={t("shop.toolbar.sortLabel")}>
+                <SelectTrigger
+                  className="h-11 w-[180px] shrink-0"
+                  aria-label={t("shop.toolbar.sortLabel")}
+                >
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -327,7 +557,9 @@ function ShopPage() {
                   key={c.slug}
                   type="button"
                   onClick={() =>
-                    navigate({ search: { ...search, category: c.slug === "all" ? undefined : c.slug } })
+                    navigate({
+                      search: { ...search, category: c.slug === "all" ? undefined : c.slug },
+                    })
                   }
                   className={`min-h-11 rounded-full border px-5 text-sm transition-colors ${
                     activeCategory === c.slug
@@ -392,7 +624,10 @@ function ShopPage() {
     ),
 
     shop_craft: (
-      <section key="craft" className="border-y border-border bg-ink py-20 text-ink-foreground lg:py-28">
+      <section
+        key="craft"
+        className="border-y border-border bg-ink py-20 text-ink-foreground lg:py-28"
+      >
         <Shell>
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <Reveal>
@@ -411,11 +646,14 @@ function ShopPage() {
                   center={false}
                   tone="dark"
                   eyebrow={text("shop_craft", "eyebrow", "Our craft")}
-                  title={text("shop_craft", "title")}
-                  subtitle={text("shop_craft", "body")}
+                  title={text("shop_craft", "title", defaults.craftTitle)}
+                  subtitle={text("shop_craft", "body", defaults.craftBody)}
                 />
                 <ul className="mt-8 space-y-4">
-                  {((pick<string[]>(content("shop_craft").points, lang) ?? []) as string[]).map((point) => (
+                  {(
+                    (pick<string[]>(content("shop_craft").points, lang) ??
+                      defaults.craftPoints) as readonly string[]
+                  ).map((point) => (
                     <li
                       key={point}
                       className="flex items-start gap-3 border-b border-ink-foreground/10 pb-4 text-sm text-ink-foreground/75"
@@ -441,8 +679,8 @@ function ShopPage() {
                 <SectionHeading
                   center={false}
                   eyebrow={text("shop_packaging", "eyebrow", "Packaging")}
-                  title={text("shop_packaging", "title")}
-                  subtitle={text("shop_packaging", "body")}
+                  title={text("shop_packaging", "title", defaults.packagingTitle)}
+                  subtitle={text("shop_packaging", "body", defaults.packagingBody)}
                 />
               </div>
             </Reveal>
@@ -467,14 +705,14 @@ function ShopPage() {
           <Reveal>
             <SectionHeading
               eyebrow={text("shop_delivery", "eyebrow", "Delivery")}
-              title={text("shop_delivery", "title", "Simple, safe delivery")}
+              title={text("shop_delivery", "title", defaults.deliveryTitle)}
             />
           </Reveal>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {((pick<{ title: string; text: string }[]>(content("shop_delivery").items, lang) ?? []) as {
-              title: string;
-              text: string;
-            }[]).map((item, i) => {
+            {(
+              (pick<{ title: string; text: string }[]>(content("shop_delivery").items, lang) ??
+                defaults.deliveryItems) as readonly { title: string; text: string }[]
+            ).map((item, i) => {
               const Icon = [Wallet, Truck, MessageCircle, Sparkles][i % 4];
               return (
                 <Reveal key={item.title} delay={i * 70}>
@@ -483,7 +721,9 @@ function ShopPage() {
                       <Icon className="h-5 w-5" />
                     </span>
                     <h3 className="font-display mt-5 text-xl">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {item.text}
+                    </p>
                   </div>
                 </Reveal>
               );
@@ -493,18 +733,18 @@ function ShopPage() {
       </section>
     ),
 
-    shop_reviews: reviews.length ? (
+    shop_reviews: displayReviews.length ? (
       <section key="reviews" className="py-16 lg:py-24">
         <Shell>
           <Reveal>
             <SectionHeading
               eyebrow={text("shop_reviews", "eyebrow", "Reviews")}
-              title={text("shop_reviews", "title", "What customers say")}
-              subtitle={t("shop.landing.reviewsCount", { count: reviews.length })}
+              title={text("shop_reviews", "title", defaults.reviewsTitle)}
+              subtitle={text("shop_reviews", "subtitle", defaults.reviewsSubtitle)}
             />
           </Reveal>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {reviews.map((review, i) => (
+            {displayReviews.map((review, i) => (
               <Reveal key={review.id} delay={i * 70}>
                 <figure className="h-full rounded-[20px] border border-border bg-card p-7 transition-shadow duration-500 hover:shadow-[0_28px_60px_-44px_rgba(36,24,18,0.6)]">
                   <div className="flex gap-1">
@@ -522,7 +762,9 @@ function ShopPage() {
                   )}
                   <figcaption className="mt-4 text-sm font-medium">
                     {review.name}
-                    {review.city ? <span className="text-muted-foreground"> — {review.city}</span> : null}
+                    {review.city ? (
+                      <span className="text-muted-foreground"> — {review.city}</span>
+                    ) : null}
                   </figcaption>
                 </figure>
               </Reveal>
@@ -533,15 +775,15 @@ function ShopPage() {
     ) : null,
 
     shop_faq: (() => {
-      const items = (content("shop_faq").items ?? []) as { q: any; a: any }[];
-      if (!items.length) return null;
+      const configuredItems = (content("shop_faq").items ?? []) as { q: any; a: any }[];
+      const items = configuredItems.length ? configuredItems : defaults.faqItems;
       return (
         <section key="faq" className="border-y border-border bg-secondary/40 py-16 lg:py-24">
           <div className="mx-auto max-w-3xl px-4 sm:px-6">
             <Reveal>
               <SectionHeading
                 eyebrow={text("shop_faq", "eyebrow", "FAQ")}
-                title={text("shop_faq", "title", "Questions before you order")}
+                title={text("shop_faq", "title", defaults.faqTitle)}
               />
             </Reveal>
             <Accordion type="single" collapsible className="mt-8">
@@ -574,7 +816,7 @@ function ShopPage() {
                 {text("shop_cta", "title", "Order your handmade leather goods today")}
               </h2>
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-80">
-                {text("shop_cta", "subtitle")}
+                {text("shop_cta", "subtitle", defaults.ctaSubtitle)}
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="lg" variant="secondary" className="min-h-12 w-full sm:w-auto">
@@ -628,8 +870,15 @@ function ShopPage() {
                   {text("shop_hero", "subtitle", t("shop.hero.intro"))}
                 </p>
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                  <Button asChild size="lg" variant="secondary" className="min-h-12 w-full sm:w-auto">
-                    <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="secondary"
+                    className="min-h-12 w-full sm:w-auto"
+                  >
+                    <a href="#collection">
+                      {text("shop_hero", "primaryLabel", "Browse Collection")}
+                    </a>
                   </Button>
                   <Button
                     asChild
@@ -655,7 +904,10 @@ function ShopPage() {
                 { Icon: Wallet, label: t("shop.landing.trust.cod") },
                 { Icon: Truck, label: t("shop.landing.trust.shipping") },
               ].map(({ Icon, label }) => (
-                <div key={label} className="flex items-center justify-center gap-2 px-3 py-5 text-center">
+                <div
+                  key={label}
+                  className="flex items-center justify-center gap-2 px-3 py-5 text-center"
+                >
                   <Icon className="h-4 w-4 shrink-0 text-primary" />
                   <span className="text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground sm:text-xs">
                     {label}
@@ -667,9 +919,7 @@ function ShopPage() {
         </>
       )}
 
-      {order
-        .filter((key) => key !== "shop_hero" && visible(key))
-        .map((key) => blocks[key] ?? null)}
+      {order.filter((key) => key !== "shop_hero" && visible(key)).map((key) => blocks[key] ?? null)}
     </>
   );
 }
