@@ -54,7 +54,7 @@ function PendingPage() {
     <div className="flex min-h-screen items-center justify-center bg-ink px-4 py-12 text-ink-foreground">
       <div className="w-full max-w-[480px] rounded-2xl border border-white/10 bg-white/[0.04] p-7 text-center backdrop-blur sm:p-9">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5">
-          <Clock className="h-5 w-5 text-warm-beige" />
+          <Clock className="h-5 w-5 text-cognac" />
         </div>
         <h1 className="mt-6 font-display text-3xl leading-tight">Access request pending</h1>
         <p className="mt-4 text-sm leading-relaxed text-white/65">
