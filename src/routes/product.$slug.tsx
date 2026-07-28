@@ -117,7 +117,7 @@ function ProductPage() {
   const product = getProduct(slug)!;
   const { addLine, setCartOpen, toggleWish, wishlist, pushRecent, recent } = useStore();
   const { t, tList, isRTL } = useI18n();
-  const { productText, categoryName, colorName, price, faqs } = useCatalog();
+  const { productText, colorName, price, faqs } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
   const [color, setColor] = useState(product.colors[0]);
