@@ -1,13 +1,24 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { SlidersHorizontal, Search as SearchIcon, X } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  BadgeCheck,
+  MessageCircle,
+  Search as SearchIcon,
+  Star,
+  Truck,
+  Wallet,
+  Sparkles,
+} from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Slider } from "@/components/ui/slider";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Select,
   SelectContent,
@@ -15,17 +26,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PageHero } from "@/components/site/PageHero";
-import { ProductCard } from "@/components/site/ProductCard";
-import { ComingSoonCard, ShowcaseCard } from "@/components/site/ShowcaseCard";
 import { Reveal } from "@/components/site/Reveal";
+import { ComingSoonCard } from "@/components/site/ShowcaseCard";
+import { ShopProductCard } from "@/components/site/shop/ShopProductCard";
 import { useI18n } from "@/lib/i18n";
-import { useCatalog } from "@/lib/i18n/catalog";
-import { allColors, categories, products } from "@/lib/products";
+import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { PHOTOS, galleryImages } from "@/lib/photos";
+import {
+  featuredOf,
+  pick,
+  useShopCatalog,
+  useShopReviews,
+  useShopSections,
+  type ShopProduct,
+  type ShopSections,
+} from "@/lib/shop/data";
 
 const searchSchema = z.object({
   category: z.string().optional(),
-  sort: z.enum(["featured", "newest", "best", "price-asc", "price-desc"]).optional(),
+  sort: z.enum(["featured", "newest", "price-asc", "price-desc"]).optional(),
   q: z.string().optional(),
 });
 
@@ -37,13 +56,15 @@ export const Route = createFileRoute("/shop")({
       {
         name: "description",
         content:
-          "Browse hand-stitched wallets, card holders, passport holders, money clips and key holders. Prices in MAD with Cash on Delivery in Morocco.",
+          "Browse handmade Moroccan leather wallets and accessories. Hand-stitched in Taroudant, delivered across Morocco with Cash on Delivery.",
       },
       { property: "og:title", content: "Shop Handmade Leather Goods — Loner Leather" },
       {
         property: "og:description",
         content: "Full-grain leather goods handmade in Taroudant. Cash on Delivery across Morocco.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/shop" },
     ],
     links: [{ rel: "canonical", href: "/shop" }],
@@ -51,183 +72,184 @@ export const Route = createFileRoute("/shop")({
   component: ShopPage,
 });
 
-const MAX_PRICE = 800;
-/** Below this many products the marketplace chrome (sidebar, search, sort, counter) stays hidden. */
 const MARKETPLACE_THRESHOLD = 6;
-
 const UPCOMING = ["cardHolder", "passportHolder", "moneyClip"] as const;
 
-function ShopShowcase() {
-  const { t } = useI18n();
-  return (
-    <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-      <div className="flex justify-center">
-        <Reveal>
-          <ShowcaseCard product={products[0]} />
-        </Reveal>
-      </div>
+const heroFallback =
+  PHOTOS.walletOpenCards.src ?? PHOTOS.walletWrappedThankYou.src ?? galleryImages()[0] ?? "";
+const packagingFallback = PHOTOS.packagingBox.src ?? heroFallback;
+const craftFallback = PHOTOS.stitchingCloseUp.src ?? PHOTOS.leatherTexture.src ?? heroFallback;
 
-      <div className="mt-20 border-t border-border pt-14 lg:mt-24 lg:pt-16">
-        <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">{t("shop.showcase.comingSoonEyebrow")}</p>
-            <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">
-              {t("shop.showcase.comingSoonTitle")}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {t("shop.showcase.comingSoonIntro")}
-            </p>
-          </div>
-        </Reveal>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {UPCOMING.map((key, i) => (
-            <Reveal key={key} delay={i * 80}>
-              <ComingSoonCard
-                title={t(`shop.showcase.upcoming.${key}.title`)}
-                blurb={t(`shop.showcase.upcoming.${key}.blurb`)}
-              />
-            </Reveal>
-          ))}
-        </div>
-      </div>
+function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+  center = true,
+}: {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  center?: boolean;
+}) {
+  if (!title && !eyebrow) return null;
+  return (
+    <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
+      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      {title && <h2 className="font-display mt-3 text-3xl leading-tight sm:text-4xl">{title}</h2>}
+      {subtitle && <p className="mt-4 text-base leading-relaxed text-muted-foreground">{subtitle}</p>}
     </div>
+  );
+}
+
+function Shell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 ${className}`}>{children}</div>
   );
 }
 
 function ShopPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/shop" });
-  const { t, isRTL } = useI18n();
-  const { categoryName, colorName, price: formatPrice } = useCatalog();
+  const { t, lang } = useI18n();
+  const { orderLink } = useWhatsapp();
+  const catalog = useShopCatalog();
+  const sectionsQuery = useShopSections();
+  const reviewsQuery = useShopReviews();
   const [query, setQuery] = useState(search.q ?? "");
-  const [price, setPrice] = useState<number[]>([MAX_PRICE]);
-  const [colors, setColors] = useState<string[]>([]);
-  const [inStockOnly, setInStockOnly] = useState(false);
+
+  const products = catalog.data?.products ?? [];
+  const categories = catalog.data?.categories ?? [];
+  const sections: ShopSections = sectionsQuery.data ?? {};
+  const reviews = reviewsQuery.data ?? [];
   const isMarketplace = products.length >= MARKETPLACE_THRESHOLD;
+
+  const visible = (key: string) => sections[key]?.active !== false;
+  const content = (key: string) => (sections[key]?.content ?? {}) as any;
+  const text = (key: string, field: string, fallback = "") =>
+    (pick<string>(content(key)[field], lang) ?? fallback) as string;
 
   const activeCategory = search.category ?? "all";
   const sort = search.sort ?? "featured";
 
   const results = useMemo(() => {
     let list = products.filter((p) => {
-      if (activeCategory !== "all" && p.category !== activeCategory) return false;
-      if (p.price > price[0]) return false;
-      if (colors.length && !p.colors.some((c) => colors.includes(c))) return false;
-      if (inStockOnly && !p.inStock) return false;
+      if (activeCategory !== "all" && p.categorySlug !== activeCategory) return false;
       if (query.trim()) {
         const q = query.trim().toLowerCase();
-        if (!`${p.name} ${p.short} ${p.category}`.toLowerCase().includes(q)) return false;
+        if (!`${p.name} ${p.short}`.toLowerCase().includes(q)) return false;
       }
       return true;
     });
     list = [...list];
-    if (sort === "newest") list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-    if (sort === "best") list.sort((a, b) => b.sold - a.sold);
+    if (sort === "newest") list.sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
     if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
+    if (sort === "featured") list.sort((a, b) => Number(b.featured) - Number(a.featured));
     return list;
-  }, [activeCategory, price, colors, inStockOnly, query, sort]);
+  }, [products, activeCategory, query, sort]);
 
-  const resetFilters = () => {
-    setPrice([MAX_PRICE]);
-    setColors([]);
-    setInStockOnly(false);
-    setQuery("");
-    navigate({ search: {} });
-  };
+  const featured = featuredOf(products, 3);
+  const hiddenCategories: string[] = content("shop_categories").hidden ?? [];
+  const shownCategories = categories.filter((c) => !hiddenCategories.includes(c.slug));
+  const heroImage = text("shop_hero", "image") || featured[0]?.images[0] || heroFallback;
+  const waLink = orderLink({ product: featured[0]?.name ?? "" });
 
-  const filters = (
-    <div className="space-y-8">
-      <div>
-        <h3 className="eyebrow">{t("shop.filters.category")}</h3>
-        <div className="mt-3 flex flex-col gap-1">
-          {[{ slug: "all", name: t("shop.filters.allPieces") }, ...categories.map((c) => ({ slug: c.slug, name: categoryName(c.slug) }))].map((c) => (
-            <button
-              key={c.slug}
-              type="button"
-              onClick={() =>
-                navigate({
-                  search: { ...search, category: c.slug === "all" ? undefined : c.slug },
-                })
-              }
-              className={`min-h-11 rounded-lg px-3 text-start text-sm transition-colors ${
-                activeCategory === c.slug
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-secondary"
-              }`}
-            >
-              {c.name}
-            </button>
-          ))}
-        </div>
-      </div>
+  const ordered = Object.entries(sections)
+    .sort((a, b) => a[1].order - b[1].order)
+    .map(([key]) => key);
+  const order = ordered.length
+    ? ordered
+    : [
+        "shop_featured",
+        "shop_categories",
+        "shop_collection",
+        "shop_craft",
+        "shop_packaging",
+        "shop_delivery",
+        "shop_reviews",
+        "shop_faq",
+        "shop_cta",
+      ];
 
-      <div>
-        <h3 className="eyebrow">{t("shop.filters.maxPrice")}</h3>
-        <Slider
-          value={price}
-          onValueChange={setPrice}
-          min={100}
-          max={MAX_PRICE}
-          step={10}
-          className="mt-5"
-          aria-label={t("shop.filters.maxPriceLabel")}
-        />
-        <p className="mt-3 text-sm text-muted-foreground">
-          {t("shop.filters.upTo", { amount: formatPrice(price[0]) })}
-        </p>
-      </div>
+  const blocks: Record<string, React.ReactNode> = {
+    shop_featured: featured.length ? (
+      <section key="featured" className="py-16 lg:py-24">
+        <Shell>
+          <Reveal>
+            <SectionHeading
+              eyebrow={text("shop_featured", "eyebrow", "Selected")}
+              title={text("shop_featured", "title", "Featured pieces")}
+              subtitle={text("shop_featured", "subtitle")}
+            />
+          </Reveal>
+          <div className="mt-10 -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+            {featured.map((product, i) => (
+              <div key={product.id} className="w-[82vw] shrink-0 snap-center sm:w-auto">
+                <Reveal delay={i * 80}>
+                  <ShopProductCard product={product} variant="featured" priority={i === 0} />
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        </Shell>
+      </section>
+    ) : null,
 
-      <div>
-        <h3 className="eyebrow">{t("shop.filters.colour")}</h3>
-        <div className="mt-3 space-y-1">
-          {allColors.map((color) => (
-            <label
-              key={color}
-              className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-2 text-sm hover:bg-secondary"
-            >
-              <Checkbox
-                checked={colors.includes(color)}
-                onCheckedChange={(checked) =>
-                  setColors((prev) => (checked ? [...prev, color] : prev.filter((c) => c !== color)))
-                }
-              />
-              {colorName(color)}
-            </label>
-          ))}
-        </div>
-      </div>
+    shop_categories: shownCategories.length ? (
+      <section key="categories" className="border-y border-border bg-secondary/40 py-16 lg:py-20">
+        <Shell>
+          <Reveal>
+            <SectionHeading
+              eyebrow={text("shop_categories", "eyebrow", "Browse")}
+              title={text("shop_categories", "title", "Shop by category")}
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {shownCategories.map((category, i) => (
+              <Reveal key={category.id} delay={i * 70}>
+                <Link
+                  to="/shop"
+                  search={{ category: category.slug }}
+                  className="group flex items-center gap-4 overflow-hidden rounded-[18px] border border-border bg-card p-3 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-34px_rgba(36,24,18,0.55)]"
+                >
+                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-[14px] bg-secondary">
+                    <img
+                      src={category.image ?? heroFallback}
+                      alt={category.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-display truncate text-xl">
+                      {(lang === "fr" && category.nameFr) || (lang === "ar" && category.nameAr) || category.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {category.count} {t(category.count === 1 ? "shop.landing.piece" : "shop.landing.pieces")}
+                    </p>
+                  </div>
+                  <ArrowRight className="ms-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180" />
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </Shell>
+      </section>
+    ) : null,
 
-      <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-2 text-sm hover:bg-secondary">
-        <Checkbox checked={inStockOnly} onCheckedChange={(c) => setInStockOnly(Boolean(c))} />
-        {t("shop.filters.inStockOnly")}
-      </label>
+    shop_collection: (
+      <section key="collection" id="collection" className="py-16 lg:py-24">
+        <Shell>
+          <Reveal>
+            <SectionHeading
+              eyebrow={text("shop_collection", "eyebrow", "All pieces")}
+              title={text("shop_collection", "title", "The full collection")}
+              subtitle={text("shop_collection", "subtitle")}
+            />
+          </Reveal>
 
-      <Button variant="outline" className="w-full" onClick={resetFilters}>
-        <X className="h-4 w-4" /> {t("shop.filters.clear")}
-      </Button>
-    </div>
-  );
-
-  return (
-    <>
-      <PageHero
-        eyebrow={t("shop.hero.eyebrow")}
-        title={t("shop.hero.title")}
-        intro={isMarketplace ? t("shop.hero.intro") : t("shop.hero.introShort")}
-      />
-
-      {!isMarketplace && <ShopShowcase />}
-
-      {isMarketplace && (
-      <div className="mx-auto max-w-[1400px] px-4 py-10 sm:px-6 lg:px-10 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
-          <aside className="hidden lg:block">
-            <div className="sticky top-28">{filters}</div>
-          </aside>
-
-          <div className="min-w-0">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
+          {isMarketplace && (
+            <div className="mt-10 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
               <div className="relative min-w-0">
                 <SearchIcon className="pointer-events-none absolute top-1/2 start-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -239,74 +261,337 @@ function ShopPage() {
                   className="h-11 ps-9 sm:w-72"
                 />
               </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="lg:hidden" aria-label={t("shop.filters.openFilters")}>
-                      <SlidersHorizontal className="h-4 w-4" />
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side={isRTL ? "right" : "left"} className="w-[85vw] max-w-xs overflow-y-auto">
-                    <SheetTitle className="font-display text-xl">{t("shop.filters.title")}</SheetTitle>
-                    <div className="mt-6">{filters}</div>
-                  </SheetContent>
-                </Sheet>
-                <Select
-                  value={sort}
-                  onValueChange={(value) =>
-                    navigate({
-                      search: {
-                        ...search,
-                        sort: value === "featured" ? undefined : (value as never),
-                      },
-                    })
-                  }
-                >
-                  <SelectTrigger className="h-11 w-[9.5rem]" aria-label={t("shop.toolbar.sortLabel")}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="featured">{t("shop.toolbar.sort.featured")}</SelectItem>
-                    <SelectItem value="newest">{t("shop.toolbar.sort.newest")}</SelectItem>
-                    <SelectItem value="best">{t("shop.toolbar.sort.best")}</SelectItem>
-                    <SelectItem value="price-asc">{t("shop.toolbar.sort.priceAsc")}</SelectItem>
-                    <SelectItem value="price-desc">{t("shop.toolbar.sort.priceDesc")}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                value={sort}
+                onValueChange={(value) =>
+                  navigate({
+                    search: { ...search, sort: value === "featured" ? undefined : (value as never) },
+                  })
+                }
+              >
+                <SelectTrigger className="h-11 w-[180px] shrink-0" aria-label={t("shop.toolbar.sortLabel")}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="featured">{t("shop.toolbar.sort.featured")}</SelectItem>
+                  <SelectItem value="newest">{t("shop.toolbar.sort.newest")}</SelectItem>
+                  <SelectItem value="price-asc">{t("shop.toolbar.sort.priceAsc")}</SelectItem>
+                  <SelectItem value="price-desc">{t("shop.toolbar.sort.priceDesc")}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+          )}
 
-            <p className="mt-4 text-sm text-muted-foreground">
-              {t(results.length === 1 ? "shop.results.count_one" : "shop.results.count_other", {
-                count: results.length,
-              })}
-            </p>
+          {shownCategories.length > 1 && (
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
+              {[{ slug: "all", name: t("shop.filters.allPieces") }, ...shownCategories].map((c) => (
+                <button
+                  key={c.slug}
+                  type="button"
+                  onClick={() =>
+                    navigate({ search: { ...search, category: c.slug === "all" ? undefined : c.slug } })
+                  }
+                  className={`min-h-11 rounded-full border px-5 text-sm transition-colors ${
+                    activeCategory === c.slug
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border hover:bg-secondary"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              ))}
+            </div>
+          )}
 
-            {results.length === 0 ? (
-              <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border py-20 text-center">
-                <SearchIcon className="h-7 w-7 text-muted-foreground" />
-                <div>
-                  <p className="font-display text-lg">{t("shop.empty.title")}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{t("shop.empty.text")}</p>
-                </div>
-                <Button variant="hero" onClick={resetFilters}>
-                  {t("shop.empty.cta")}
-                </Button>
-              </div>
-            ) : (
-              <div className="mt-6 grid grid-cols-2 gap-5 sm:gap-6 xl:grid-cols-3">
-                {results.map((p, i) => (
-                  <Reveal key={p.slug} delay={Math.min(i, 5) * 60}>
-                    <ProductCard product={p} priority={i < 3} />
+          {results.length ? (
+            <div
+              className={`mt-10 grid gap-6 ${
+                results.length === 1
+                  ? "mx-auto max-w-[520px]"
+                  : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              }`}
+            >
+              {results.map((product, i) => (
+                <Reveal key={product.id} delay={Math.min(i, 6) * 60}>
+                  <ShopProductCard product={product} priority={i === 0} />
+                </Reveal>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-10 rounded-[20px] border border-border bg-secondary/40 p-10 text-center">
+              <p className="text-base text-muted-foreground">{t("shop.landing.empty")}</p>
+              <Button asChild className="mt-6 min-h-11">
+                <a href={waLink} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="h-4 w-4" /> {t("shop.card.whatsapp")}
+                </a>
+              </Button>
+            </div>
+          )}
+
+          {!isMarketplace && (
+            <div className="mt-20 border-t border-border pt-14">
+              <Reveal>
+                <SectionHeading
+                  eyebrow={t("shop.showcase.comingSoonEyebrow")}
+                  title={t("shop.showcase.comingSoonTitle")}
+                  subtitle={t("shop.showcase.comingSoonIntro")}
+                />
+              </Reveal>
+              <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {UPCOMING.map((key, i) => (
+                  <Reveal key={key} delay={i * 80}>
+                    <ComingSoonCard
+                      title={t(`shop.showcase.upcoming.${key}.title`)}
+                      blurb={t(`shop.showcase.upcoming.${key}.blurb`)}
+                    />
                   </Reveal>
                 ))}
               </div>
-            )}
+            </div>
+          )}
+        </Shell>
+      </section>
+    ),
+
+    shop_craft: (
+      <section key="craft" className="border-y border-border bg-secondary/40 py-16 lg:py-24">
+        <Shell>
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <Reveal>
+              <div className="overflow-hidden rounded-[24px] bg-secondary">
+                <img
+                  src={craftFallback}
+                  alt={text("shop_craft", "title", "Our craft")}
+                  loading="lazy"
+                  className="aspect-[4/3] h-full w-full object-cover"
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div>
+                <SectionHeading
+                  center={false}
+                  eyebrow={text("shop_craft", "eyebrow", "Our craft")}
+                  title={text("shop_craft", "title")}
+                  subtitle={text("shop_craft", "body")}
+                />
+                <ul className="mt-6 space-y-3">
+                  {((pick<string[]>(content("shop_craft").points, lang) ?? []) as string[]).map((point) => (
+                    <li key={point} className="flex items-start gap-3 text-sm text-muted-foreground">
+                      <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           </div>
-        </div>
-      </div>
+        </Shell>
+      </section>
+    ),
+
+    shop_packaging: (
+      <section key="packaging" className="py-16 lg:py-24">
+        <Shell>
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <Reveal>
+              <div>
+                <SectionHeading
+                  center={false}
+                  eyebrow={text("shop_packaging", "eyebrow", "Packaging")}
+                  title={text("shop_packaging", "title")}
+                  subtitle={text("shop_packaging", "body")}
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="overflow-hidden rounded-[24px] bg-secondary">
+                <img
+                  src={packagingFallback}
+                  alt={text("shop_packaging", "title", "Packaging")}
+                  loading="lazy"
+                  className="aspect-[4/3] h-full w-full object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
+        </Shell>
+      </section>
+    ),
+
+    shop_delivery: (
+      <section key="delivery" className="border-y border-border bg-secondary/40 py-16 lg:py-20">
+        <Shell>
+          <Reveal>
+            <SectionHeading
+              eyebrow={text("shop_delivery", "eyebrow", "Delivery")}
+              title={text("shop_delivery", "title", "Simple, safe delivery")}
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {((pick<{ title: string; text: string }[]>(content("shop_delivery").items, lang) ?? []) as {
+              title: string;
+              text: string;
+            }[]).map((item, i) => {
+              const Icon = [Wallet, Truck, MessageCircle, Sparkles][i % 4];
+              return (
+                <Reveal key={item.title} delay={i * 70}>
+                  <div className="h-full rounded-[18px] border border-border bg-card p-6">
+                    <Icon className="h-5 w-5 text-primary" />
+                    <h3 className="font-display mt-4 text-lg">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </Shell>
+      </section>
+    ),
+
+    shop_reviews: reviews.length ? (
+      <section key="reviews" className="py-16 lg:py-24">
+        <Shell>
+          <Reveal>
+            <SectionHeading
+              eyebrow={text("shop_reviews", "eyebrow", "Reviews")}
+              title={text("shop_reviews", "title", "What customers say")}
+              subtitle={t("shop.landing.reviewsCount", { count: reviews.length })}
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {reviews.map((review, i) => (
+              <Reveal key={review.id} delay={i * 70}>
+                <figure className="h-full rounded-[18px] border border-border bg-card p-6">
+                  <div className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star
+                        key={index}
+                        className={`h-4 w-4 ${index < review.rating ? "fill-accent text-accent" : "text-border"}`}
+                      />
+                    ))}
+                  </div>
+                  {review.text && (
+                    <blockquote className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                      “{review.text}”
+                    </blockquote>
+                  )}
+                  <figcaption className="mt-4 text-sm font-medium">
+                    {review.name}
+                    {review.city ? <span className="text-muted-foreground"> — {review.city}</span> : null}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </Shell>
+      </section>
+    ) : null,
+
+    shop_faq: (() => {
+      const items = (content("shop_faq").items ?? []) as { q: any; a: any }[];
+      if (!items.length) return null;
+      return (
+        <section key="faq" className="border-y border-border bg-secondary/40 py-16 lg:py-24">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6">
+            <Reveal>
+              <SectionHeading
+                eyebrow={text("shop_faq", "eyebrow", "FAQ")}
+                title={text("shop_faq", "title", "Questions before you order")}
+              />
+            </Reveal>
+            <Accordion type="single" collapsible className="mt-8">
+              {items.map((item, i) => (
+                <AccordionItem key={i} value={`faq-${i}`}>
+                  <AccordionTrigger className="text-start font-display text-lg">
+                    {pick<string>(item.q, lang)}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                    {pick<string>(item.a, lang)}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+      );
+    })(),
+
+    shop_cta: (
+      <section key="cta" className="py-16 lg:py-24">
+        <Shell>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-[28px] bg-ink px-6 py-14 text-center text-ink-foreground sm:px-12 lg:py-20">
+              <h2 className="font-display mx-auto max-w-3xl text-3xl leading-tight sm:text-4xl lg:text-5xl">
+                {text("shop_cta", "title", "Order your handmade leather goods today")}
+              </h2>
+              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-80">
+                {text("shop_cta", "subtitle")}
+              </p>
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Button asChild size="lg" variant="secondary" className="min-h-12 w-full sm:w-auto">
+                  <a href="#collection">{text("shop_cta", "primaryLabel", "Shop Collection")}</a>
+                </Button>
+                <Button asChild size="lg" className="min-h-12 w-full sm:w-auto">
+                  <a href={waLink} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-4 w-4" />
+                    {text("shop_cta", "secondaryLabel", "Order on WhatsApp")}
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </Reveal>
+        </Shell>
+      </section>
+    ),
+  };
+
+  return (
+    <>
+      {visible("shop_hero") && (
+        <section className="leather-grain relative overflow-hidden border-b border-border bg-[#F7F3EF]">
+          <Shell className="grid items-center gap-10 py-14 lg:grid-cols-2 lg:gap-14 lg:py-24">
+            <div className="relative z-10">
+              <p className="eyebrow">{text("shop_hero", "eyebrow", "The Collection")}</p>
+              <h1 className="font-display mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
+                {text("shop_hero", "title", t("shop.hero.title"))}
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                {text("shop_hero", "subtitle", t("shop.hero.intro"))}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg" className="min-h-12 w-full sm:w-auto">
+                  <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="min-h-12 w-full sm:w-auto">
+                  <a href={waLink} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-4 w-4" />
+                    {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="overflow-hidden rounded-[28px] bg-secondary shadow-[0_40px_90px_-50px_rgba(36,24,18,0.7)]">
+                <img
+                  src={heroImage}
+                  alt={text("shop_hero", "title", "Loner Leather collection")}
+                  width={1400}
+                  height={1050}
+                  fetchPriority="high"
+                  className="aspect-[4/3] h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </Shell>
+        </section>
       )}
-      <Label className="sr-only">{t("shop.sr.shopFilters")}</Label>
+
+      {order
+        .filter((key) => key !== "shop_hero" && visible(key))
+        .map((key) => blocks[key] ?? null)}
     </>
   );
 }
+
+export type { ShopProduct };
