@@ -583,42 +583,74 @@ function ShopPage() {
   return (
     <>
       {visible("shop_hero") && (
-        <section className="leather-grain relative overflow-hidden border-b border-border bg-[#F7F3EF]">
-          <Shell className="grid items-center gap-10 py-14 lg:grid-cols-2 lg:gap-14 lg:py-24">
-            <div className="relative z-10">
-              <p className="eyebrow">{text("shop_hero", "eyebrow", "The Collection")}</p>
-              <h1 className="font-display mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
-                {text("shop_hero", "title", t("shop.hero.title"))}
-              </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {text("shop_hero", "subtitle", t("shop.hero.intro"))}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="min-h-12 w-full sm:w-auto">
-                  <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="min-h-12 w-full sm:w-auto">
-                  <a href={waLink} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" />
-                    {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
-                  </a>
-                </Button>
+        <>
+          <section className="relative isolate overflow-hidden bg-ink text-ink-foreground">
+            <img
+              src={heroImage}
+              alt={text("shop_hero", "title", "Loner Leather collection")}
+              width={2000}
+              height={1200}
+              fetchPriority="high"
+              className="absolute inset-0 -z-20 h-full w-full scale-105 object-cover opacity-70"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(20,13,9,0.96),rgba(20,13,9,0.72)_45%,rgba(20,13,9,0.35))]"
+            />
+            <div
+              aria-hidden="true"
+              className="leather-grain pointer-events-none absolute inset-0 -z-10 opacity-40"
+            />
+            <Shell className="relative flex min-h-[78vh] flex-col justify-end py-20 sm:min-h-[82vh] lg:py-28">
+              <div className="max-w-3xl">
+                <p className="flex items-center gap-3 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-accent">
+                  <span className="h-px w-10 bg-accent/60" aria-hidden="true" />
+                  {text("shop_hero", "eyebrow", "The Collection")}
+                </p>
+                <h1 className="font-display mt-6 text-[2.75rem] leading-[0.98] tracking-[-0.015em] sm:text-6xl lg:text-[4.5rem]">
+                  {text("shop_hero", "title", t("shop.hero.title"))}
+                </h1>
+                <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-foreground/75 sm:text-lg">
+                  {text("shop_hero", "subtitle", t("shop.hero.intro"))}
+                </p>
+                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                  <Button asChild size="lg" variant="secondary" className="min-h-12 w-full sm:w-auto">
+                    <a href="#collection">{text("shop_hero", "primaryLabel", "Browse Collection")}</a>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="min-h-12 w-full border-ink-foreground/40 bg-transparent text-ink-foreground hover:bg-ink-foreground/10 hover:text-ink-foreground sm:w-auto"
+                  >
+                    <a href={waLink} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="h-4 w-4" />
+                      {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
+                    </a>
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="relative">
-              <div className="overflow-hidden rounded-[28px] bg-secondary shadow-[0_40px_90px_-50px_rgba(36,24,18,0.7)]">
-                <img
-                  src={heroImage}
-                  alt={text("shop_hero", "title", "Loner Leather collection")}
-                  width={1400}
-                  height={1050}
-                  fetchPriority="high"
-                  className="aspect-[4/3] h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          </Shell>
-        </section>
+            </Shell>
+          </section>
+
+          <section className="border-y border-border bg-secondary/50">
+            <Shell className="grid grid-cols-2 divide-x divide-border/70 rtl:divide-x-reverse sm:grid-cols-4">
+              {[
+                { Icon: BadgeCheck, label: t("shop.showcase.badges.handmade", { defaultValue: "Handmade in Taroudant" }) },
+                { Icon: Sparkles, label: t("shop.showcase.badges.leather", { defaultValue: "Genuine full-grain leather" }) },
+                { Icon: Wallet, label: t("shop.showcase.badges.cod", { defaultValue: "Cash on Delivery" }) },
+                { Icon: Truck, label: t("shop.showcase.badges.shipping", { defaultValue: "Delivery across Morocco" }) },
+              ].map(({ Icon, label }) => (
+                <div key={label} className="flex items-center justify-center gap-2 px-3 py-5 text-center">
+                  <Icon className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground sm:text-xs">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </Shell>
+          </section>
+        </>
       )}
 
       {order
