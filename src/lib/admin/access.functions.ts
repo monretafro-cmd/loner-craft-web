@@ -114,3 +114,22 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
       avatarUrl: profile?.avatar_url ?? null,
     };
   });
+
+/** Records a failed sign-in attempt (no session available at that point). */
+export const logFailedLogin = createServerFn({ method: "POST" })
+  .inputValidator((input: { email: string; provider?: string; reason?: string }) => ({
+    email: String(input.email ?? "").slice(0, 200),
+    provider: String(input.provider ?? "email").slice(0, 40),
+    reason: String(input.reason ?? "").slice(0, 300),
+  }))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await supabaseAdmin.from("audit_logs").insert({
+      admin_name: data.email,
+      action: "login_failed",
+      page: "admin/login",
+      record_type: "auth",
+      new_value: { provider: data.provider, reason: data.reason } as never,
+    });
+    return { ok: true };
+  });
