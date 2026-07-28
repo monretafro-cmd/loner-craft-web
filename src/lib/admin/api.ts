@@ -24,7 +24,8 @@ export type TableName =
   | "media"
   | "audit_logs"
   | "profiles"
-  | "user_roles";
+  | "user_roles"
+  | "admin_invitations";
 
 type RowsOptions = {
   select?: string;

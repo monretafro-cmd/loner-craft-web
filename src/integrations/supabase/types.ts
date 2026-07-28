@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          created_by: string | null
+          email: string
+          expires_at: string | null
+          id: string
+          revoked: boolean
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          email: string
+          expires_at?: string | null
+          id?: string
+          revoked?: boolean
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          email?: string
+          expires_at?: string | null
+          id?: string
+          revoked?: boolean
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -912,6 +951,8 @@ export type Database = {
       }
       profiles: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           avatar_url: string | null
           created_at: string
           email: string | null
@@ -920,9 +961,13 @@ export type Database = {
           is_active: boolean
           last_login_at: string | null
           phone: string | null
+          provider: string | null
+          status: string
           updated_at: string
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           avatar_url?: string | null
           created_at?: string
           email?: string | null
@@ -931,9 +976,13 @@ export type Database = {
           is_active?: boolean
           last_login_at?: string | null
           phone?: string | null
+          provider?: string | null
+          status?: string
           updated_at?: string
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           avatar_url?: string | null
           created_at?: string
           email?: string | null
@@ -942,6 +991,8 @@ export type Database = {
           is_active?: boolean
           last_login_at?: string | null
           phone?: string | null
+          provider?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: []

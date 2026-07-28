@@ -15,6 +15,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ShippingRouteImport } from './routes/shipping'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as OurCraftRouteImport } from './routes/our-craft'
 import { Route as OrderSuccessRouteImport } from './routes/order-success'
@@ -25,6 +26,7 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as AdminPendingRouteImport } from './routes/admin/pending'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell/index'
@@ -77,6 +79,11 @@ const ShippingRoute = ShippingRouteImport.update({
   path: '/shipping',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -125,6 +132,11 @@ const IndexRoute = IndexRouteImport.update({
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPendingRoute = AdminPendingRouteImport.update({
+  id: '/admin/pending',
+  path: '/admin/pending',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -243,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/order-success': typeof OrderSuccessRoute
   '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -251,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/admins': typeof AdminShellAdminsRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
@@ -282,6 +296,7 @@ export interface FileRoutesByTo {
   '/order-success': typeof OrderSuccessRoute
   '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -289,6 +304,7 @@ export interface FileRoutesByTo {
   '/track-order': typeof TrackOrderRoute
   '/wishlist': typeof WishlistRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/admins': typeof AdminShellAdminsRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
@@ -321,6 +337,7 @@ export interface FileRoutesById {
   '/order-success': typeof OrderSuccessRoute
   '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -329,6 +346,7 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/admin/_shell': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/_shell/admins': typeof AdminShellAdminsRoute
   '/admin/_shell/analytics': typeof AdminShellAnalyticsRoute
@@ -362,6 +380,7 @@ export interface FileRouteTypes {
     | '/order-success'
     | '/our-craft'
     | '/privacy'
+    | '/reset-password'
     | '/shipping'
     | '/shop'
     | '/sitemap.xml'
@@ -370,6 +389,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
     | '/admin/admins'
     | '/admin/analytics'
@@ -401,6 +421,7 @@ export interface FileRouteTypes {
     | '/order-success'
     | '/our-craft'
     | '/privacy'
+    | '/reset-password'
     | '/shipping'
     | '/shop'
     | '/sitemap.xml'
@@ -408,6 +429,7 @@ export interface FileRouteTypes {
     | '/track-order'
     | '/wishlist'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
     | '/admin/admins'
     | '/admin/analytics'
@@ -439,6 +461,7 @@ export interface FileRouteTypes {
     | '/order-success'
     | '/our-craft'
     | '/privacy'
+    | '/reset-password'
     | '/shipping'
     | '/shop'
     | '/sitemap.xml'
@@ -447,6 +470,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/_shell'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
     | '/admin/_shell/admins'
     | '/admin/_shell/analytics'
@@ -479,6 +503,7 @@ export interface RootRouteChildren {
   OrderSuccessRoute: typeof OrderSuccessRoute
   OurCraftRoute: typeof OurCraftRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ShippingRoute: typeof ShippingRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -487,6 +512,7 @@ export interface RootRouteChildren {
   WishlistRoute: typeof WishlistRoute
   AdminShellRoute: typeof AdminShellRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminPendingRoute: typeof AdminPendingRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
@@ -532,6 +558,13 @@ declare module '@tanstack/react-router' {
       path: '/shipping'
       fullPath: '/shipping'
       preLoaderRoute: typeof ShippingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -602,6 +635,13 @@ declare module '@tanstack/react-router' {
       path: '/product/$slug'
       fullPath: '/product/$slug'
       preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/pending': {
+      id: '/admin/pending'
+      path: '/admin/pending'
+      fullPath: '/admin/pending'
+      preLoaderRoute: typeof AdminPendingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/login': {
@@ -812,6 +852,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderSuccessRoute: OrderSuccessRoute,
   OurCraftRoute: OurCraftRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ShippingRoute: ShippingRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -820,6 +861,7 @@ const rootRouteChildren: RootRouteChildren = {
   WishlistRoute: WishlistRoute,
   AdminShellRoute: AdminShellRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
+  AdminPendingRoute: AdminPendingRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport
