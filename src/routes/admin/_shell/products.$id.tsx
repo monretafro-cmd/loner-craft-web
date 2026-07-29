@@ -1,9 +1,16 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { ArrowLeft, Loader2, Trash2, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, GripVertical, Loader2, Play, Star, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useRows, useSaveRow, useInvalidate, uploadFile, logAudit } from "@/lib/admin/api";
+import {
+  useRows,
+  useSaveRow,
+  useInvalidate,
+  uploadFile,
+  removeStorageFile,
+  logAudit,
+} from "@/lib/admin/api";
 import { PageHeader, Panel } from "@/components/admin/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +24,30 @@ export const Route = createFileRoute("/admin/_shell/products/$id")({
 });
 
 type Form = Record<string, any>;
+
+const MEDIA_LABELS = [
+  "Main",
+  "Front",
+  "Back",
+  "Inside",
+  "Packaging",
+  "Stitching",
+  "Leather",
+  "Logo",
+  "Capacity",
+  "Lifestyle",
+  "Video",
+];
+
+type ImageRow = {
+  id: string;
+  url: string;
+  storage_path: string | null;
+  label: string | null;
+  is_main: boolean;
+  display_order: number;
+  media_type: string | null;
+};
 
 const EMPTY: Form = {
   name: "",
@@ -54,13 +85,19 @@ function ProductEditor() {
   const invalidate = useInvalidate();
   const save = useSaveRow("products", "products");
   const categories = useRows<{ id: string; name: string }>("categories", { select: "id, name", orderBy: "display_order", ascending: true });
-  const images = useRows<{ id: string; url: string; label: string | null; is_main: boolean; display_order: number }>(
-    "product_images",
-    { eq: { product_id: isNew ? "" : id }, orderBy: "display_order", ascending: true, enabled: !isNew },
-  );
+  const images = useRows<ImageRow>("product_images", {
+    select: "id, url, storage_path, label, is_main, display_order, media_type",
+    eq: { product_id: isNew ? "" : id },
+    orderBy: "display_order",
+    ascending: true,
+    enabled: !isNew,
+  });
   const [form, setForm] = useState<Form>(EMPTY);
   const [loading, setLoading] = useState(!isNew);
   const [uploading, setUploading] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const dragFrom = useRef<number | null>(null);
+  const rows = images.data ?? [];
 
   useEffect(() => {
     if (isNew) return;
@@ -101,20 +138,24 @@ function ProductEditor() {
     if (!files.length || isNew) return;
     setUploading(true);
     try {
+      const start = rows.length;
       for (const [index, file] of files.entries()) {
-        const { url } = await uploadFile("product-images", file, `products/${id}`);
-        await supabase.from("product_images").insert({
+        const { url, path } = await uploadFile("product-images", file, `products/${id}`);
+        const { error } = await supabase.from("product_images").insert({
           product_id: id,
           url,
+          storage_path: path,
           alt_text: form.name,
-          display_order: (images.data?.length ?? 0) + index,
-          is_main: (images.data?.length ?? 0) + index === 0,
+          media_type: file.type.startsWith("video/") ? "video" : "image",
+          display_order: start + index,
+          is_main: start + index === 0,
         });
+        if (error) throw error;
         await supabase.from("media").insert({ url, name: file.name, folder: "products", mime_type: file.type, size_bytes: file.size });
       }
       await logAudit({ action: "upload_images", page: "products", recordType: "products", recordId: id });
-      invalidate();
-      toast.success("Images uploaded");
+      await invalidate();
+      toast.success(`${files.length} image${files.length > 1 ? "s" : ""} saved`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Upload failed");
     } finally {
@@ -123,15 +164,72 @@ function ProductEditor() {
     }
   }
 
-  async function removeImage(imageId: string) {
-    await supabase.from("product_images").delete().eq("id", imageId);
-    invalidate();
+  async function removeImage(image: ImageRow) {
+    setBusy(true);
+    try {
+      const { error } = await supabase.from("product_images").delete().eq("id", image.id);
+      if (error) throw error;
+      await removeStorageFile("product-images", image.storage_path);
+      const remaining = rows.filter((row) => row.id !== image.id);
+      // Re-sequence and guarantee exactly one main image.
+      await Promise.all(
+        remaining.map((row, index) =>
+          supabase
+            .from("product_images")
+            .update({ display_order: index, is_main: image.is_main ? index === 0 : row.is_main })
+            .eq("id", row.id),
+        ),
+      );
+      await logAudit({ action: "delete_image", page: "products", recordType: "product_images", recordId: image.id });
+      await invalidate();
+      toast.success("Image deleted");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Delete failed");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function makeMain(imageId: string) {
-    await supabase.from("product_images").update({ is_main: false }).eq("product_id", id);
-    await supabase.from("product_images").update({ is_main: true }).eq("id", imageId);
-    invalidate();
+    setBusy(true);
+    try {
+      await supabase.from("product_images").update({ is_main: false }).eq("product_id", id);
+      const { error } = await supabase.from("product_images").update({ is_main: true }).eq("id", imageId);
+      if (error) throw error;
+      await invalidate();
+      toast.success("Main image updated");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Update failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function setLabel(imageId: string, label: string) {
+    await supabase.from("product_images").update({ label: label || null }).eq("id", imageId);
+    await invalidate();
+  }
+
+  async function reorder(from: number, to: number) {
+    if (from === to) return;
+    const next = [...rows];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setBusy(true);
+    try {
+      await Promise.all(
+        next.map((row, index) =>
+          supabase.from("product_images").update({ display_order: index }).eq("id", row.id),
+        ),
+      );
+      await logAudit({ action: "reorder_images", page: "products", recordType: "products", recordId: id });
+      await invalidate();
+      toast.success("Gallery order saved");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Reorder failed");
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (loading) return <p className="text-sm text-muted-foreground">Loading product…</p>;
@@ -180,23 +278,79 @@ function ProductEditor() {
 
           <Panel className="space-y-4">
             <h2 className="font-display text-xl">Media</h2>
-            <div className="flex flex-wrap gap-3">
-              {(images.data ?? []).map((image) => (
-                <div key={image.id} className="group relative h-28 w-28 overflow-hidden rounded-xl border border-border">
-                  <img src={image.url} alt="" className="h-full w-full object-cover" />
-                  {image.is_main ? (
-                    <span className="absolute left-1 top-1 rounded bg-ink px-1.5 py-0.5 text-[10px] text-ink-foreground">Main</span>
-                  ) : null}
-                  <div className="absolute inset-x-0 bottom-0 flex justify-between bg-black/60 px-1.5 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
-                    <button type="button" onClick={() => makeMain(image.id)}>Main</button>
-                    <button type="button" onClick={() => removeImage(image.id)}><Trash2 className="h-3 w-3" /></button>
+            <p className="text-xs text-muted-foreground">
+              Drag to reorder — the public gallery uses this exact order. Every change saves immediately.
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {rows.map((image, index) => (
+                <div
+                  key={image.id}
+                  draggable
+                  onDragStart={() => (dragFrom.current = index)}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => {
+                    const from = dragFrom.current;
+                    dragFrom.current = null;
+                    if (from !== null) void reorder(from, index);
+                  }}
+                  className="group relative overflow-hidden rounded-xl border border-border bg-secondary/40"
+                >
+                  <div className="relative aspect-square">
+                    {image.media_type === "video" ? (
+                      <>
+                        <video src={image.url} className="h-full w-full object-cover" muted />
+                        <span className="absolute inset-0 grid place-items-center bg-ink/40 text-ink-foreground">
+                          <Play className="h-5 w-5 fill-current" />
+                        </span>
+                      </>
+                    ) : (
+                      <img src={image.url} alt="" className="h-full w-full object-cover" />
+                    )}
+                    <span className="absolute left-1 top-1 grid h-6 w-6 place-items-center rounded bg-ink/70 text-ink-foreground">
+                      <GripVertical className="h-3.5 w-3.5" />
+                    </span>
+                    {image.is_main ? (
+                      <span className="absolute right-1 top-1 rounded bg-ink px-1.5 py-0.5 text-[10px] text-ink-foreground">
+                        Main
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="flex items-center gap-1 p-1.5">
+                    <select
+                      value={image.label ?? ""}
+                      onChange={(e) => void setLabel(image.id, e.target.value)}
+                      className="h-8 min-w-0 flex-1 rounded-md border border-input bg-background px-1.5 text-xs"
+                    >
+                      <option value="">No label</option>
+                      {MEDIA_LABELS.map((label) => (
+                        <option key={label} value={label}>{label}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      disabled={busy || image.is_main}
+                      title="Set as main image"
+                      onClick={() => void makeMain(image.id)}
+                      className="grid h-8 w-8 place-items-center rounded-md border border-border disabled:opacity-40"
+                    >
+                      <Star className={image.is_main ? "h-3.5 w-3.5 fill-current" : "h-3.5 w-3.5"} />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={busy}
+                      title="Delete image"
+                      onClick={() => void removeImage(image)}
+                      className="grid h-8 w-8 place-items-center rounded-md border border-border text-destructive disabled:opacity-40"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 </div>
               ))}
-              <label className="flex h-28 w-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border text-xs text-muted-foreground hover:bg-secondary">
+              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border text-xs text-muted-foreground hover:bg-secondary">
                 {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                 Upload
-                <input type="file" accept="image/*" multiple hidden onChange={onUpload} disabled={isNew} />
+                <input type="file" accept="image/*,video/*" multiple hidden onChange={onUpload} disabled={isNew} />
               </label>
             </div>
             {isNew ? <p className="text-xs text-muted-foreground">Save the product first to upload images.</p> : null}
