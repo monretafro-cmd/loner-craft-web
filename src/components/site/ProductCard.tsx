@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { useCatalog } from "@/lib/i18n/catalog";
 import type { Product } from "@/lib/products";
+import { useProductImage } from "@/lib/shop/data";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +14,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   const { t } = useI18n();
   const { productText, price } = useCatalog();
   const text = productText(product);
+  const image = useProductImage(product.slug);
   const wished = wishlist.includes(product.slug);
 
   return (
@@ -25,7 +27,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           aria-label={text.name}
         >
           <img
-            src={product.images[0]}
+            src={image}
             alt={text.name}
             width={1200}
             height={1200}
@@ -76,7 +78,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
                 slug: product.slug,
                 name: product.name,
                 price: product.price,
-                image: product.images[0],
+                image,
                 color: product.colors[0],
               });
               setCartOpen(true);

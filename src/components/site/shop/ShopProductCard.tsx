@@ -51,7 +51,7 @@ export function ShopProductCard({
             aria-label={product.name}
           >
             <img
-              src={product.images[0]}
+              src={product.mainImage}
               alt={product.name}
               width={1000}
               height={1000}
@@ -124,7 +124,7 @@ export function ShopProductCard({
           <div className="grid gap-0 sm:grid-cols-2">
             <div className="aspect-square bg-secondary">
               <img
-                src={product.images[0]}
+                src={product.mainImage}
                 alt={product.name}
                 loading="lazy"
                 className="h-full w-full object-cover"

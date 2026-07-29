@@ -229,3 +229,16 @@ export function featuredOf(products: ShopProduct[], limit = 3) {
     : [...products].sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
   return list.slice(0, limit);
 }
+
+/** Main image for a product slug, straight from `product_images`. */
+export function useProductImage(slug: string): string {
+  const { data } = useShopCatalog();
+  return data?.products.find((p) => p.slug === slug)?.mainImage ?? PLACEHOLDER_IMAGE;
+}
+
+/** Database product id for a slug — used to load its gallery. */
+export function useProductId(slug: string): string | undefined {
+  const { data } = useShopCatalog();
+  const found = data?.products.find((p) => p.slug === slug);
+  return found && found.id !== found.slug ? found.id : undefined;
+}
