@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, Expand, X, ZoomIn } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronDown, ChevronUp, Expand, Play, X, ZoomIn } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { productGallery } from "@/lib/photos";
+import { PLACEHOLDER_IMAGE, type ProductMedia } from "@/lib/shop/images";
 import { cn } from "@/lib/utils";
 
 const labelKey = (label: string) =>
@@ -13,9 +13,8 @@ const labelKey = (label: string) =>
  * hover zoom, chapter labels, and a fullscreen lightbox with wheel/double-click
  * zoom, keyboard navigation, swipe and pinch support.
  */
-export function ProductGallery({ name }: { name: string }) {
+export function ProductGallery({ name, items }: { name: string; items: ProductMedia[] }) {
   const { t } = useI18n();
-  const items = useMemo(() => productGallery(), []);
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const [light, setLight] = useState(false);
@@ -26,7 +25,7 @@ export function ProductGallery({ name }: { name: string }) {
 
   const count = items.length;
   const go = useCallback(
-    (dir: number) => setActive((i) => (i + dir + count) % count),
+    (dir: number) => setActive((i) => (count ? (i + dir + count) % count : 0)),
     [count],
   );
 
@@ -57,10 +56,22 @@ export function ProductGallery({ name }: { name: string }) {
     el?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
   }, [active]);
 
-  if (!count) return null;
-  const current = items[active];
-  const label = current.label ? t(`product.gallery.labels.${labelKey(current.label)}`) : "";
-  const section = current.section ? t(`product.gallery.sections.${current.section}`) : "";
+  if (!count) {
+    return (
+      <div className="aspect-square overflow-hidden rounded-2xl bg-secondary">
+        <img src={PLACEHOLDER_IMAGE} alt={name} className="h-full w-full object-contain opacity-80" />
+      </div>
+    );
+  }
+  const current = items[Math.min(active, count - 1)];
+  const translateLabel = (raw?: string) => {
+    if (!raw) return "";
+    const key = `product.gallery.labels.${labelKey(raw)}`;
+    const translated = t(key);
+    return !translated || translated === key ? raw : translated;
+  };
+  const label = translateLabel(current.label);
+  const section = "";
 
   const scrollRail = (dir: number) =>
     railRef.current?.scrollBy({ top: dir * 260, behavior: "smooth" });
