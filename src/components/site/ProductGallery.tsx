@@ -207,7 +207,7 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
                 )}
               >
                 <img
-                  src={item.type === "video" ? (item.poster ?? "") : item.src}
+                  src={item.type === "video" ? (item.poster ?? PLACEHOLDER_IMAGE) : item.src}
                   alt=""
                   width={200}
                   height={200}
@@ -215,6 +215,11 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
                   decoding="async"
                   className="h-full w-full bg-secondary object-cover transition-transform duration-500 group-hover/thumb:scale-110"
                 />
+                {item.type === "video" && (
+                  <span className="pointer-events-none absolute inset-0 grid place-items-center bg-foreground/30 text-background">
+                    <Play className="h-5 w-5 fill-current" />
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -258,6 +263,17 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
             <ZoomIn className="h-3.5 w-3.5" /> {t("product.gallery.zoomHint")}
           </span>
 
+          {current.type === "video" ? (
+            <video
+              src={current.src}
+              poster={current.poster}
+              controls
+              autoPlay
+              playsInline
+              className="max-h-[88vh] max-w-full rounded-xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
           <img
             src={current.type === "video" ? (current.poster ?? current.src) : current.src}
             alt={current.alt}
@@ -301,6 +317,7 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
               if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
             }}
           />
+          )}
         </div>
       )}
     </div>

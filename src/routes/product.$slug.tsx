@@ -33,6 +33,8 @@ import { useCatalog } from "@/lib/i18n/catalog";
 import { useWhatsapp } from "@/lib/i18n/whatsapp";
 import { PHOTOS } from "@/lib/photos";
 import { getProduct, relatedProducts } from "@/lib/products";
+import { useProductId } from "@/lib/shop/data";
+import { useProductMedia } from "@/lib/shop/images";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -120,6 +122,8 @@ function ProductPage() {
   const { productText, colorName, price, faqs } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
+  const productId = useProductId(product.slug);
+  const media = useProductMedia(productId);
   const [color, setColor] = useState(product.colors[0]);
   const [qty, setQty] = useState(1);
 
@@ -179,7 +183,7 @@ function ProductPage() {
       <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-14">
           <div className="lg:sticky lg:top-28">
-            <ProductGallery name={text.name} />
+            <ProductGallery name={text.name} items={media.data ?? []} />
           </div>
 
           <div>
