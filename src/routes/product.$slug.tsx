@@ -157,7 +157,7 @@ function ProductPage() {
         slug: product.slug,
         name: text.name,
         price: product.price,
-        image: product.images[0],
+        image: media.data?.find((m) => m.isMain)?.src ?? media.data?.[0]?.src ?? "",
         color,
       },
       qty,

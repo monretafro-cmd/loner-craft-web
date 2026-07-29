@@ -275,7 +275,7 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
             />
           ) : (
           <img
-            src={current.type === "video" ? (current.poster ?? current.src) : current.src}
+            src={current.src}
             alt={current.alt}
             className="max-h-[88vh] max-w-full rounded-xl object-contain transition-transform duration-200"
             style={{ transform: `scale(${scale})`, transformOrigin: `${origin.x}% ${origin.y}%` }}
