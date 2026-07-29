@@ -9,7 +9,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { products as localProducts, categories as localCategories } from "@/lib/products";
-import { galleryImages, PHOTOS } from "@/lib/photos";
+import { PLACEHOLDER_IMAGE, mapMedia, mainImageOf, byGalleryOrder, type ProductImageRow, type ProductMedia } from "@/lib/shop/images";
 import type { Lang } from "@/lib/i18n/config";
 
 export type Localized<T = string> = T | Partial<Record<Lang, T>>;
@@ -33,6 +33,7 @@ export type ShopProduct = {
   price: number;
   salePrice?: number | null;
   images: string[];
+  mainImage: string;
   featured: boolean;
   inStock: boolean;
   cod: boolean;
@@ -63,7 +64,7 @@ export type ShopReview = {
 
 export type ShopSections = Record<string, { id?: string; content: any; active: boolean; order: number }>;
 
-const fallbackImage = PHOTOS.walletOpenCards.src ?? PHOTOS.walletWrappedThankYou.src ?? "";
+const fallbackImage = PLACEHOLDER_IMAGE;
 
 /** Local catalog mapped into the shape the Shop page renders. */
 export const localShopProducts = (): ShopProduct[] =>
@@ -74,7 +75,8 @@ export const localShopProducts = (): ShopProduct[] =>
     name: p.name,
     price: p.price,
     salePrice: null,
-    images: p.images.length ? p.images : galleryImages(),
+    images: [],
+    mainImage: PLACEHOLDER_IMAGE,
     featured: Boolean(p.bestSeller) || index === 0,
     inStock: p.inStock,
     cod: true,
@@ -104,25 +106,30 @@ async function fetchShopCatalog(): Promise<{ products: ShopProduct[]; categories
       )
       .eq("status", "active"),
     supabase.from("categories").select("id, slug, name, name_fr, name_ar, description, image_url, display_order").eq("status", "active"),
-    supabase.from("product_images").select("product_id, url, is_main, display_order, media_type"),
+    supabase
+      .from("product_images")
+      .select("id, product_id, url, storage_path, alt_text, label, display_order, is_main, media_type")
+      .order("display_order", { ascending: true }),
   ]);
 
   if (productsRes.error) throw productsRes.error;
 
-  const imagesByProduct = new Map<string, string[]>();
-  for (const image of (imagesRes.data ?? []) as any[]) {
-    if (image.media_type && image.media_type !== "image") continue;
-    const list = imagesByProduct.get(image.product_id) ?? [];
-    list.push(image.url);
-    imagesByProduct.set(image.product_id, list);
+  const mediaByProduct = new Map<string, ProductMedia[]>();
+  for (const row of (imagesRes.data ?? []) as unknown as ProductImageRow[]) {
+    const media = mapMedia(row);
+    const list = mediaByProduct.get(media.productId) ?? [];
+    list.push(media);
+    mediaByProduct.set(media.productId, list);
   }
+  for (const list of mediaByProduct.values()) list.sort(byGalleryOrder);
 
   const localBySlug = new Map(localShopProducts().map((p) => [p.slug, p]));
   const categoryRows = (categoriesRes.data ?? []) as any[];
 
   const products: ShopProduct[] = ((productsRes.data ?? []) as any[]).map((row) => {
     const local = localBySlug.get(row.slug);
-    const dbImages = imagesByProduct.get(row.id) ?? [];
+    const media = mediaByProduct.get(row.id) ?? [];
+    const dbImages = media.filter((m) => m.type === "image").map((m) => m.src);
     return {
       id: row.id,
       slug: row.slug,
@@ -131,7 +138,8 @@ async function fetchShopCatalog(): Promise<{ products: ShopProduct[]; categories
       short: row.short_description ?? local?.short ?? "",
       price: Number(row.price ?? 0),
       salePrice: row.sale_price === null || row.sale_price === undefined ? null : Number(row.sale_price),
-      images: dbImages.length ? dbImages : (local?.images ?? [fallbackImage].filter(Boolean)),
+      images: dbImages,
+      mainImage: mainImageOf(media),
       featured: Boolean(row.featured),
       inStock: Number(row.stock ?? 0) > 0,
       cod: row.cod_available !== false,
@@ -152,7 +160,7 @@ async function fetchShopCatalog(): Promise<{ products: ShopProduct[]; categories
       description: row.description,
       image:
         row.image_url ??
-        products.find((p) => p.categoryId === row.id)?.images[0] ??
+        products.find((p) => p.categoryId === row.id)?.mainImage ??
         fallbackImage,
       count: products.filter((p) => p.categoryId === row.id).length,
     }))
@@ -166,7 +174,7 @@ export function useShopCatalog() {
   return useQuery({
     queryKey: ["shop", "catalog"],
     queryFn: fetchShopCatalog,
-    staleTime: 30_000,
+    staleTime: 0,
     placeholderData: { products: localShopProducts(), categories: localShopCategories() },
   });
 }
@@ -220,4 +228,17 @@ export function featuredOf(products: ShopProduct[], limit = 3) {
     ? featured
     : [...products].sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
   return list.slice(0, limit);
+}
+
+/** Main image for a product slug, straight from `product_images`. */
+export function useProductImage(slug: string): string {
+  const { data } = useShopCatalog();
+  return data?.products.find((p) => p.slug === slug)?.mainImage ?? PLACEHOLDER_IMAGE;
+}
+
+/** Database product id for a slug — used to load its gallery. */
+export function useProductId(slug: string): string | undefined {
+  const { data } = useShopCatalog();
+  const found = data?.products.find((p) => p.slug === slug);
+  return found && found.id !== found.slug ? found.id : undefined;
 }

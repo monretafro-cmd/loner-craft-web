@@ -154,7 +154,8 @@ export const inviteAdminByEmail = createServerFn({ method: "POST" })
         .toLowerCase();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
         throw new Error("Enter a valid email address.");
-      const requestedRole = input.requestedRole === "super_admin" ? "super_admin" : "admin";
+      const requestedRole: "super_admin" | "admin" =
+        input.requestedRole === "super_admin" ? "super_admin" : "admin";
       const expiresAt = input.expiresAt ? new Date(input.expiresAt).toISOString() : null;
       return { email, requestedRole, expiresAt };
     },

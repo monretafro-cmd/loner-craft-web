@@ -1,4 +1,4 @@
-import { galleryImages, PHOTOS } from "@/lib/photos";
+import { PHOTOS } from "@/lib/photos";
 
 const wallet = PHOTOS.walletOpenCards.src ?? PHOTOS.walletWrappedThankYou.src ?? "";
 const cardholder = wallet;
@@ -58,7 +58,8 @@ export const products: Product[] = [
     sold: 0,
     rating: 5,
     reviews: 0,
-    images: galleryImages(),
+    /** Product photography lives in the `product_images` table, never here. */
+    images: [],
     short:
       "A slim handmade leather wallet designed for everyday carry, made from genuine Moroccan goat leather.",
     description:

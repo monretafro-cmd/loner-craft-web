@@ -64,13 +64,24 @@ export function useRows<T = any>(table: TableName, options: RowsOptions = {}) {
 
 export function useInvalidate() {
   const queryClient = useQueryClient();
-  return (table?: TableName) =>
-    queryClient.invalidateQueries({
-      predicate: (query) =>
-        Array.isArray(query.queryKey) &&
-        query.queryKey[0] === "admin" &&
-        (!table || query.queryKey[1] === table),
+  return async (table?: TableName) => {
+    await queryClient.invalidateQueries({
+      predicate: (query) => {
+        const key = query.queryKey;
+        if (!Array.isArray(key)) return false;
+        // Public site caches (shop catalog, product galleries) must refresh too.
+        if (key[0] === "shop" || key[0] === "product_images" || key[0] === "product") return true;
+        return key[0] === "admin" && (!table || key[1] === table);
+      },
     });
+    await queryClient.refetchQueries({
+      predicate: (query) => {
+        const key = query.queryKey;
+        return Array.isArray(key) && (key[0] === "shop" || key[0] === "product_images");
+      },
+      type: "active",
+    });
+  };
 }
 
 export async function logAudit(input: {
@@ -145,4 +156,9 @@ export async function uploadFile(bucket: "product-images" | "media", file: File,
   const { data, error: signError } = await supabase.storage.from(bucket).createSignedUrl(path, TEN_YEARS);
   if (signError) throw signError;
   return { url: data.signedUrl, path };
+}
+
+export async function removeStorageFile(bucket: "product-images" | "media", path?: string | null) {
+  if (!path) return;
+  await supabase.storage.from(bucket).remove([path]);
 }

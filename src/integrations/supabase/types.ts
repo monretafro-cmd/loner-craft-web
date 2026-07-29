@@ -749,6 +749,8 @@ export type Database = {
           label: string | null
           media_type: string
           product_id: string
+          storage_path: string | null
+          updated_at: string
           url: string
         }
         Insert: {
@@ -760,6 +762,8 @@ export type Database = {
           label?: string | null
           media_type?: string
           product_id: string
+          storage_path?: string | null
+          updated_at?: string
           url: string
         }
         Update: {
@@ -771,6 +775,8 @@ export type Database = {
           label?: string | null
           media_type?: string
           product_id?: string
+          storage_path?: string | null
+          updated_at?: string
           url?: string
         }
         Relationships: [

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { useCatalog } from "@/lib/i18n/catalog";
 import { useWhatsapp } from "@/lib/i18n/whatsapp";
+import { useProductImage } from "@/lib/shop/data";
 import type { Product } from "@/lib/products";
 
 function Badge({ icon: Icon, label }: { icon: typeof MapPin; label: string }) {
@@ -21,6 +22,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
   const { productText, price } = useCatalog();
   const { orderLink } = useWhatsapp();
   const text = productText(product);
+  const image = useProductImage(product.slug);
   const subtitle = t(`catalog.products.${product.slug}.subtitle`);
 
   return (
@@ -32,7 +34,7 @@ export function ShowcaseCard({ product }: { product: Product }) {
         aria-label={text.name}
       >
         <img
-          src={product.images[0]}
+          src={image}
           alt={text.name}
           width={1200}
           height={1200}
