@@ -58,7 +58,7 @@ export function ShopProductCard({
               loading={priority ? "eager" : "lazy"}
               decoding="async"
               sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw"
-              className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
+              className="h-full w-full object-contain p-4 transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
             />
           </Link>
           <div className="pointer-events-none absolute top-3 start-3 flex flex-wrap gap-1.5">
@@ -127,7 +127,7 @@ export function ShopProductCard({
                 src={product.mainImage}
                 alt={product.name}
                 loading="lazy"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain p-4"
               />
             </div>
             <div className="flex flex-col gap-4 p-6">
