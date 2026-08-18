@@ -188,193 +188,239 @@ function ProductPage() {
           </div>
 
           <div className="w-full lg:w-[45%]">
-            <p className="eyebrow">Loner Leather</p>
-            <h1 className="font-display mt-2 text-[34px] leading-tight sm:text-[42px] lg:text-[48px] xl:text-[56px]">
-              {text.name}
-            </h1>
-            {subtitle && (
-              <p className="mt-1.5 text-base text-muted-foreground sm:text-lg">{subtitle}</p>
-            )}
-
-            <p className="font-display mt-5 text-3xl font-semibold">{price(product.price)}</p>
-
-            <ul className="mt-5 grid gap-2 text-sm sm:grid-cols-2">
-              {status.map((s) => (
-                <li key={s} className="flex items-center gap-2">
-                  <Check className="h-4 w-4 shrink-0 text-accent" />
-                  {s}
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-5 text-[0.95rem] leading-relaxed text-muted-foreground">
-              {text.description}
-            </p>
-
-            <dl className="mt-6 grid gap-x-6 gap-y-3 border-y border-border py-5 text-sm sm:grid-cols-2">
+            <div className="flex flex-col gap-6">
+              {/* Top Product Area */}
               <div>
-                <dt className="eyebrow">{t("product.specs.leather")}</dt>
-                <dd className="mt-1">{text.leather}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">{t("product.specs.dimensions")}</dt>
-                <dd className="mt-1">{text.dimensions}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">{t("product.specs.availability")}</dt>
-                <dd className={cn("mt-1", product.inStock ? "text-foreground" : "text-destructive")}>
-                  {product.inStock ? t("product.specs.inStock") : t("product.specs.outOfStock")}
-                </dd>
-              </div>
-              <div>
-                <dt className="eyebrow">{t("product.specs.madeIn")}</dt>
-                <dd className="mt-1">{t("product.specs.madeInValue")}</dd>
-              </div>
-            </dl>
+                <p className="eyebrow tracking-[0.2em] text-muted-foreground">LONER LEATHER</p>
+                <h1 className="font-display mt-2 text-[34px] leading-tight sm:text-[42px] lg:text-[48px] xl:text-[56px]">
+                  {text.name}
+                </h1>
+                {subtitle && (
+                  <p className="mt-1 text-base text-muted-foreground sm:text-lg">{subtitle}</p>
+                )}
+                
+                <div className="mt-6 flex flex-col gap-4">
+                  <p className="font-display text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+                    {price(product.price)}
+                  </p>
+                  
+                  {/* Compact Trust Row */}
+                  <ul className="flex flex-wrap gap-x-4 gap-y-2 text-[13px] font-medium text-muted-foreground">
+                    {status.map((s) => (
+                      <li key={s} className="flex items-center gap-1.5 whitespace-nowrap">
+                        <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            {product.colors.length > 1 && (
-              <div className="mt-6">
-                <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {product.colors.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => setColor(c)}
-                      className={cn(
-                        "min-h-11 rounded-lg border px-4 text-sm transition-colors",
-                        color === c
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border hover:border-primary/50",
-                      )}
+                {/* Short Product Summary */}
+                <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground md:text-base">
+                  {t("product.summary")}
+                </p>
+              </div>
+
+              {/* Key Details Grid */}
+              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border bg-secondary/20 p-5 sm:grid-cols-3">
+                {Object.entries(t<{ [key: string]: { label: string, value: string } }>("product.info")).map(([key, info]) => (
+                  <div key={key}>
+                    <dt className="eyebrow text-[10px] opacity-70">{info.label}</dt>
+                    <dd className="mt-0.5 text-[13px] font-medium text-foreground">{info.value}</dd>
+                  </div>
+                ))}
+              </div>
+
+              {/* Purchase Area */}
+              <div className="space-y-6">
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center rounded-xl border border-border bg-background">
+                      <button
+                        type="button"
+                        aria-label={t("product.quantity.decrease")}
+                        onClick={() => setQty((q) => Math.max(1, q - 1))}
+                        className="grid h-12 w-12 place-items-center rounded-s-xl hover:bg-secondary transition-colors"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="w-10 text-center font-medium tabular-nums">{qty}</span>
+                      <button
+                        type="button"
+                        aria-label={t("product.quantity.increase")}
+                        onClick={() => setQty((q) => Math.min(10, q + 1))}
+                        className="grid h-12 w-12 place-items-center rounded-e-xl hover:bg-secondary transition-colors"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+                    
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label={t("product.actions.wishlistAdd")}
+                      className="h-12 w-12 rounded-xl border border-border hover:bg-secondary transition-colors"
+                      onClick={() => {
+                        const added = toggleWish(product.slug);
+                        toast[added ? "success" : "message"](
+                          added ? t("product.toast.wishAdded") : t("product.toast.wishRemoved"),
+                        );
+                      }}
                     >
-                      {colorName(c)}
-                    </button>
-                  ))}
+                      <Heart className={cn("h-4 w-4", wished && "fill-accent text-accent")} />
+                    </Button>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Button 
+                      variant="hero" 
+                      size="xl" 
+                      className="w-full text-base font-semibold shadow-lg shadow-primary/10" 
+                      disabled={!product.inStock} 
+                      onClick={add}
+                    >
+                      <ShoppingBag className="h-5 w-5" />
+                      {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
+                    </Button>
+                    <Button variant="whatsapp" size="xl" className="w-full text-base font-semibold" asChild>
+                      <a
+                        href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <MessageCircle className="h-5 w-5" />
+                        {t("product.actions.whatsappOrder")}
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Delivery Trust Info */}
+                <div className="flex flex-col gap-2 rounded-xl bg-accent/5 p-4 text-center sm:text-start">
+                  <p className="flex items-center justify-center gap-2 text-sm font-medium text-foreground sm:justify-start">
+                    <ShieldCheck className="h-4 w-4 text-accent" />
+                    {t("product.trust.cod")}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("product.trust.noPayment")}
+                  </p>
                 </div>
               </div>
-            )}
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <div className="flex items-center rounded-lg border border-border">
-                <button
-                  type="button"
-                  aria-label={t("product.quantity.decrease")}
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="grid h-12 w-12 place-items-center rounded-s-lg hover:bg-secondary"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-10 text-center tabular-nums">{qty}</span>
-                <button
-                  type="button"
-                  aria-label={t("product.quantity.increase")}
-                  onClick={() => setQty((q) => Math.min(10, q + 1))}
-                  className="grid h-12 w-12 place-items-center rounded-e-lg hover:bg-secondary"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label={t("product.actions.wishlistAdd")}
-                className="h-12 w-12 border border-border"
-                onClick={() => {
-                  const added = toggleWish(product.slug);
-                  toast[added ? "success" : "message"](
-                    added ? t("product.toast.wishAdded") : t("product.toast.wishRemoved"),
-                  );
-                }}
-              >
-                <Heart className={cn("h-4 w-4", wished && "fill-accent text-accent")} />
-              </Button>
+              {/* Options (Color if applicable) */}
+              {product.colors.length > 1 && (
+                <div className="pt-2">
+                  <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {product.colors.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setColor(c)}
+                        className={cn(
+                          "min-h-11 rounded-lg border px-4 text-sm transition-all",
+                          color === c
+                            ? "border-primary bg-primary text-primary-foreground shadow-md"
+                            : "border-border hover:border-primary/50 bg-background",
+                        )}
+                      >
+                        {colorName(c)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+          </div>
+        </div>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <Button variant="hero" size="xl" className="w-full" disabled={!product.inStock} onClick={add}>
-                <ShoppingBag className="h-4 w-4" />
-                {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
+        {/* Mobile Sticky Bar */}
+        <div 
+          className={cn(
+            "fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 p-4 backdrop-blur-md lg:hidden transition-transform duration-300",
+            "[[data-lightbox-open=true]_&]:translate-y-full"
+          )}
+        >
+          <div className="mx-auto flex max-w-md items-center justify-between gap-4">
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{text.name}</span>
+              <span className="text-lg font-bold text-foreground">{price(product.price)}</span>
+            </div>
+            <div className="flex items-center gap-2 flex-1 justify-end">
+              <Button size="lg" className="px-6 font-semibold" disabled={!product.inStock} onClick={add}>
+                {t("product.actions.buyNow")}
               </Button>
-              <Button variant="whatsapp" size="xl" className="w-full" asChild>
+              <Button size="icon" variant="whatsapp" className="h-11 w-11 rounded-full shrink-0" asChild>
                 <a
                   href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={t("product.actions.whatsappOrder")}
                 >
-                  {t("product.actions.whatsappOrder")}
+                  <MessageCircle className="h-5 w-5" />
                 </a>
               </Button>
             </div>
-
-            <div className="mt-5 grid gap-2.5 text-sm text-muted-foreground">
-              <p className="flex items-center gap-2.5">
-                <ShieldCheck className="h-4 w-4 shrink-0 text-accent" />
-                {t("product.trust.cod")}
-              </p>
-              <p className="flex items-center gap-2.5">
-                <Truck className="h-4 w-4 shrink-0 text-accent" />
-                {t("product.trust.delivery")}
-              </p>
-              <p className="flex items-center gap-2.5">
-                <Hammer className="h-4 w-4 shrink-0 text-accent" />
-                {t("product.trust.handmade")}
-              </p>
-            </div>
-
-            {features.length > 0 && (
-              <div className="mt-8 rounded-2xl border border-border bg-card p-6">
-                <h2 className="font-display text-xl">{t("product.features.title")}</h2>
-                <ul className="mt-4 grid gap-2.5 text-sm text-muted-foreground">
-                  {features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {materials.length > 0 && (
-              <div className="mt-4 rounded-2xl border border-border bg-secondary/40 p-6">
-                <h2 className="font-display text-xl">{t("product.material.title")}</h2>
-                <ul className="mt-3 flex flex-wrap gap-2 text-sm text-muted-foreground">
-                  {materials.map((m) => (
-                    <li key={m} className="rounded-full border border-border bg-background px-3 py-1.5">
-                      {m}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Accordion type="single" collapsible className="mt-8 w-full">
-              <AccordionItem value="shipping">
-                <AccordionTrigger className="font-display text-base">{t("product.tabs.shipping")}</AccordionTrigger>
-                <AccordionContent className="space-y-2 text-sm leading-relaxed text-muted-foreground">
-                  <p>{t("product.tabs.shippingText1")}</p>
-                  <p>{t("product.tabs.shippingText2", { fee: price(35), freeThreshold: price(500) })}</p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="faq">
-                <AccordionTrigger className="font-display text-base">{t("product.tabs.faq")}</AccordionTrigger>
-                <AccordionContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-                  {faqs.slice(0, 3).map((f) => (
-                    <div key={f.q}>
-                      <p className="text-foreground">{f.q}</p>
-                      <p>{f.a}</p>
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
           </div>
         </div>
       </section>
 
+      {features.length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-10">
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <h2 className="font-display text-xl">{t("product.features.title")}</h2>
+            <ul className="mt-4 grid gap-2.5 text-sm text-muted-foreground sm:grid-cols-2">
+              {features.map((f) => (
+                <li key={f} className="flex items-start gap-2.5">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {materials.length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-4 py-4 sm:px-6 lg:px-10">
+          <div className="rounded-2xl border border-border bg-secondary/40 p-6">
+            <h2 className="font-display text-xl">{t("product.material.title")}</h2>
+            <ul className="mt-3 flex flex-wrap gap-2 text-sm text-muted-foreground">
+              {materials.map((m) => (
+                <li key={m} className="rounded-full border border-border bg-background px-3 py-1.5">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      <section className="mx-auto max-w-[1400px] px-4 py-4 sm:px-6 lg:px-10">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="shipping">
+            <AccordionTrigger className="font-display text-base">{t("product.tabs.shipping")}</AccordionTrigger>
+            <AccordionContent className="space-y-2 text-sm leading-relaxed text-muted-foreground">
+              <p>{t("product.tabs.shippingText1")}</p>
+              <p>{t("product.tabs.shippingText2", { fee: price(35), freeThreshold: price(500) })}</p>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="faq">
+            <AccordionTrigger className="font-display text-base">{t("product.tabs.faq")}</AccordionTrigger>
+            <AccordionContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+              {faqs.slice(0, 3).map((f) => (
+                <div key={f.q}>
+                  <p className="text-foreground">{f.q}</p>
+                  <p>{f.a}</p>
+                </div>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </section>
+
       {/* Highlights */}
-      <section className="border-y border-border bg-secondary/30">
+      <section className="mt-12 border-y border-border bg-secondary/30">
         <div className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-16">
           <Reveal>
             <h2 className="font-display text-center text-3xl">{t("product.highlights.title")}</h2>
@@ -480,3 +526,5 @@ function ProductPage() {
     </>
   );
 }
+
+export default ProductPage;
