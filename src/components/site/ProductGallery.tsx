@@ -39,9 +39,11 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
     };
     if (light) {
       document.body.style.overflow = "hidden";
+      document.documentElement.setAttribute("data-lightbox-open", "true");
       window.addEventListener("keydown", onKey);
       return () => {
         document.body.style.overflow = "";
+        document.documentElement.removeAttribute("data-lightbox-open");
         window.removeEventListener("keydown", onKey);
       };
     }
