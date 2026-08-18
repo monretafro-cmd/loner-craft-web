@@ -24,32 +24,6 @@
     "packagingTitle": "Emballé comme nous aimerions le recevoir.",
     "packagingText": "Boîte kraft, pochette en coton, carte d'entretien, mot manuscrit. Rien de plastique, rien de superflu. Pour un cadeau, indiquez-le lors de la commande : nous l'emballerons sans indiquer le prix."
   },
-  "craft": {
-    "hero": {
-      "eyebrow": "L'atelier",
-      "title": "Notre savoir-faire",
-      "intro": "Quarante et une étapes séparent une peau brute d'une pièce Loner terminée. Voici les six qui comptent le plus."
-    },
-    "heroImgAlt": "Des mains cousant du cuir au point sellier sur un établi",
-    "steps": [
-      { "n": "01", "title": "Choisir la peau", "text": "Nous sélectionnons des cuirs pleine fleur chez un tanneur familial de la médina de Taroudant, tannés à l'écorce de chêne et à la peau de grenade pendant 30 jours. Nous refusons toute pièce dont la cicatrice ne nous convainc pas." },
-      { "n": "02", "title": "La coupe", "text": "Les pièces sont découpées au couteau rond sur une plaque de marbre — jamais à l'emporte-pièce. La coupe manuelle permet à l'artisan de lire le grain et de placer les fibres les plus solides là où la pièce va fléchir." },
-      { "n": "03", "title": "Refente et pliage", "text": "Chaque pli est refendu à la main pour que le cuir se plie sans épaisseur superflue. C'est cette étape qui distingue un portefeuille qui reste fin de celui qui gonfle après un mois." },
-      { "n": "04", "title": "Couture sellier", "text": "Deux aiguilles, un seul fil de lin ciré. Le point sellier se verrouille sur lui-même : même un fil coupé ne fera pas filer la couture. Il faut environ 320 points pour un bifold." },
-      { "n": "05", "title": "Finition des tranches", "text": "Les tranches sont biseautées, poncées avec trois grains successifs, lissées à la gomme adragante, puis cirées et brunies quatre fois jusqu'à briller comme du bois poli." },
-      { "n": "06", "title": "Contrôle final", "text": "L'artisan qui a débuté la pièce la lustre, y appose sa marque à l'intérieur du pli et signe le certificat d'origine expédié dans la boîte." }
-    ],
-    "markingImgAlt": "Marquage d'une pièce de cuir avant la découpe",
-    "careEyebrow": "Bien l'entretenir",
-    "careTitle": "Un cuir qui s'embellit avec vous.",
-    "careItems": [
-      { "title": "Laissez-le respirer.", "text": "Évitez le plastique hermétique. La pochette en tissu fournie suffit amplement comme rangement." },
-      { "title": "Nourrissez-le deux fois par an.", "text": "Une noisette de baume neutre, travaillée avec un chiffon doux, garde les fibres souples." },
-      { "title": "Laissez sécher naturellement.", "text": "Jamais de sèche-cheveux ni de radiateur : la chaleur fait craquer le cuir tanné végétal." },
-      { "title": "Adoptez la patine.", "text": "Les petites rayures s'estompent en quelques semaines. Ce reflet moucheté, c'est le cuir qui fait son travail." }
-    ],
-    "shopCta": "Découvrir la collection"
-  },
   "faq": {
     "hero": {
       "eyebrow": "Centre d'aide",

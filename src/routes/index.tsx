@@ -195,7 +195,7 @@ function Index() {
               ))}
             </div>
             <Button variant="hero" size="lg" className="mt-8" asChild>
-              <Link to="/our-craft">
+              <Link to="/shop">
                 {t("home.craft.cta")} <ForwardArrow className="h-4 w-4" />
               </Link>
             </Button>

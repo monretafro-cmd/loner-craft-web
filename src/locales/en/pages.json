@@ -24,32 +24,6 @@
     "packagingTitle": "Packed the way we would want to receive it.",
     "packagingText": "Kraft box, cotton dust bag, care card, handwritten note. Nothing plastic, nothing wasted. If it's a gift, tell us at checkout and we'll wrap it and leave the price off."
   },
-  "craft": {
-    "hero": {
-      "eyebrow": "The Workshop",
-      "title": "Our Craft",
-      "intro": "Forty-one steps stand between a raw hide and a finished Loner piece. Here are the six that matter most."
-    },
-    "heroImgAlt": "Hands saddle-stitching leather at a workbench",
-    "steps": [
-      { "n": "01", "title": "Choosing the hide", "text": "We select full-grain hides at a family tannery in the Taroudant medina, tanned with oak bark and pomegranate rind over 30 days. We reject any panel with a scar we can't stand behind." },
-      { "n": "02", "title": "Cutting", "text": "Panels are cut with a round knife against a marble slab — never a die press. Cutting by hand lets the maker read the grain and place the strongest fibres where the piece will flex." },
-      { "n": "03", "title": "Skiving & folding", "text": "Every fold is skived down by hand so the leather bends without bulk. This is the step that separates a wallet that stays slim from one that swells after a month." },
-      { "n": "04", "title": "Saddle stitching", "text": "Two needles, one thread, waxed linen. A saddle stitch locks on itself, so even a cut thread will not unravel the seam. Roughly 320 stitches go into a bifold." },
-      { "n": "05", "title": "Edge finishing", "text": "Edges are bevelled, sanded through three grits, wet-slicked with gum tragacanth, then waxed and burnished four times until they shine like polished wood." },
-      { "n": "06", "title": "Final inspection", "text": "The maker who started the piece buffs it, stamps their mark inside the fold and signs the certificate of origin that ships in the box." }
-    ],
-    "markingImgAlt": "Marking a leather panel before cutting",
-    "careEyebrow": "Caring for it",
-    "careTitle": "Leather that gets better with you.",
-    "careItems": [
-      { "title": "Let it breathe.", "text": "Keep it out of sealed plastic. The dust bag in your box is all the storage it needs." },
-      { "title": "Condition twice a year.", "text": "A pea-sized amount of neutral balm, worked in with a soft cloth, keeps the fibres supple." },
-      { "title": "Let water dry naturally.", "text": "Never a hair dryer or radiator — heat cracks vegetable-tanned leather." },
-      { "title": "Embrace the patina.", "text": "Scratches fade into the surface within weeks. That mottled shine is the leather doing its job." }
-    ],
-    "shopCta": "Shop the collection"
-  },
   "faq": {
     "hero": {
       "eyebrow": "Help Centre",

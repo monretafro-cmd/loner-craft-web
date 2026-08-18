@@ -14,7 +14,6 @@ const COLUMNS = [
     title: "footer.quickLinks",
     links: [
       { to: "/shop", label: "footer.shopAll" },
-      { to: "/our-craft", label: "nav.ourCraft" },
       { to: "/about", label: "footer.aboutUs" },
     ],
   },
