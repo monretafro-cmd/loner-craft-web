@@ -17,7 +17,6 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as OurCraftRouteImport } from './routes/our-craft'
 import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -88,11 +87,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OurCraftRoute = OurCraftRouteImport.update({
-  id: '/our-craft',
-  path: '/our-craft',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OrderSuccessRoute = OrderSuccessRouteImport.update({
@@ -259,7 +253,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/order-success': typeof OrderSuccessRoute
-  '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
@@ -301,7 +294,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/order-success': typeof OrderSuccessRoute
-  '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
@@ -343,7 +335,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/order-success': typeof OrderSuccessRoute
-  '/our-craft': typeof OurCraftRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shipping': typeof ShippingRoute
@@ -387,7 +378,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/order-success'
-    | '/our-craft'
     | '/privacy'
     | '/reset-password'
     | '/shipping'
@@ -429,7 +419,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/order-success'
-    | '/our-craft'
     | '/privacy'
     | '/reset-password'
     | '/shipping'
@@ -470,7 +459,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/order-success'
-    | '/our-craft'
     | '/privacy'
     | '/reset-password'
     | '/shipping'
@@ -513,7 +501,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   OrderSuccessRoute: typeof OrderSuccessRoute
-  OurCraftRoute: typeof OurCraftRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShippingRoute: typeof ShippingRoute
@@ -584,13 +571,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/our-craft': {
-      id: '/our-craft'
-      path: '/our-craft'
-      fullPath: '/our-craft'
-      preLoaderRoute: typeof OurCraftRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/order-success': {
@@ -871,7 +851,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   OrderSuccessRoute: OrderSuccessRoute,
-  OurCraftRoute: OurCraftRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShippingRoute: ShippingRoute,
