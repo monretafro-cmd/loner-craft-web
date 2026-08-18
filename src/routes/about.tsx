@@ -69,9 +69,6 @@ function AboutPage() {
             <p>{t("pages.about.storyP1")}</p>
             <p>{t("pages.about.storyP2")}</p>
             <p>{t("pages.about.storyP3")}</p>
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/shop">{t("pages.about.storyCta")}</Link>
-            </Button>
           </Reveal>
         </div>
       </section>
