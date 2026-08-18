@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { LogoMark } from "./Logo";
+import { useI18n } from "@/lib/i18n";
 
 const ENTRANCE = 500;
 const HOLD = 350;
@@ -10,6 +11,7 @@ const ZOOM = 550;
  * Shown only on first paint / full refresh — never on internal navigation.
  */
 export function BrandLoader() {
+  const i18n = useI18n(); // Verify I18nProvider is present
   const [phase, setPhase] = useState<"start" | "in" | "zoom" | "gone">("start");
   const [reduced, setReduced] = useState(false);
 

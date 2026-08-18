@@ -162,21 +162,27 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <StoreProvider>
-        <div className="site-reveal flex min-h-screen flex-col overflow-x-clip">
-          <Navbar />
-          <main className="flex-1">
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
-        <BrandLoader />
-        <CartDrawer />
-        <FloatingActions />
-          <Toaster position="bottom-left" />
-        </StoreProvider>
+        <InnerComponent />
       </I18nProvider>
     </QueryClientProvider>
+  );
+}
+
+function InnerComponent() {
+  return (
+    <StoreProvider>
+      <div className="site-reveal flex min-h-screen flex-col overflow-x-clip">
+        <Navbar />
+        <main className="flex-1">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+      <BrandLoader />
+      <CartDrawer />
+      <FloatingActions />
+      <Toaster position="bottom-left" />
+    </StoreProvider>
   );
 }
