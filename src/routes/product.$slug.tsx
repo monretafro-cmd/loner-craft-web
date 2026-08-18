@@ -222,7 +222,7 @@ function ProductPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border bg-secondary/20 p-5 sm:grid-cols-3">
-                {Object.entries(t<Record<string, { label: string, value: string }>>("product.info", { returnObjects: true })).map(([key, info]) => (
+                {Object.entries(t("product.info", { returnObjects: true }) as Record<string, { label: string, value: string }>).map(([key, info]) => (
                   <div key={key}>
                     <dt className="eyebrow text-[10px] opacity-70">{info.label}</dt>
                     <dd className="mt-0.5 text-[13px] font-medium text-foreground">{info.value}</dd>
