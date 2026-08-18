@@ -435,14 +435,10 @@ function ShopPage() {
                 {text("shop_cta", "subtitle", copy.ctaBody)}
               </p>
               <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                <Button asChild size="lg" variant="secondary" className="min-h-12">
-                  <a href="#collection">{text("shop_cta", "primaryLabel", "View collection")}</a>
-                </Button>
-                <Button asChild size="lg" className="min-h-12">
-                  <a href={waLink} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" />
-                    {text("shop_cta", "secondaryLabel", "Order on WhatsApp")}
-                  </a>
+                <Button asChild size="lg" className="min-h-12 w-full md:w-fit tablet:min-w-[220px]">
+                  <Link to="/product/$slug" params={{ slug: "alpha-wallet" }}>
+                    {t("actions.commander")}
+                  </Link>
                 </Button>
               </div>
             </div>
