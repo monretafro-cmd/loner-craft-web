@@ -104,49 +104,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Featured product */}
-      <section className="border-y border-border bg-cream">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
-          {PHOTOS.walletOpenCards.src ? (
-            <Reveal>
-              <BrandPhoto
-                photo={PHOTOS.walletOpenCards}
-                className="aspect-4/3 w-full rounded-2xl bg-background"
-              />
-            </Reveal>
-          ) : null}
-          <Reveal delay={100}>
-            <p className="eyebrow">{t("home.featured.eyebrow")}</p>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl">{t("home.featured.title")}</h2>
-            <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-              {t("home.featured.description")}
-            </p>
-            <ul className="mt-6 grid gap-2.5 text-sm sm:grid-cols-2">
-              {featuredFeatures.map((item) => (
-                <li key={item} className="flex items-center gap-2.5">
-                  <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="w-full min-h-11 sm:w-auto" asChild>
-                <Link to="/shop">{t("home.featured.viewProduct")}</Link>
-              </Button>
-              <Button size="lg" variant="outline" className="w-full min-h-11 sm:w-auto" asChild>
-                <a
-                  href={orderLink({ product: featuredName })}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("home.featured.orderNow")}
-                </a>
-              </Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* Packaging */}
       <section className="mx-auto grid max-w-[1280px] items-center gap-10 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-20">
         <Reveal>
