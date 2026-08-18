@@ -188,7 +188,7 @@ function ProductPage() {
 
           <div className="w-full lg:w-[45%]">
             <p className="eyebrow">Loner Leather</p>
-            <h1 className="font-display mt-2 text-3xl leading-tight sm:text-4xl lg:text-[2.75rem]">
+            <h1 className="font-display mt-2 text-[34px] leading-tight sm:text-[42px] lg:text-[48px] xl:text-[56px]">
               {text.name}
             </h1>
             {subtitle && (
