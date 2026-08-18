@@ -32,7 +32,7 @@ export function ShopProductCard({
   priority?: boolean;
   variant?: "grid" | "featured";
 }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { orderLink } = useWhatsapp();
   const [quickView, setQuickView] = useState(false);
 
@@ -83,35 +83,43 @@ export function ShopProductCard({
         </div>
 
         <div className="flex flex-1 flex-col gap-3 p-5">
-          <h3 className="font-display text-xl leading-snug">
-            <Link to="/product/$slug" params={{ slug: product.slug }} className="hover:text-primary">
-              {product.name}
-            </Link>
-          </h3>
-          {product.short && (
-            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{product.short}</p>
-          )}
+          <div className="space-y-1">
+            <h3 className="font-display text-xl leading-snug">
+              <Link to="/product/$slug" params={{ slug: product.slug }} className="hover:text-primary">
+                {product.name}
+              </Link>
+            </h3>
+            <p className="text-xs tracking-wide text-muted-foreground uppercase">{t("catalog.products.alpha-wallet.subtitle")}</p>
+          </div>
+
           <div className="flex flex-wrap gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2 py-0.5 text-[0.6rem] tracking-[0.06em] text-muted-foreground uppercase">
+              {t("shop.card.handmade")}
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2 py-0.5 text-[0.6rem] tracking-[0.06em] text-muted-foreground uppercase">
+              {t("shop.card.leather")}
+            </span>
             {product.cod && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[0.65rem] tracking-[0.06em] text-muted-foreground uppercase">
-                <ShieldCheck className="h-3 w-3" /> {t("shop.card.cod")}
+              <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2 py-0.5 text-[0.6rem] tracking-[0.06em] text-muted-foreground uppercase">
+                {t("shop.card.cod")}
               </span>
             )}
-            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-[0.65rem] tracking-[0.06em] text-muted-foreground uppercase">
-              <Sparkles className="h-3 w-3" /> {t("shop.card.handmade")}
-            </span>
           </div>
-          <div className="mt-auto space-y-3 pt-2">
-            <Price product={product} />
+
+          <div className="mt-auto space-y-4 pt-2">
+            <div className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              {formatPrice(product.price, lang)}
+            </div>
+            
             <div className="grid gap-2 sm:grid-cols-2">
-              <Button asChild variant="outline" className="min-h-11 w-full">
+              <Button asChild variant="outline" className="min-h-11 w-full text-xs font-semibold uppercase tracking-wider">
                 <Link to="/product/$slug" params={{ slug: product.slug }}>
                   {t("shop.card.details")}
                 </Link>
               </Button>
-              <Button asChild className="min-h-11 w-full">
+              <Button asChild className="min-h-11 w-full text-xs font-semibold uppercase tracking-wider shadow-sm shadow-primary/10">
                 <a href={orderLink({ product: product.name })} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4" /> {t("shop.card.whatsapp")}
+                  <MessageCircle className="h-3.5 w-3.5" /> {t("shop.card.whatsapp")}
                 </a>
               </Button>
             </div>

@@ -99,11 +99,43 @@
   },
   "status": {
     "items": [
-      "Handmade in Morocco",
-      "Genuine Goat Leather",
-      "Cash On Delivery",
-      "Available"
+      "100% Genuine Moroccan Goat Leather",
+      "Handmade in Taroudant",
+      "Cash on Delivery",
+      "In Stock"
     ]
+  },
+  "summary": "Slim handmade Moroccan goat leather wallet designed for everyday carry. Holds 6–8 cards, includes 2 hidden pockets, and develops a natural patina with use.",
+  "info": {
+    "capacity": {
+      "label": "CAPACITY",
+      "value": "6–8 cards"
+    },
+    "pockets": {
+      "label": "POCKETS",
+      "value": "2 hidden pockets"
+    },
+    "size": {
+      "label": "SIZE",
+      "value": "12 × 7.5 cm"
+    },
+    "material": {
+      "label": "MATERIAL",
+      "value": "Moroccan goat leather"
+    },
+    "madeIn": {
+      "label": "MADE IN",
+      "value": "Taroudant, Morocco"
+    },
+    "delivery": {
+      "label": "DELIVERY",
+      "value": "24–48h"
+    }
+  },
+  "trust": {
+    "cod": "Cash on Delivery across Morocco",
+    "noPayment": "No online payment required",
+    "handmade": "Handmade in Taroudant"
   },
   "features": {
     "title": "Features"
@@ -141,10 +173,5 @@
       "Natural leather develops character over time — every mark and every shade shift is part of the piece.",
       "No mass production. Only one pair of hands per wallet, from the first cut to the final inspection."
     ]
-  },
-  "trust": {
-    "cod": "Cash On Delivery",
-    "delivery": "Delivery Across Morocco",
-    "handmade": "Handmade in Taroudant"
   }
 }

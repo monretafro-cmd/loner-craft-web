@@ -99,11 +99,43 @@
   },
   "status": {
     "items": [
-      "Fait main au Maroc",
-      "Cuir de chèvre véritable",
+      "Cuir de chèvre marocain 100% véritable",
+      "Fait main à Taroudant",
       "Paiement à la livraison",
-      "Disponible"
+      "En stock"
     ]
+  },
+  "summary": "Portefeuille fin en cuir de chèvre marocain fait main, conçu pour un usage quotidien. Peut contenir 6 à 8 cartes, comprend 2 poches cachées et développe une patine naturelle avec le temps.",
+  "info": {
+    "capacity": {
+      "label": "CAPACITÉ",
+      "value": "6–8 cartes"
+    },
+    "pockets": {
+      "label": "POCHES",
+      "value": "2 poches cachées"
+    },
+    "size": {
+      "label": "TAILLE",
+      "value": "12 × 7,5 cm"
+    },
+    "material": {
+      "label": "MATIÈRE",
+      "value": "Cuir de chèvre marocain"
+    },
+    "madeIn": {
+      "label": "FABRIQUÉ À",
+      "value": "Taroudant, Maroc"
+    },
+    "delivery": {
+      "label": "LIVRAISON",
+      "value": "24–48h"
+    }
+  },
+  "trust": {
+    "cod": "Paiement à la livraison partout au Maroc",
+    "noPayment": "Aucun paiement en ligne requis",
+    "handmade": "Fait main à Taroudant"
   },
   "features": {
     "title": "Caractéristiques"
@@ -141,10 +173,5 @@
       "Le cuir naturel prend du caractère avec le temps — chaque marque et chaque nuance fait partie de la pièce.",
       "Aucune production de masse. Une seule paire de mains par portefeuille, de la première coupe au contrôle final."
     ]
-  },
-  "trust": {
-    "cod": "Paiement à la livraison",
-    "delivery": "Livraison partout au Maroc",
-    "handmade": "Fait main à Taroudant"
   }
 }
