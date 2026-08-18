@@ -49,7 +49,7 @@ function AboutPage() {
         intro={t("pages.about.hero.intro")}
       />
 
-      <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
+      <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-16">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <img
@@ -69,9 +69,6 @@ function AboutPage() {
             <p>{t("pages.about.storyP1")}</p>
             <p>{t("pages.about.storyP2")}</p>
             <p>{t("pages.about.storyP3")}</p>
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/shop">{t("pages.about.storyCta")}</Link>
-            </Button>
           </Reveal>
         </div>
       </section>
