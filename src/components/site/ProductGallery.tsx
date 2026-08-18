@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, Expand, Play, X, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand, Play, X, ZoomIn } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { PLACEHOLDER_IMAGE, type ProductMedia } from "@/lib/shop/images";
 import { cn } from "@/lib/utils";
@@ -7,21 +7,16 @@ import { cn } from "@/lib/utils";
 const labelKey = (label: string) =>
   label.toLowerCase().replace(/[^a-z0-9]+(.)/g, (_, c: string) => c.toUpperCase());
 
-/**
- * Alpha Wallet gallery — scales from 5 to 50+ photos with no layout changes.
- * Vertical scrollable thumbnail rail on desktop, horizontal slider on mobile,
- * hover zoom, chapter labels, and a fullscreen lightbox with wheel/double-click
- * zoom, keyboard navigation, swipe and pinch support.
- */
 export function ProductGallery({ name, items }: { name: string; items: ProductMedia[] }) {
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
   const [active, setActive] = useState(0);
-  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const [light, setLight] = useState(false);
   const [scale, setScale] = useState(1);
-  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const railRef = useRef<HTMLDivElement>(null);
-  const touch = useRef<{ x: number; y: number; dist: number; scale: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const lastPos = useRef({ x: 0, y: 0 });
 
   const count = items.length;
   const go = useCallback(
@@ -30,128 +25,113 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
   );
 
   useEffect(() => {
-    setScale(1);
-    setOrigin({ x: 50, y: 50 });
-  }, [active, light]);
+    if (!light) {
+      setScale(1);
+      setTranslate({ x: 0, y: 0 });
+    }
+  }, [light]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLight(false);
-      if (e.key === "ArrowRight") go(1);
-      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") isRTL ? go(-1) : go(1);
+      if (e.key === "ArrowLeft") isRTL ? go(1) : go(-1);
     };
-    if (!light) return;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [light, go]);
+    if (light) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.setAttribute("data-lightbox-open", "true");
+      window.addEventListener("keydown", onKey);
+      return () => {
+        document.body.style.overflow = "";
+        document.documentElement.removeAttribute("data-lightbox-open");
+        window.removeEventListener("keydown", onKey);
+      };
+    }
+  }, [light, go, isRTL]);
 
-  // Keep the active thumbnail in view as the rail scrolls.
   useEffect(() => {
     const rail = railRef.current;
-    const el = rail?.querySelector<HTMLElement>(`[data-thumb="${active}"]`);
-    el?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    if (rail) {
+      const activeEl = rail.querySelector(`[data-index="${active}"]`) as HTMLElement;
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+    }
   }, [active]);
 
-  if (!count) {
-    return (
-      <div className="aspect-square overflow-hidden rounded-2xl bg-secondary">
-        <img src={PLACEHOLDER_IMAGE} alt={name} className="h-full w-full object-contain opacity-80" />
-      </div>
-    );
-  }
-  const current = items[Math.min(active, count - 1)];
-  const translateLabel = (raw?: string) => {
-    if (!raw) return "";
-    const key = `product.gallery.labels.${labelKey(raw)}`;
-    const translated = t(key);
-    return !translated || translated === key ? raw : translated;
-  };
-  const label = translateLabel(current.label);
-  const section = "";
+  if (!count) return <div className="aspect-square w-full rounded-[20px] bg-secondary" />;
 
-  const scrollRail = (dir: number) =>
-    railRef.current?.scrollBy({ top: dir * 260, behavior: "smooth" });
+  const current = items[Math.min(active, count - 1)];
+  const label = current.label ? t(`product.gallery.labels.${labelKey(current.label)}`) : "";
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (!light || current.type === "video") return;
+    e.preventDefault();
+    const delta = e.deltaY * -0.001;
+    setScale((s) => Math.min(3, Math.max(1, s + delta)));
+  };
+
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if (scale <= 1) return;
+    isDragging.current = true;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    lastPos.current = { x: clientX, y: clientY };
+  };
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging.current) return;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - lastPos.current.x;
+    const dy = clientY - lastPos.current.y;
+    setTranslate((t) => ({ x: t.x + dx, y: t.y + dy }));
+    lastPos.current = { x: clientX, y: clientY };
+  };
+
+  const handleDragEnd = () => {
+    isDragging.current = false;
+  };
 
   return (
-    <div className="flex flex-col gap-3 lg:flex-row-reverse lg:items-start lg:gap-4">
-      {/* Stage */}
+    <div className="flex flex-col gap-4 lg:flex-row-reverse lg:items-start lg:gap-12">
+      {/* Main Image View */}
       <div className="relative min-w-0 flex-1">
-        {section && (
-          <p className="eyebrow mb-2 hidden lg:block">{section}</p>
-        )}
         <div
-          className="group relative aspect-square touch-pan-y overflow-hidden rounded-2xl bg-secondary select-none"
-          onMouseMove={(e) => {
-            if (current.type !== "image") return;
-            const r = e.currentTarget.getBoundingClientRect();
-            setZoom({
-              x: ((e.clientX - r.left) / r.width) * 100,
-              y: ((e.clientY - r.top) / r.height) * 100,
-            });
-          }}
-          onMouseLeave={() => setZoom(null)}
-          onDoubleClick={() => setLight(true)}
-          onTouchStart={(e) => {
-            touch.current = {
-              x: e.touches[0].clientX,
-              y: e.touches[0].clientY,
-              dist: 0,
-              scale: 1,
-            };
-          }}
-          onTouchEnd={(e) => {
-            const start = touch.current;
-            touch.current = null;
-            if (!start) return;
-            const dx = e.changedTouches[0].clientX - start.x;
-            const dy = e.changedTouches[0].clientY - start.y;
-            if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
-          }}
+          className="relative aspect-square w-full touch-pan-y overflow-hidden rounded-[20px] bg-cream p-1 md:max-h-[620px] lg:max-h-[680px] xl:max-h-[760px]"
         >
-          {items.map((item, i) =>
-            item.type === "video" ? (
-              <video
-                key={item.src}
-                src={item.src}
-                poster={item.poster}
-                controls
-                playsInline
-                preload="none"
-                className={cn(
-                  "absolute inset-0 h-full w-full object-contain transition-opacity duration-500",
-                  i === active ? "opacity-100" : "pointer-events-none opacity-0",
-                )}
-              />
-            ) : (
-              <img
-                key={item.src}
-                src={item.src}
-                alt={item.alt}
-                width={1400}
-                height={1400}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                decoding="async"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 640px"
-                className={cn(
-                  "absolute inset-0 h-full w-full object-contain transition-[opacity,transform] duration-500 ease-out",
-                  i === active ? "opacity-100" : "pointer-events-none opacity-0",
-                )}
-                style={
-                  i === active && zoom
-                    ? { transform: "scale(1.9)", transformOrigin: `${zoom.x}% ${zoom.y}%` }
-                    : undefined
-                }
-              />
-            ),
-          )}
+          {items.map((item, i) => (
+            <div
+              key={item.src}
+              className={cn(
+                "absolute inset-0 flex h-full w-full items-center justify-center transition-opacity duration-500",
+                i === active ? "opacity-100" : "pointer-events-none opacity-0",
+              )}
+            >
+              {item.type === "video" ? (
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  controls
+                  className="h-full w-full object-contain"
+                />
+              ) : (
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  className="h-full w-full object-contain"
+                />
+              )}
+            </div>
+          ))}
 
           {label && (
-            <span className="glass pointer-events-none absolute start-3 top-3 rounded-full px-3 py-1 text-[0.65rem] font-medium tracking-[0.12em] uppercase">
+            <span className="absolute start-4 top-4 z-10 rounded-full bg-background/80 px-3 py-1 text-[10px] font-medium tracking-wider uppercase backdrop-blur-md">
               {label}
             </span>
           )}
@@ -159,165 +139,116 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
           <button
             type="button"
             onClick={() => setLight(true)}
-            aria-label={t("product.gallery.fullscreen")}
-            className="glass absolute end-3 top-3 grid h-10 w-10 place-items-center rounded-full text-foreground transition-transform hover:scale-105"
+            className="absolute end-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-background/80 backdrop-blur-md transition-transform hover:scale-105"
           >
             <Expand className="h-4 w-4" />
           </button>
 
-          <span className="glass pointer-events-none absolute bottom-3 start-3 rounded-md px-2.5 py-1 text-[0.65rem] tracking-wide uppercase max-lg:hidden">
-            {t("product.gallery.hoverZoom")}
-          </span>
-          <span className="glass pointer-events-none absolute bottom-3 end-3 rounded-md px-2.5 py-1 text-[0.65rem] tracking-wide tabular-nums">
+          <div className="absolute bottom-4 end-4 z-10 rounded-full bg-background/80 px-3 py-1 text-[10px] font-medium tabular-nums backdrop-blur-md">
             {active + 1} / {count}
-          </span>
+          </div>
         </div>
       </div>
 
-      {/* Thumbnails: horizontal on mobile, vertical scrollable rail on desktop */}
+      {/* Thumbnails */}
       {count > 1 && (
-        <div className="lg:flex lg:w-20 lg:flex-col lg:items-center lg:gap-1">
-          {count > 8 && (
+        <div
+          ref={railRef}
+          className="flex w-full gap-3 overflow-x-auto pb-2 [scrollbar-width:none] lg:max-h-[680px] lg:w-20 lg:flex-col lg:overflow-y-auto lg:pb-0 [&::-webkit-scrollbar]:hidden"
+        >
+          {items.map((item, i) => (
             <button
+              key={item.src}
               type="button"
-              onClick={() => scrollRail(-1)}
-              aria-label={t("product.gallery.scrollUp")}
-              className="hidden h-6 w-full place-items-center rounded-md text-muted-foreground hover:text-foreground lg:grid"
+              data-index={i}
+              onClick={() => setActive(i)}
+              className={cn(
+                "relative aspect-square shrink-0 overflow-hidden rounded-xl border-2 transition-all",
+                "h-[68px] w-[68px] sm:h-[76px] sm:w-[76px] lg:h-[80px] lg:w-[80px]",
+                i === active ? "border-cognac" : "border-transparent",
+              )}
             >
-              <ChevronUp className="h-4 w-4" />
+              <img
+                src={item.type === "video" ? (item.poster ?? PLACEHOLDER_IMAGE) : item.src}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+              {item.type === "video" && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 text-white">
+                  <Play className="h-4 w-4 fill-current" />
+                </div>
+              )}
             </button>
-          )}
-          <div
-            ref={railRef}
-            className="flex gap-3 overflow-x-auto pb-1 lg:max-h-[560px] lg:w-full lg:flex-col lg:overflow-x-hidden lg:overflow-y-auto lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {items.map((item, i) => (
-              <button
-                key={item.src}
-                type="button"
-                data-thumb={i}
-                onClick={() => setActive(i)}
-                aria-label={t("product.gallery.viewImage", { index: i + 1 })}
-                aria-current={i === active}
-                className={cn(
-                  "group/thumb relative aspect-square w-[72px] shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-300 lg:w-full",
-                  i === active
-                    ? "border-primary opacity-100"
-                    : "border-transparent opacity-70 hover:border-border hover:opacity-100",
-                )}
-              >
-                <img
-                  src={item.type === "video" ? (item.poster ?? PLACEHOLDER_IMAGE) : item.src}
-                  alt=""
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full bg-secondary object-cover transition-transform duration-500 group-hover/thumb:scale-110"
-                />
-                {item.type === "video" && (
-                  <span className="pointer-events-none absolute inset-0 grid place-items-center bg-foreground/30 text-background">
-                    <Play className="h-5 w-5 fill-current" />
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          {count > 8 && (
-            <button
-              type="button"
-              onClick={() => scrollRail(1)}
-              aria-label={t("product.gallery.scrollDown")}
-              className="hidden h-6 w-full place-items-center rounded-md text-muted-foreground hover:text-foreground lg:grid"
-            >
-              <ChevronDown className="h-4 w-4" />
-            </button>
-          )}
+          ))}
         </div>
       )}
 
+      {/* Lightbox */}
       {light && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-foreground/95 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label={name}
-          onClick={() => setLight(false)}
-          onWheel={(e) => {
-            setScale((s) => Math.min(4, Math.max(1, s - e.deltaY / 500)));
-          }}
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#140F0C]/96 p-4 backdrop-blur-lg"
+          onWheel={handleWheel}
         >
           <button
-            type="button"
-            aria-label={t("product.gallery.close")}
-            className="absolute end-5 top-5 z-10 grid h-11 w-11 place-items-center rounded-full bg-background/90 text-foreground"
             onClick={() => setLight(false)}
+            className="absolute end-6 top-6 z-[10000] rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
           >
-            <X className="h-5 w-5" />
+            <X className="h-6 w-6" />
           </button>
 
-          <span className="absolute bottom-5 start-1/2 z-10 -translate-x-1/2 rounded-full bg-background/90 px-3 py-1.5 text-xs text-foreground tabular-nums">
-            {active + 1} / {count} {label ? `· ${label}` : ""}
-          </span>
-          <span className="absolute bottom-5 end-5 z-10 hidden items-center gap-1.5 rounded-full bg-background/90 px-3 py-1.5 text-[0.65rem] tracking-wide text-foreground uppercase lg:flex">
-            <ZoomIn className="h-3.5 w-3.5" /> {t("product.gallery.zoomHint")}
-          </span>
+          <div
+            ref={containerRef}
+            className="relative flex h-full w-full items-center justify-center overflow-hidden"
+            onMouseDown={handleDragStart}
+            onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchMove={handleDragMove}
+            onTouchEnd={handleDragEnd}
+          >
+            {current.type === "video" ? (
+              <video
+                src={current.src}
+                controls
+                autoPlay
+                className="max-h-[90dvh] max-w-[92vw] rounded-xl"
+              />
+            ) : (
+              <img
+                src={current.src}
+                alt=""
+                className={cn(
+                  "max-h-[90dvh] max-w-[92vw] select-none object-contain transition-transform duration-200",
+                  scale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"
+                )}
+                style={{
+                  transform: `scale(${scale}) translate(${translate.x / scale}px, ${translate.y / scale}px)`,
+                }}
+              />
+            )}
+          </div>
 
-          {current.type === "video" ? (
-            <video
-              src={current.src}
-              poster={current.poster}
-              controls
-              autoPlay
-              playsInline
-              className="max-h-[88vh] max-w-full rounded-xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-          ) : (
-          <img
-            src={current.src}
-            alt={current.alt}
-            className="max-h-[88vh] max-w-full rounded-xl object-contain transition-transform duration-200"
-            style={{ transform: `scale(${scale})`, transformOrigin: `${origin.x}% ${origin.y}%` }}
-            onClick={(e) => e.stopPropagation()}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              const r = e.currentTarget.getBoundingClientRect();
-              setOrigin({
-                x: ((e.clientX - r.left) / r.width) * 100,
-                y: ((e.clientY - r.top) / r.height) * 100,
-              });
-              setScale((s) => (s > 1 ? 1 : 2.5));
-            }}
-            onTouchStart={(e) => {
-              if (e.touches.length === 2) {
-                const [a, b] = [e.touches[0], e.touches[1]];
-                touch.current = {
-                  x: 0,
-                  y: 0,
-                  dist: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
-                  scale,
-                };
-              } else {
-                touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, dist: 0, scale };
-              }
-            }}
-            onTouchMove={(e) => {
-              const start = touch.current;
-              if (!start || e.touches.length !== 2 || !start.dist) return;
-              const [a, b] = [e.touches[0], e.touches[1]];
-              const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
-              setScale(Math.min(4, Math.max(1, (start.scale * dist) / start.dist)));
-            }}
-            onTouchEnd={(e) => {
-              const start = touch.current;
-              touch.current = null;
-              if (!start || start.dist || scale > 1) return;
-              const dx = e.changedTouches[0].clientX - start.x;
-              if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
-            }}
-          />
-          )}
+          {/* Controls */}
+          <div className="absolute bottom-8 left-0 right-0 z-[10000] flex items-center justify-center gap-8 text-white">
+            <button
+              onClick={(e) => { e.stopPropagation(); go(-1); }}
+              className="rounded-full bg-white/10 p-3 transition-colors hover:bg-white/20"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+
+            <span className="min-w-[60px] text-center text-sm font-medium tabular-nums">
+              {active + 1} / {count}
+            </span>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); go(1); }}
+              className="rounded-full bg-white/10 p-3 transition-colors hover:bg-white/20"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </div>
         </div>
       )}
     </div>
