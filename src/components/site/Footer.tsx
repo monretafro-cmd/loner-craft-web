@@ -1,7 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 
 import { LogoMark } from "./Logo";
 import { BRAND } from "@/lib/brand";
@@ -36,7 +34,6 @@ const COLUMNS = [
 ] as const;
 
 export function Footer() {
-  
   const { t } = useI18n();
   const { askLink } = useWhatsapp();
 
