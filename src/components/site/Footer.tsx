@@ -106,8 +106,6 @@ export function Footer() {
             </div>
           ))}
         </div>
-
-
         <div className="mt-10 flex flex-col gap-3 border-t border-ink-foreground/12 pt-6 text-xs text-ink-foreground/55 sm:flex-row sm:items-center sm:justify-between">
           <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
           <p>{t("footer.codLine")}</p>
