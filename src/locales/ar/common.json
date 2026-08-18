@@ -21,7 +21,7 @@
     "continueShopping": "متابعة التسوق",
     "browseCollection": "تصفح المجموعة",
     "apply": "تطبيق",
-    "subscribe": "اشتراك",
+    
     "backToTop": "العودة إلى الأعلى",
     "search": "بحث",
     "viewAll": "عرض الكل",
@@ -71,16 +71,10 @@
     "shippingReturns": "الشحن والإرجاع",
     "privacy": "سياسة الخصوصية",
     "terms": "شروط الخدمة",
-    "newsletterTitle": "انضم إلى نشرة الورشة",
-    "newsletterText": "منتجات جديدة وإعادة توفير ونصائح للعناية. مرة واحدة شهرياً فقط.",
-    "emailPlaceholder": "you@example.com",
-    "emailLabel": "البريد الإلكتروني",
     "rights": "© {{year}} Loner Leather. صناعة يدوية في المغرب.",
     "codLine": "الدفع عند الاستلام في جميع الجهات الـ12 · لا حاجة للدفع الإلكتروني"
   },
   "toast": {
-    "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
-    "subscribed": "تم تسجيلك. مرحباً بك في Loner Leather.",
     "wishAdded": "تمت الإضافة إلى المفضلة.",
     "wishRemoved": "تمت الإزالة من المفضلة."
   },

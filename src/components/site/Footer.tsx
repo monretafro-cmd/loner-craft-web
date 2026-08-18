@@ -37,7 +37,7 @@ const COLUMNS = [
 ] as const;
 
 export function Footer() {
-  const [email, setEmail] = useState("");
+  
   const { t } = useI18n();
   const { askLink } = useWhatsapp();
 
@@ -108,39 +108,6 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 grid gap-5 rounded-xl border border-ink-foreground/12 p-6 md:grid-cols-[1fr_auto] md:items-center">
-          <div>
-            <h3 className="font-display text-xl">{t("footer.newsletterTitle")}</h3>
-            <p className="mt-1 text-sm text-ink-foreground/70">
-              {t("footer.newsletterText")}
-            </p>
-          </div>
-          <form
-            className="flex w-full gap-2 md:w-auto"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-                toast.error(t("toast.invalidEmail"));
-                return;
-              }
-              toast.success(t("toast.subscribed"));
-              setEmail("");
-            }}
-          >
-            <Input
-              type="email"
-              value={email}
-              maxLength={255}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("footer.emailPlaceholder")}
-              aria-label={t("footer.emailLabel")}
-              className="h-12 min-w-0 border-ink-foreground/20 bg-transparent text-ink-foreground placeholder:text-ink-foreground/40 md:w-72"
-            />
-            <Button type="submit" variant="gold" size="lg" className="shrink-0">
-              {t("actions.subscribe")}
-            </Button>
-          </form>
-        </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-ink-foreground/12 pt-6 text-xs text-ink-foreground/55 sm:flex-row sm:items-center sm:justify-between">
           <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
