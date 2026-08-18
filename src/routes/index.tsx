@@ -150,12 +150,15 @@ function Index() {
       </section>
 
       {/* Collection CTA */}
-      <section className="bg-ink py-16 text-ink-foreground lg:py-24">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+      <section className="bg-ink py-16 text-ink-foreground lg:py-24 overflow-hidden relative">
+        <div className="absolute inset-0 z-0 opacity-20 scale-105 select-none pointer-events-none">
+          <BrandPhoto photo={PHOTOS.walletWrappedThankYou} className="h-full w-full object-cover grayscale brightness-50" />
+        </div>
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 relative z-10">
           <Reveal>
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
               <div className="max-w-2xl text-start">
-                <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase">
+                <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase font-medium">
                   {t("home.collection.eyebrow")}
                 </p>
                 <h2 className="font-display mt-3 text-4xl sm:text-5xl lg:text-6xl leading-[1.1]">
