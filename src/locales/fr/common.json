@@ -21,7 +21,7 @@
     "continueShopping": "Continuer mes achats",
     "browseCollection": "Découvrir la collection",
     "apply": "Appliquer",
-    "subscribe": "S'inscrire",
+    
     "backToTop": "Retour en haut",
     "search": "Rechercher",
     "viewAll": "Tout voir",
@@ -71,16 +71,10 @@
     "shippingReturns": "Livraison & retours",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions générales",
-    "newsletterTitle": "Recevez la lettre de l'atelier",
-    "newsletterText": "Nouveautés, réassorts et conseils d'entretien. Une fois par mois, pas plus.",
-    "emailPlaceholder": "vous@exemple.com",
-    "emailLabel": "Adresse e-mail",
     "rights": "© {{year}} Loner Leather. Fait main au Maroc.",
     "codLine": "Paiement à la livraison dans les 12 régions · Aucun paiement en ligne requis"
   },
   "toast": {
-    "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
-    "subscribed": "Vous êtes inscrit. Bienvenue chez Loner Leather.",
     "wishAdded": "Ajouté à vos favoris.",
     "wishRemoved": "Retiré de vos favoris."
   },

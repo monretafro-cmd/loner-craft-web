@@ -21,7 +21,7 @@
     "continueShopping": "Continue shopping",
     "browseCollection": "Browse the collection",
     "apply": "Apply",
-    "subscribe": "Subscribe",
+    
     "backToTop": "Back to top",
     "search": "Search",
     "viewAll": "View all",
@@ -71,16 +71,10 @@
     "shippingReturns": "Shipping & Returns",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "newsletterTitle": "Join the workshop letter",
-    "newsletterText": "New drops, restocks and care tips. Once a month, never more.",
-    "emailPlaceholder": "you@example.com",
-    "emailLabel": "Email address",
     "rights": "© {{year}} Loner Leather. Handmade in Morocco.",
     "codLine": "Cash on Delivery across all 12 regions · No online payment required"
   },
   "toast": {
-    "invalidEmail": "Please enter a valid email address.",
-    "subscribed": "You're on the list. Welcome to Loner Leather.",
     "wishAdded": "Saved to your wishlist.",
     "wishRemoved": "Removed from your wishlist."
   },
