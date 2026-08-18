@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { LogoMark } from "./Logo";
 import { BRAND } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
