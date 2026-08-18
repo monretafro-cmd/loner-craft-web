@@ -181,12 +181,12 @@ function ProductPage() {
       </div>
 
       <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-14">
-          <div className="lg:sticky lg:top-28">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14">
+          <div className="w-full lg:sticky lg:top-28 lg:w-[55%]">
             <ProductGallery name={text.name} items={media.data ?? []} />
           </div>
 
-          <div>
+          <div className="w-full lg:w-[45%]">
             <p className="eyebrow">Loner Leather</p>
             <h1 className="font-display mt-2 text-3xl leading-tight sm:text-4xl lg:text-[2.75rem]">
               {text.name}
