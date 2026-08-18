@@ -149,8 +149,40 @@ function Index() {
         </div>
       </section>
 
-      {/* Why choose us */}
+      {/* Collection CTA */}
       <section className="bg-ink py-16 text-ink-foreground lg:py-24">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+          <Reveal>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+              <div className="max-w-2xl text-start">
+                <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase">
+                  {t("home.collection.eyebrow")}
+                </p>
+                <h2 className="font-display mt-3 text-4xl sm:text-5xl lg:text-6xl leading-[1.1]">
+                  {t("home.collection.title")}
+                </h2>
+                <p className="mt-6 text-base sm:text-lg leading-relaxed text-ink-foreground/70">
+                  {t("home.collection.description")}
+                </p>
+                <div className="mt-10 flex justify-start">
+                  <Button 
+                    size="xl" 
+                    className="w-full h-16 md:w-fit md:min-w-[240px] transition-transform hover:scale-[1.02] active:scale-[0.98]" 
+                    asChild
+                  >
+                    <Link to="/product/$slug" params={{ slug: "alpha-wallet" }}>
+                      {t("actions.orderNow")} <ForwardArrow className="ms-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Why choose us */}
+      <section className="bg-ink py-16 text-ink-foreground lg:py-24 border-t border-white/5">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Reveal>
             <p className="text-[0.7rem] tracking-[0.22em] text-accent uppercase">{t("home.why.eyebrow")}</p>
