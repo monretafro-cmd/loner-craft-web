@@ -184,7 +184,7 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
       {/* Lightbox */}
       {light && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#140F0C]/f5 p-4 backdrop-blur-lg"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#140F0C]/96 p-4 backdrop-blur-lg"
           onWheel={handleWheel}
         >
           <button
