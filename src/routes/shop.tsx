@@ -218,22 +218,15 @@ function ShopPage() {
               <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-foreground/78 sm:text-lg">
                 {text("shop_hero", "subtitle", t("shop.hero.intro"))}
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" variant="secondary" className="min-h-12">
-                  <a href="#collection">
-                    {text("shop_hero", "primaryLabel", "Explore the collection")}
-                  </a>
-                </Button>
-                <Button
+              <div className="mt-8 flex justify-start">
+                <Button 
+                  size="xl" 
+                  className="w-full h-16 md:w-fit md:min-w-[240px] transition-transform hover:scale-[1.02] active:scale-[0.98]" 
                   asChild
-                  size="lg"
-                  variant="outline"
-                  className="min-h-12 border-white/35 bg-black/10 text-white backdrop-blur hover:bg-white/10 hover:text-white"
                 >
-                  <a href={waLink} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" />
-                    {text("shop_hero", "secondaryLabel", "Order on WhatsApp")}
-                  </a>
+                  <Link to="/product/$slug" params={{ slug: "alpha-wallet" }}>
+                    {t("actions.orderNow")}
+                  </Link>
                 </Button>
               </div>
             </div>
