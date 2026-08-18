@@ -12,6 +12,7 @@
   --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-hero-in: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-slide-from-right: slide-from-right 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --breakpoint-tablet: 48rem;
 }
 
 @keyframes fade-up {
