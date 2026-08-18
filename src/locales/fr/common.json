@@ -15,6 +15,7 @@
   },
   "actions": {
     "orderNow": "Commander",
+    "commander": "Commander",
     "orderWhatsapp": "Commander sur WhatsApp",
     "addToBag": "Ajouter au panier",
     "checkout": "Commander · Paiement à la livraison",

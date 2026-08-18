@@ -15,6 +15,7 @@
   },
   "actions": {
     "orderNow": "اطلب الآن",
+    "commander": "اطلب الآن",
     "orderWhatsapp": "اطلب عبر واتساب",
     "addToBag": "أضف إلى السلة",
     "checkout": "إتمام الطلب · الدفع عند الاستلام",

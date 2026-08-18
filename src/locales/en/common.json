@@ -15,6 +15,7 @@
   },
   "actions": {
     "orderNow": "Order Now",
+    "commander": "Order Now",
     "orderWhatsapp": "Order on WhatsApp",
     "addToBag": "Add to Bag",
     "checkout": "Checkout · Cash on Delivery",
