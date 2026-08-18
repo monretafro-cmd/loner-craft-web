@@ -48,7 +48,6 @@ function Index() {
   const ForwardArrow = isRTL ? ArrowLeft : ArrowRight;
 
   const heroTrust = tList<string>("home.hero.trust");
-  const featuredFeatures = tList<string>("home.featured.features");
   const packagingFeatures = tList<string>("home.packaging.features");
   const craftParagraphs = tList<string>("home.craft.paragraphs");
   const whyItems = tList<{ title: string; text: string }>("home.why.items");
