@@ -82,7 +82,6 @@ export function Footer() {
         </div>
 
         <div className="mt-16 grid gap-10 text-center sm:grid-cols-3 sm:text-left">
-
           {COLUMNS.map((col) => (
             <div key={t(col.title)}>
               <h3 className="text-[0.7rem] font-semibold tracking-[0.2em] text-ink-foreground/50 uppercase">
