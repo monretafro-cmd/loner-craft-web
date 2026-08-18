@@ -14,7 +14,7 @@
     "openMenu": "Ouvrir le menu"
   },
   "actions": {
-    "shopNow": "Voir la boutique",
+    "orderNow": "Commander",
     "orderWhatsapp": "Commander sur WhatsApp",
     "addToBag": "Ajouter au panier",
     "checkout": "Commander · Paiement à la livraison",

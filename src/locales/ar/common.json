@@ -14,7 +14,7 @@
     "openMenu": "فتح القائمة"
   },
   "actions": {
-    "shopNow": "تسوق الآن",
+    "orderNow": "اطلب الآن",
     "orderWhatsapp": "اطلب عبر واتساب",
     "addToBag": "أضف إلى السلة",
     "checkout": "إتمام الطلب · الدفع عند الاستلام",
