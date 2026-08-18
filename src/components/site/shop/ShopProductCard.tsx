@@ -32,7 +32,7 @@ export function ShopProductCard({
   priority?: boolean;
   variant?: "grid" | "featured";
 }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { orderLink } = useWhatsapp();
   const [quickView, setQuickView] = useState(false);
 
