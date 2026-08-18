@@ -68,27 +68,17 @@ function Index() {
               {t("home.hero.subtitle")}
             </p>
             <div
-              className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
+              className="animate-fade-up mt-10 flex flex-col gap-3"
               style={{ animationDelay: "260ms" }}
             >
-              <Button size="xl" className="w-full min-h-11 sm:w-auto" asChild>
-                <Link to="/shop">
-                  {t("actions.shopNow")} <ForwardArrow className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                size="xl"
-                variant="outline"
-                className="w-full min-h-11 border-foreground/20 bg-white text-foreground hover:bg-white sm:w-auto"
+              <Button 
+                size="xl" 
+                className="w-full h-16 min-w-full md:min-w-[240px] md:w-fit tablet:min-w-[220px] transition-transform hover:scale-[1.02] active:scale-[0.98]" 
                 asChild
               >
-                <a
-                  href={orderLink({ product: featuredName })}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("actions.orderWhatsapp")}
-                </a>
+                <Link to="/product/$slug" params={{ slug: "alpha-wallet" }}>
+                  {t("actions.orderNow")} <ForwardArrow className="ms-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
             <ul
