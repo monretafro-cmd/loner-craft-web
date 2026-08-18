@@ -70,6 +70,7 @@ export function Navbar() {
           scrolled
             ? "border-border/70 bg-background/80 shadow-soft backdrop-blur-md"
             : "border-border bg-background",
+          "[[data-lightbox-open=true]_&]:pointer-events-none [[data-lightbox-open=true]_&]:opacity-0"
         )}
       >
         <nav
