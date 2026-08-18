@@ -9,6 +9,7 @@ import {
   Hammer,
   Heart,
   MapPin,
+  MessageCircle,
   Minus,
   Plus,
   ShieldCheck,
