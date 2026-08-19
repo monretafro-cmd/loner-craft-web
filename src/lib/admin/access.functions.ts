@@ -6,6 +6,7 @@ const INITIAL_OWNER_EMAIL = "valaverde05@gmail.com";
 export type AccessState = {
   status: "pending" | "approved" | "rejected" | "blocked";
   role: "super_admin" | "admin" | null;
+  userId: string;
   email: string;
   fullName: string | null;
   avatarUrl: string | null;
