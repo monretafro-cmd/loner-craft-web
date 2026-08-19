@@ -40,15 +40,19 @@ function PendingPage() {
     
     try {
       const access = await sync({ data: undefined as never });
+      
+      // Force a session refresh to pick up potential role changes
       await supabase.auth.refreshSession();
+      
+      if (access.status === "approved" && access.role) {
+        // Use window.location for a hard reload to /admin to ensure shell layout re-runs beforeLoad
+        window.location.href = "/admin";
+        return;
+      }
       
       if (access.status === "blocked" || access.status === "rejected") {
         await supabase.auth.signOut();
         return navigate({ to: "/admin/login", replace: true });
-      }
-      
-      if (access.status === "approved" && access.role) {
-        return navigate({ to: "/admin", replace: true });
       }
       
       setEmail(access.email);

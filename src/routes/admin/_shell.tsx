@@ -13,9 +13,16 @@ export const Route = createFileRoute("/admin/_shell")({
 
     const session = await Promise.race([sessionPromise, timeoutPromise]) as Awaited<ReturnType<typeof loadAdminSession>>;
 
-    if (!session) throw redirect({ to: "/admin/login" });
+    if (!session) {
+      throw redirect({ to: "/admin/login" });
+    }
+    
+    if (session.status === "pending") {
+      throw redirect({ to: "/admin/pending" });
+    }
+    
     if (session.status !== "approved" || !session.role) {
-      throw redirect({ to: session.status === "pending" ? "/admin/pending" : "/admin/login" });
+      throw redirect({ to: "/admin/login" });
     }
     return { session };
   },
