@@ -52,8 +52,12 @@ export async function loadAdminSession(forceRefresh = false): Promise<AdminSessi
         role: status === "approved" ? (rawRole as "super_admin" | "admin" | null) : null,
       };
       return cachedSession;
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error loading admin profile:", err);
+      if (err?.message?.includes("Unauthorized") || err?.message?.includes("token")) {
+        clearAdminSession();
+        throw err;
+      }
       return null;
     } finally {
       sessionPromise = null;
