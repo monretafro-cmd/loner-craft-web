@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Expand, Loader2, Play, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, Expand, Loader2, X } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useI18n } from "@/lib/i18n";
-import { PLACEHOLDER_IMAGE, type ProductMedia } from "@/lib/shop/images";
+import { type ProductMedia } from "@/lib/shop/images";
 import { cn } from "@/lib/utils";
 
 const labelKey = (label: string) =>
@@ -101,8 +101,32 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
   );
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row-reverse lg:items-start lg:gap-12">
-      <div className="relative min-w-0 flex-1">
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-6 xl:gap-8">
+      {/* Thumbnails list - Desktop (Vertical Left), Mobile/Tablet (Horizontal/Vertical) */}
+      {count > 1 && (
+        <div className={cn(
+          "order-2 lg:order-1 flex w-full gap-3 overflow-x-auto pb-2 [scrollbar-width:none] lg:max-h-[680px] lg:w-20 lg:flex-col lg:overflow-y-auto lg:pb-0 [&::-webkit-scrollbar]:hidden shrink-0",
+          isRTL ? "lg:order-1" : "lg:order-1" // Always on the far side based on layout
+        )}>
+          {items.map((item, i) => (
+            <button
+              key={item.src}
+              type="button"
+              onClick={() => setActive(i)}
+              className={cn(
+                "relative aspect-square shrink-0 overflow-hidden rounded-xl border-2 transition-all",
+                "h-[68px] w-[68px] sm:h-[76px] sm:w-[76px] lg:h-[80px] lg:w-[80px]",
+                i === active ? "border-cognac" : "border-transparent",
+              )}
+            >
+              <img src={item.src} alt="" className="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Main Image View */}
+      <div className="relative min-w-0 flex-1 order-1 lg:order-2">
         <div className="relative aspect-square w-full touch-pan-y overflow-hidden rounded-[20px] bg-cream p-1 md:max-h-[620px] lg:max-h-[680px] xl:max-h-[760px]">
           {items.map((item, i) => (
             <div
@@ -138,24 +162,6 @@ export function ProductGallery({ name, items }: { name: string; items: ProductMe
         </div>
       </div>
 
-      {count > 1 && (
-        <div className="flex w-full gap-3 overflow-x-auto pb-2 [scrollbar-width:none] lg:max-h-[680px] lg:w-20 lg:flex-col lg:overflow-y-auto lg:pb-0 [&::-webkit-scrollbar]:hidden">
-          {items.map((item, i) => (
-            <button
-              key={item.src}
-              type="button"
-              onClick={() => setActive(i)}
-              className={cn(
-                "relative aspect-square shrink-0 overflow-hidden rounded-xl border-2 transition-all",
-                "h-[68px] w-[68px] sm:h-[76px] sm:w-[76px] lg:h-[80px] lg:w-[80px]",
-                i === active ? "border-cognac" : "border-transparent",
-              )}
-            >
-              <img src={item.src} alt="" className="h-full w-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
       {light && <Lightbox />}
     </div>
   );
