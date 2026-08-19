@@ -111,7 +111,7 @@ function ShopPageManager() {
   const saveProduct = useSaveRow("products", "shop-page");
 
   const [drafts, setDrafts] = useState<Record<string, any>>({});
-  const shopSections = (sections.data ?? []).filter((s) => s.section.startsWith("shop_"));
+  const shopSections = (sections.data ?? []).filter((s) => s.section.startsWith("shop_") && s.section !== "shop_craft");
 
   useEffect(() => {
     if (!sections.data) return;
