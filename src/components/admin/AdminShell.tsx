@@ -77,6 +77,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
   useEffect(() => setOpen(false), [pathname]);
 
   async function signOut() {
+    if (session) {
+      await logAccess({ 
+        data: { 
+          action: "admin_sign_out", 
+          path: pathname,
+          details: { userId: session.userId, email: session.email }
+        } 
+      }).catch(() => {});
+    }
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
