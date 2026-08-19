@@ -52,10 +52,11 @@ function AdminLogin() {
           : "This access request was rejected.",
       );
     }
-    navigate({
-      to: access.status === "approved" && access.role ? "/admin" : "/admin/pending",
-      replace: true,
-    });
+    if (access.status === "approved" && access.role) {
+      navigate({ to: "/admin", replace: true });
+    } else {
+      navigate({ to: "/admin/pending", replace: true });
+    }
   }
 
   useEffect(() => {

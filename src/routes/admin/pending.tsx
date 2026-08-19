@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,6 +24,25 @@ export const Route = createFileRoute("/admin/pending")({
     ],
   }),
   component: PendingPage,
+  beforeLoad: async () => {
+    const { loadAdminSession } = await import("@/lib/admin/session");
+    const session = await loadAdminSession();
+    
+    // If not logged in, go to login
+    if (!session) {
+      throw redirect({ to: "/admin/login" });
+    }
+    
+    // If already approved, go to admin
+    if (session.status === "approved" && session.role) {
+      throw redirect({ to: "/admin" });
+    }
+    
+    // If blocked/rejected, go to login (sync will handle the actual signout if needed, but beforeLoad prevents flash)
+    if (session.status === "blocked" || session.status === "rejected") {
+      throw redirect({ to: "/admin/login" });
+    }
+  }
 });
 
 function PendingPage() {
@@ -40,15 +59,19 @@ function PendingPage() {
     
     try {
       const access = await sync({ data: undefined as never });
+      
+      // Force a session refresh to pick up potential role changes
       await supabase.auth.refreshSession();
+      
+      if (access.status === "approved" && access.role) {
+        // Use window.location for a hard reload to /admin to ensure shell layout re-runs beforeLoad
+        window.location.href = "/admin";
+        return;
+      }
       
       if (access.status === "blocked" || access.status === "rejected") {
         await supabase.auth.signOut();
         return navigate({ to: "/admin/login", replace: true });
-      }
-      
-      if (access.status === "approved" && access.role) {
-        return navigate({ to: "/admin", replace: true });
       }
       
       setEmail(access.email);
