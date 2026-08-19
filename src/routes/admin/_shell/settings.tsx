@@ -35,7 +35,9 @@ function SettingsPage() {
             <div className="space-y-4">
               {(settings.data ?? []).map((row: any) => (
                 <div key={row.id} className="space-y-2 p-3 rounded-xl bg-secondary/10 border border-border/20 transition-all hover:border-cognac/30">
-                  <Label className="capitalize text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{String(row.key).replace(/g, " ")}</Label>
+                  <Label className="capitalize text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                    {String(row.key).replace(/_/g, " ")}
+                  </Label>
                   <div className="flex gap-2">
                     <Input
                       className="bg-white border-border/40 focus-visible:ring-cognac font-medium text-ink h-10"
