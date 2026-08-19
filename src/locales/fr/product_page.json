@@ -1,0 +1,52 @@
+{
+  "product": {
+    "summary": "Portefeuille en cuir de chèvre marocain fait main, conçu pour le quotidien. Contient 6 à 8 cartes, comprend 2 poches cachées et développe une patine naturelle à l'usage.",
+    "trust": {
+      "cod": "Paiement à la livraison",
+      "codSub": "Payez à la réception",
+      "delivery": "Livraison partout au Maroc",
+      "deliverySub": "Livraison estimée en 24–48h",
+      "handmade": "Fait main à Taroudant",
+      "handmadeSub": "Artisanat marocain"
+    },
+    "details": {
+      "capacity": { "label": "CAPACITÉ", "value": "6–8 cartes" },
+      "pockets": { "label": "POCHES", "value": "2 poches cachées" },
+      "size": { "label": "DIMENSIONS", "value": "12 × 7,5 cm" },
+      "material": { "label": "MATIÈRE", "value": "Cuir de chèvre marocain" },
+      "color": { "label": "COULEUR", "value": "Brun naturel" },
+      "madeIn": { "label": "FABRIQUÉ À", "value": "Taroudant, Maroc" }
+    },
+    "story": {
+      "title": "Conçu pour le quotidien",
+      "features": [
+        "Capacité de 6–8 cartes",
+        "2 poches cachées",
+        "Fente à accès rapide",
+        "Profil mince",
+        "Patine naturelle avec le temps"
+      ]
+    },
+    "packaging": {
+      "title": "Emballé avec soin",
+      "items": ["Boîte griffée", "Emballage en toile de jute", "Carte de remerciement", "Présentation prête à offrir"]
+    },
+    "faq": {
+      "q1": "Est-ce du vrai cuir ?",
+      "a1": "Oui, nous utilisons du cuir de chèvre marocain 100% pleine fleur au tannage végétal.",
+      "q2": "Combien de temps prend la livraison ?",
+      "a2": "24 à 48 heures dans les principales villes marocaines.",
+      "q3": "Proposez-vous le paiement à la livraison ?",
+      "a3": "Oui, le paiement s'effectue à la réception du colis.",
+      "q4": "Combien de cartes peut-il contenir ?",
+      "a4": "Il est conçu pour contenir confortablement 6 à 8 cartes.",
+      "q5": "Puis-je retourner le portefeuille ?",
+      "a5": "Oui, les articles non utilisés dans leur emballage d'origine peuvent être retournés/échangés sous 14 jours."
+    },
+    "finalCta": {
+      "title": "ALPHA WALLET",
+      "price": "300 MAD",
+      "cod": "Paiement à la livraison partout au Maroc"
+    }
+  }
+}

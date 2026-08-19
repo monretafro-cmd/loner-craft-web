@@ -7,6 +7,7 @@ import enProduct from "@/locales/en/product.json";
 import enPages from "@/locales/en/pages.json";
 import enCheckout from "@/locales/en/checkout.json";
 import enCatalog from "@/locales/en/catalog.json";
+import enProductPage from "@/locales/en/product_page.json";
 
 import frCommon from "@/locales/fr/common.json";
 import frHome from "@/locales/fr/home.json";
@@ -15,6 +16,7 @@ import frProduct from "@/locales/fr/product.json";
 import frPages from "@/locales/fr/pages.json";
 import frCheckout from "@/locales/fr/checkout.json";
 import frCatalog from "@/locales/fr/catalog.json";
+import frProductPage from "@/locales/fr/product_page.json";
 
 import arCommon from "@/locales/ar/common.json";
 import arHome from "@/locales/ar/home.json";
@@ -23,6 +25,7 @@ import arProduct from "@/locales/ar/product.json";
 import arPages from "@/locales/ar/pages.json";
 import arCheckout from "@/locales/ar/checkout.json";
 import arCatalog from "@/locales/ar/catalog.json";
+import arProductPage from "@/locales/ar/product_page.json";
 
 export type Dict = Record<string, unknown>;
 
@@ -36,10 +39,11 @@ const build = (
   pages: Dict,
   checkout: Dict,
   catalog: Dict,
-): Dict => ({ ...common, home, shop, product, pages, checkout, catalog });
+  productPage: Dict,
+): Dict => ({ ...common, home, shop, product, pages, checkout, catalog, ...productPage });
 
 export const DICTIONARIES: Record<Lang, Dict> = {
-  en: build(enCommon, enHome, enShop, enProduct, enPages, enCheckout, enCatalog),
-  fr: build(frCommon, frHome, frShop, frProduct, frPages, frCheckout, frCatalog),
-  ar: build(arCommon, arHome, arShop, arProduct, arPages, arCheckout, arCatalog),
+  en: build(enCommon, enHome, enShop, enProduct, enPages, enCheckout, enCatalog, enProductPage),
+  fr: build(frCommon, frHome, frShop, frProduct, frPages, frCheckout, frCatalog, frProductPage),
+  ar: build(arCommon, arHome, arShop, arProduct, arPages, arCheckout, arCatalog, arProductPage),
 };
