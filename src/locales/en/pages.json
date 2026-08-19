@@ -32,7 +32,7 @@
     },
     "extra": [
       { "q": "Do you offer engraving?", "a": "Yes. Up to three initials can be hand-embossed on most pieces for 60 MAD. Mention it in the order notes at checkout or on WhatsApp." },
-      { "q": "How do I track my order?", "a": "Use the Track Order page with the order number in your confirmation, or send it to us on WhatsApp and we'll check with the courier." },
+      { "q": "How do I track my order?", "a": "Send us a message on WhatsApp with your name and order details, and we'll check with the courier for you." },
       { "q": "Do you ship outside Morocco?", "a": "International shipping is available on request via WhatsApp, but Cash on Delivery is only available inside Morocco." }
     ],
     "stillQuestion": "Still have a question?",
@@ -118,25 +118,4 @@
       { "title": "9. Governing law", "body": "These terms are governed by Moroccan law, and any dispute falls to the competent courts of Taroudant." }
     ]
   },
-  "track": {
-    "hero": {
-      "eyebrow": "Delivery",
-      "title": "Track Your Order",
-      "intro": "Your order number looks like LL-482910 and is in your confirmation message."
-    },
-    "label": "Order number",
-    "placeholder": "LL-482910",
-    "submit": "Track",
-    "invalid": "Order numbers look like LL-482910.",
-    "orderPrefix": "Order {{order}}",
-    "stages": [
-      { "title": "Order confirmed", "text": "We received your order and called to verify the address." },
-      { "title": "In the workshop", "text": "Your piece is being finished, buffed and boxed in Taroudant." },
-      { "title": "Handed to courier", "text": "Collected by our delivery partner and on the road." },
-      { "title": "Out for delivery", "text": "Arriving today — have the cash amount ready for the courier." }
-    ],
-    "cantFind": "Can't find your number?",
-    "askWhatsapp": "Ask us on WhatsApp",
-    "askMessage": "Hello, I'd like to track my Loner Leather order."
-  }
 }
