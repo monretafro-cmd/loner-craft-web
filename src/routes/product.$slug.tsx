@@ -318,10 +318,10 @@ function ProductPage() {
               </Reveal>
             </div>
             <div className="w-full lg:w-1/2 order-1 lg:order-2">
-              <Reveal scale={0.95}>
+              <Reveal>
                 <div className="aspect-[4/5] sm:aspect-square overflow-hidden rounded-[32px] bg-cream shadow-2xl">
                   <img 
-                    src={PHOTOS.WALLETS.ALPHA.OPEN} 
+                    src={PHOTOS.walletOpenCards.src || media.data?.[0]?.src || ""} 
                     alt={text.name} 
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" 
                   />
@@ -352,14 +352,14 @@ function ProductPage() {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Reveal delay={100} scale={0.98}>
+            <Reveal delay={100}>
               <div className="aspect-[16/10] overflow-hidden rounded-[32px] bg-cream">
-                <img src={PHOTOS.PACKAGING.BOX} alt="Packaging Box" className="h-full w-full object-cover" />
+                <img src={PHOTOS.packagingBox.src || ""} alt="Packaging Box" className="h-full w-full object-cover" />
               </div>
             </Reveal>
-            <Reveal delay={200} scale={0.98}>
+            <Reveal delay={200}>
               <div className="aspect-[16/10] overflow-hidden rounded-[32px] bg-cream">
-                <img src={PHOTOS.PACKAGING.BURLAP} alt="Burlap Wrap" className="h-full w-full object-cover" />
+                <img src={PHOTOS.walletWrappedThankYou.src || ""} alt="Burlap Wrap" className="h-full w-full object-cover" />
               </div>
             </Reveal>
           </div>
