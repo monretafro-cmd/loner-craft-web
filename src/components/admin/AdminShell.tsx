@@ -83,7 +83,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const items = NAV.filter((item) => !item.superOnly || session?.role === "super_admin");
 
   return (
-    <div className="min-h-screen bg-[oklch(0.975_0.006_75)]">
+    <div className="min-h-screen bg-secondary/30">
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex w-[264px] flex-col bg-ink text-ink-foreground transition-transform duration-300 lg:translate-x-0",
