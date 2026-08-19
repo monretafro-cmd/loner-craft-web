@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect, Link } from "@tanstack/react-router";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { loadAdminSession } from "@/lib/admin/session";
+import { logAdminAccessEvent } from "@/lib/admin/access.functions";
 
 export const Route = createFileRoute("/admin/_shell")({
   ssr: false,
