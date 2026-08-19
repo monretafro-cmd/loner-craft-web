@@ -28,28 +28,16 @@ export const Route = createFileRoute("/admin/pending")({
     const { loadAdminSession } = await import("@/lib/admin/session");
     const session = await loadAdminSession();
     
-    // If not logged in, go to login
-    if (!session) {
-      throw redirect({ to: "/admin/login" });
-    }
-    
-    // If already approved, go to admin
-    if (session.status === "approved" && session.role) {
-      throw redirect({ to: "/admin" });
-    }
-    
-    // If blocked/rejected, go to login (sync will handle the actual signout if needed, but beforeLoad prevents flash)
-    if (session.status === "blocked" || session.status === "rejected") {
-      throw redirect({ to: "/admin/login" });
-    }
+    if (!session) throw redirect({ to: "/admin/login" });
+    if (session.status === "approved" && session.role) throw redirect({ to: "/admin" });
+    if (session.status === "blocked" || session.status === "rejected") throw redirect({ to: "/admin/login" });
   }
 });
 
 function PendingPage() {
   const navigate = useNavigate();
   const sync = useServerFn(syncAdminAccess);
-  const [email, setEmail] = useState<string | null>(null);
-  const [name, setName] = useState<string | null>(null);
+  const [session, setSession] = useState<any>(null);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -58,46 +46,25 @@ function PendingPage() {
     setError(null);
     
     try {
+      const { loadAdminSession, clearAdminSession } = await import("@/lib/admin/session");
       const access = await sync({ data: undefined as never });
       
-      // Force a session refresh to pick up potential role changes
-      await supabase.auth.refreshSession();
-      
       if (access.status === "approved" && access.role) {
-        // Use window.location for a hard reload to /admin to ensure shell layout re-runs beforeLoad
-        // Record redirect to admin from pending
-        await logAdminAccessEvent({ 
-          data: { 
-            action: "admin_redirect", 
-            path: "/admin/pending",
-            details: { userId: access.userId, email: access.email, role: access.role }
-          } 
-        }).catch(() => {});
+        clearAdminSession();
         window.location.href = "/admin";
         return;
       }
       
       if (access.status === "blocked" || access.status === "rejected") {
-        await logAdminAccessEvent({ 
-          data: { 
-            action: "admin_sign_out", 
-            path: "/admin/pending",
-            details: { status: access.status, reason: "blocked_or_rejected" }
-          } 
-        }).catch(() => {});
         await supabase.auth.signOut();
-        return navigate({ to: "/admin/login", replace: true });
+        clearAdminSession();
+        navigate({ to: "/admin/login", replace: true });
+        return;
       }
       
-      setEmail(access.email);
-      // Try to get name from session
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user?.user_metadata?.full_name) {
-        setName(user.user_metadata.full_name);
-      }
-      
+      const updated = await loadAdminSession(true);
+      setSession(updated);
     } catch (err) {
-      console.error("Status check failed:", err);
       if (!isAuto) setError("Unable to verify status. Please try again.");
     } finally {
       if (!isAuto) setChecking(false);
@@ -105,14 +72,17 @@ function PendingPage() {
   }, [navigate, sync]);
 
   useEffect(() => {
-    checkStatus();
-    
-    // Auto check every 30 seconds
-    const interval = setInterval(() => checkStatus(true), 30000);
-    return () => clearInterval(interval);
+    let mounted = true;
+    checkStatus().then(() => {
+      if (!mounted) return;
+      const interval = setInterval(() => checkStatus(true), 30000);
+      return () => clearInterval(interval);
+    });
+    return () => { mounted = false; };
   }, [checkStatus]);
 
   async function signOut() {
+    const { clearAdminSession } = await import("@/lib/admin/session");
     // Try to get user ID for logging before signing out
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
@@ -125,10 +95,11 @@ function PendingPage() {
       }).catch(() => {});
     }
     await supabase.auth.signOut();
+    clearAdminSession();
     navigate({ to: "/admin/login", replace: true });
   }
 
-  if (checking && !email) {
+  if (checking && !session) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#F7F3EF] p-4 text-[#241812]">
         <Loader2 className="h-8 w-8 animate-spin text-[#8A4D25]" />
@@ -151,10 +122,10 @@ function PendingPage() {
             Your account is waiting for approval from the Loner Leather owner.
           </p>
           
-          {(name || email) && (
+          {(session?.fullName || session?.email) && (
             <div className="rounded-xl bg-[#F7F3EF] p-4 text-left border border-[#241812]/5">
-              {name && <p className="text-sm font-semibold text-[#241812]">{name}</p>}
-              {email && <p className="text-xs text-[#1C1815]/60 mt-0.5">{email}</p>}
+              {session?.fullName && <p className="text-sm font-semibold text-[#241812]">{session.fullName}</p>}
+              {session?.email && <p className="text-xs text-[#1C1815]/60 mt-0.5">{session.email}</p>}
             </div>
           )}
         </div>

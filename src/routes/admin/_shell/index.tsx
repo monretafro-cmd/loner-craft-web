@@ -45,16 +45,18 @@ function Dashboard() {
   const customers = useRows<{ id: string }>("customers", { select: "id" });
   
   useEffect(() => {
+    let mounted = true;
     const channel = supabase
       .channel("admin-dashboard-updates")
       .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => {
-        queryClient.invalidateQueries({ predicate: (q) => Array.isArray(q.queryKey) && q.queryKey[1] === "orders" });
+        if (mounted) queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
       })
       .on("postgres_changes", { event: "*", schema: "public", table: "products" }, () => {
-        queryClient.invalidateQueries({ predicate: (q) => Array.isArray(q.queryKey) && q.queryKey[1] === "products" });
+        if (mounted) queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       })
       .subscribe();
     return () => {
+      mounted = false;
       supabase.removeChannel(channel);
     };
   }, [queryClient]);

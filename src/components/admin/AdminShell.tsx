@@ -62,7 +62,8 @@ const NAV: NavItem[] = [
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const navigate = useNavigate();
   const logAccess = useServerFn(logAdminAccessEvent);
   const queryClient = useQueryClient();

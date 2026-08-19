@@ -27,7 +27,8 @@ type Category = {
 const BLANK = { name: "", name_fr: "", name_ar: "", slug: "", description: "", status: "active", display_order: 0 };
 
 function CategoriesPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const categories = useRows<Category>("categories", { orderBy: "display_order", ascending: true });
   const products = useRows<{ id: string; category_id: string | null }>("products", { select: "id, category_id" });
   const save = useSaveRow("categories", "categories");

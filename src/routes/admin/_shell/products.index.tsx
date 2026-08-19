@@ -27,7 +27,8 @@ type Product = {
 };
 
 function ProductsPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const products = useRows<Product>("products", { orderBy: "created_at" });
   const categories = useRows<{ id: string; name: string }>("categories", { select: "id, name", orderBy: "display_order", ascending: true });
   const remove = useDeleteRow("products", "products");

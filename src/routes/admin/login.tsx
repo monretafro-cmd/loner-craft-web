@@ -42,53 +42,64 @@ function AdminLogin() {
   const [checking, setChecking] = useState(true);
 
   async function routeByAccess() {
+    const { clearAdminSession, loadAdminSession } = await import("@/lib/admin/session");
+    clearAdminSession();
+    
+    // Attempt to sync access on the server
     const access = await sync({ data: undefined as never });
-    await supabase.auth.refreshSession();
     if (access.status === "blocked" || access.status === "rejected") {
       await supabase.auth.signOut();
-      throw new Error(
-        access.status === "blocked"
-          ? "This account has been blocked."
-          : "This access request was rejected.",
-      );
+      throw new Error(access.status === "blocked" ? "Account blocked." : "Access rejected.");
     }
-    if (access.status === "approved" && access.role) {
-      await logAdminAccessEvent({ 
-        data: { 
-          action: "admin_redirect", 
-          path: "/admin/login",
-          details: { userId: access.userId, email: access.email, role: access.role }
-        } 
-      }).catch(() => {});
+    
+    // Force a fresh session load to verify current status
+    const session = await loadAdminSession(true);
+    
+    if (session?.status === "approved" && session?.role) {
       navigate({ to: "/admin", replace: true });
     } else {
-      await logAdminAccessEvent({ 
-        data: { 
-          action: "admin_pending_redirect", 
-          path: "/admin/login",
-          details: { userId: access.userId, email: access.email }
-        } 
-      }).catch(() => {});
       navigate({ to: "/admin/pending", replace: true });
     }
   }
 
   useEffect(() => {
     let active = true;
-    supabase.auth.getUser().then(async ({ data }) => {
+    
+    // Check for an existing session first
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!active) return;
-      if (!data.user) return setChecking(false);
+      if (!session) return setChecking(false);
+      
       try {
         await routeByAccess();
       } catch (caught) {
-        setError(caught instanceof Error ? caught.message : "Sign in failed");
-        setChecking(false);
+        if (active) {
+          setError(caught instanceof Error ? caught.message : "Session error");
+          setChecking(false);
+        }
       }
     });
-    return () => {
-      active = false;
+
+    // Listen for auth changes to handle successful OAuth redirects
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!active) return;
+      if (event === 'SIGNED_IN' && session) {
+        setChecking(true);
+        try {
+          await routeByAccess();
+        } catch (caught) {
+          if (active) {
+            setError(caught instanceof Error ? caught.message : "Sign in failed");
+            setChecking(false);
+          }
+        }
+      }
+    });
+
+    return () => { 
+      active = false; 
+      subscription.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function submit(event: React.FormEvent) {

@@ -5,45 +5,32 @@ import { logAdminAccessEvent } from "@/lib/admin/access.functions";
 
 export const Route = createFileRoute("/admin/_shell")({
   ssr: false,
-  beforeLoad: async () => {
-    // 8-second timeout for session resolution
+  beforeLoad: async ({ location }) => {
     const sessionPromise = loadAdminSession();
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Unable to verify your admin session.")), 8000)
+      setTimeout(() => reject(new Error("Verification timed out")), 8000)
     );
 
-    const session = await Promise.race([sessionPromise, timeoutPromise]) as Awaited<ReturnType<typeof loadAdminSession>>;
+    try {
+      const session = await Promise.race([sessionPromise, timeoutPromise]) as Awaited<ReturnType<typeof loadAdminSession>>;
 
-    if (!session) {
-      throw redirect({ to: "/admin/login" });
-    }
-    
-    if (session.status === "pending") {
-      // Record redirect to pending
-      await logAdminAccessEvent({ 
-        data: { 
-          action: "admin_pending_redirect", 
-          path: "/admin",
-          details: { userId: session.userId, email: session.email }
-        } 
-      }).catch(() => {});
-      throw redirect({ to: "/admin/pending" });
-    }
-    
-    if (session.status !== "approved" || !session.role) {
-      throw redirect({ to: "/admin/login" });
-    }
+      if (!session) {
+        throw redirect({ to: "/admin/login", search: { redirect: location.href } });
+      }
+      
+      if (session.status === "pending") {
+        throw redirect({ to: "/admin/pending" });
+      }
+      
+      if (session.status !== "approved" || !session.role) {
+        throw redirect({ to: "/admin/login" });
+      }
 
-    // Record successful access to admin shell
-    await logAdminAccessEvent({ 
-      data: { 
-        action: "admin_redirect", 
-        path: "/admin",
-        details: { userId: session.userId, email: session.email, role: session.role }
-      } 
-    }).catch(() => {});
-
-    return { session };
+      return { session };
+    } catch (error: any) {
+      if (error?.status === 307 || error?.status === 302) throw error;
+      throw new Error(error?.message || "Unable to verify your admin session.");
+    }
   },
   component: () => (
     <AdminShell>
@@ -57,7 +44,11 @@ export const Route = createFileRoute("/admin/_shell")({
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex justify-center gap-3">
           <button
-            onClick={() => reset()}
+            onClick={() => {
+              const { clearAdminSession } = require("@/lib/admin/session");
+              clearAdminSession();
+              reset();
+            }}
             className="inline-flex h-10 items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90"
           >
             Retry

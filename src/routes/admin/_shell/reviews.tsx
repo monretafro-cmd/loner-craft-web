@@ -11,7 +11,8 @@ export const Route = createFileRoute("/admin/_shell/reviews")({
 });
 
 function ReviewsPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const reviews = useRows<any>("reviews", { orderBy: "created_at" });
   const products = useRows<{ id: string; name: string }>("products", { select: "id, name" });
   const save = useSaveRow("reviews", "reviews");
