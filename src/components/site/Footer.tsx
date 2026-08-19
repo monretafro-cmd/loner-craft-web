@@ -38,8 +38,8 @@ export function Footer() {
   const { askLink } = useWhatsapp();
 
   return (
-    <footer className="mt-24 bg-ink text-ink-foreground">
-      <div className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-10">
+    <footer className="mt-8 sm:mt-12 lg:mt-16 bg-ink text-ink-foreground">
+      <div className="mx-auto max-w-[1400px] px-4 py-8 sm:py-12 lg:px-10">
         <div className="flex flex-col items-center text-center">
           <LogoMark variant="white" className="h-16 opacity-95" />
           <p className="font-display mt-6 text-2xl tracking-[0.14em] uppercase">Loner Leather</p>
