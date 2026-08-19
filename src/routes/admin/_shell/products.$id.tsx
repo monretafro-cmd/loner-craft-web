@@ -268,11 +268,11 @@ function ProductEditor() {
             <Field label="Description">
               <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
             </Field>
-            <Field label="Features (one per line)">
+            <Field label="Why You'll Like It (one per line)">
               <Textarea
-                rows={5}
-                value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
-                onChange={(e) => set("features", e.target.value.split("\n"))}
+                rows={6}
+                value={Array.isArray(form.why_points) ? form.why_points.join("\n") : (form.why_points ?? "")}
+                onChange={(e) => set("why_points", e.target.value.split("\n"))}
               />
             </Field>
           </Panel>
