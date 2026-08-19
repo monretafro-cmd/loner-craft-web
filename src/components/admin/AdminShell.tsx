@@ -1,5 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { logAdminAccessEvent } from "@/lib/admin/access.functions";
 import {
   LayoutDashboard,
   Package,
@@ -62,6 +64,7 @@ const NAV: NavItem[] = [
 export function AdminShell({ children }: { children: ReactNode }) {
   const { data: session } = useAdminSession();
   const navigate = useNavigate();
+  const logAccess = useServerFn(logAdminAccessEvent);
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(false);
@@ -74,6 +77,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
   useEffect(() => setOpen(false), [pathname]);
 
   async function signOut() {
+    if (session) {
+      await logAccess({ 
+        data: { 
+          action: "admin_sign_out", 
+          path: pathname,
+          details: { userId: session.userId, email: session.email }
+        } 
+      }).catch(() => {});
+    }
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();

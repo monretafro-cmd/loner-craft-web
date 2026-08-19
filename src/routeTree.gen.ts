@@ -138,6 +138,11 @@ const AdminShellRoute = AdminShellRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminShellRoute = AdminShellRouteImport.update({
+  id: '/admin/_shell',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminShellIndexRoute = AdminShellIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -294,6 +299,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AdminShellIndexRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -312,7 +318,6 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof AdminShellSettingsRoute
   '/admin/shop-page': typeof AdminShellShopPageRoute
   '/admin/whatsapp': typeof AdminShellWhatsappRoute
-  '/admin': typeof AdminShellIndexRoute
   '/admin/orders/$id': typeof AdminShellOrdersIdRoute
   '/admin/products/$id': typeof AdminShellProductsIdRoute
   '/admin/orders': typeof AdminShellOrdersIndexRoute
@@ -416,6 +421,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/wishlist'
+    | '/admin'
     | '/admin/login'
     | '/admin/pending'
     | '/product/$slug'
@@ -434,7 +440,6 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/admin/shop-page'
     | '/admin/whatsapp'
-    | '/admin'
     | '/admin/orders/$id'
     | '/admin/products/$id'
     | '/admin/orders'
@@ -496,6 +501,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   WishlistRoute: typeof WishlistRoute
+  AdminShellRoute: typeof AdminShellRoute
   AdminShellRoute: typeof AdminShellRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPendingRoute: typeof AdminPendingRoute
@@ -621,6 +627,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_shell': {
+      id: '/admin/_shell'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminShellRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/_shell': {
@@ -838,6 +851,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   WishlistRoute: WishlistRoute,
+  AdminShellRoute: AdminShellRoute,
   AdminShellRoute: AdminShellRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminPendingRoute: AdminPendingRoute,

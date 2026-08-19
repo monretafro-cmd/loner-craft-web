@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
-import { syncAdminAccess, logFailedLogin } from "@/lib/admin/access.functions";
+import { syncAdminAccess, logFailedLogin, logAdminAccessEvent } from "@/lib/admin/access.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,8 +53,22 @@ function AdminLogin() {
       );
     }
     if (access.status === "approved" && access.role) {
+      await logAdminAccessEvent({ 
+        data: { 
+          action: "admin_redirect", 
+          path: "/admin/login",
+          details: { userId: access.userId, email: access.email, role: access.role }
+        } 
+      }).catch(() => {});
       navigate({ to: "/admin", replace: true });
     } else {
+      await logAdminAccessEvent({ 
+        data: { 
+          action: "admin_pending_redirect", 
+          path: "/admin/login",
+          details: { userId: access.userId, email: access.email }
+        } 
+      }).catch(() => {});
       navigate({ to: "/admin/pending", replace: true });
     }
   }
