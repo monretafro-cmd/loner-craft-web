@@ -142,15 +142,10 @@ function ProductPage() {
     .slice(0, 4);
 
   const subtitle = t(`catalog.products.${product.slug}.subtitle`);
-  const features = tList<string>(`catalog.products.${product.slug}.features`);
-  const materials = tList<string>(`catalog.products.${product.slug}.material`);
   const status = tList<string>("product.status.items");
   const highlights = tList<string>("product.highlights.items");
-  const packagingItems = tList<string>("product.packaging.items");
-  const craftParas = tList<string>("product.craft.paragraphs");
-  const packagingPhotos = [PHOTOS.walletInPackaging, PHOTOS.packagingBox, PHOTOS.walletWrappedThankYou].filter(
-    (p) => p.src,
-  );
+  const features = tList<string>(`catalog.products.${product.slug}.features`);
+  const materials = tList<string>(`catalog.products.${product.slug}.material`);
 
   const add = () => {
     addLine(
@@ -187,12 +182,12 @@ function ProductPage() {
             <ProductGallery name={text.name} items={media.data ?? []} />
           </div>
 
-          <div className="w-full lg:w-[45%]">
+          <div className="w-full lg:w-[45%] lg:max-w-[680px]">
             <div className="flex flex-col gap-6">
-              {/* Top Product Area */}
+              {/* Product Heading Area */}
               <div>
                 <p className="eyebrow tracking-[0.2em] text-muted-foreground">LONER LEATHER</p>
-                <h1 className="font-display mt-2 text-[34px] leading-tight sm:text-[42px] lg:text-[48px] xl:text-[56px]">
+                <h1 className="font-display mt-2 text-[32px] leading-tight sm:text-[40px] md:text-[48px] lg:text-[56px]">
                   {text.name}
                 </h1>
                 {subtitle && (
@@ -200,11 +195,11 @@ function ProductPage() {
                 )}
                 
                 <div className="mt-6 flex flex-col gap-4">
-                  <p className="font-display text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+                  <p className="font-display text-[36px] font-semibold tracking-tight text-foreground sm:text-[42px] md:text-[48px] lg:text-[56px]">
                     {price(product.price)}
                   </p>
                   
-                  {/* Compact Trust Row */}
+                  {/* Compact Trust Highlights */}
                   <ul className="flex flex-wrap gap-x-4 gap-y-2 text-[13px] font-medium text-muted-foreground">
                     {status.map((s) => (
                       <li key={s} className="flex items-center gap-1.5 whitespace-nowrap">
@@ -215,16 +210,17 @@ function ProductPage() {
                   </ul>
                 </div>
 
-                {/* Short Product Summary */}
+                {/* Short Summary */}
                 <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground md:text-base">
                   {t("product.summary")}
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border bg-secondary/20 p-5 sm:grid-cols-3">
-                {Object.entries((t("product.info") as any) || {}).map(([key, info]: [string, any]) => (
+              {/* Key Details Grid */}
+              <div className="grid grid-cols-2 gap-x-4 gap-y-4 rounded-2xl border border-border bg-secondary/10 p-5 sm:grid-cols-3">
+                {Object.entries((t("product.details") as any) || {}).map(([key, info]: [string, any]) => (
                   <div key={key}>
-                    <dt className="eyebrow text-[10px] opacity-70">{info.label}</dt>
+                    <dt className="eyebrow text-[10px] opacity-70 uppercase">{info.label}</dt>
                     <dd className="mt-0.5 text-[13px] font-medium text-foreground">{info.value}</dd>
                   </div>
                 ))}
@@ -234,6 +230,7 @@ function ProductPage() {
               <div className="space-y-6">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-4">
+                    {/* Quantity Selector */}
                     <div className="flex items-center rounded-xl border border-border bg-background">
                       <button
                         type="button"
@@ -243,7 +240,7 @@ function ProductPage() {
                       >
                         <Minus className="h-4 w-4" />
                       </button>
-                      <span className="w-10 text-center font-medium tabular-nums">{qty}</span>
+                      <span className="w-10 text-center font-medium tabular-nums text-sm">{qty}</span>
                       <button
                         type="button"
                         aria-label={t("product.quantity.increase")}
@@ -254,6 +251,7 @@ function ProductPage() {
                       </button>
                     </div>
                     
+                    {/* Wishlist - Visually Secondary */}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -270,33 +268,48 @@ function ProductPage() {
                     </Button>
                   </div>
 
+                  {/* Main CTA */}
                   <div className="flex w-full">
                     <Button 
                       variant="hero" 
-                      size="xl" 
-                      className="w-full text-base font-semibold shadow-lg shadow-primary/10" 
+                      className="w-full h-[58px] text-lg font-bold shadow-lg shadow-primary/10 rounded-xl" 
                       disabled={!product.inStock} 
                       onClick={add}
                     >
-                      <ShoppingBag className="h-5 w-5" />
+                      <ShoppingBag className="mr-2 h-5 w-5" />
                       {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
                     </Button>
                   </div>
                 </div>
 
-                {/* Delivery Trust Info */}
-                <div className="flex flex-col gap-2 rounded-xl bg-accent/5 p-4 text-center sm:text-start">
-                  <p className="flex items-center justify-center gap-2 text-sm font-medium text-foreground sm:justify-start">
-                    <ShieldCheck className="h-4 w-4 text-accent" />
-                    {t("product.trust.cod")}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {t("product.trust.noPayment")}
-                  </p>
+                {/* Compact Trust Box */}
+                <div className="flex flex-col gap-3 rounded-xl bg-accent/5 p-4">
+                  <div className="space-y-1">
+                    <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                      <ShieldCheck className="h-4 w-4 text-accent" />
+                      {t("product.trust.cod")}
+                    </p>
+                    <p className="text-xs text-muted-foreground ml-6">
+                      {t("product.trust.noPayment")}
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-y-2 pt-2 border-t border-accent/10">
+                    {[
+                      { icon: Truck, text: t("product.trust.delivery") },
+                      { icon: MapPin, text: t("product.trust.handmade") },
+                      { icon: BadgeCheck, text: t("product.trust.secure") }
+                    ].map((item, idx) => (
+                      <p key={idx} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                        <item.icon className="h-3 w-3 text-accent" />
+                        {item.text}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Options (Color if applicable) */}
+              {/* Color Options */}
               {product.colors.length > 1 && (
                 <div className="pt-2">
                   <p className="eyebrow">{t("product.colour.label", { color: colorName(color) })}</p>
@@ -326,17 +339,17 @@ function ProductPage() {
         {/* Mobile Sticky Bar */}
         <div 
           className={cn(
-            "fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 p-4 backdrop-blur-md lg:hidden transition-transform duration-300",
+            "fixed bottom-0 left-0 right-0 z-[100] border-t border-border bg-background/95 p-4 pb-safe-offset-4 backdrop-blur-md lg:hidden transition-transform duration-300",
             "[[data-lightbox-open=true]_&]:translate-y-full"
           )}
         >
           <div className="mx-auto flex max-w-md items-center justify-between gap-4">
-            <div className="flex flex-col">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{text.name}</span>
-              <span className="text-lg font-bold text-foreground">{price(product.price)}</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest truncate">{text.name}</span>
+              <span className="text-xl font-bold text-foreground">{price(product.price)}</span>
             </div>
             <div className="flex flex-1 justify-end">
-              <Button size="lg" className="w-full sm:w-auto px-8 font-semibold" disabled={!product.inStock} onClick={add}>
+              <Button size="lg" className="w-full h-13 sm:w-auto px-10 font-bold rounded-xl" disabled={!product.inStock} onClick={add}>
                 {t("product.actions.buyNow")}
               </Button>
             </div>
@@ -344,6 +357,7 @@ function ProductPage() {
         </div>
       </section>
 
+      {/* Product Details - Extra Info */}
       {features.length > 0 && (
         <section className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-10">
           <div className="rounded-2xl border border-border bg-card p-6">
@@ -398,7 +412,7 @@ function ProductPage() {
         </Accordion>
       </section>
 
-      {/* Highlights */}
+      {/* Brand Highlights */}
       <section className="mt-12 border-y border-border bg-secondary/30">
         <div className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-16">
           <Reveal>
@@ -421,89 +435,8 @@ function ProductPage() {
           </div>
         </div>
       </section>
-
-      {/* Packaging */}
-      <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <p className="eyebrow">{t("product.packaging.eyebrow")}</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("product.packaging.title")}</h2>
-            <p className="mt-4 text-[0.95rem] leading-relaxed text-muted-foreground">
-              {t("product.packaging.text")}
-            </p>
-            <ul className="mt-5 grid gap-2.5 text-sm">
-              {packagingItems.map((item) => (
-                <li key={item} className="flex items-center gap-2.5">
-                  <Check className="h-4 w-4 shrink-0 text-accent" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          {packagingPhotos.length > 0 && (
-            <Reveal delay={100}>
-              <div className="grid grid-cols-2 gap-4">
-                {packagingPhotos.slice(0, 3).map((photo, i) => (
-                  <img
-                    key={photo.src}
-                    src={photo.src ?? ""}
-                    alt={photo.alt}
-                    loading="lazy"
-                    decoding="async"
-                    sizes="(max-width: 1024px) 50vw, 320px"
-                    className={cn(
-                      "h-full w-full rounded-2xl border border-border object-cover",
-                      i === 0 && packagingPhotos.length > 1 ? "col-span-2 aspect-[16/10]" : "aspect-square",
-                    )}
-                  />
-                ))}
-              </div>
-            </Reveal>
-          )}
-        </div>
-      </section>
-
-      {/* Craftsmanship */}
-      <section className="border-t border-border bg-secondary/30">
-        <div className="mx-auto max-w-[900px] px-4 py-14 text-center sm:px-6 lg:py-20">
-          <Reveal>
-            <p className="eyebrow">{t("product.craft.eyebrow")}</p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">{t("product.craft.title")}</h2>
-            <div className="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-muted-foreground">
-              {craftParas.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {relatedProducts(product).length > 0 && (
-        <section className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-          <Reveal>
-            <p className="eyebrow">{t("product.related.eyebrow")}</p>
-            <h2 className="font-display mt-2 text-3xl">{t("product.related.title")}</h2>
-          </Reveal>
-          <div className="mt-8 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-            {relatedProducts(product).map((p, i) => (
-              <Reveal key={p.slug} delay={i * 70}>
-                <ProductCard product={p} />
-              </Reveal>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {recentlyViewed.length > 0 && (
-        <section className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-6 lg:px-10 lg:pb-24">
-          <h2 className="font-display text-2xl">{t("product.recentlyViewed.title")}</h2>
-          <div className="mt-6 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-            {recentlyViewed.map((p) => p && <ProductCard key={p.slug} product={p} />)}
-          </div>
-        </section>
-      )}
+      
+      <div className="h-20 lg:h-0" />
     </>
   );
 }
-
-export default ProductPage;
