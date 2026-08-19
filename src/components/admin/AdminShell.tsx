@@ -64,6 +64,7 @@ const NAV: NavItem[] = [
 export function AdminShell({ children }: { children: ReactNode }) {
   const { data: session } = useAdminSession();
   const navigate = useNavigate();
+  const logAccess = useServerFn(logAdminAccessEvent);
   const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [open, setOpen] = useState(false);
