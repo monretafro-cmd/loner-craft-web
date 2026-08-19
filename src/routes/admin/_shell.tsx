@@ -19,12 +19,30 @@ export const Route = createFileRoute("/admin/_shell")({
     }
     
     if (session.status === "pending") {
+      // Record redirect to pending
+      await logAdminAccessEvent({ 
+        data: { 
+          action: "admin_pending_redirect", 
+          path: "/admin",
+          details: { userId: session.userId, email: session.email }
+        } 
+      }).catch(() => {});
       throw redirect({ to: "/admin/pending" });
     }
     
     if (session.status !== "approved" || !session.role) {
       throw redirect({ to: "/admin/login" });
     }
+
+    // Record successful access to admin shell
+    await logAdminAccessEvent({ 
+      data: { 
+        action: "admin_redirect", 
+        path: "/admin",
+        details: { userId: session.userId, email: session.email, role: session.role }
+      } 
+    }).catch(() => {});
+
     return { session };
   },
   component: () => (

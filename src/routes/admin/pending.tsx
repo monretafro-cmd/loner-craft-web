@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { syncAdminAccess } from "@/lib/admin/access.functions";
+import { syncAdminAccess, logAdminAccessEvent } from "@/lib/admin/access.functions";
 import { Button } from "@/components/ui/button";
 import { Loader2, Clock, LogOut, Store, RefreshCcw } from "lucide-react";
 
@@ -65,11 +65,26 @@ function PendingPage() {
       
       if (access.status === "approved" && access.role) {
         // Use window.location for a hard reload to /admin to ensure shell layout re-runs beforeLoad
+        // Record redirect to admin from pending
+        await logAdminAccessEvent({ 
+          data: { 
+            action: "admin_redirect", 
+            path: "/admin/pending",
+            details: { userId: access.userId, email: access.email, role: access.role }
+          } 
+        }).catch(() => {});
         window.location.href = "/admin";
         return;
       }
       
       if (access.status === "blocked" || access.status === "rejected") {
+        await logAdminAccessEvent({ 
+          data: { 
+            action: "admin_sign_out", 
+            path: "/admin/pending",
+            details: { status: access.status, reason: "blocked_or_rejected" }
+          } 
+        }).catch(() => {});
         await supabase.auth.signOut();
         return navigate({ to: "/admin/login", replace: true });
       }
@@ -98,6 +113,17 @@ function PendingPage() {
   }, [checkStatus]);
 
   async function signOut() {
+    // Try to get user ID for logging before signing out
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await logAdminAccessEvent({ 
+        data: { 
+          action: "admin_sign_out", 
+          path: "/admin/pending",
+          details: { userId: user.id, email: user.email }
+        } 
+      }).catch(() => {});
+    }
     await supabase.auth.signOut();
     navigate({ to: "/admin/login", replace: true });
   }
