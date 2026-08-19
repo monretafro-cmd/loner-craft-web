@@ -3,13 +3,22 @@
     "eyebrow": "Handmade in Taroudant",
     "title": "Handmade Leather Wallets, Made to Last.",
     "subtitle": "Genuine leather wallets, stitched by hand and packed with care in Taroudant, Morocco.",
-    "trust": ["Cash on Delivery", "Delivery Across Morocco", "Handmade in Taroudant"]
+    "trust": [
+      "Cash on Delivery",
+      "Delivery Across Morocco",
+      "Handmade in Taroudant"
+    ]
   },
   "packaging": {
     "eyebrow": "Packaging",
     "title": "Packed by Hand",
     "description": "Every wallet is wrapped with burlap fabric, natural rope, a thank-you card, and Loner Leather branding.",
-    "features": ["Hand-packed", "Gift-ready", "Brand card included", "Cash on Delivery"]
+    "features": [
+      "Hand-packed",
+      "Gift-ready",
+      "Brand card included",
+      "Cash on Delivery"
+    ]
   },
   "craft": {
     "eyebrow": "Our Craft",
@@ -25,11 +34,26 @@
     "eyebrow": "Why Loner Leather",
     "title": "Five reasons customers stay",
     "items": [
-      { "title": "100% Handmade", "text": "Cut, stitched and burnished by one maker, start to finish." },
-      { "title": "Premium Genuine Leather", "text": "Full-grain hides, vegetable-tanned in Morocco." },
-      { "title": "Fast Shipping", "text": "Dispatched in 24–48h, delivered anywhere in Morocco." },
-      { "title": "Cash On Delivery", "text": "Pay the courier in cash. Nothing upfront, ever." },
-      { "title": "Made In Morocco", "text": "A small workshop in the Taroudant medina." }
+      {
+        "title": "100% Handmade",
+        "text": "Cut, stitched and burnished by one maker, start to finish."
+      },
+      {
+        "title": "Premium Genuine Leather",
+        "text": "Full-grain hides, vegetable-tanned in Morocco."
+      },
+      {
+        "title": "Fast Shipping",
+        "text": "Dispatched in 24–48h, delivered anywhere in Morocco."
+      },
+      {
+        "title": "Cash On Delivery",
+        "text": "Pay the courier in cash. Nothing upfront, ever."
+      },
+      {
+        "title": "Made In Morocco",
+        "text": "A small workshop in the Taroudant medina."
+      }
     ]
   },
   "testimonials": {

@@ -76,9 +76,18 @@
     "amountDue": "Amount due on delivery",
     "fallbackOrder": "LL-000000",
     "steps": {
-      "received": { "title": "Order received", "text": "We've logged your order and reserved your piece." },
-      "call": { "title": "Confirmation call", "text": "A quick call within a few hours to confirm your address." },
-      "delivery": { "title": "Out for delivery", "text": "24–48h in major cities, 2–4 days elsewhere. Pay the courier." }
+      "received": {
+        "title": "Order received",
+        "text": "We've logged your order and reserved your piece."
+      },
+      "call": {
+        "title": "Confirmation call",
+        "text": "A quick call within a few hours to confirm your address."
+      },
+      "delivery": {
+        "title": "Out for delivery",
+        "text": "24–48h in major cities, 2–4 days elsewhere. Pay the courier."
+      }
     },
     "continueShopping": "Continue shopping",
     "askOrder": "Ask about my order",

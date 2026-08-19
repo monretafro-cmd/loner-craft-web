@@ -1,13 +1,17 @@
 {
   "announcement": "Cash on Delivery · Delivery across Morocco · Handmade in Taroudant",
-  "lang": { "label": "Language", "select": "Select language", "en": "English", "fr": "Français", "ar": "العربية" },
+  "lang": {
+    "label": "Language",
+    "select": "Select language",
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
   "nav": {
     "home": "Home",
     "shop": "Shop",
-    
     "about": "About",
     "contact": "Contact",
-    
     "faq": "FAQ",
     "shipping": "Shipping",
     "menu": "Menu",
@@ -22,7 +26,6 @@
     "continueShopping": "Continue shopping",
     "browseCollection": "Browse the collection",
     "apply": "Apply",
-    
     "backToTop": "Back to top",
     "search": "Search",
     "viewAll": "View all",
@@ -101,13 +104,33 @@
       "secure": "Secure order confirmation"
     },
     "details": {
-      "capacity": { "label": "CAPACITY", "value": "6–8 cards" },
-      "pockets": { "label": "POCKETS", "value": "2 hidden pockets" },
-      "size": { "label": "SIZE", "value": "12 × 7.5 cm" },
-      "material": { "label": "MATERIAL", "value": "Moroccan goat leather" },
-      "madeIn": { "label": "MADE IN", "value": "Taroudant, Morocco" },
-      "delivery": { "label": "DELIVERY", "value": "24–48h" }
+      "capacity": {
+        "label": "CAPACITY",
+        "value": "6–8 cards"
+      },
+      "pockets": {
+        "label": "POCKETS",
+        "value": "2 hidden pockets"
+      },
+      "size": {
+        "label": "SIZE",
+        "value": "12 × 7.5 cm"
+      },
+      "material": {
+        "label": "MATERIAL",
+        "value": "Moroccan goat leather"
+      },
+      "madeIn": {
+        "label": "MADE IN",
+        "value": "Taroudant, Morocco"
+      },
+      "delivery": {
+        "label": "DELIVERY",
+        "value": "24–48h"
+      }
     }
   },
-  "price": { "currency": "MAD" }
+  "price": {
+    "currency": "MAD"
+  }
 }
