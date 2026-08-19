@@ -91,5 +91,23 @@
     "color": "Color",
     "ask": "Hello Loner Leather, I would like to ask about your handmade leather pieces."
   },
+  "product": {
+    "summary": "Slim handmade Moroccan goat leather wallet designed for everyday carry. Holds 6–8 cards, includes 2 hidden pockets, and develops a natural patina with use.",
+    "trust": {
+      "cod": "Cash on Delivery across Morocco",
+      "noPayment": "No online payment required",
+      "delivery": "Delivery 24–48h",
+      "handmade": "Made in Taroudant",
+      "secure": "Secure order confirmation"
+    },
+    "details": {
+      "capacity": { "label": "CAPACITY", "value": "6–8 cards" },
+      "pockets": { "label": "POCKETS", "value": "2 hidden pockets" },
+      "size": { "label": "SIZE", "value": "12 × 7.5 cm" },
+      "material": { "label": "MATERIAL", "value": "Moroccan goat leather" },
+      "madeIn": { "label": "MADE IN", "value": "Taroudant, Morocco" },
+      "delivery": { "label": "DELIVERY", "value": "24–48h" }
+    }
+  },
   "price": { "currency": "MAD" }
 }
