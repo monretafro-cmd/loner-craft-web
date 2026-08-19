@@ -1,0 +1,52 @@
+{
+  "product": {
+    "summary": "Slim handmade Moroccan goat leather wallet designed for everyday carry. Holds 6–8 cards, includes 2 hidden pockets, and develops a natural patina with use.",
+    "trust": {
+      "cod": "Cash on Delivery",
+      "codSub": "Pay when you receive",
+      "delivery": "Delivery Across Morocco",
+      "deliverySub": "24–48h estimated delivery",
+      "handmade": "Handmade in Taroudant",
+      "handmadeSub": "Moroccan craftsmanship"
+    },
+    "details": {
+      "capacity": { "label": "CAPACITY", "value": "6–8 cards" },
+      "pockets": { "label": "POCKETS", "value": "2 hidden pockets" },
+      "size": { "label": "DIMENSIONS", "value": "12 × 7.5 cm" },
+      "material": { "label": "MATERIAL", "value": "Moroccan goat leather" },
+      "color": { "label": "COLOR", "value": "Natural brown" },
+      "madeIn": { "label": "MADE IN", "value": "Taroudant, Morocco" }
+    },
+    "story": {
+      "title": "Built for Everyday Carry",
+      "features": [
+        "6–8 card capacity",
+        "2 hidden pockets",
+        "Quick access slot",
+        "Slim profile",
+        "Natural patina over time"
+      ]
+    },
+    "packaging": {
+      "title": "Packed with Care",
+      "items": ["Branded box", "Burlap wrap", "Thank-you card", "Gift-ready presentation"]
+    },
+    "faq": {
+      "q1": "Is this real leather?",
+      "a1": "Yes, we use 100% full-grain vegetable-tanned Moroccan goat leather.",
+      "q2": "How long does delivery take?",
+      "a2": "24–48 hours across major Moroccan cities.",
+      "q3": "Do you offer Cash on Delivery?",
+      "a3": "Yes, payment is made upon receipt of the parcel.",
+      "q4": "How many cards fit inside?",
+      "a4": "It is designed to hold 6–8 cards comfortably.",
+      "q5": "Can I return the wallet?",
+      "a5": "Yes, unused items in original packaging can be returned/exchanged within 14 days."
+    },
+    "finalCta": {
+      "title": "ALPHA WALLET",
+      "price": "300 MAD",
+      "cod": "Cash on Delivery across Morocco"
+    }
+  }
+}
