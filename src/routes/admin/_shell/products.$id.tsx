@@ -265,6 +265,13 @@ function ProductEditor() {
             <Field label="Short description">
               <Textarea rows={2} value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />
             </Field>
+            <Field label="Key Details / Specifications (one per line)">
+              <Textarea
+                rows={5}
+                value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
+                onChange={(e) => set("features", e.target.value.split("\n"))}
+              />
+            </Field>
             <Field label="Description">
               <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
             </Field>
@@ -421,7 +428,7 @@ function ProductEditor() {
             </Field>
             <Toggle label="Featured" checked={!!form.featured} onChange={(v) => set("featured", v)} />
             <Toggle label="Cash on delivery" checked={!!form.cod_available} onChange={(v) => set("cod_available", v)} />
-            <Toggle label="WhatsApp ordering" checked={!!form.whatsapp_ordering} onChange={(v) => set("whatsapp_ordering", v)} />
+            
           </Panel>
         </div>
       </div>
