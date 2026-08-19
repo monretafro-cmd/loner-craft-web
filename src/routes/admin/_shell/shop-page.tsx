@@ -43,7 +43,7 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "title", label: "Hero title" },
     { key: "subtitle", label: "Hero subtitle", long: true },
     { key: "primaryLabel", label: "Primary button" },
-    { key: "secondaryLabel", label: "WhatsApp button" },
+    { key: "secondaryLabel", label: "WhatsApp button (Optional)" },
   ],
   shop_featured: [
     { key: "eyebrow", label: "Eyebrow" },
@@ -63,6 +63,7 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "eyebrow", label: "Eyebrow" },
     { key: "title", label: "Title" },
     { key: "body", label: "Story", long: true },
+    { key: "ctaLabel", label: "CTA Button" },
   ],
   shop_packaging: [
     { key: "eyebrow", label: "Eyebrow" },
@@ -85,7 +86,7 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "title", label: "Title" },
     { key: "subtitle", label: "Subtitle", long: true },
     { key: "primaryLabel", label: "Primary button" },
-    { key: "secondaryLabel", label: "WhatsApp button" },
+    { key: "secondaryLabel", label: "WhatsApp button (Optional)" },
   ],
 };
 

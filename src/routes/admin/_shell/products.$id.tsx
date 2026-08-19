@@ -64,7 +64,7 @@ const EMPTY: Form = {
   status: "draft",
   featured: false,
   cod_available: true,
-  whatsapp_ordering: true,
+  whatsapp_ordering: false,
   material: "",
   leather_type: "",
   color: "",
@@ -124,6 +124,7 @@ function ProductEditor() {
       stock: Number(form.stock) || 0,
       low_stock_threshold: Number(form.low_stock_threshold) || 0,
       weight: form.weight === "" || form.weight === null ? null : Number(form.weight),
+      why_points: Array.isArray(form.why_points) ? form.why_points : String(form.why_points ?? "").split("\n").filter(Boolean),
       features: Array.isArray(form.features) ? form.features : String(form.features ?? "").split("\n").filter(Boolean),
       tags: Array.isArray(form.tags) ? form.tags : String(form.tags ?? "").split(",").map((t: string) => t.trim()).filter(Boolean),
     };
