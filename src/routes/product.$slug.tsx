@@ -216,15 +216,7 @@ function ProductPage() {
                 </p>
               </div>
 
-              {/* Key Details Grid */}
-              <div className="grid grid-cols-2 gap-x-4 gap-y-4 rounded-2xl border border-border bg-secondary/10 p-5 sm:grid-cols-3">
-                {Object.entries((t("product.details") as any) || {}).map(([key, info]: [string, any]) => (
-                  <div key={key}>
-                    <dt className="eyebrow text-[10px] opacity-70 uppercase">{info.label}</dt>
-                    <dd className="mt-0.5 text-[13px] font-medium text-foreground">{info.value}</dd>
-                  </div>
-                ))}
-              </div>
+              {/* Purchase Area */}
 
               {/* Purchase Area */}
               <div className="space-y-6">
