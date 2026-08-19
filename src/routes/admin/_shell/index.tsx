@@ -18,6 +18,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useRows } from "@/lib/admin/api";
 import { MAD, Panel, PageHeader, StatCard, StatusPill, shortDateTime, EmptyState, LoadingRows } from "@/components/admin/AdminUI";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/_shell/")({
   head: () => ({ meta: [{ title: "Dashboard — Loner Leather Admin" }, { name: "robots", content: "noindex" }] }),
