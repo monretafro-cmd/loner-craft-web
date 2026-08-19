@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -169,19 +170,25 @@ function RootComponent() {
 }
 
 function InnerComponent() {
+  const { pathname } = useRouterState({ select: (state) => ({ pathname: state.location.pathname }) });
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <StoreProvider>
       <div className="site-reveal flex min-h-screen flex-col overflow-x-clip">
-        <Navbar />
+        {!isAdmin && <Navbar />}
         <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <Footer />
+        {!isAdmin && <Footer />}
       </div>
-      <BrandLoader />
-      <CartDrawer />
-      <FloatingActions />
+      {!isAdmin && (
+        <>
+          <BrandLoader />
+          <CartDrawer />
+          <FloatingActions />
+        </>
+      )}
       <Toaster position="bottom-left" />
     </StoreProvider>
   );

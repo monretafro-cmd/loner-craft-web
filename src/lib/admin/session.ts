@@ -15,29 +15,45 @@ export type AdminSession = {
 export async function loadAdminSession(): Promise<AdminSession | null> {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return null;
-  const [{ data: roles }, { data: profile }] = await Promise.all([
-    supabase.from("user_roles").select("role").eq("user_id", data.user.id),
-    supabase
-      .from("profiles")
-      .select("full_name, avatar_url, status")
-      .eq("id", data.user.id)
-      .maybeSingle(),
-  ]);
-  const status = ((profile as any)?.status ?? "pending") as AdminStatus;
-  const rawRole = roles?.some((r) => r.role === "super_admin")
-    ? "super_admin"
-    : roles?.length
-      ? "admin"
-      : null;
-  return {
-    userId: data.user.id,
-    email: data.user.email ?? "",
-    fullName: profile?.full_name ?? null,
-    avatarUrl: profile?.avatar_url ?? null,
-    status,
-    // role is only meaningful for approved accounts
-    role: status === "approved" ? (rawRole as "super_admin" | "admin" | null) : null,
-  };
+
+  try {
+    const [{ data: roles }, { data: profile }] = await Promise.all([
+      supabase.from("user_roles").select("role").eq("user_id", data.user.id),
+      supabase
+        .from("profiles")
+        .select("full_name, avatar_url, status")
+        .eq("id", data.user.id)
+        .maybeSingle(),
+    ]);
+
+    const status = ((profile as any)?.status ?? "pending") as AdminStatus;
+    const rawRole = roles?.some((r) => r.role === "super_admin")
+      ? "super_admin"
+      : roles?.length
+        ? "admin"
+        : null;
+
+    return {
+      userId: data.user.id,
+      email: data.user.email ?? "",
+      fullName: profile?.full_name ?? null,
+      avatarUrl: profile?.avatar_url ?? null,
+      status,
+      // role is only meaningful for approved accounts
+      role: status === "approved" ? (rawRole as "super_admin" | "admin" | null) : null,
+    };
+  } catch (err) {
+    console.error("Error loading admin profile:", err);
+    // Return base info if profile fetch fails
+    return {
+      userId: data.user.id,
+      email: data.user.email ?? "",
+      fullName: null,
+      avatarUrl: null,
+      status: "pending",
+      role: null,
+    };
+  }
 }
 
 export function useAdminSession() {
@@ -45,5 +61,6 @@ export function useAdminSession() {
     queryKey: ["admin", "session"],
     queryFn: loadAdminSession,
     staleTime: 60_000,
+    gcTime: 60_000,
   });
 }
