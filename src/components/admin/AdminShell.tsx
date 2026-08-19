@@ -1,5 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { logAdminAccessEvent } from "@/lib/admin/access.functions";
 import {
   LayoutDashboard,
   Package,
