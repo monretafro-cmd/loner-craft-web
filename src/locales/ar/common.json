@@ -1,13 +1,17 @@
 {
   "announcement": "الدفع عند الاستلام · التوصيل إلى جميع أنحاء المغرب · صناعة يدوية في تارودانت",
-  "lang": { "label": "اللغة", "select": "اختر اللغة", "en": "English", "fr": "Français", "ar": "العربية" },
+  "lang": {
+    "label": "اللغة",
+    "select": "اختر اللغة",
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
   "nav": {
     "home": "الرئيسية",
     "shop": "المتجر",
-    
     "about": "من نحن",
     "contact": "اتصل بنا",
-    
     "faq": "الأسئلة الشائعة",
     "shipping": "الشحن",
     "menu": "القائمة",
@@ -22,7 +26,6 @@
     "continueShopping": "متابعة التسوق",
     "browseCollection": "تصفح المجموعة",
     "apply": "تطبيق",
-    
     "backToTop": "العودة إلى الأعلى",
     "search": "بحث",
     "viewAll": "عرض الكل",
@@ -101,13 +104,33 @@
       "secure": "تأكيد طلب آمن"
     },
     "details": {
-      "capacity": { "label": "السعة", "value": "6–8 بطاقات" },
-      "pockets": { "label": "الجيوب", "value": "جيبان مخفيان" },
-      "size": { "label": "المقاس", "value": "12 × 7.5 سم" },
-      "material": { "label": "المادة", "value": "جلد ماعز مغربي" },
-      "madeIn": { "label": "صنع في", "value": "تارودانت، المغرب" },
-      "delivery": { "label": "التوصيل", "value": "24–48 ساعة" }
+      "capacity": {
+        "label": "السعة",
+        "value": "6–8 بطاقات"
+      },
+      "pockets": {
+        "label": "الجيوب",
+        "value": "جيبان مخفيان"
+      },
+      "size": {
+        "label": "المقاس",
+        "value": "12 × 7.5 سم"
+      },
+      "material": {
+        "label": "المادة",
+        "value": "جلد ماعز مغربي"
+      },
+      "madeIn": {
+        "label": "صنع في",
+        "value": "تارودانت، المغرب"
+      },
+      "delivery": {
+        "label": "التوصيل",
+        "value": "24–48 ساعة"
+      }
     }
   },
-  "price": { "currency": "MAD" }
+  "price": {
+    "currency": "MAD"
+  }
 }

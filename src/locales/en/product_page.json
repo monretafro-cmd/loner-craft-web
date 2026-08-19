@@ -10,12 +10,30 @@
       "handmadeSub": "Moroccan craftsmanship"
     },
     "details": {
-      "capacity": { "label": "CAPACITY", "value": "6–8 cards" },
-      "pockets": { "label": "POCKETS", "value": "2 hidden pockets" },
-      "size": { "label": "DIMENSIONS", "value": "12 × 7.5 cm" },
-      "material": { "label": "MATERIAL", "value": "Moroccan goat leather" },
-      "color": { "label": "COLOR", "value": "Natural brown" },
-      "madeIn": { "label": "MADE IN", "value": "Taroudant, Morocco" }
+      "capacity": {
+        "label": "CAPACITY",
+        "value": "6–8 cards"
+      },
+      "pockets": {
+        "label": "POCKETS",
+        "value": "2 hidden pockets"
+      },
+      "size": {
+        "label": "DIMENSIONS",
+        "value": "12 × 7.5 cm"
+      },
+      "material": {
+        "label": "MATERIAL",
+        "value": "Moroccan goat leather"
+      },
+      "color": {
+        "label": "COLOR",
+        "value": "Natural brown"
+      },
+      "madeIn": {
+        "label": "MADE IN",
+        "value": "Taroudant, Morocco"
+      }
     },
     "story": {
       "title": "Built for Everyday Carry",
@@ -29,7 +47,12 @@
     },
     "packaging": {
       "title": "Packed with Care",
-      "items": ["Branded box", "Burlap wrap", "Thank-you card", "Gift-ready presentation"]
+      "items": [
+        "Branded box",
+        "Burlap wrap",
+        "Thank-you card",
+        "Gift-ready presentation"
+      ]
     },
     "faq": {
       "q1": "Is this real leather?",

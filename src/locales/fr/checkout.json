@@ -76,9 +76,18 @@
     "amountDue": "Montant dû à la livraison",
     "fallbackOrder": "LL-000000",
     "steps": {
-      "received": { "title": "Commande reçue", "text": "Nous avons enregistré votre commande et réservé votre pièce." },
-      "call": { "title": "Appel de confirmation", "text": "Un appel rapide dans quelques heures pour confirmer votre adresse." },
-      "delivery": { "title": "En cours de livraison", "text": "24 à 48h dans les grandes villes, 2 à 4 jours ailleurs. Réglez le livreur." }
+      "received": {
+        "title": "Commande reçue",
+        "text": "Nous avons enregistré votre commande et réservé votre pièce."
+      },
+      "call": {
+        "title": "Appel de confirmation",
+        "text": "Un appel rapide dans quelques heures pour confirmer votre adresse."
+      },
+      "delivery": {
+        "title": "En cours de livraison",
+        "text": "24 à 48h dans les grandes villes, 2 à 4 jours ailleurs. Réglez le livreur."
+      }
     },
     "continueShopping": "Continuer mes achats",
     "askOrder": "Suivre ma commande",

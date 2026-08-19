@@ -10,12 +10,30 @@
       "handmadeSub": "Artisanat marocain"
     },
     "details": {
-      "capacity": { "label": "CAPACITÉ", "value": "6–8 cartes" },
-      "pockets": { "label": "POCHES", "value": "2 poches cachées" },
-      "size": { "label": "DIMENSIONS", "value": "12 × 7,5 cm" },
-      "material": { "label": "MATIÈRE", "value": "Cuir de chèvre marocain" },
-      "color": { "label": "COULEUR", "value": "Brun naturel" },
-      "madeIn": { "label": "FABRIQUÉ À", "value": "Taroudant, Maroc" }
+      "capacity": {
+        "label": "CAPACITÉ",
+        "value": "6–8 cartes"
+      },
+      "pockets": {
+        "label": "POCHES",
+        "value": "2 poches cachées"
+      },
+      "size": {
+        "label": "DIMENSIONS",
+        "value": "12 × 7,5 cm"
+      },
+      "material": {
+        "label": "MATIÈRE",
+        "value": "Cuir de chèvre marocain"
+      },
+      "color": {
+        "label": "COULEUR",
+        "value": "Brun naturel"
+      },
+      "madeIn": {
+        "label": "FABRIQUÉ À",
+        "value": "Taroudant, Maroc"
+      }
     },
     "story": {
       "title": "Conçu pour le quotidien",
@@ -29,7 +47,12 @@
     },
     "packaging": {
       "title": "Emballé avec soin",
-      "items": ["Boîte griffée", "Emballage en toile de jute", "Carte de remerciement", "Présentation prête à offrir"]
+      "items": [
+        "Boîte griffée",
+        "Emballage en toile de jute",
+        "Carte de remerciement",
+        "Présentation prête à offrir"
+      ]
     },
     "faq": {
       "q1": "Est-ce du vrai cuir ?",

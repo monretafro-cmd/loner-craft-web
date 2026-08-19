@@ -1,5 +1,7 @@
 {
-  "breadcrumb": { "home": "Accueil" },
+  "breadcrumb": {
+    "home": "Accueil"
+  },
   "about": {
     "topEyebrow": "Fabriqué à la main à Taroudant",
     "topTitle": "Cuir véritable, coupé et cousu à la main au Maroc.",
@@ -14,10 +16,22 @@
     "storyP3": "Nous achetons nos peaux dans une tannerie familiale à trois rues d'ici, nous finissons chaque tranche à la main, et nous livrons contre paiement à la livraison, car la confiance doit aller dans les deux sens.",
     "storyCta": "Découvrir la fabrication d'un portefeuille",
     "stats": [
-      { "value": "2016", "label": "Année de création de l'atelier" },
-      { "value": "9", "label": "Artisans à l'établi" },
-      { "value": "12", "label": "Régions livrées" },
-      { "value": "18k+", "label": "Pièces cousues" }
+      {
+        "value": "2016",
+        "label": "Année de création de l'atelier"
+      },
+      {
+        "value": "9",
+        "label": "Artisans à l'établi"
+      },
+      {
+        "value": "12",
+        "label": "Régions livrées"
+      },
+      {
+        "value": "18k+",
+        "label": "Pièces cousues"
+      }
     ],
     "packagingImgAlt": "Un artisan Loner Leather travaillant une peau à l'établi",
     "packagingCareImgAlt": "Emballage Loner Leather : boîte cadeau kraft, pochette et carte d'entretien",
@@ -31,9 +45,18 @@
       "intro": "Tout ce que nos clients nous demandent avant leur première commande. Si votre question n'y figure pas, écrivez-nous sur WhatsApp — nous répondons en moins d'une heure."
     },
     "extra": [
-      { "q": "Proposez-vous la gravure ?", "a": "Oui. Jusqu'à trois initiales peuvent être embossées à la main sur la plupart des pièces pour 60 MAD. Précisez-le dans les notes de commande ou sur WhatsApp." },
-      { "q": "Comment puis-je suivre ma commande ?", "a": "Envoyez-nous un message sur WhatsApp avec votre nom et les détails de votre commande, et nous vérifierons auprès du transporteur pour vous." },
-      { "q": "Livrez-vous hors du Maroc ?", "a": "La livraison internationale est possible sur demande via WhatsApp, mais le paiement à la livraison n'est disponible qu'au Maroc." }
+      {
+        "q": "Proposez-vous la gravure ?",
+        "a": "Oui. Jusqu'à trois initiales peuvent être embossées à la main sur la plupart des pièces pour 60 MAD. Précisez-le dans les notes de commande ou sur WhatsApp."
+      },
+      {
+        "q": "Comment puis-je suivre ma commande ?",
+        "a": "Envoyez-nous un message sur WhatsApp avec votre nom et les détails de votre commande, et nous vérifierons auprès du transporteur pour vous."
+      },
+      {
+        "q": "Livrez-vous hors du Maroc ?",
+        "a": "La livraison internationale est possible sur demande via WhatsApp, mais le paiement à la livraison n'est disponible qu'au Maroc."
+      }
     ],
     "stillQuestion": "Une autre question ?",
     "stillQuestionText": "Notre équipe répond aux messages WhatsApp sept jours sur sept.",
@@ -81,23 +104,63 @@
       "intro": "Tout savoir sur le trajet de votre pièce, depuis notre établi de Taroudant jusqu'à vos mains."
     },
     "sections": [
-      { "title": "Délais de livraison", "body": "Les commandes quittent notre atelier de Taroudant sous 24 à 48 heures après l'appel de confirmation. La livraison prend 24 à 48 heures à Casablanca, Rabat et Taroudant, et 2 à 4 jours ouvrés partout ailleurs au Maroc. Les adresses rurales isolées peuvent demander un jour de plus." },
-      { "title": "Frais de livraison", "body": "Un tarif fixe de 35 MAD s'applique à chaque commande. La livraison est gratuite à partir de 500 MAD d'achat, après application d'une éventuelle remise." },
-      { "title": "Paiement à la livraison", "body": "Nous n'acceptons que le paiement à la livraison. Vous réglez le livreur en espèces à la réception du colis — pas de carte, pas de virement, pas d'avance. Prévoyez si possible l'appoint, et ouvrez le colis devant le livreur si vous souhaitez inspecter la pièce avant." },
-      { "title": "Livraisons manquées", "body": "Le livreur tente la livraison deux fois et appelle avant chaque passage. Si les deux tentatives échouent, le colis retourne à notre atelier et nous vous contactons pour fixer une nouvelle date. Une confirmation peut être demandée avant un nouvel envoi après deux échecs." },
-      { "title": "Échanges", "body": "Vous pouvez échanger toute pièce non utilisée dans les 14 jours suivant la livraison, à condition qu'elle soit dans sa boîte d'origine avec la pochette et la carte d'entretien. Écrivez-nous sur WhatsApp avec votre numéro de commande et nous organiserons la collecte. Les frais de retour sont de 35 MAD, offerts si la pièce était défectueuse ou si nous nous sommes trompés d'article." },
-      { "title": "Ce que nous ne pouvons pas échanger", "body": "Les pièces personnalisées — embossées d'initiales ou réalisées sur mesure — ne peuvent être échangées, sauf défaut de fabrication." },
-      { "title": "Défauts et réparations", "body": "Chaque pièce est cousue à la main et garantie deux ans contre les défauts de couture. Envoyez-nous une photo et nous la réparerons ou la remplacerons. La patine, l'assouplissement et les petites marques de surface sont des caractéristiques du cuir pleine fleur, pas des défauts." }
+      {
+        "title": "Délais de livraison",
+        "body": "Les commandes quittent notre atelier de Taroudant sous 24 à 48 heures après l'appel de confirmation. La livraison prend 24 à 48 heures à Casablanca, Rabat et Taroudant, et 2 à 4 jours ouvrés partout ailleurs au Maroc. Les adresses rurales isolées peuvent demander un jour de plus."
+      },
+      {
+        "title": "Frais de livraison",
+        "body": "Un tarif fixe de 35 MAD s'applique à chaque commande. La livraison est gratuite à partir de 500 MAD d'achat, après application d'une éventuelle remise."
+      },
+      {
+        "title": "Paiement à la livraison",
+        "body": "Nous n'acceptons que le paiement à la livraison. Vous réglez le livreur en espèces à la réception du colis — pas de carte, pas de virement, pas d'avance. Prévoyez si possible l'appoint, et ouvrez le colis devant le livreur si vous souhaitez inspecter la pièce avant."
+      },
+      {
+        "title": "Livraisons manquées",
+        "body": "Le livreur tente la livraison deux fois et appelle avant chaque passage. Si les deux tentatives échouent, le colis retourne à notre atelier et nous vous contactons pour fixer une nouvelle date. Une confirmation peut être demandée avant un nouvel envoi après deux échecs."
+      },
+      {
+        "title": "Échanges",
+        "body": "Vous pouvez échanger toute pièce non utilisée dans les 14 jours suivant la livraison, à condition qu'elle soit dans sa boîte d'origine avec la pochette et la carte d'entretien. Écrivez-nous sur WhatsApp avec votre numéro de commande et nous organiserons la collecte. Les frais de retour sont de 35 MAD, offerts si la pièce était défectueuse ou si nous nous sommes trompés d'article."
+      },
+      {
+        "title": "Ce que nous ne pouvons pas échanger",
+        "body": "Les pièces personnalisées — embossées d'initiales ou réalisées sur mesure — ne peuvent être échangées, sauf défaut de fabrication."
+      },
+      {
+        "title": "Défauts et réparations",
+        "body": "Chaque pièce est cousue à la main et garantie deux ans contre les défauts de couture. Envoyez-nous une photo et nous la réparerons ou la remplacerons. La patine, l'assouplissement et les petites marques de surface sont des caractéristiques du cuir pleine fleur, pas des défauts."
+      }
     ]
   },
   "privacy": {
-    "hero": { "eyebrow": "Mentions légales", "title": "Politique de confidentialité", "intro": "Dernière mise à jour : 1er janvier 2026" },
+    "hero": {
+      "eyebrow": "Mentions légales",
+      "title": "Politique de confidentialité",
+      "intro": "Dernière mise à jour : 1er janvier 2026"
+    },
     "sections": [
-      { "title": "Ce que nous collectons", "body": "Lorsque vous passez commande, nous collectons votre nom, votre numéro de téléphone, votre adresse de livraison et, si vous le souhaitez, votre e-mail et vos notes de commande. C'est le strict minimum nécessaire pour fabriquer et livrer votre pièce." },
-      { "title": "Comment nous l'utilisons", "body": "Nous utilisons vos informations pour confirmer votre commande par téléphone, transmettre la bonne adresse à notre partenaire de livraison et vous contacter au sujet de cette commande précise. Si vous vous inscrivez à notre newsletter, nous utilisons votre e-mail pour vous informer occasionnellement des nouvelles collections. Vous pouvez vous désinscrire à tout moment depuis n'importe quel e-mail." },
-      { "title": "Ce qui reste dans votre navigateur", "body": "Votre panier, votre liste d'envies et vos articles récemment consultés sont stockés localement dans votre navigateur, pas sur nos serveurs. Effacer les données de votre navigateur les supprime." },
-      { "title": "Avec qui nous les partageons", "body": "Uniquement avec nos partenaires de livraison, et seulement les informations nécessaires pour vous livrer votre colis. Nous ne vendons jamais vos données et ne les partageons pas à des fins publicitaires." },
-      { "title": "Durée de conservation", "body": "Les données de commande sont conservées trois ans afin d'honorer les échanges et la garantie de couture. Elles sont ensuite supprimées." }
+      {
+        "title": "Ce que nous collectons",
+        "body": "Lorsque vous passez commande, nous collectons votre nom, votre numéro de téléphone, votre adresse de livraison et, si vous le souhaitez, votre e-mail et vos notes de commande. C'est le strict minimum nécessaire pour fabriquer et livrer votre pièce."
+      },
+      {
+        "title": "Comment nous l'utilisons",
+        "body": "Nous utilisons vos informations pour confirmer votre commande par téléphone, transmettre la bonne adresse à notre partenaire de livraison et vous contacter au sujet de cette commande précise. Si vous vous inscrivez à notre newsletter, nous utilisons votre e-mail pour vous informer occasionnellement des nouvelles collections. Vous pouvez vous désinscrire à tout moment depuis n'importe quel e-mail."
+      },
+      {
+        "title": "Ce qui reste dans votre navigateur",
+        "body": "Votre panier, votre liste d'envies et vos articles récemment consultés sont stockés localement dans votre navigateur, pas sur nos serveurs. Effacer les données de votre navigateur les supprime."
+      },
+      {
+        "title": "Avec qui nous les partageons",
+        "body": "Uniquement avec nos partenaires de livraison, et seulement les informations nécessaires pour vous livrer votre colis. Nous ne vendons jamais vos données et ne les partageons pas à des fins publicitaires."
+      },
+      {
+        "title": "Durée de conservation",
+        "body": "Les données de commande sont conservées trois ans afin d'honorer les échanges et la garantie de couture. Elles sont ensuite supprimées."
+      }
     ],
     "rightsTitle": "Vos droits",
     "rightsBody": "Vous pouvez nous demander une copie des données que nous détenons sur vous, leur correction ou leur suppression. Écrivez à {{email}} et nous vous répondrons sous 30 jours, conformément à la loi marocaine 09-08 relative à la protection des données personnelles.",
@@ -105,17 +168,48 @@
     "contactBody": "Questions sur cette politique : {{email}} · {{address}}"
   },
   "terms": {
-    "hero": { "eyebrow": "Mentions légales", "title": "Conditions d'utilisation", "intro": "Dernière mise à jour : 1er janvier 2026" },
+    "hero": {
+      "eyebrow": "Mentions légales",
+      "title": "Conditions d'utilisation",
+      "intro": "Dernière mise à jour : 1er janvier 2026"
+    },
     "sections": [
-      { "title": "1. Qui nous sommes", "body": "{{name}} est un atelier de maroquinerie situé à {{address}}. Ces conditions s'appliquent à toute commande passée via ce site ou par WhatsApp." },
-      { "title": "2. Commandes", "body": "Passer une commande constitue une offre d'achat. Le contrat est formé lorsque nous confirmons votre commande par téléphone ou WhatsApp. Nous pouvons refuser une commande si une pièce est en rupture de stock, si l'adresse est hors de notre réseau de livraison, ou si nous ne parvenons pas à vous joindre pour confirmer." },
-      { "title": "3. Prix et paiement", "body": "Tous les prix sont indiqués en dirhams marocains (MAD) et incluent les taxes applicables. Le paiement se fait uniquement à la livraison, en espèces, au livreur. Les prix peuvent changer à tout moment, mais jamais après confirmation de votre commande." },
-      { "title": "4. Variations artisanales", "body": "Chaque pièce est coupée et cousue à la main dans un cuir pleine fleur naturel. Le grain, la teinte et les marques varient d'une peau à l'autre, votre pièce ne sera donc pas identique aux photographies. C'est une caractéristique du matériau, non un défaut." },
-      { "title": "5. Livraison", "body": "Les délais de livraison sont des estimations données de bonne foi. Nous ne sommes pas responsables des retards causés par nos partenaires de livraison, les conditions météorologiques ou une adresse erronée fournie lors de la commande." },
-      { "title": "6. Échanges et garantie", "body": "Les pièces non utilisées peuvent être échangées sous 14 jours, comme décrit dans notre politique de livraison et retours. La couture est garantie deux ans à compter de la livraison. Les pièces personnalisées sont exclues des échanges." },
-      { "title": "7. Propriété intellectuelle", "body": "Toutes les photographies, textes, motifs, ainsi que le nom et la marque {{name}} nous appartiennent et ne peuvent être reproduits sans autorisation écrite." },
-      { "title": "8. Responsabilité", "body": "Notre responsabilité pour toute commande est limitée au montant payé pour cette commande. Rien dans ces conditions ne limite les droits dont vous disposez en vertu de la loi marocaine 31-08 sur la protection du consommateur." },
-      { "title": "9. Droit applicable", "body": "Ces conditions sont régies par le droit marocain, et tout litige relève de la compétence des tribunaux de Taroudant." }
+      {
+        "title": "1. Qui nous sommes",
+        "body": "{{name}} est un atelier de maroquinerie situé à {{address}}. Ces conditions s'appliquent à toute commande passée via ce site ou par WhatsApp."
+      },
+      {
+        "title": "2. Commandes",
+        "body": "Passer une commande constitue une offre d'achat. Le contrat est formé lorsque nous confirmons votre commande par téléphone ou WhatsApp. Nous pouvons refuser une commande si une pièce est en rupture de stock, si l'adresse est hors de notre réseau de livraison, ou si nous ne parvenons pas à vous joindre pour confirmer."
+      },
+      {
+        "title": "3. Prix et paiement",
+        "body": "Tous les prix sont indiqués en dirhams marocains (MAD) et incluent les taxes applicables. Le paiement se fait uniquement à la livraison, en espèces, au livreur. Les prix peuvent changer à tout moment, mais jamais après confirmation de votre commande."
+      },
+      {
+        "title": "4. Variations artisanales",
+        "body": "Chaque pièce est coupée et cousue à la main dans un cuir pleine fleur naturel. Le grain, la teinte et les marques varient d'une peau à l'autre, votre pièce ne sera donc pas identique aux photographies. C'est une caractéristique du matériau, non un défaut."
+      },
+      {
+        "title": "5. Livraison",
+        "body": "Les délais de livraison sont des estimations données de bonne foi. Nous ne sommes pas responsables des retards causés par nos partenaires de livraison, les conditions météorologiques ou une adresse erronée fournie lors de la commande."
+      },
+      {
+        "title": "6. Échanges et garantie",
+        "body": "Les pièces non utilisées peuvent être échangées sous 14 jours, comme décrit dans notre politique de livraison et retours. La couture est garantie deux ans à compter de la livraison. Les pièces personnalisées sont exclues des échanges."
+      },
+      {
+        "title": "7. Propriété intellectuelle",
+        "body": "Toutes les photographies, textes, motifs, ainsi que le nom et la marque {{name}} nous appartiennent et ne peuvent être reproduits sans autorisation écrite."
+      },
+      {
+        "title": "8. Responsabilité",
+        "body": "Notre responsabilité pour toute commande est limitée au montant payé pour cette commande. Rien dans ces conditions ne limite les droits dont vous disposez en vertu de la loi marocaine 31-08 sur la protection du consommateur."
+      },
+      {
+        "title": "9. Droit applicable",
+        "body": "Ces conditions sont régies par le droit marocain, et tout litige relève de la compétence des tribunaux de Taroudant."
+      }
     ]
-  },
+  }
 }

@@ -1,13 +1,17 @@
 {
   "announcement": "Paiement à la livraison · Livraison partout au Maroc · Fait main à Taroudant",
-  "lang": { "label": "Langue", "select": "Choisir la langue", "en": "English", "fr": "Français", "ar": "العربية" },
+  "lang": {
+    "label": "Langue",
+    "select": "Choisir la langue",
+    "en": "English",
+    "fr": "Français",
+    "ar": "العربية"
+  },
   "nav": {
     "home": "Accueil",
     "shop": "Boutique",
-    
     "about": "À propos",
     "contact": "Contact",
-    
     "faq": "FAQ",
     "shipping": "Livraison",
     "menu": "Menu",
@@ -22,7 +26,6 @@
     "continueShopping": "Continuer mes achats",
     "browseCollection": "Découvrir la collection",
     "apply": "Appliquer",
-    
     "backToTop": "Retour en haut",
     "search": "Rechercher",
     "viewAll": "Tout voir",
@@ -101,13 +104,33 @@
       "secure": "Confirmation de commande sécurisée"
     },
     "details": {
-      "capacity": { "label": "CAPACITÉ", "value": "6–8 cartes" },
-      "pockets": { "label": "POCHES", "value": "2 poches cachées" },
-      "size": { "label": "TAILLE", "value": "12 × 7,5 cm" },
-      "material": { "label": "MATIÈRE", "value": "Cuir de chèvre marocain" },
-      "madeIn": { "label": "FABRIQUÉ À", "value": "Taroudant, Maroc" },
-      "delivery": { "label": "LIVRAISON", "value": "24–48h" }
+      "capacity": {
+        "label": "CAPACITÉ",
+        "value": "6–8 cartes"
+      },
+      "pockets": {
+        "label": "POCHES",
+        "value": "2 poches cachées"
+      },
+      "size": {
+        "label": "TAILLE",
+        "value": "12 × 7,5 cm"
+      },
+      "material": {
+        "label": "MATIÈRE",
+        "value": "Cuir de chèvre marocain"
+      },
+      "madeIn": {
+        "label": "FABRIQUÉ À",
+        "value": "Taroudant, Maroc"
+      },
+      "delivery": {
+        "label": "LIVRAISON",
+        "value": "24–48h"
+      }
     }
   },
-  "price": { "currency": "MAD" }
+  "price": {
+    "currency": "MAD"
+  }
 }

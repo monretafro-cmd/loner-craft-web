@@ -1,5 +1,7 @@
 {
-  "breadcrumb": { "home": "Home" },
+  "breadcrumb": {
+    "home": "Home"
+  },
   "about": {
     "topEyebrow": "Handmade in Taroudant",
     "topTitle": "Genuine leather, cut and stitched by hand in Morocco.",
@@ -14,10 +16,22 @@
     "storyP3": "We buy our hides from a family tannery three streets away, we finish every edge by hand, and we ship cash on delivery because trust should go both ways.",
     "storyCta": "See how a wallet is made",
     "stats": [
-      { "value": "2016", "label": "Workshop founded" },
-      { "value": "9", "label": "Makers on the bench" },
-      { "value": "12", "label": "Regions delivered" },
-      { "value": "18k+", "label": "Pieces stitched" }
+      {
+        "value": "2016",
+        "label": "Workshop founded"
+      },
+      {
+        "value": "9",
+        "label": "Makers on the bench"
+      },
+      {
+        "value": "12",
+        "label": "Regions delivered"
+      },
+      {
+        "value": "18k+",
+        "label": "Pieces stitched"
+      }
     ],
     "packagingImgAlt": "A Loner Leather maker working a hide at the bench",
     "packagingCareImgAlt": "Loner Leather packaging: kraft gift box, dust bag and care card",
@@ -31,9 +45,18 @@
       "intro": "Everything customers ask us before their first order. If yours isn't here, WhatsApp us — we reply within the hour."
     },
     "extra": [
-      { "q": "Do you offer engraving?", "a": "Yes. Up to three initials can be hand-embossed on most pieces for 60 MAD. Mention it in the order notes at checkout or on WhatsApp." },
-      { "q": "How do I track my order?", "a": "Send us a message on WhatsApp with your name and order details, and we'll check with the courier for you." },
-      { "q": "Do you ship outside Morocco?", "a": "International shipping is available on request via WhatsApp, but Cash on Delivery is only available inside Morocco." }
+      {
+        "q": "Do you offer engraving?",
+        "a": "Yes. Up to three initials can be hand-embossed on most pieces for 60 MAD. Mention it in the order notes at checkout or on WhatsApp."
+      },
+      {
+        "q": "How do I track my order?",
+        "a": "Send us a message on WhatsApp with your name and order details, and we'll check with the courier for you."
+      },
+      {
+        "q": "Do you ship outside Morocco?",
+        "a": "International shipping is available on request via WhatsApp, but Cash on Delivery is only available inside Morocco."
+      }
     ],
     "stillQuestion": "Still have a question?",
     "stillQuestionText": "Our team answers WhatsApp messages seven days a week.",
@@ -81,23 +104,63 @@
       "intro": "Everything about how your piece travels from our bench in Taroudant to your hands."
     },
     "sections": [
-      { "title": "Delivery times", "body": "Orders are dispatched from our Taroudant workshop within 24–48 hours of the confirmation call. Delivery takes 24–48 hours in Casablanca, Rabat and Taroudant, and 2–4 working days everywhere else in Morocco. Remote rural addresses may take one extra day." },
-      { "title": "Delivery cost", "body": "A flat rate of 35 MAD applies to every order. Delivery is free on orders of 500 MAD or more, after any discount is applied." },
-      { "title": "Cash on Delivery", "body": "We only accept Cash on Delivery. You pay the courier in cash when the parcel arrives — no card, no bank transfer, no prepayment. Please have the exact amount ready where possible, and open the box in front of the courier if you want to inspect the piece first." },
-      { "title": "Failed deliveries", "body": "The courier attempts delivery twice and will call before each attempt. If both attempts fail, the parcel returns to our workshop and we'll contact you to arrange a new date. We may ask for confirmation before re-sending after two failed deliveries." },
-      { "title": "Exchanges", "body": "You can exchange any unused piece within 14 days of delivery, provided it is in its original box with the dust bag and care card. Message us on WhatsApp with your order number and we'll arrange collection. Return shipping is 35 MAD, waived if the piece was faulty or we sent the wrong item." },
-      { "title": "What we cannot exchange", "body": "Personalised pieces — anything embossed with initials or made to a custom pattern — cannot be exchanged unless there is a fault in the workmanship." },
-      { "title": "Faults and repairs", "body": "Every piece is hand-stitched and guaranteed against stitching failure for two years. Send us a photo and we'll repair or replace it. Normal patina, softening and small surface marks are characteristics of full-grain leather, not faults." }
+      {
+        "title": "Delivery times",
+        "body": "Orders are dispatched from our Taroudant workshop within 24–48 hours of the confirmation call. Delivery takes 24–48 hours in Casablanca, Rabat and Taroudant, and 2–4 working days everywhere else in Morocco. Remote rural addresses may take one extra day."
+      },
+      {
+        "title": "Delivery cost",
+        "body": "A flat rate of 35 MAD applies to every order. Delivery is free on orders of 500 MAD or more, after any discount is applied."
+      },
+      {
+        "title": "Cash on Delivery",
+        "body": "We only accept Cash on Delivery. You pay the courier in cash when the parcel arrives — no card, no bank transfer, no prepayment. Please have the exact amount ready where possible, and open the box in front of the courier if you want to inspect the piece first."
+      },
+      {
+        "title": "Failed deliveries",
+        "body": "The courier attempts delivery twice and will call before each attempt. If both attempts fail, the parcel returns to our workshop and we'll contact you to arrange a new date. We may ask for confirmation before re-sending after two failed deliveries."
+      },
+      {
+        "title": "Exchanges",
+        "body": "You can exchange any unused piece within 14 days of delivery, provided it is in its original box with the dust bag and care card. Message us on WhatsApp with your order number and we'll arrange collection. Return shipping is 35 MAD, waived if the piece was faulty or we sent the wrong item."
+      },
+      {
+        "title": "What we cannot exchange",
+        "body": "Personalised pieces — anything embossed with initials or made to a custom pattern — cannot be exchanged unless there is a fault in the workmanship."
+      },
+      {
+        "title": "Faults and repairs",
+        "body": "Every piece is hand-stitched and guaranteed against stitching failure for two years. Send us a photo and we'll repair or replace it. Normal patina, softening and small surface marks are characteristics of full-grain leather, not faults."
+      }
     ]
   },
   "privacy": {
-    "hero": { "eyebrow": "Legal", "title": "Privacy Policy", "intro": "Last updated: 1 January 2026" },
+    "hero": {
+      "eyebrow": "Legal",
+      "title": "Privacy Policy",
+      "intro": "Last updated: 1 January 2026"
+    },
     "sections": [
-      { "title": "What we collect", "body": "When you place an order we collect your name, phone number, delivery address, and — if you provide it — your email address and order notes. That is the minimum needed to make and deliver your piece." },
-      { "title": "How we use it", "body": "We use your details to confirm your order by phone, to hand the correct address to our delivery partner, and to contact you about that specific order. If you opt in to our newsletter, we use your email to send occasional notes about new collections. You can unsubscribe at any time from any email." },
-      { "title": "What stays in your browser", "body": "Your bag, wishlist and recently viewed items are stored locally in your own browser, not on our servers. Clearing your browser data removes them." },
-      { "title": "Who we share it with", "body": "Only our delivery partners, and only the details they need to bring your parcel to your door. We never sell your data, and we do not share it for advertising." },
-      { "title": "How long we keep it", "body": "Order records are kept for three years so we can honour exchanges and the stitching guarantee. After that they are deleted." }
+      {
+        "title": "What we collect",
+        "body": "When you place an order we collect your name, phone number, delivery address, and — if you provide it — your email address and order notes. That is the minimum needed to make and deliver your piece."
+      },
+      {
+        "title": "How we use it",
+        "body": "We use your details to confirm your order by phone, to hand the correct address to our delivery partner, and to contact you about that specific order. If you opt in to our newsletter, we use your email to send occasional notes about new collections. You can unsubscribe at any time from any email."
+      },
+      {
+        "title": "What stays in your browser",
+        "body": "Your bag, wishlist and recently viewed items are stored locally in your own browser, not on our servers. Clearing your browser data removes them."
+      },
+      {
+        "title": "Who we share it with",
+        "body": "Only our delivery partners, and only the details they need to bring your parcel to your door. We never sell your data, and we do not share it for advertising."
+      },
+      {
+        "title": "How long we keep it",
+        "body": "Order records are kept for three years so we can honour exchanges and the stitching guarantee. After that they are deleted."
+      }
     ],
     "rightsTitle": "Your rights",
     "rightsBody": "You can ask us for a copy of the data we hold about you, ask us to correct it, or ask us to delete it. Write to {{email}} and we will respond within 30 days, in line with Moroccan law 09-08 on the protection of personal data.",
@@ -105,17 +168,48 @@
     "contactBody": "Questions about this policy: {{email}} · {{address}}"
   },
   "terms": {
-    "hero": { "eyebrow": "Legal", "title": "Terms of Service", "intro": "Last updated: 1 January 2026" },
+    "hero": {
+      "eyebrow": "Legal",
+      "title": "Terms of Service",
+      "intro": "Last updated: 1 January 2026"
+    },
     "sections": [
-      { "title": "1. Who we are", "body": "{{name}} is a leather workshop based at {{address}}. These terms apply to every order placed through this website or via WhatsApp." },
-      { "title": "2. Orders", "body": "Placing an order is an offer to buy. The contract is formed when we confirm your order by phone or WhatsApp. We may decline an order if a piece is out of stock, the address is outside our delivery network, or we cannot reach you to confirm." },
-      { "title": "3. Prices and payment", "body": "All prices are in Moroccan Dirham (MAD) and include applicable taxes. Payment is Cash on Delivery only, paid to the courier at the moment of delivery. Prices may change at any time, but never after your order is confirmed." },
-      { "title": "4. Handmade variation", "body": "Every piece is cut and stitched by hand from natural full-grain leather. Grain, tone and markings vary between hides, so your piece will not be identical to the photographs. This is a feature of the material, not a defect." },
-      { "title": "5. Delivery", "body": "Delivery timeframes are estimates given in good faith. We are not liable for delays caused by our courier partners, weather, or incorrect address details provided at checkout." },
-      { "title": "6. Exchanges and guarantee", "body": "Unused pieces may be exchanged within 14 days as described in our Shipping & Returns policy. Stitching is guaranteed for two years from delivery. Personalised pieces are excluded from exchanges." },
-      { "title": "7. Intellectual property", "body": "All photography, text, patterns and the {{name}} name and mark belong to us and may not be reproduced without written permission." },
-      { "title": "8. Liability", "body": "Our liability for any order is limited to the amount you paid for that order. Nothing in these terms limits rights you have under Moroccan consumer protection law 31-08." },
-      { "title": "9. Governing law", "body": "These terms are governed by Moroccan law, and any dispute falls to the competent courts of Taroudant." }
+      {
+        "title": "1. Who we are",
+        "body": "{{name}} is a leather workshop based at {{address}}. These terms apply to every order placed through this website or via WhatsApp."
+      },
+      {
+        "title": "2. Orders",
+        "body": "Placing an order is an offer to buy. The contract is formed when we confirm your order by phone or WhatsApp. We may decline an order if a piece is out of stock, the address is outside our delivery network, or we cannot reach you to confirm."
+      },
+      {
+        "title": "3. Prices and payment",
+        "body": "All prices are in Moroccan Dirham (MAD) and include applicable taxes. Payment is Cash on Delivery only, paid to the courier at the moment of delivery. Prices may change at any time, but never after your order is confirmed."
+      },
+      {
+        "title": "4. Handmade variation",
+        "body": "Every piece is cut and stitched by hand from natural full-grain leather. Grain, tone and markings vary between hides, so your piece will not be identical to the photographs. This is a feature of the material, not a defect."
+      },
+      {
+        "title": "5. Delivery",
+        "body": "Delivery timeframes are estimates given in good faith. We are not liable for delays caused by our courier partners, weather, or incorrect address details provided at checkout."
+      },
+      {
+        "title": "6. Exchanges and guarantee",
+        "body": "Unused pieces may be exchanged within 14 days as described in our Shipping & Returns policy. Stitching is guaranteed for two years from delivery. Personalised pieces are excluded from exchanges."
+      },
+      {
+        "title": "7. Intellectual property",
+        "body": "All photography, text, patterns and the {{name}} name and mark belong to us and may not be reproduced without written permission."
+      },
+      {
+        "title": "8. Liability",
+        "body": "Our liability for any order is limited to the amount you paid for that order. Nothing in these terms limits rights you have under Moroccan consumer protection law 31-08."
+      },
+      {
+        "title": "9. Governing law",
+        "body": "These terms are governed by Moroccan law, and any dispute falls to the competent courts of Taroudant."
+      }
     ]
-  },
+  }
 }
