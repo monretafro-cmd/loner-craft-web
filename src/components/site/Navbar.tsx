@@ -148,9 +148,6 @@ export function Navbar() {
 
           <div className="flex items-center gap-0.5 justify-self-end">
             <LanguageSelector className="me-1 hidden lg:flex" />
-            <Button variant="ghost" size="icon" aria-label={t("actions.search")} onClick={() => setSearchOpen(true)}>
-              <Search className="h-5 w-5" />
-            </Button>
             <Button
               variant="ghost"
               size="icon"
