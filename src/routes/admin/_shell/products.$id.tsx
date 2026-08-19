@@ -64,7 +64,7 @@ const EMPTY: Form = {
   status: "draft",
   featured: false,
   cod_available: true,
-  whatsapp_ordering: true,
+  whatsapp_ordering: false,
   material: "",
   leather_type: "",
   color: "",
@@ -124,6 +124,7 @@ function ProductEditor() {
       stock: Number(form.stock) || 0,
       low_stock_threshold: Number(form.low_stock_threshold) || 0,
       weight: form.weight === "" || form.weight === null ? null : Number(form.weight),
+      why_points: Array.isArray(form.why_points) ? form.why_points : String(form.why_points ?? "").split("\n").filter(Boolean),
       features: Array.isArray(form.features) ? form.features : String(form.features ?? "").split("\n").filter(Boolean),
       tags: Array.isArray(form.tags) ? form.tags : String(form.tags ?? "").split(",").map((t: string) => t.trim()).filter(Boolean),
     };
@@ -264,14 +265,21 @@ function ProductEditor() {
             <Field label="Short description">
               <Textarea rows={2} value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />
             </Field>
-            <Field label="Description">
-              <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
-            </Field>
-            <Field label="Features (one per line)">
+            <Field label="Key Details / Specifications (one per line)">
               <Textarea
                 rows={5}
                 value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
                 onChange={(e) => set("features", e.target.value.split("\n"))}
+              />
+            </Field>
+            <Field label="Description">
+              <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
+            </Field>
+            <Field label="Why You'll Like It (one per line)">
+              <Textarea
+                rows={6}
+                value={Array.isArray(form.why_points) ? form.why_points.join("\n") : (form.why_points ?? "")}
+                onChange={(e) => set("why_points", e.target.value.split("\n"))}
               />
             </Field>
           </Panel>
@@ -420,7 +428,7 @@ function ProductEditor() {
             </Field>
             <Toggle label="Featured" checked={!!form.featured} onChange={(v) => set("featured", v)} />
             <Toggle label="Cash on delivery" checked={!!form.cod_available} onChange={(v) => set("cod_available", v)} />
-            <Toggle label="WhatsApp ordering" checked={!!form.whatsapp_ordering} onChange={(v) => set("whatsapp_ordering", v)} />
+            
           </Panel>
         </div>
       </div>

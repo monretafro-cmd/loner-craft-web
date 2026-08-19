@@ -28,7 +28,7 @@ const LABELS: Record<string, string> = {
   shop_featured: "Featured products",
   shop_categories: "Categories",
   shop_collection: "Collection grid",
-  shop_craft: "Our craft",
+  
   shop_packaging: "Packaging",
   shop_delivery: "Delivery",
   shop_reviews: "Customer reviews",
@@ -43,7 +43,7 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "title", label: "Hero title" },
     { key: "subtitle", label: "Hero subtitle", long: true },
     { key: "primaryLabel", label: "Primary button" },
-    { key: "secondaryLabel", label: "WhatsApp button" },
+    { key: "secondaryLabel", label: "WhatsApp button (Optional)" },
   ],
   shop_featured: [
     { key: "eyebrow", label: "Eyebrow" },
@@ -58,11 +58,6 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "eyebrow", label: "Eyebrow" },
     { key: "title", label: "Title" },
     { key: "subtitle", label: "Subtitle", long: true },
-  ],
-  shop_craft: [
-    { key: "eyebrow", label: "Eyebrow" },
-    { key: "title", label: "Title" },
-    { key: "body", label: "Story", long: true },
   ],
   shop_packaging: [
     { key: "eyebrow", label: "Eyebrow" },
@@ -85,7 +80,7 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "title", label: "Title" },
     { key: "subtitle", label: "Subtitle", long: true },
     { key: "primaryLabel", label: "Primary button" },
-    { key: "secondaryLabel", label: "WhatsApp button" },
+    { key: "secondaryLabel", label: "WhatsApp button (Optional)" },
   ],
 };
 
@@ -110,7 +105,7 @@ function ShopPageManager() {
   const saveProduct = useSaveRow("products", "shop-page");
 
   const [drafts, setDrafts] = useState<Record<string, any>>({});
-  const shopSections = (sections.data ?? []).filter((s) => s.section.startsWith("shop_"));
+  const shopSections = (sections.data ?? []).filter((s) => s.section.startsWith("shop_") && s.section !== "shop_craft");
 
   useEffect(() => {
     if (!sections.data) return;

@@ -340,44 +340,7 @@ function ShopPage() {
         </Shell>
       </section>
 
-      <section className="overflow-hidden bg-ink text-ink-foreground">
-        <Shell className="grid items-center gap-10 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:py-20">
-          <Reveal>
-            <div className="overflow-hidden rounded-[24px] border border-white/10 bg-white/5">
-              <img
-                src={craftWorkshop}
-                alt="Leather artisan working by hand in a Moroccan workshop"
-                loading="lazy"
-                width={1365}
-                height={2048}
-                className="aspect-[4/3] w-full object-cover object-[center_48%] lg:aspect-[4/4.2]"
-              />
-            </div>
-          </Reveal>
-          <Reveal delay={80}>
-            <div className="max-w-xl">
-              <Eyebrow dark>{text("shop_craft", "eyebrow", copy.craftEyebrow)}</Eyebrow>
-              <h2 className="font-display mt-5 text-[2.35rem] leading-[1.02] sm:text-5xl">
-                {text("shop_craft", "title", copy.craftTitle)}
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-ink-foreground/70">
-                {text("shop_craft", "body", copy.craftBody)}
-              </p>
-              <ul className="mt-7 divide-y divide-white/10 border-y border-white/10">
-                {copy.craftPoints.map((point) => (
-                  <li
-                    key={point}
-                    className="flex items-center gap-3 py-4 text-sm text-ink-foreground/78"
-                  >
-                    <BadgeCheck className="h-4 w-4 shrink-0 text-accent" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </Shell>
-      </section>
+      {/* Craft section removed from site */}
 
       <section className="border-b border-border bg-secondary/35 py-14 sm:py-16">
         <Shell>

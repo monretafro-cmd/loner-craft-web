@@ -14,13 +14,18 @@ export const Route = createFileRoute("/admin/_shell/homepage")({
 
 function HomepagePage() {
   const sections = useRows<any>("homepage_content", { orderBy: "display_order", ascending: true });
+  const shopSections = (sections.data ?? []).filter((s: any) => s.section.startsWith("shop_"));
   const save = useSaveRow("homepage_content", "homepage");
   const [drafts, setDrafts] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (!sections.data) return;
     setDrafts(
-      Object.fromEntries(sections.data.map((section: any) => [section.id, JSON.stringify(section.content, null, 2)])),
+      Object.fromEntries(
+        sections.data
+          .filter((s: any) => !s.section.startsWith("shop_"))
+          .map((section: any) => [section.id, JSON.stringify(section.content, null, 2)])
+      ),
     );
   }, [sections.data]);
 
@@ -31,7 +36,7 @@ function HomepagePage() {
         <LoadingRows />
       ) : (
         <div className="space-y-6">
-          {(sections.data ?? []).map((section: any) => (
+          {(sections.data ?? []).filter((s: any) => !s.section.startsWith("shop_")).map((section: any) => (
             <Panel key={section.id} className="space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl capitalize">{String(section.section).replace(/_/g, " ")}</h2>

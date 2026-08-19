@@ -65,7 +65,7 @@ function OrdersPage() {
 
   return (
     <>
-      <PageHeader title="Orders" subtitle="Cash on delivery orders, updated live" />
+      <PageHeader title="Orders" subtitle="Customer orders, updated live" />
       <Panel>
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <div className="relative min-w-[220px] flex-1">
