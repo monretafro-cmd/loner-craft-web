@@ -1,10 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { syncAdminAccess } from "@/lib/admin/access.functions";
 import { Button } from "@/components/ui/button";
-import { Loader2, Clock } from "lucide-react";
+import { Loader2, Clock, LogOut, Store, RefreshCcw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/pending")({
   ssr: false,
@@ -30,61 +30,117 @@ function PendingPage() {
   const navigate = useNavigate();
   const sync = useServerFn(syncAdminAccess);
   const [email, setEmail] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const checkStatus = useCallback(async (isAuto = false) => {
+    if (!isAuto) setChecking(true);
+    setError(null);
+    
+    try {
+      const access = await sync({ data: undefined as never });
+      await supabase.auth.refreshSession();
+      
+      if (access.status === "blocked" || access.status === "rejected") {
+        await supabase.auth.signOut();
+        return navigate({ to: "/admin/login", replace: true });
+      }
+      
+      if (access.status === "approved" && access.role) {
+        return navigate({ to: "/admin", replace: true });
+      }
+      
+      setEmail(access.email);
+      // Try to get name from session
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.user_metadata?.full_name) {
+        setName(user.user_metadata.full_name);
+      }
+      
+    } catch (err) {
+      console.error("Status check failed:", err);
+      if (!isAuto) setError("Unable to verify status. Please try again.");
+    } finally {
+      if (!isAuto) setChecking(false);
+    }
+  }, [navigate, sync]);
 
   useEffect(() => {
-    let active = true;
-    sync({ data: undefined as never })
-      .then(async (access) => {
-        if (!active) return;
-        await supabase.auth.refreshSession();
-        if (access.status === "blocked" || access.status === "rejected") {
-          await supabase.auth.signOut();
-          return navigate({ to: "/admin/login", replace: true });
-        }
-        if (access.status === "approved" && access.role) {
-          return navigate({ to: "/admin", replace: true });
-        }
-        setEmail(access.email);
-        setChecking(false);
-      })
-      .catch(() => navigate({ to: "/admin/login", replace: true }));
-    return () => {
-      active = false;
-    };
-  }, [navigate, sync]);
+    checkStatus();
+    
+    // Auto check every 30 seconds
+    const interval = setInterval(() => checkStatus(true), 30000);
+    return () => clearInterval(interval);
+  }, [checkStatus]);
 
   async function signOut() {
     await supabase.auth.signOut();
     navigate({ to: "/admin/login", replace: true });
   }
 
-  if (checking) {
+  if (checking && !email) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-ink text-white">
-        <Loader2 className="h-5 w-5 animate-spin" />
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F7F3EF] p-4 text-[#241812]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#8A4D25]" />
+        <p className="mt-4 text-sm font-medium animate-pulse">Verifying your account status...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink px-4 py-12 text-ink-foreground">
-      <div className="w-full max-w-[480px] rounded-2xl border border-white/10 bg-white/[0.04] p-7 text-center backdrop-blur sm:p-9">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5">
-          <Clock className="h-5 w-5 text-cognac" />
+    <div className="flex min-h-screen items-center justify-center bg-[#F7F3EF] px-4 py-12 text-[#1C1815]">
+      <div className="w-full max-w-[480px] rounded-2xl border border-[#241812]/10 bg-white p-8 text-center shadow-xl sm:p-10">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#8A4D25]/10">
+          <Clock className="h-6 w-6 text-[#8A4D25]" />
         </div>
-        <h1 className="mt-6 font-display text-3xl leading-tight">Access request pending</h1>
-        <p className="mt-4 text-sm leading-relaxed text-white/65">
-          Your account was created successfully. Access to the Loner Leather administration panel
-          requires approval from the owner.
-        </p>
-        {email ? <p className="mt-4 text-xs text-white/40">{email}</p> : null}
-        <Button
-          onClick={signOut}
-          className="mt-8 h-11 w-full bg-cognac text-white hover:bg-cognac/90"
+        
+        <h1 className="mt-6 font-display text-3xl leading-tight text-[#241812]">Access Request Pending</h1>
+        
+        <div className="mt-6 space-y-4">
+          <p className="text-base leading-relaxed text-[#1C1815]/80">
+            Your account is waiting for approval from the Loner Leather owner.
+          </p>
+          
+          {(name || email) && (
+            <div className="rounded-xl bg-[#F7F3EF] p-4 text-left border border-[#241812]/5">
+              {name && <p className="text-sm font-semibold text-[#241812]">{name}</p>}
+              {email && <p className="text-xs text-[#1C1815]/60 mt-0.5">{email}</p>}
+            </div>
+          )}
+        </div>
+
+        {error && (
+          <p className="mt-4 text-sm text-red-600 font-medium">{error}</p>
+        )}
+
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Button
+            onClick={() => checkStatus()}
+            disabled={checking}
+            className="h-11 w-full bg-[#8A4D25] text-white hover:bg-[#8A4D25]/90"
+          >
+            {checking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCcw className="mr-2 h-4 w-4" />}
+            Refresh Status
+          </Button>
+          
+          <Button
+            variant="outline"
+            onClick={signOut}
+            className="h-11 w-full border-[#241812]/20 text-[#241812] hover:bg-[#241812]/5"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
+          </Button>
+        </div>
+        
+        <a
+          href="/"
+          className="mt-6 inline-flex items-center text-sm font-medium text-[#8A4D25] hover:underline"
         >
-          Sign out
-        </Button>
+          <Store className="mr-2 h-4 w-4" />
+          Return to Store
+        </a>
       </div>
     </div>
   );

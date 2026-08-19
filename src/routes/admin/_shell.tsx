@@ -24,7 +24,32 @@ export const Route = createFileRoute("/admin/_shell")({
       <Outlet />
     </AdminShell>
   ),
-  errorComponent: ({ error }) => (
-    <div className="p-10 text-center text-sm text-muted-foreground">{error.message}</div>
+  errorComponent: ({ error, reset }) => (
+    <div className="flex min-h-[400px] flex-col items-center justify-center p-10 text-center">
+      <div className="max-w-md">
+        <h2 className="text-xl font-semibold text-foreground">Verification Failed</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
+        <div className="mt-6 flex justify-center gap-3">
+          <button
+            onClick={() => reset()}
+            className="inline-flex h-10 items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90"
+          >
+            Retry
+          </button>
+          <Link
+            to="/admin/login"
+            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Sign In
+          </Link>
+          <Link
+            to="/"
+            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Return to Store
+          </Link>
+        </div>
+      </div>
+    </div>
   ),
 });
