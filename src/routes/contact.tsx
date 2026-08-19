@@ -91,14 +91,6 @@ function ContactPage() {
               </Button>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-border shadow-soft">
-              <iframe
-                title={t("pages.contact.mapTitle")}
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-8.0130%2C31.6220%2C-7.9770%2C31.6420&layer=mapnik&marker=31.6320%2C-7.9950"
-                loading="lazy"
-                className="h-64 w-full border-0"
-              />
-            </div>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-7 shadow-soft sm:p-9">
