@@ -1,3 +1,4 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { createFileRoute, Outlet, redirect, Link } from "@tanstack/react-router";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { loadAdminSession } from "@/lib/admin/session";
@@ -36,24 +37,10 @@ export const Route = createFileRoute("/admin/_shell")({
         }).catch(() => { });
         return { session };
     },
-    component: () => (<AdminShell>
-      <Outlet />
-    </AdminShell>),
-    errorComponent: ({ error, reset }) => (<div className="flex min-h-[400px] flex-col items-center justify-center p-10 text-center">
-      <div className="max-w-md">
-        <h2 className="text-xl font-semibold text-foreground">Verification Failed</h2>
-        <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
-        <div className="mt-6 flex justify-center gap-3">
-          <button onClick={() => reset()} className="inline-flex h-10 items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90">
-            Retry
-          </button>
-          <Link to="/admin/login" className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">
-            Sign In
-          </Link>
-          <Link to="/" className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">
-            Return to Store
-          </Link>
-        </div>
-      </div>
-    </div>),
+    component: () => (_jsx(AdminShell, { children: _jsx(Outlet, {}) })),
+    errorComponent: ({ error, reset }) => (_jsx("div", { className: "flex min-h-[400px] flex-col items-center justify-center p-10 text-center", children: _jsxs("div", { className: "max-w-md", children: [
+                _jsx("h2", { className: "text-xl font-semibold text-foreground", children: "Verification Failed" }), _jsx("p", { className: "mt-2 text-sm text-muted-foreground", children: error.message }), _jsxs("div", { className: "mt-6 flex justify-center gap-3", children: [
+                        _jsx("button", { onClick: () => reset(), className: "inline-flex h-10 items-center justify-center rounded-md bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink/90", children: "Retry" }), _jsx(Link, { to: "/admin/login", className: "inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent", children: "Sign In" }), _jsx(Link, { to: "/", className: "inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent", children: "Return to Store" })
+                    ] })
+            ] }) })),
 });
