@@ -73,13 +73,16 @@ export function ShopProductCard({
               </span>
             )}
           </div>
-          <button
+          <Button
             type="button"
-            onClick={() => setQuickView(true)}
-            className="absolute bottom-3 end-3 inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/95 px-4 text-xs font-medium tracking-[0.08em] uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-visible:opacity-100"
+            variant="secondary"
+            className="absolute bottom-3 end-3 inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/95 px-4 text-[0.6rem] font-bold tracking-[0.14em] uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-visible:opacity-100"
+            asChild
           >
-            <Eye className="h-3.5 w-3.5" /> {t("shop.card.quickView")}
-          </button>
+            <Link to="/product/$slug" params={{ slug: product.slug }}>
+              {t("actions.orderNow")}
+            </Link>
+          </Button>
         </div>
 
         <div className="flex flex-1 flex-col gap-3 p-5">
@@ -118,9 +121,9 @@ export function ShopProductCard({
                 </Link>
               </Button>
               <Button asChild className="min-h-11 w-full text-xs font-semibold uppercase tracking-wider shadow-sm shadow-primary/10">
-                <a href={orderLink({ product: product.name })} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-3.5 w-3.5" /> {t("shop.card.whatsapp")}
-                </a>
+                <Link to="/product/$slug" params={{ slug: product.slug }}>
+                  {t("actions.orderNow")}
+                </Link>
               </Button>
             </div>
           </div>
@@ -146,9 +149,9 @@ export function ShopProductCard({
               <Price product={product} />
               <div className="mt-auto grid gap-2">
                 <Button asChild className="min-h-11 w-full">
-                  <a href={orderLink({ product: product.name })} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-4 w-4" /> {t("shop.card.whatsapp")}
-                  </a>
+                  <Link to="/product/$slug" params={{ slug: product.slug }}>
+                    {t("actions.orderNow")}
+                  </Link>
                 </Button>
                 <Button asChild variant="outline" className="min-h-11 w-full">
                   <Link to="/product/$slug" params={{ slug: product.slug }}>

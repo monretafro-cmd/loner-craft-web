@@ -70,14 +70,13 @@ export function ShowcaseCard({ product }: { product: Product }) {
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="hero" className="flex-1">
             <Link to="/product/$slug" params={{ slug: product.slug }}>
-              {t("shop.showcase.viewDetails")}
+              {t("actions.orderNow")}
             </Link>
           </Button>
           <Button asChild variant="outline" className="flex-1">
-            <a href={orderLink({ product: text.name })} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-4 w-4" />
-              {t("actions.orderWhatsapp")}
-            </a>
+            <Link to="/product/$slug" params={{ slug: product.slug }}>
+              {t("shop.showcase.viewDetails")}
+            </Link>
           </Button>
         </div>
       </div>
