@@ -53,22 +53,23 @@ function MediaPage() {
         title="Media Library"
         subtitle="All product photos, banners and brand assets"
         actions={
-          <>
+          <div className="flex items-center gap-3">
             <select
               value={folder}
               onChange={(event) => setFolder(event.target.value)}
-              className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+              className="h-10 rounded-xl border border-border/40 bg-white px-3 text-[10px] font-bold uppercase tracking-widest text-ink focus:ring-1 focus:ring-cognac"
             >
               {["products", "banners", "brand", "other"].map((value) => (
-                <option key={value} value={value}>{value}</option>
+                <option key={value} value={value}>{value.toUpperCase()}</option>
               ))}
             </select>
-            <label className="inline-flex h-10 cursor-pointer items-center rounded-md bg-ink px-4 text-sm text-ink-foreground hover:bg-ink/90">
-              {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Upload className="mr-2 h-4 w-4" />}
-              Upload
+            <label className="inline-flex h-10 cursor-pointer items-center rounded-xl bg-ink px-6 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-ink/90 shadow-lg shadow-ink/10 transition-all active:scale-95">
+              {uploading ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Upload className="mr-2 h-3.5 w-3.5" />}
+              Upload Assets
               <input type="file" accept="image/*,video/*" multiple hidden onChange={onUpload} />
             </label>
-          </>
+          </div>
+
         }
       />
       {(media.data ?? []).length === 0 ? (
