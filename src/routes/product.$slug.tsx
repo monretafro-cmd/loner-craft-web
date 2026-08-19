@@ -367,40 +367,6 @@ function ProductPage() {
         </div>
       </section>
 
-      {/* Final Purchase CTA */}
-      <section className="relative overflow-hidden bg-ink py-12 sm:py-16 lg:py-20 text-ink-foreground">
-        <div className="absolute inset-0 z-0">
-          <img src={PHOTOS.leatherTexture.src || ""} alt="" className="h-full w-full object-cover opacity-10" />
-          <div className="absolute inset-0 bg-ink/40" />
-        </div>
-        
-        <div className="relative z-10 mx-auto w-full max-w-[1320px] px-4 sm:px-6 text-center">
-          <Reveal>
-            <div className="flex flex-col items-center max-w-[500px] mx-auto">
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-2 tracking-tight">
-                {text.name}
-              </h2>
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-2xl sm:text-3xl font-display font-semibold text-accent">
-                  {price(product.price)}
-                </span>
-                <span className="h-4 w-px bg-white/20" />
-                <span className="text-xs font-bold text-white/60 tracking-widest uppercase">{t("product.trust.cod")}</span>
-              </div>
-              
-              <Button 
-                variant="hero" 
-                size="lg" 
-                className="h-14 w-full sm:w-[280px] text-base font-bold rounded-lg shadow-2xl uppercase tracking-widest"
-                onClick={add}
-              >
-                <ShoppingBag className="mr-2 h-4 w-4" />
-                {t("product.actions.buyNow")}
-              </Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
       {/* Mobile Sticky Bottom Bar */}
       <div 
