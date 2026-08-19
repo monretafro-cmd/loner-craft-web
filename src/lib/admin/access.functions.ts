@@ -226,3 +226,31 @@ export const logFailedLogin = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+/** Records access-related events such as redirects and sign-outs. */
+export const logAdminAccessEvent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(
+    (input: {
+      action: "admin_redirect" | "admin_pending_redirect" | "admin_sign_out";
+      path?: string;
+      details?: Record<string, any>;
+    }) => input,
+  )
+  .handler(async ({ context, data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const userId = context.userId;
+    const claims = context.claims as Record<string, any>;
+    const email = (claims?.email ?? "").toLowerCase();
+
+    await supabaseAdmin.from("audit_logs").insert({
+      admin_id: userId,
+      admin_name: email,
+      action: data.action,
+      page: data.path ?? "admin",
+      record_type: "access",
+      record_id: userId,
+      new_value: (data.details ?? {}) as never,
+    });
+    return { ok: true };
+  });
