@@ -18,7 +18,7 @@ const COLUMNS = [
     title: "footer.customerService",
     links: [
       { to: "/contact", label: "nav.contact" },
-      { to: "/track-order", label: "nav.trackOrder" },
+      
       { to: "/faq", label: "nav.faq" },
       { to: "/shipping", label: "nav.shipping" },
     ],

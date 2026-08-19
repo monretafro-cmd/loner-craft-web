@@ -105,7 +105,7 @@ export function Navbar() {
                   ))}
                   <div className="my-2 h-px bg-border" />
                   {[
-                    { to: "/track-order", label: "nav.trackOrder" },
+                    
                     { to: "/faq", label: "nav.faq" },
                     { to: "/shipping", label: "nav.shipping" },
                   ].map((item) => (

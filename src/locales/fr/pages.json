@@ -32,7 +32,7 @@
     },
     "extra": [
       { "q": "Proposez-vous la gravure ?", "a": "Oui. Jusqu'à trois initiales peuvent être embossées à la main sur la plupart des pièces pour 60 MAD. Précisez-le dans les notes de commande ou sur WhatsApp." },
-      { "q": "Comment suivre ma commande ?", "a": "Utilisez la page Suivi de commande avec le numéro reçu dans votre confirmation, ou envoyez-le nous sur WhatsApp et nous vérifierons auprès du transporteur." },
+      { "q": "Comment puis-je suivre ma commande ?", "a": "Envoyez-nous un message sur WhatsApp avec votre nom et les détails de votre commande, et nous vérifierons auprès du transporteur pour vous." },
       { "q": "Livrez-vous hors du Maroc ?", "a": "La livraison internationale est possible sur demande via WhatsApp, mais le paiement à la livraison n'est disponible qu'au Maroc." }
     ],
     "stillQuestion": "Une autre question ?",
@@ -118,25 +118,4 @@
       { "title": "9. Droit applicable", "body": "Ces conditions sont régies par le droit marocain, et tout litige relève de la compétence des tribunaux de Taroudant." }
     ]
   },
-  "track": {
-    "hero": {
-      "eyebrow": "Livraison",
-      "title": "Suivre votre commande",
-      "intro": "Votre numéro de commande ressemble à LL-482910 et figure dans votre message de confirmation."
-    },
-    "label": "Numéro de commande",
-    "placeholder": "LL-482910",
-    "submit": "Suivre",
-    "invalid": "Les numéros de commande ressemblent à LL-482910.",
-    "orderPrefix": "Commande {{order}}",
-    "stages": [
-      { "title": "Commande confirmée", "text": "Nous avons reçu votre commande et vérifié l'adresse par téléphone." },
-      { "title": "À l'atelier", "text": "Votre pièce est en cours de finition, de lustrage et d'emballage à Taroudant." },
-      { "title": "Remise au livreur", "text": "Récupérée par notre partenaire de livraison et en route." },
-      { "title": "En cours de livraison", "text": "Arrivée prévue aujourd'hui — préparez l'appoint pour le livreur." }
-    ],
-    "cantFind": "Vous ne trouvez pas votre numéro ?",
-    "askWhatsapp": "Demandez-nous sur WhatsApp",
-    "askMessage": "Bonjour, j'aimerais suivre ma commande Loner Leather."
-  }
 }
