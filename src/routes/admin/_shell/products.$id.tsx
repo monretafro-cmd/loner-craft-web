@@ -265,13 +265,6 @@ function ProductEditor() {
             <Field label="Short description">
               <Textarea rows={2} value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />
             </Field>
-            <Field label="Key Details / Specifications (one per line)">
-              <Textarea
-                rows={5}
-                value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
-                onChange={(e) => set("features", e.target.value.split("\n"))}
-              />
-            </Field>
             <Field label="Description">
               <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
             </Field>
@@ -280,6 +273,15 @@ function ProductEditor() {
                 rows={6}
                 value={Array.isArray(form.why_points) ? form.why_points.join("\n") : (form.why_points ?? "")}
                 onChange={(e) => set("why_points", e.target.value.split("\n"))}
+                placeholder="Hand-stitched precision&#10;Premium full-grain leather&#10;Made in Taroudant"
+              />
+            </Field>
+            <Field label="Key Details / Specifications (one per line)">
+              <Textarea
+                rows={5}
+                value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
+                onChange={(e) => set("features", e.target.value.split("\n"))}
+                placeholder="6 card slots&#10;Dedicated cash compartment&#10;Compact design"
               />
             </Field>
           </Panel>
