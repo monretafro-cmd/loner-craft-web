@@ -99,7 +99,7 @@
   },
   "status": {
     "items": [
-      "Cuir de chèvre marocain 100% véritable",
+      "Cuir de chèvre marocain véritable",
       "Fait main à Taroudant",
       "Paiement à la livraison",
       "En stock"
@@ -133,8 +133,8 @@
     }
   },
   "trust": {
-    "cod": "Paiement à la livraison partout au Maroc",
-    "noPayment": "Aucun paiement en ligne requis",
+    "cod": "Paiement à la livraison",
+    "delivery": "Livraison partout au Maroc",
     "handmade": "Fait main à Taroudant"
   },
   "features": {
@@ -144,25 +144,50 @@
     "title": "Matière"
   },
   "highlights": {
-    "title": "Pourquoi vous le garderez des années",
+    "title": "Pourquoi vous l'aimerez",
     "items": [
-      "Cuir 100 % véritable",
-      "Fait main",
-      "Fabriqué au Maroc",
-      "Paiement à la livraison",
-      "Livraison rapide",
-      "Emballage cadeau"
+      "6-8 cartes",
+      "2 poches cachées",
+      "Profil mince",
+      "12 × 7,5 cm",
+      "Cuir de chèvre marocain véritable",
+      "Fait main à Taroudant"
     ]
   },
   "packaging": {
     "eyebrow": "Emballage",
-    "title": "Livré prêt à offrir",
+    "title": "Emballé avec Soin",
+    "subtitle": "Chaque portefeuille arrive prêt à offrir.",
     "text": "Chaque Alpha Wallet quitte l'atelier emballé à la main, pour vous parvenir exactement tel qu'il a quitté l'établi.",
     "items": [
-      "Portefeuille fait main",
-      "Emballage protecteur",
+      "Boîte griffée",
+      "Emballage en toile de jute",
       "Carte de remerciement",
       "Présentation prête à offrir"
+    ]
+  },
+  "faq": {
+    "items": [
+      {
+        "q": "Le portefeuille est-il en cuir véritable ?",
+        "a": "Oui, il est fabriqué à la main en cuir de chèvre marocain 100 % véritable."
+      },
+      {
+        "q": "Combien de cartes peut-il contenir ?",
+        "a": "Il contient confortablement 6 à 8 cartes ainsi que des billets pliés."
+      },
+      {
+        "q": "Combien de temps prend la livraison ?",
+        "a": "La livraison prend généralement 24 à 48h pour les grandes villes et 2 à 4 jours ailleurs au Maroc."
+      },
+      {
+        "q": "Le paiement à la livraison est-il disponible ?",
+        "a": "Oui, nous proposons le paiement à la livraison dans tout le Maroc."
+      },
+      {
+        "q": "Où est-il fabriqué ?",
+        "a": "Chaque pièce est fabriquée à la main dans notre atelier à Taroudant, au Maroc."
+      }
     ]
   },
   "craft": {
