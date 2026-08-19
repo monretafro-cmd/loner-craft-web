@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, MessageCircle } from "lucide-react";
 import { useRows } from "@/lib/admin/api";
-import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDate } from "@/components/admin/AdminUI";
+import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDate } from "@/components/admin_new/AdminUI";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/admin/_shell/customers")({
@@ -45,15 +45,16 @@ function CustomersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  <th className="pb-3">Customer</th>
-                  <th className="pb-3">City</th>
-                  <th className="pb-3">Orders</th>
-                  <th className="pb-3">Spent</th>
-                  <th className="pb-3">Last order</th>
-                  <th className="pb-3">Status</th>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">Customer</th>
+                  <th className="pb-3 font-semibold">City</th>
+                  <th className="pb-3 font-semibold text-center">Orders</th>
+                  <th className="pb-3 font-semibold text-right">Spent</th>
+                  <th className="pb-3 font-semibold text-right">Last order</th>
+                  <th className="pb-3 font-semibold text-center">Status</th>
                   <th className="pb-3" />
                 </tr>
+
               </thead>
               <tbody>
                 {rows.map((customer) => (
@@ -63,10 +64,11 @@ function CustomersPage() {
                       <p className="text-xs text-muted-foreground">{customer.phone}</p>
                     </td>
                     <td className="py-3 text-muted-foreground">{customer.city ?? "—"}</td>
-                    <td className="py-3">{customer.orders_count}</td>
-                    <td className="py-3">{MAD(customer.total_spent)}</td>
-                    <td className="py-3 text-muted-foreground">{shortDate(customer.last_order_at)}</td>
-                    <td className="py-3"><StatusPill status={customer.status} /></td>
+                    <td className="py-3 text-center font-medium">{customer.orders_count}</td>
+                    <td className="py-3 text-right font-medium">{MAD(customer.total_spent)}</td>
+                    <td className="py-3 text-right text-[11px] text-muted-foreground">{shortDate(customer.last_order_at)}</td>
+                    <td className="py-3 text-center"><StatusPill status={customer.status} /></td>
+
                     <td className="py-3 text-right">
                       <a
                         href={`https://wa.me/${customer.phone.replace(/[^0-9]/g, "")}`}

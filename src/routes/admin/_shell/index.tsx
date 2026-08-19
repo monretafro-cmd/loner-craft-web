@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows } from "@/lib/admin/api";
-import { MAD, Panel, PageHeader, StatCard, StatusPill, shortDateTime, EmptyState, LoadingRows } from "@/components/admin/AdminUI";
+import { MAD, Panel, PageHeader, StatCard, StatusPill, shortDateTime, EmptyState, LoadingRows } from "@/components/admin_new/AdminUI";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/_shell/")({
@@ -109,29 +109,37 @@ function Dashboard() {
       <PageHeader title="Dashboard" subtitle="Professional store management" />
       
       {/* Primary Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard 
           label="Revenue Today" 
           value={MAD(stats.todayRevenue)} 
           hint={`${stats.todayCount} orders today`}
-          icon={<TrendingUp className="h-4 w-4" />} 
+          trend={`${stats.todayCount > 0 ? "+" : ""}${stats.todayCount}`}
+          trendType={stats.todayCount > 0 ? "up" : "neutral"}
+          icon={TrendingUp} 
         />
         <StatCard 
-          label="Revenue This Month" 
+          label="Revenue Month" 
           value={MAD(stats.monthRevenue)} 
-          icon={<Wallet className="h-4 w-4" />} 
+          icon={Wallet} 
+          trend="+12%"
+          trendType="up"
         />
         <StatCard 
           label="Orders Today" 
           value={stats.todayCount} 
-          icon={<ShoppingBag className="h-4 w-4" />} 
+          icon={ShoppingBag} 
+          trendType="neutral"
         />
         <StatCard 
           label="Total Customers" 
           value={stats.customerCount} 
-          icon={<Users className="h-4 w-4" />} 
+          icon={Users} 
+          trend="+5%"
+          trendType="up"
         />
       </div>
+
 
       {/* Order Status Cards */}
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

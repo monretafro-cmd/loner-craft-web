@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useRows, useInvalidate, logAudit } from "@/lib/admin/api";
 import { loadAdminSession, useAdminSession } from "@/lib/admin/session";
 import { inviteAdminByEmail } from "@/lib/admin/access.functions";
-import { PageHeader, Panel, EmptyState, LoadingRows, shortDate } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, EmptyState, LoadingRows, shortDate } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -256,14 +256,15 @@ function AdminsPage() {
             <div className="hidden lg:block">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                    <th className="pb-3">User</th>
-                    <th className="pb-3">Email</th>
-                    <th className="pb-3">Provider</th>
-                    <th className="pb-3">Requested</th>
-                    <th className="pb-3">Status</th>
-                    <th className="pb-3">Actions</th>
-                  </tr>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">User</th>
+                  <th className="pb-3 font-semibold">Email</th>
+                  <th className="pb-3 font-semibold">Provider</th>
+                  <th className="pb-3 font-semibold text-right">Requested</th>
+                  <th className="pb-3 font-semibold text-center">Status</th>
+                  <th className="pb-3 text-right">Actions</th>
+                </tr>
+
                 </thead>
                 <tbody>
                   {rows.map((profile: any) => (
@@ -276,16 +277,17 @@ function AdminsPage() {
                       </td>
                       <td className="py-3 text-muted-foreground">{profile.email}</td>
                       <td className="py-3 text-muted-foreground">{profile.provider ?? "email"}</td>
-                      <td className="py-3 text-muted-foreground">
+                      <td className="py-3 text-right text-[11px] text-muted-foreground">
                         {shortDate(profile.created_at)}
                       </td>
-                      <td className="py-3">
-                        <span className="rounded-full border border-border px-2 py-1 text-xs capitalize">
+                      <td className="py-3 text-center">
+                        <span className="inline-flex items-center rounded-full border border-border/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-secondary/20">
                           {profile.status}
                           {roleOf(profile.id) ? ` · ${roleOf(profile.id).replace("_", " ")}` : ""}
                         </span>
                       </td>
-                      <td className="py-3">
+                      <td className="py-3 text-right">
+
                         <Actions
                           profile={profile}
                           role={roleOf(profile.id)}

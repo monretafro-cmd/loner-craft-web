@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useRows } from "@/lib/admin/api";
-import { MAD, PageHeader, Panel, StatCard, EmptyState } from "@/components/admin/AdminUI";
+import { MAD, PageHeader, Panel, StatCard, EmptyState } from "@/components/admin_new/AdminUI";
 
 export const Route = createFileRoute("/admin/_shell/analytics")({
   head: () => ({ meta: [{ title: "Analytics — Loner Leather Admin" }, { name: "robots", content: "noindex" }] }),
@@ -57,9 +57,10 @@ function AnalyticsPage() {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Revenue" value={MAD(stats.revenue)} hint={`${stats.total} orders`} />
         <StatCard label="Average order" value={MAD(Math.round(stats.average))} />
-        <StatCard label="Delivered" value={stats.delivered} hint={`${stats.conversion}% of orders`} />
-        <StatCard label="Cancelled / returned" value={stats.cancelled} />
+        <StatCard label="Delivered" value={stats.delivered} hint={`${stats.conversion}% conversion`} />
+        <StatCard label="Cancelled" value={stats.cancelled} />
       </div>
+
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <Panel className="lg:col-span-2">

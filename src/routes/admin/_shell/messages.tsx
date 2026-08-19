@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MessageCircle } from "lucide-react";
 import { useRows, useSaveRow, useDeleteRow } from "@/lib/admin/api";
 import { useAdminSession } from "@/lib/admin/session";
-import { PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDateTime } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/_shell/messages")({

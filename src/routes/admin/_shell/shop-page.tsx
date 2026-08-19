@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
 import { useRows, useSaveRow } from "@/lib/admin/api";
-import { PageHeader, Panel, LoadingRows } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, LoadingRows } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -153,18 +153,24 @@ function ShopPageManager() {
               {(products.data ?? []).map((product: any) => (
                 <label
                   key={product.id}
-                  className="flex min-h-11 items-center justify-between gap-4 rounded-lg border border-border px-4 py-2"
+                  className="group flex min-h-12 items-center justify-between gap-4 rounded-xl border border-border/60 px-4 py-2 transition-all hover:border-cognac/40 hover:bg-secondary/10"
                 >
-                  <span className="min-w-0 truncate text-sm">
-                    {product.name}
-                    <span className="ms-2 text-muted-foreground">{product.status}</span>
-                  </span>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center font-display text-xs font-bold shrink-0">
+                      {product.name.slice(0, 1)}
+                    </div>
+                    <span className="min-w-0 truncate text-sm font-medium text-ink">
+                      {product.name}
+                      <span className="ms-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{product.status}</span>
+                    </span>
+                  </div>
                   <Switch
                     checked={Boolean(product.featured)}
                     onCheckedChange={(value) => saveProduct.mutate({ id: product.id, featured: value })}
                   />
                 </label>
               ))}
+
             </div>
           </Panel>
 
@@ -182,9 +188,9 @@ function ShopPageManager() {
                   {(categories.data ?? []).map((category: any) => (
                     <label
                       key={category.id}
-                      className="flex min-h-11 items-center justify-between gap-4 rounded-lg border border-border px-4 py-2"
+                      className="group flex min-h-12 items-center justify-between gap-4 rounded-xl border border-border/60 px-4 py-2 transition-all hover:border-cognac/40 hover:bg-secondary/10"
                     >
-                      <span className="min-w-0 truncate text-sm">{category.name}</span>
+                      <span className="min-w-0 truncate text-sm font-medium text-ink">{category.name}</span>
                       <Switch
                         checked={!hidden.includes(category.slug)}
                         onCheckedChange={(value) => {
@@ -200,6 +206,7 @@ function ShopPageManager() {
                       />
                     </label>
                   ))}
+
                 </div>
               );
             })()}
@@ -208,24 +215,32 @@ function ShopPageManager() {
           {shopSections.map((section) => {
             const draft = drafts[section.id] ?? {};
             return (
-              <Panel key={section.id} className="space-y-5">
-                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-                  <h2 className="font-display truncate text-xl">
-                    {LABELS[section.section] ?? section.section.replace(/_/g, " ")}
-                  </h2>
-                  <div className="flex shrink-0 items-center gap-2">
-                    <Button variant="outline" size="icon" aria-label="Move up" onClick={() => move(section, -1)}>
-                      <ArrowUp className="h-4 w-4" />
+              <Panel key={section.id} className="flex flex-col border-l-4 border-l-cognac">
+                <div className="mb-6 flex items-center justify-between border-b border-border/40 pb-6">
+                  <div>
+                    <h2 className="font-display text-2xl text-ink">
+                      {LABELS[section.section] ?? section.section.replace(/_/g, " ")}
+                    </h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mt-1">Section Settings & Content</p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2 rounded-full bg-secondary/40 p-1.5 ring-1 ring-border/40">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-white" aria-label="Move up" onClick={() => move(section, -1)}>
+                      <ArrowUp className="h-3.5 w-3.5" />
                     </Button>
-                    <Button variant="outline" size="icon" aria-label="Move down" onClick={() => move(section, 1)}>
-                      <ArrowDown className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-white" aria-label="Move down" onClick={() => move(section, 1)}>
+                      <ArrowDown className="h-3.5 w-3.5" />
                     </Button>
-                    <Switch
-                      checked={section.active}
-                      onCheckedChange={(value) => saveSection.mutate({ id: section.id, active: value })}
-                    />
+                    <div className="h-6 w-px bg-border/40 mx-1" />
+                    <div className="flex items-center gap-2 px-2">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Active</span>
+                      <Switch
+                        checked={section.active}
+                        onCheckedChange={(value) => saveSection.mutate({ id: section.id, active: value })}
+                      />
+                    </div>
                   </div>
                 </div>
+
 
                 {(TEXT_FIELDS[section.section] ?? []).map((field) => (
                   <div key={field.key} className="space-y-2">
@@ -282,18 +297,21 @@ function ShopPageManager() {
                   </div>
                 ))}
 
-                <Button
-                  className="bg-ink text-ink-foreground hover:bg-ink/90"
-                  onClick={() => {
-                    const clean = Object.fromEntries(
-                      Object.entries(draft).filter(([key]) => !key.endsWith("__invalid") && !key.endsWith("__raw")),
-                    );
-                    saveSection.mutate({ id: section.id, content: clean });
-                    toast.success("Shop page updated");
-                  }}
-                >
-                  Save section
-                </Button>
+                <div className="mt-8 pt-6 border-t border-border/40">
+                  <Button
+                    className="w-full bg-ink text-ink-foreground hover:bg-ink/90 font-bold uppercase tracking-[0.2em] text-[10px] h-12 shadow-xl"
+                    onClick={() => {
+                      const clean = Object.fromEntries(
+                        Object.entries(draft).filter(([key]) => !key.endsWith("__invalid") && !key.endsWith("__raw")),
+                      );
+                      saveSection.mutate({ id: section.id, content: clean });
+                      toast.success(`${LABELS[section.section]} updated`);
+                    }}
+                  >
+                    Save {LABELS[section.section]} Configuration
+                  </Button>
+                </div>
+
               </Panel>
             );
           })}

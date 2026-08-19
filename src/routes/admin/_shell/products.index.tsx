@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { useRows, useDeleteRow } from "@/lib/admin/api";
 import { useAdminSession } from "@/lib/admin/session";
-import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDate } from "@/components/admin/AdminUI";
+import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDate } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -86,15 +86,16 @@ function ProductsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  <th className="pb-3">Product</th>
-                  <th className="pb-3">Category</th>
-                  <th className="pb-3">Price</th>
-                  <th className="pb-3">Stock</th>
-                  <th className="pb-3">Status</th>
-                  <th className="pb-3">Created</th>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">Product</th>
+                  <th className="pb-3 font-semibold">Category</th>
+                  <th className="pb-3 font-semibold">Price</th>
+                  <th className="pb-3 font-semibold text-center">Stock</th>
+                  <th className="pb-3 font-semibold text-center">Status</th>
+                  <th className="pb-3 font-semibold text-right">Created</th>
                   <th className="pb-3" />
                 </tr>
+
               </thead>
               <tbody>
                 {filtered.map((product) => (
@@ -112,9 +113,10 @@ function ProductsPage() {
                         <span className="ml-2 text-xs text-muted-foreground line-through">{MAD(product.price)}</span>
                       ) : null}
                     </td>
-                    <td className={`py-3 ${product.stock <= 3 ? "text-destructive" : ""}`}>{product.stock}</td>
-                    <td className="py-3"><StatusPill status={product.status} /></td>
-                    <td className="py-3 text-muted-foreground">{shortDate(product.created_at)}</td>
+                    <td className={`py-3 text-center ${product.stock <= 3 ? "text-destructive font-bold" : ""}`}>{product.stock}</td>
+                    <td className="py-3 text-center"><StatusPill status={product.status} /></td>
+                    <td className="py-3 text-right text-[11px] text-muted-foreground">{shortDate(product.created_at)}</td>
+
                     <td className="py-3 text-right">
                       {session?.role === "super_admin" ? (
                         <button
