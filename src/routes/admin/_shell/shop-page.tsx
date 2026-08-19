@@ -28,7 +28,7 @@ const LABELS: Record<string, string> = {
   shop_featured: "Featured products",
   shop_categories: "Categories",
   shop_collection: "Collection grid",
-  shop_craft: "Our craft",
+  
   shop_packaging: "Packaging",
   shop_delivery: "Delivery",
   shop_reviews: "Customer reviews",
@@ -58,12 +58,6 @@ const TEXT_FIELDS: Record<string, { key: string; label: string; long?: boolean }
     { key: "eyebrow", label: "Eyebrow" },
     { key: "title", label: "Title" },
     { key: "subtitle", label: "Subtitle", long: true },
-  ],
-  shop_craft: [
-    { key: "eyebrow", label: "Eyebrow" },
-    { key: "title", label: "Title" },
-    { key: "body", label: "Story", long: true },
-    { key: "ctaLabel", label: "CTA Button" },
   ],
   shop_packaging: [
     { key: "eyebrow", label: "Eyebrow" },
