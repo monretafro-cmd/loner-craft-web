@@ -29,6 +29,12 @@ export const Route = createFileRoute("/admin/_shell")({
       return { session };
     } catch (error: any) {
       if (error?.status === 307 || error?.status === 302) throw error;
+      
+      // If unauthorized/invalid token, force redirect to login
+      if (error?.message?.includes("Unauthorized") || error?.message?.includes("Invalid token")) {
+        throw redirect({ to: "/admin/login" });
+      }
+      
       throw new Error(error?.message || "Unable to verify your admin session.");
     }
   },

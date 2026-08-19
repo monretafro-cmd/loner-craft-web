@@ -36,7 +36,7 @@ function AdminLogin() {
   const logFailure = useServerFn(logFailedLogin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ message: string; isAuthError?: boolean } | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState<null | "email" | "google" | "reset">(null);
   const [checking, setChecking] = useState(true);
@@ -74,7 +74,11 @@ function AdminLogin() {
         await routeByAccess();
       } catch (caught) {
         if (active) {
-          setError(caught instanceof Error ? caught.message : "Session error");
+          const message = caught instanceof Error ? caught.message : "Session error";
+          setError({ 
+            message, 
+            isAuthError: message.includes("Unauthorized") || message.includes("token") 
+          });
           setChecking(false);
         }
       }
@@ -89,7 +93,11 @@ function AdminLogin() {
           await routeByAccess();
         } catch (caught) {
           if (active) {
-            setError(caught instanceof Error ? caught.message : "Sign in failed");
+            const message = caught instanceof Error ? caught.message : "Sign in failed";
+            setError({ 
+              message, 
+              isAuthError: message.includes("Unauthorized") || message.includes("token") 
+            });
             setChecking(false);
           }
         }
@@ -117,7 +125,11 @@ function AdminLogin() {
       }
       await routeByAccess();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Sign in failed");
+      const message = caught instanceof Error ? caught.message : "Sign in failed";
+      setError({ 
+        message, 
+        isAuthError: message.includes("Unauthorized") || message.includes("token") 
+      });
     } finally {
       setBusy(null);
     }
@@ -142,21 +154,25 @@ function AdminLogin() {
           reason: caught instanceof Error ? caught.message : "unknown",
         },
       }).catch(() => {});
-      setError(caught instanceof Error ? caught.message : "Google sign in failed");
+      const message = caught instanceof Error ? caught.message : "Google sign in failed";
+      setError({ 
+        message, 
+        isAuthError: message.includes("Unauthorized") || message.includes("token") 
+      });
     } finally {
       setBusy(null);
     }
   }
 
   async function forgotPassword() {
-    if (!email) return setError("Enter your email first, then select Forgot password.");
+    if (!email) return setError({ message: "Enter your email first, then select Forgot password." });
     setBusy("reset");
     setError(null);
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     setBusy(null);
-    if (resetError) return setError(resetError.message);
+    if (resetError) return setError({ message: resetError.message });
     setNotice("Password reset link sent. Check your inbox.");
   }
 
@@ -209,7 +225,25 @@ function AdminLogin() {
               required
             />
           </div>
-          {error ? <p className="text-sm text-red-300">{error}</p> : null}
+          {error ? (
+            <div className="space-y-2">
+              <p className="text-sm text-red-300">{error.message}</p>
+              {error.isAuthError && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const { clearAdminSession } = await import("@/lib/admin/session");
+                    clearAdminSession();
+                    await supabase.auth.signOut();
+                    window.location.reload();
+                  }}
+                  className="text-xs text-white/60 underline hover:text-white"
+                >
+                  Session expired? Click to refresh and sign in again.
+                </button>
+              )}
+            </div>
+          ) : null}
           {notice ? <p className="text-sm text-emerald-300">{notice}</p> : null}
           <Button
             type="submit"
