@@ -270,7 +270,7 @@ function ProductPage() {
                     </Button>
                   </div>
 
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="flex w-full">
                     <Button 
                       variant="hero" 
                       size="xl" 
@@ -280,16 +280,6 @@ function ProductPage() {
                     >
                       <ShoppingBag className="h-5 w-5" />
                       {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
-                    </Button>
-                    <Button variant="whatsapp" size="xl" className="w-full text-base font-semibold" asChild>
-                      <a
-                        href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <MessageCircle className="h-5 w-5" />
-                        {t("product.actions.whatsappOrder")}
-                      </a>
                     </Button>
                   </div>
                 </div>
