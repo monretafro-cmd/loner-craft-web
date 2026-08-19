@@ -199,7 +199,7 @@ function ProductPage() {
                 {/* Short Description */}
                 <div className="mt-10 border-t border-border pt-8">
                   <p className="text-[15px] leading-relaxed text-muted-foreground/90 max-w-[540px]">
-                    {t("product_page:product.summary")}
+                    {t("product.summary")}
                   </p>
                 </div>
               </div>
@@ -256,9 +256,9 @@ function ProductPage() {
               {/* 6. New Trust Bar */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-border">
                 {[
-                  { icon: Wallet, title: t("product_page:product.trust.cod"), sub: t("product_page:product.trust.codSub") },
-                  { icon: Truck, title: t("product_page:product.trust.delivery"), sub: t("product_page:product.trust.deliverySub") },
-                  { icon: BadgeCheck, title: t("product_page:product.trust.handmade"), sub: t("product_page:product.trust.handmadeSub") }
+                  { icon: Wallet, title: t("product.trust.cod"), sub: t("product.trust.noPayment") },
+                  { icon: Truck, title: t("product.trust.delivery"), sub: t("product.details.delivery.value") },
+                  { icon: BadgeCheck, title: t("product.trust.handmade"), sub: t("product.trust.secure") }
                 ].map((item, idx) => (
                   <div key={idx} className="flex flex-col items-center sm:items-start text-center sm:text-start gap-2">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/5 text-accent border border-accent/10">
@@ -277,9 +277,9 @@ function ProductPage() {
                 <h3 className="text-xs font-bold tracking-[0.1em] text-muted-foreground uppercase mb-6">{t("product.details.title")}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12">
                   {[
-                    "capacity", "pockets", "size", "material", "color", "madeIn"
+                    "capacity", "pockets", "size", "material", "madeIn", "delivery"
                   ].map((key) => {
-                    const d = t(`product_page:product.details.${key}`) as any;
+                    const d = t(`product.details.${key}`) as any;
                     return (
                       <div key={key} className="flex flex-col gap-1 border-b border-border/50 pb-3">
                         <span className="text-[10px] font-bold tracking-widest text-muted-foreground/60 uppercase">{d.label}</span>
@@ -302,10 +302,10 @@ function ProductPage() {
               <Reveal>
                 <div className="max-w-[540px]">
                   <h2 className="font-display text-4xl lg:text-5xl text-foreground mb-8">
-                    {t("product_page:product.story.title")}
+                    {t("product.highlights.title")}
                   </h2>
                   <div className="space-y-6">
-                    {(tList<string>("product_page:product.story.features")).map((f) => (
+                    {(tList<string>("product.highlights.items")).map((f) => (
                       <div key={f} className="flex items-start gap-4">
                         <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
                           <Check className="h-3.5 w-3.5" strokeWidth={3} />
@@ -338,10 +338,10 @@ function ProductPage() {
           <Reveal>
             <div className="text-center mb-16">
               <h2 className="font-display text-4xl lg:text-5xl text-foreground mb-4">
-                {t("product_page:product.packaging.title")}
+                {t("product.packaging.title")}
               </h2>
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-muted-foreground font-medium">
-                {(tList<string>("product_page:product.packaging.items")).map(item => (
+                {(tList<string>("product.packaging.items")).map(item => (
                   <span key={item} className="flex items-center gap-2">
                     <Check className="h-3.5 w-3.5 text-accent" strokeWidth={3} />
                     {item}
@@ -375,13 +375,13 @@ function ProductPage() {
             </h2>
           </Reveal>
           <Accordion type="single" collapsible className="w-full space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {tList<{q: string, a: string}>("product.tabs.faqItems").map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border border-border/60 rounded-2xl bg-background px-6">
                 <AccordionTrigger className="font-display text-lg text-start hover:no-underline">
-                  {t(`product_page:product.faq.q${i}`)}
+                  {item.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-[15px] leading-relaxed text-muted-foreground/90 pb-6">
-                  {t(`product_page:product.faq.a${i}`)}
+                  {item.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -400,10 +400,10 @@ function ProductPage() {
           <Reveal>
             <div className="flex flex-col items-center text-center max-w-[600px] mx-auto">
               <h2 className="font-display text-5xl lg:text-6xl text-foreground mb-4">
-                {t("product_page:product.finalCta.title")}
+                {text.name}
               </h2>
               <p className="text-3xl font-display font-semibold text-accent mb-8">
-                {t("product_page:product.finalCta.price")}
+                {price(product.price)}
               </p>
               
               <Button 
@@ -417,7 +417,7 @@ function ProductPage() {
               
               <div className="flex items-center gap-3 text-muted-foreground font-semibold">
                 <ShieldCheck className="h-5 w-5 text-accent" />
-                {t("product_page:product.finalCta.cod")}
+                {t("product.trust.cod")}
               </div>
             </div>
           </Reveal>
@@ -434,7 +434,7 @@ function ProductPage() {
         <div className="mx-auto flex max-w-md items-center justify-between gap-6">
           <div className="flex flex-col min-w-0">
             <span className="text-xl font-bold text-foreground">{price(product.price)}</span>
-            <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest truncate">{t("product_page:product.trust.cod")}</span>
+            <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest truncate">{t("product.trust.cod")}</span>
           </div>
           <Button 
             size="lg" 
