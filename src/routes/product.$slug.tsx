@@ -139,7 +139,7 @@ function ProductPage() {
       qty,
     );
     setCartOpen(true);
-    toast.success(t("product.toast.added", { name: text.name }));
+    toast.success(t("cart.added", { name: text.name }));
   };
 
   const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
