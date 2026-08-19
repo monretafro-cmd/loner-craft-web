@@ -12,48 +12,60 @@ export type AdminSession = {
   role: "super_admin" | "admin" | null;
 };
 
-export async function loadAdminSession(): Promise<AdminSession | null> {
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user) return null;
+let cachedSession: AdminSession | null = null;
+let sessionPromise: Promise<AdminSession | null> | null = null;
 
-  try {
-    const [{ data: roles }, { data: profile }] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", data.user.id),
-      supabase
-        .from("profiles")
-        .select("full_name, avatar_url, status")
-        .eq("id", data.user.id)
-        .maybeSingle(),
-    ]);
+export async function loadAdminSession(forceRefresh = false): Promise<AdminSession | null> {
+  if (!forceRefresh && cachedSession) return cachedSession;
+  if (sessionPromise) return sessionPromise;
 
-    const status = ((profile as any)?.status ?? "pending") as AdminStatus;
-    const rawRole = roles?.some((r) => r.role === "super_admin")
-      ? "super_admin"
-      : roles?.length
-        ? "admin"
-        : null;
+  sessionPromise = (async () => {
+    try {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) {
+        cachedSession = null;
+        return null;
+      }
 
-    return {
-      userId: data.user.id,
-      email: data.user.email ?? "",
-      fullName: profile?.full_name ?? null,
-      avatarUrl: profile?.avatar_url ?? null,
-      status,
-      // role is only meaningful for approved accounts
-      role: status === "approved" ? (rawRole as "super_admin" | "admin" | null) : null,
-    };
-  } catch (err) {
-    console.error("Error loading admin profile:", err);
-    // Return base info if profile fetch fails
-    return {
-      userId: data.user.id,
-      email: data.user.email ?? "",
-      fullName: null,
-      avatarUrl: null,
-      status: "pending",
-      role: null,
-    };
-  }
+      const [{ data: roles }, { data: profile }] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", data.user.id),
+        supabase
+          .from("profiles")
+          .select("full_name, avatar_url, status")
+          .eq("id", data.user.id)
+          .maybeSingle(),
+      ]);
+
+      const status = ((profile as any)?.status ?? "pending") as AdminStatus;
+      const rawRole = roles?.some((r) => r.role === "super_admin")
+        ? "super_admin"
+        : roles?.length
+          ? "admin"
+          : null;
+
+      cachedSession = {
+        userId: data.user.id,
+        email: data.user.email ?? "",
+        fullName: profile?.full_name ?? null,
+        avatarUrl: profile?.avatar_url ?? null,
+        status,
+        role: status === "approved" ? (rawRole as "super_admin" | "admin" | null) : null,
+      };
+      return cachedSession;
+    } catch (err) {
+      console.error("Error loading admin profile:", err);
+      return null;
+    } finally {
+      sessionPromise = null;
+    }
+  })();
+
+  return sessionPromise;
+}
+
+export function clearAdminSession() {
+  cachedSession = null;
+  sessionPromise = null;
 }
 
 export function useAdminSession() {
