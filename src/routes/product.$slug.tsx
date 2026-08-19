@@ -270,7 +270,7 @@ function ProductPage() {
                     </Button>
                   </div>
 
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="flex w-full">
                     <Button 
                       variant="hero" 
                       size="xl" 
@@ -280,16 +280,6 @@ function ProductPage() {
                     >
                       <ShoppingBag className="h-5 w-5" />
                       {product.inStock ? t("product.actions.buyNow") : t("product.actions.soldOut")}
-                    </Button>
-                    <Button variant="whatsapp" size="xl" className="w-full text-base font-semibold" asChild>
-                      <a
-                        href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <MessageCircle className="h-5 w-5" />
-                        {t("product.actions.whatsappOrder")}
-                      </a>
                     </Button>
                   </div>
                 </div>
@@ -345,19 +335,9 @@ function ProductPage() {
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{text.name}</span>
               <span className="text-lg font-bold text-foreground">{price(product.price)}</span>
             </div>
-            <div className="flex items-center gap-2 flex-1 justify-end">
-              <Button size="lg" className="px-6 font-semibold" disabled={!product.inStock} onClick={add}>
+            <div className="flex flex-1 justify-end">
+              <Button size="lg" className="w-full sm:w-auto px-8 font-semibold" disabled={!product.inStock} onClick={add}>
                 {t("product.actions.buyNow")}
-              </Button>
-              <Button size="icon" variant="whatsapp" className="h-11 w-11 rounded-full shrink-0" asChild>
-                <a
-                  href={orderLink({ product: text.name, color: colorName(color), quantity: qty })}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={t("product.actions.whatsappOrder")}
-                >
-                  <MessageCircle className="h-5 w-5" />
-                </a>
               </Button>
             </div>
           </div>
