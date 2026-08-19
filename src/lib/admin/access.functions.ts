@@ -132,6 +132,7 @@ export const syncAdminAccess = createServerFn({ method: "POST" })
     return {
       status,
       role: status === "approved" ? role : null,
+      userId,
       email,
       fullName: profile?.full_name ?? null,
       avatarUrl: profile?.avatar_url ?? null,
