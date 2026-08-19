@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useRows, useSaveRow } from "@/lib/admin/api";
-import { PageHeader, Panel, LoadingRows } from "@/components/admin_new/AdminUI";
+import { PageHeader, Panel, LoadingRows, StatusPill } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,7 +35,7 @@ function SettingsPage() {
             <div className="space-y-4">
               {(settings.data ?? []).map((row: any) => (
                 <div key={row.id} className="space-y-2 p-3 rounded-xl bg-secondary/10 border border-border/20 transition-all hover:border-cognac/30">
-                  <Label className="capitalize text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{String(row.key).replace(/_/g, " ")}</Label>
+                  <Label className="capitalize text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{String(row.key).replace(/g, " ")}</Label>
                   <div className="flex gap-2">
                     <Input
                       className="bg-white border-border/40 focus-visible:ring-cognac font-medium text-ink h-10"
@@ -53,12 +53,13 @@ function SettingsPage() {
               ))}
             </div>
           )}
-
         </Panel>
 
         <Panel className="space-y-4">
           <h2 className="font-display text-xl text-ink">Delivery zones</h2>
-          {(zones.data ?? []).length === 0 ? (
+          {zones.isLoading ? (
+            <LoadingRows />
+          ) : (zones.data ?? []).length === 0 ? (
             <p className="text-sm text-muted-foreground">No delivery zones configured yet.</p>
           ) : (
             <div className="overflow-x-auto">
@@ -71,31 +72,34 @@ function SettingsPage() {
                     <th className="pb-3 text-right">Status</th>
                   </tr>
                 </thead>
-
-              <tbody>
-                {(zones.data ?? []).map((zone: any) => (
-                  <tr key={zone.id} className="border-t border-border/60">
-                    <td className="py-2">{zone.city}</td>
-                    <td className="py-2">
-                      <Input
-                        className="h-8 w-24"
-                        defaultValue={zone.fee}
-                        onBlur={(event) => saveZone.mutate({ id: zone.id, fee: Number(event.target.value) })}
-                      />
-                    </td>
-                    <td className="py-2 text-muted-foreground">{zone.delivery_days ?? "—"}</td>
-                    <td className="py-2">
-                      <button
-                        className="text-xs underline"
-                        onClick={() => saveZone.mutate({ id: zone.id, active: !zone.active })}
-                      >
-                        {zone.active ? "Active" : "Disabled"}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                <tbody>
+                  {(zones.data ?? []).map((zone: any) => (
+                    <tr key={zone.id} className="border-t border-border/60">
+                      <td className="py-3 font-medium text-ink">{zone.city}</td>
+                      <td className="py-3">
+                        <Input
+                          className="h-8 w-24 bg-white border-border/40"
+                          defaultValue={zone.fee}
+                          onBlur={(event) => saveZone.mutate({ id: zone.id, fee: Number(event.target.value) })}
+                        />
+                      </td>
+                      <td className="py-3 text-center text-muted-foreground">{zone.delivery_days ?? "—"}</td>
+                      <td className="py-3 text-right">
+                        <button
+                          onClick={() => saveZone.mutate({ id: zone.id, active: !zone.active })}
+                          className="hover:opacity-80 transition-opacity"
+                        >
+                          <StatusPill 
+                            status={zone.active ? "approved" : "pending"} 
+                            label={zone.active ? "Active" : "Disabled"}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </Panel>
       </div>
