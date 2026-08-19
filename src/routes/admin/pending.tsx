@@ -24,6 +24,25 @@ export const Route = createFileRoute("/admin/pending")({
     ],
   }),
   component: PendingPage,
+  beforeLoad: async () => {
+    const { loadAdminSession } = await import("@/lib/admin/session");
+    const session = await loadAdminSession();
+    
+    // If not logged in, go to login
+    if (!session) {
+      throw redirect({ to: "/admin/login" });
+    }
+    
+    // If already approved, go to admin
+    if (session.status === "approved" && session.role) {
+      throw redirect({ to: "/admin" });
+    }
+    
+    // If blocked/rejected, go to login (sync will handle the actual signout if needed, but beforeLoad prevents flash)
+    if (session.status === "blocked" || session.status === "rejected") {
+      throw redirect({ to: "/admin/login" });
+    }
+  }
 });
 
 function PendingPage() {
