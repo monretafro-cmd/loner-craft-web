@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows, useInvalidate, uploadFile, useDeleteRow } from "@/lib/admin/api";
 import { useAdminSession } from "@/lib/admin/session";
-import { PageHeader, Panel, EmptyState, shortDate } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, EmptyState, shortDate } from "@/components/admin_new/AdminUI";
 
 export const Route = createFileRoute("/admin/_shell/media")({
   head: () => ({ meta: [{ title: "Media Library — Loner Leather Admin" }, { name: "robots", content: "noindex" }] }),
@@ -77,25 +77,30 @@ function MediaPage() {
         <Panel>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {(media.data ?? []).map((asset: any) => (
-              <div key={asset.id} className="overflow-hidden rounded-xl border border-border">
-                <img src={asset.url} alt={asset.alt_text ?? asset.name} className="h-32 w-full object-cover" loading="lazy" />
-                <div className="space-y-1 p-2 text-xs">
-                  <p className="truncate font-medium">{asset.name}</p>
-                  <p className="text-muted-foreground">{asset.folder} · {shortDate(asset.created_at)}</p>
-                  <div className="flex justify-between pt-1">
+              <div key={asset.id} className="overflow-hidden rounded-xl border border-border/60 bg-secondary/10 transition-all hover:border-cognac/40 hover:shadow-md group">
+                <div className="relative aspect-square">
+                  <img src={asset.url} alt={asset.alt_text ?? asset.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+                  <div className="absolute top-1 right-1 rounded bg-ink/60 px-1.5 py-0.5 text-[8px] font-bold text-white uppercase tracking-widest">{asset.folder}</div>
+                </div>
+                <div className="space-y-1 p-3 text-[10px] bg-white">
+                  <p className="truncate font-bold text-ink">{asset.name}</p>
+                  <p className="text-muted-foreground font-medium">{shortDate(asset.created_at)}</p>
+
+                  <div className="flex justify-between pt-2 border-t border-border/40 mt-2">
                     <button
-                      className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+                      className="inline-flex items-center gap-1 font-bold uppercase tracking-wider text-muted-foreground hover:text-cognac transition-colors"
                       onClick={() => {
                         navigator.clipboard.writeText(asset.url);
                         toast.success("Link copied");
                       }}
                     >
-                      <Copy className="h-3 w-3" /> Copy
+                      <Copy className="h-2.5 w-2.5" /> Copy
                     </button>
                     {session?.role === "super_admin" ? (
-                      <button className="text-destructive" onClick={() => remove.mutate(asset.id)}>Delete</button>
+                      <button className="text-rose-600 font-bold uppercase tracking-wider hover:underline" onClick={() => confirm("Delete this asset permanently?") && remove.mutate(asset.id)}>Delete</button>
                     ) : null}
                   </div>
+
                 </div>
               </div>
             ))}

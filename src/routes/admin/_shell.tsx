@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect, Link } from "@tanstack/react-router";
-import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminShell } from "@/components/admin_new/AdminShell";
 import { loadAdminSession } from "@/lib/admin/session";
 import { logAdminAccessEvent } from "@/lib/admin/access.functions";
 

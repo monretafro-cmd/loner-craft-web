@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRows, useSaveRow } from "@/lib/admin/api";
-import { PageHeader, Panel, LoadingRows } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, LoadingRows } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
@@ -35,37 +35,45 @@ function HomepagePage() {
       {sections.isLoading ? (
         <LoadingRows />
       ) : (
-        <div className="space-y-6">
+        <div className="grid gap-6 lg:grid-cols-2">
           {(sections.data ?? []).filter((s: any) => !s.section.startsWith("shop_")).map((section: any) => (
-            <Panel key={section.id} className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-xl capitalize">{String(section.section).replace(/_/g, " ")}</h2>
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-muted-foreground">Visible</span>
+            <Panel key={section.id} className="flex flex-col">
+              <div className="mb-4 flex items-center justify-between border-b border-border/40 pb-4">
+                <div>
+                  <h2 className="font-display text-xl capitalize text-ink">{String(section.section).replace(/_/g, " ")}</h2>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-0.5">Content Definition</p>
+                </div>
+                <div className="flex items-center gap-3 rounded-full bg-secondary/40 px-3 py-1.5 text-xs font-semibold">
+                  <span className="text-muted-foreground">Active</span>
                   <Switch checked={section.active} onCheckedChange={(value) => save.mutate({ id: section.id, active: value })} />
                 </div>
               </div>
-              <Textarea
-                rows={10}
-                className="font-mono text-xs"
-                value={drafts[section.id] ?? ""}
-                onChange={(event) => setDrafts({ ...drafts, [section.id]: event.target.value })}
-              />
-              <Button
-                className="bg-ink text-ink-foreground hover:bg-ink/90"
-                onClick={() => {
-                  try {
-                    save.mutate({ id: section.id, content: JSON.parse(drafts[section.id] ?? "{}") });
-                  } catch {
-                    toast.error("Please fix the formatting before saving");
-                  }
-                }}
-              >
-                Save section
-              </Button>
+              <div className="flex-1">
+                <Textarea
+                  rows={12}
+                  className="font-mono text-[11px] leading-relaxed bg-secondary/10 border-none resize-none focus-visible:ring-cognac"
+                  value={drafts[section.id] ?? ""}
+                  onChange={(event) => setDrafts({ ...drafts, [section.id]: event.target.value })}
+                />
+              </div>
+              <div className="mt-4 pt-4 border-t border-border/40">
+                <Button
+                  className="w-full bg-ink text-ink-foreground hover:bg-ink/90 font-bold uppercase tracking-[0.2em] text-[10px] h-10 shadow-lg"
+                  onClick={() => {
+                    try {
+                      save.mutate({ id: section.id, content: JSON.parse(drafts[section.id] ?? "{}") });
+                    } catch {
+                      toast.error("Please fix the formatting before saving");
+                    }
+                  }}
+                >
+                  Save {String(section.section).replace(/_/g, " ")}
+                </Button>
+              </div>
             </Panel>
           ))}
         </div>
+
       )}
     </>
   );

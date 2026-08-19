@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows, useInvalidate, logAudit } from "@/lib/admin/api";
-import { PageHeader, Panel, LoadingRows, EmptyState, shortDateTime } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, LoadingRows, EmptyState, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -56,12 +56,13 @@ function InventoryPage() {
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  <th className="pb-3">Product</th>
-                  <th className="pb-3">Stock</th>
-                  <th className="pb-3">Sold</th>
-                  <th className="pb-3">Adjust</th>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">Product</th>
+                  <th className="pb-3 font-semibold text-center">Stock</th>
+                  <th className="pb-3 font-semibold text-center">Sold</th>
+                  <th className="pb-3 font-semibold text-right">Adjust</th>
                 </tr>
+
               </thead>
               <tbody>
                 {(products.data ?? []).map((product) => (
@@ -70,11 +71,12 @@ function InventoryPage() {
                       <p className="font-medium">{product.name}</p>
                       <p className="text-xs text-muted-foreground">{product.sku ?? "—"}</p>
                     </td>
-                    <td className={`py-3 ${product.stock <= product.low_stock_threshold ? "text-destructive" : ""}`}>
+                    <td className={`py-3 text-center font-bold ${product.stock <= product.low_stock_threshold ? "text-rose-600" : "text-ink"}`}>
                       {product.stock}
                     </td>
-                    <td className="py-3 text-muted-foreground">{product.sold}</td>
-                    <td className="py-3">
+                    <td className="py-3 text-center text-muted-foreground font-medium">{product.sold}</td>
+                    <td className="py-3 text-right">
+
                       <div className="flex gap-2">
                         <Input
                           className="w-24"

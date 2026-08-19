@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows } from "@/lib/admin/api";
-import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDateTime } from "@/components/admin/AdminUI";
+import { MAD, PageHeader, Panel, StatusPill, LoadingRows, EmptyState, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/admin/_shell/orders/")({
@@ -93,16 +93,17 @@ function OrdersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  <th className="pb-3">Order</th>
-                  <th className="pb-3">Customer</th>
-                  <th className="pb-3">Phone</th>
-                  <th className="pb-3">City</th>
-                  <th className="pb-3">Total</th>
-                  <th className="pb-3">Status</th>
-                  <th className="pb-3">WhatsApp</th>
-                  <th className="pb-3">Placed</th>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">Order</th>
+                  <th className="pb-3 font-semibold">Customer</th>
+                  <th className="pb-3 font-semibold">Phone</th>
+                  <th className="pb-3 font-semibold">City</th>
+                  <th className="pb-3 font-semibold">Total</th>
+                  <th className="pb-3 font-semibold text-center">Status</th>
+                  <th className="pb-3 font-semibold text-center">WhatsApp</th>
+                  <th className="pb-3 font-semibold text-right">Placed</th>
                 </tr>
+
               </thead>
               <tbody>
                 {rows.map((order) => (
@@ -116,9 +117,10 @@ function OrdersPage() {
                     <td className="py-3 text-muted-foreground">{order.phone}</td>
                     <td className="py-3 text-muted-foreground">{order.city}</td>
                     <td className="py-3">{MAD(order.total)}</td>
-                    <td className="py-3"><StatusPill status={order.status} /></td>
-                    <td className="py-3 text-xs text-muted-foreground">{order.whatsapp_status.replace("_", " ")}</td>
-                    <td className="py-3 text-muted-foreground">{shortDateTime(order.created_at)}</td>
+                    <td className="py-3 text-center"><StatusPill status={order.status} /></td>
+                    <td className="py-3 text-center text-[10px] font-bold uppercase tracking-tighter text-muted-foreground">{order.whatsapp_status.replace("_", " ")}</td>
+                    <td className="py-3 text-right text-[11px] text-muted-foreground">{shortDateTime(order.created_at)}</td>
+
                   </tr>
                 ))}
               </tbody>

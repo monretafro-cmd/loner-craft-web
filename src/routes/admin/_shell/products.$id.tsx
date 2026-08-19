@@ -11,12 +11,14 @@ import {
   removeStorageFile,
   logAudit,
 } from "@/lib/admin/api";
-import { PageHeader, Panel } from "@/components/admin/AdminUI";
+import { PageHeader, Panel } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/admin/_shell/products/$id")({
   head: () => ({ meta: [{ title: "Edit product — Loner Leather Admin" }, { name: "robots", content: "noindex" }] }),
@@ -257,16 +259,16 @@ function ProductEditor() {
           <Panel className="space-y-4">
             <h2 className="font-display text-xl">Details</h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Name"><Input value={form.name ?? ""} onChange={(e) => set("name", e.target.value)} required /></Field>
+              <Field label="Name"><Input value={form.name ?? ""} onChange={(e) => set("name", e.target.value)} required className="font-medium" /></Field>
               <Field label="Subtitle"><Input value={form.subtitle ?? ""} onChange={(e) => set("subtitle", e.target.value)} /></Field>
-              <Field label="Slug"><Input value={form.slug ?? ""} onChange={(e) => set("slug", e.target.value)} placeholder="auto from name" /></Field>
-              <Field label="SKU"><Input value={form.sku ?? ""} onChange={(e) => set("sku", e.target.value)} /></Field>
+              <Field label="Slug"><Input value={form.slug ?? ""} onChange={(e) => set("slug", e.target.value)} placeholder="auto from name" className="font-mono text-xs" /></Field>
+              <Field label="SKU"><Input value={form.sku ?? ""} onChange={(e) => set("sku", e.target.value)} className="font-mono text-xs" /></Field>
             </div>
             <Field label="Short description">
-              <Textarea rows={2} value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />
+              <Textarea rows={2} value={form.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} className="resize-none" />
             </Field>
             <Field label="Description">
-              <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} />
+              <Textarea rows={6} value={form.description ?? ""} onChange={(e) => set("description", e.target.value)} className="resize-none" />
             </Field>
             <Field label="Why You'll Like It (one per line)">
               <Textarea
@@ -274,6 +276,7 @@ function ProductEditor() {
                 value={Array.isArray(form.why_points) ? form.why_points.join("\n") : (form.why_points ?? "")}
                 onChange={(e) => set("why_points", e.target.value.split("\n"))}
                 placeholder="Hand-stitched precision&#10;Premium full-grain leather&#10;Made in Taroudant"
+                className="resize-none font-medium text-ink bg-cognac/5"
               />
             </Field>
             <Field label="Key Details / Specifications (one per line)">
@@ -282,8 +285,10 @@ function ProductEditor() {
                 value={Array.isArray(form.features) ? form.features.join("\n") : (form.features ?? "")}
                 onChange={(e) => set("features", e.target.value.split("\n"))}
                 placeholder="6 card slots&#10;Dedicated cash compartment&#10;Compact design"
+                className="resize-none bg-secondary/20"
               />
             </Field>
+
           </Panel>
 
           <Panel className="space-y-4">
@@ -303,7 +308,8 @@ function ProductEditor() {
                     dragFrom.current = null;
                     if (from !== null) void reorder(from, index);
                   }}
-                  className="group relative overflow-hidden rounded-xl border border-border bg-secondary/40"
+                  className="group relative overflow-hidden rounded-xl border border-border/60 bg-secondary/20 transition-all hover:border-cognac/40 hover:shadow-md"
+
                 >
                   <div className="relative aspect-square">
                     {image.media_type === "video" ? (
@@ -325,11 +331,11 @@ function ProductEditor() {
                       </span>
                     ) : null}
                   </div>
-                  <div className="flex items-center gap-1 p-1.5">
+                  <div className="flex items-center gap-1.5 p-2 bg-white">
                     <select
                       value={image.label ?? ""}
                       onChange={(e) => void setLabel(image.id, e.target.value)}
-                      className="h-8 min-w-0 flex-1 rounded-md border border-input bg-background px-1.5 text-xs"
+                      className="h-8 min-w-0 flex-1 rounded-lg border border-border/60 bg-secondary/10 px-2 text-[10px] font-bold uppercase tracking-wider"
                     >
                       <option value="">No label</option>
                       {MEDIA_LABELS.map((label) => (
@@ -341,20 +347,26 @@ function ProductEditor() {
                       disabled={busy || image.is_main}
                       title="Set as main image"
                       onClick={() => void makeMain(image.id)}
-                      className="grid h-8 w-8 place-items-center rounded-md border border-border disabled:opacity-40"
+                      className={cn(
+                        "grid h-8 w-8 place-items-center rounded-lg border transition-all",
+                        image.is_main 
+                          ? "border-cognac bg-cognac text-white" 
+                          : "border-border/60 hover:border-cognac hover:text-cognac"
+                      )}
                     >
-                      <Star className={image.is_main ? "h-3.5 w-3.5 fill-current" : "h-3.5 w-3.5"} />
+                      <Star className={cn("h-3.5 w-3.5", image.is_main && "fill-current")} />
                     </button>
                     <button
                       type="button"
                       disabled={busy}
                       title="Delete image"
                       onClick={() => void removeImage(image)}
-                      className="grid h-8 w-8 place-items-center rounded-md border border-border text-destructive disabled:opacity-40"
+                      className="grid h-8 w-8 place-items-center rounded-lg border border-border/60 text-rose-500 hover:bg-rose-50 disabled:opacity-40"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
+
                 </div>
               ))}
               <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border text-xs text-muted-foreground hover:bg-secondary">

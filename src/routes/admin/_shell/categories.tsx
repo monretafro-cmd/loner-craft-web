@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { useRows, useSaveRow, useDeleteRow } from "@/lib/admin/api";
 import { useAdminSession } from "@/lib/admin/session";
-import { PageHeader, Panel, StatusPill, LoadingRows, EmptyState } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, StatusPill, LoadingRows, EmptyState } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -58,13 +58,14 @@ function CategoriesPage() {
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  <th className="pb-3">Name</th>
-                  <th className="pb-3">Slug</th>
-                  <th className="pb-3">Products</th>
-                  <th className="pb-3">Status</th>
+                <tr className="text-left text-[11px] uppercase tracking-widest text-muted-foreground border-b border-border/60">
+                  <th className="pb-3 font-semibold">Name</th>
+                  <th className="pb-3 font-semibold">Slug</th>
+                  <th className="pb-3 font-semibold text-center">Products</th>
+                  <th className="pb-3 font-semibold text-center">Status</th>
                   <th className="pb-3" />
                 </tr>
+
               </thead>
               <tbody>
                 {(categories.data ?? []).map((category) => (
@@ -73,9 +74,10 @@ function CategoriesPage() {
                       <button className="font-medium hover:underline" onClick={() => setForm(category)}>{category.name}</button>
                       <p className="text-xs text-muted-foreground">{category.name_fr} · {category.name_ar}</p>
                     </td>
-                    <td className="py-3 text-muted-foreground">{category.slug}</td>
-                    <td className="py-3">{count(category.id)}</td>
-                    <td className="py-3"><StatusPill status={category.status} /></td>
+                    <td className="py-3 text-[11px] font-mono text-muted-foreground">{category.slug}</td>
+                    <td className="py-3 text-center font-medium">{count(category.id)}</td>
+                    <td className="py-3 text-center"><StatusPill status={category.status} /></td>
+
                     <td className="py-3 text-right">
                       {session?.role === "super_admin" ? (
                         <button

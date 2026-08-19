@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MessageCircle, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useRows } from "@/lib/admin/api";
-import { PageHeader, Panel, StatusPill, EmptyState, shortDateTime } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, StatusPill, EmptyState, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";

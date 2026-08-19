@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRows } from "@/lib/admin/api";
-import { PageHeader, Panel, EmptyState, LoadingRows, shortDateTime } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, EmptyState, LoadingRows, shortDateTime } from "@/components/admin_new/AdminUI";
 
 export const Route = createFileRoute("/admin/_shell/audit")({
   head: () => ({ meta: [{ title: "Audit Log — Loner Leather Admin" }, { name: "robots", content: "noindex" }] }),

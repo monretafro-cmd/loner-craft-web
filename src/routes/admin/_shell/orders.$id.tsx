@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows, useInvalidate, logAudit } from "@/lib/admin/api";
 import { ORDER_STATUSES } from "./orders.index";
-import { MAD, PageHeader, Panel, StatusPill, shortDateTime } from "@/components/admin/AdminUI";
+import { MAD, PageHeader, Panel, StatusPill, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -147,15 +147,16 @@ function OrderDetail() {
                 ))}
               </tbody>
             </table>
-            <dl className="mt-4 space-y-1.5 text-sm">
+            <dl className="mt-4 space-y-2 text-sm">
               <Row label="Subtotal" value={MAD(order.subtotal)} />
               <Row label="Delivery" value={MAD(order.delivery_fee)} />
               {Number(order.discount) > 0 ? <Row label="Discount" value={`- ${MAD(order.discount)}`} /> : null}
-              <div className="flex justify-between border-t border-border pt-2 font-display text-lg">
+              <div className="flex justify-between border-t border-border/60 pt-3 font-display text-xl text-ink">
                 <span>Total</span>
-                <span>{MAD(order.total)}</span>
+                <span className="font-bold">{MAD(order.total)}</span>
               </div>
             </dl>
+
           </Panel>
 
           <Panel>
@@ -204,8 +205,8 @@ function OrderDetail() {
           </Panel>
 
           <Panel>
-            <h2 className="mb-3 font-display text-xl">Customer</h2>
-            <dl className="space-y-1.5 text-sm">
+            <h2 className="mb-4 font-display text-xl">Customer</h2>
+            <div className="space-y-1">
               <Row label="Name" value={order.customer_name} />
               <Row label="Phone" value={order.phone} />
               {order.email ? <Row label="Email" value={order.email} /> : null}
@@ -213,23 +214,27 @@ function OrderDetail() {
               <Row label="Address" value={order.address} />
               <Row label="Payment" value={order.payment_method.toUpperCase()} />
               <Row label="Language" value={String(order.language).toUpperCase()} />
-              <Row label="WhatsApp" value={String(order.whatsapp_status).replace("_", " ")} />
-            </dl>
+              <Row label="WhatsApp" value={<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{String(order.whatsapp_status).replace("_", " ")}</span>} />
+            </div>
             {order.customer_notes ? (
-              <p className="mt-3 rounded-xl bg-secondary/60 p-3 text-sm text-muted-foreground">{order.customer_notes}</p>
+              <div className="mt-4 rounded-xl bg-cognac/5 border border-cognac/10 p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-cognac mb-2">Customer Notes</p>
+                <p className="text-sm text-ink/80 italic">{order.customer_notes}</p>
+              </div>
             ) : null}
           </Panel>
+
         </div>
       </div>
     </>
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value }: { label: string; value: string | React.ReactNode }) {
   return (
-    <div className="flex justify-between gap-4">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="text-right">{value}</dd>
+    <div className="flex justify-between gap-4 py-1.5 border-b border-border/20 last:border-0">
+      <dt className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">{label}</dt>
+      <dd className="text-right font-medium text-ink">{value}</dd>
     </div>
   );
 }

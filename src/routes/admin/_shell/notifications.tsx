@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRows, useSaveRow, useInvalidate } from "@/lib/admin/api";
-import { PageHeader, Panel, EmptyState, shortDateTime } from "@/components/admin/AdminUI";
+import { PageHeader, Panel, EmptyState, shortDateTime } from "@/components/admin_new/AdminUI";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/_shell/notifications")({

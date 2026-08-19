@@ -965,6 +965,7 @@ export type Database = {
           full_name: string | null
           id: string
           is_active: boolean
+          is_owner: boolean | null
           last_login_at: string | null
           phone: string | null
           provider: string | null
@@ -980,6 +981,7 @@ export type Database = {
           full_name?: string | null
           id: string
           is_active?: boolean
+          is_owner?: boolean | null
           last_login_at?: string | null
           phone?: string | null
           provider?: string | null
@@ -995,6 +997,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_active?: boolean
+          is_owner?: boolean | null
           last_login_at?: string | null
           phone?: string | null
           provider?: string | null
