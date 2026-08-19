@@ -42,16 +42,20 @@ function AdminLogin() {
   const [checking, setChecking] = useState(true);
 
   async function routeByAccess() {
-    const { clearAdminSession } = await import("@/lib/admin/session");
+    const { clearAdminSession, loadAdminSession } = await import("@/lib/admin/session");
     clearAdminSession();
     
+    // Attempt to sync access on the server
     const access = await sync({ data: undefined as never });
     if (access.status === "blocked" || access.status === "rejected") {
       await supabase.auth.signOut();
       throw new Error(access.status === "blocked" ? "Account blocked." : "Access rejected.");
     }
     
-    if (access.status === "approved" && access.role) {
+    // Force a fresh session load to verify current status
+    const session = await loadAdminSession(true);
+    
+    if (session?.status === "approved" && session?.role) {
       navigate({ to: "/admin", replace: true });
     } else {
       navigate({ to: "/admin/pending", replace: true });
@@ -60,17 +64,42 @@ function AdminLogin() {
 
   useEffect(() => {
     let active = true;
+    
+    // Check for an existing session first
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!active) return;
       if (!session) return setChecking(false);
+      
       try {
         await routeByAccess();
       } catch (caught) {
-        setError(caught instanceof Error ? caught.message : "Session error");
-        setChecking(false);
+        if (active) {
+          setError(caught instanceof Error ? caught.message : "Session error");
+          setChecking(false);
+        }
       }
     });
-    return () => { active = false; };
+
+    // Listen for auth changes to handle successful OAuth redirects
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!active) return;
+      if (event === 'SIGNED_IN' && session) {
+        setChecking(true);
+        try {
+          await routeByAccess();
+        } catch (caught) {
+          if (active) {
+            setError(caught instanceof Error ? caught.message : "Sign in failed");
+            setChecking(false);
+          }
+        }
+      }
+    });
+
+    return () => { 
+      active = false; 
+      subscription.unsubscribe();
+    };
   }, []);
 
   async function submit(event: React.FormEvent) {
