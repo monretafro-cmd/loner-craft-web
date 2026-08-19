@@ -392,7 +392,7 @@ function ProductPage() {
       {/* 11. Final Purchase CTA */}
       <section className="relative overflow-hidden py-24 lg:py-32">
         <div className="absolute inset-0 z-0">
-          <img src={PHOTOS.WALLETS.ALPHA.CLOSEUP} alt="" className="h-full w-full object-cover opacity-20" />
+          <img src={PHOTOS.leatherTexture.src || ""} alt="" className="h-full w-full object-cover opacity-20" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/95 to-transparent" />
         </div>
         
