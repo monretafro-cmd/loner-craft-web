@@ -118,25 +118,4 @@
       { "title": "9. Droit applicable", "body": "Ces conditions sont régies par le droit marocain, et tout litige relève de la compétence des tribunaux de Taroudant." }
     ]
   },
-  "track": {
-    "hero": {
-      "eyebrow": "Livraison",
-      "title": "Suivre votre commande",
-      "intro": "Votre numéro de commande ressemble à LL-482910 et figure dans votre message de confirmation."
-    },
-    "label": "Numéro de commande",
-    "placeholder": "LL-482910",
-    "submit": "Suivre",
-    "invalid": "Les numéros de commande ressemblent à LL-482910.",
-    "orderPrefix": "Commande {{order}}",
-    "stages": [
-      { "title": "Commande confirmée", "text": "Nous avons reçu votre commande et vérifié l'adresse par téléphone." },
-      { "title": "À l'atelier", "text": "Votre pièce est en cours de finition, de lustrage et d'emballage à Taroudant." },
-      { "title": "Remise au livreur", "text": "Récupérée par notre partenaire de livraison et en route." },
-      { "title": "En cours de livraison", "text": "Arrivée prévue aujourd'hui — préparez l'appoint pour le livreur." }
-    ],
-    "cantFind": "Vous ne trouvez pas votre numéro ?",
-    "askWhatsapp": "Demandez-nous sur WhatsApp",
-    "askMessage": "Bonjour, j'aimerais suivre ma commande Loner Leather."
-  }
 }
