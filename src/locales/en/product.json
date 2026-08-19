@@ -99,7 +99,7 @@
   },
   "status": {
     "items": [
-      "100% Genuine Moroccan Goat Leather",
+      "Genuine Moroccan Goat Leather",
       "Handmade in Taroudant",
       "Cash on Delivery",
       "In Stock"
@@ -133,8 +133,8 @@
     }
   },
   "trust": {
-    "cod": "Cash on Delivery across Morocco",
-    "noPayment": "No online payment required",
+    "cod": "Cash on Delivery",
+    "delivery": "Delivery across Morocco",
     "handmade": "Handmade in Taroudant"
   },
   "features": {
@@ -144,25 +144,50 @@
     "title": "Material"
   },
   "highlights": {
-    "title": "Why you'll keep it for years",
+    "title": "Why You'll Like It",
     "items": [
-      "100% Genuine Leather",
-      "Handmade",
-      "Made in Morocco",
-      "Cash On Delivery",
-      "Fast Delivery",
-      "Gift Ready Packaging"
+      "6–8 cards",
+      "2 hidden pockets",
+      "Slim profile",
+      "12 × 7.5 cm",
+      "Genuine Moroccan goat leather",
+      "Handmade in Taroudant"
     ]
   },
   "packaging": {
     "eyebrow": "Packaging",
-    "title": "Arrives ready to gift",
+    "title": "Packed with Care",
+    "subtitle": "Every wallet arrives ready to gift.",
     "text": "Every Alpha Wallet leaves the workshop carefully packed by hand, so it reaches you exactly as it left the bench.",
     "items": [
-      "Handmade wallet",
-      "Protective packaging",
-      "Thank You card",
+      "Branded box",
+      "Burlap wrap",
+      "Thank-you card",
       "Gift-ready presentation"
+    ]
+  },
+  "faq": {
+    "items": [
+      {
+        "q": "Is the wallet genuine leather?",
+        "a": "Yes, it is handcrafted from 100% genuine Moroccan goat leather."
+      },
+      {
+        "q": "How many cards does it hold?",
+        "a": "It comfortably holds 6–8 cards plus folded cash."
+      },
+      {
+        "q": "How long does delivery take?",
+        "a": "Delivery typically takes 24–48h for major cities and 2–4 days elsewhere in Morocco."
+      },
+      {
+        "q": "Is Cash on Delivery available?",
+        "a": "Yes, we offer Cash on Delivery across all of Morocco."
+      },
+      {
+        "q": "Where is it made?",
+        "a": "Every piece is handmade in our workshop in Taroudant, Morocco."
+      }
     ]
   },
   "craft": {
