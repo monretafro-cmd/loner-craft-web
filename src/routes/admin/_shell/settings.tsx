@@ -92,8 +92,7 @@ function SettingsPage() {
                           className="hover:opacity-80 transition-opacity"
                         >
                           <StatusPill 
-                            status={zone.active ? "approved" : "pending"} 
-                            label={zone.active ? "Active" : "Disabled"}
+                            status={zone.active ? "active" : "draft"} 
                           />
                         </button>
                       </td>
