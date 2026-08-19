@@ -13,7 +13,8 @@ export const Route = createFileRoute("/admin/_shell/media")({
 });
 
 function MediaPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const media = useRows<any>("media", { orderBy: "created_at" });
   const invalidate = useInvalidate();
   const remove = useDeleteRow("media", "media");

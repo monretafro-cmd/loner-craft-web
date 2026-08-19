@@ -38,7 +38,8 @@ const TABS: { key: Tab; label: string }[] = [
 ];
 
 function AdminsPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const sendInvitation = useServerFn(inviteAdminByEmail);
   const isSuper = session?.role === "super_admin";
   const profiles = useRows<any>("profiles", { orderBy: "created_at" });

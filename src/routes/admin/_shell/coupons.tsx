@@ -15,7 +15,8 @@ export const Route = createFileRoute("/admin/_shell/coupons")({
 const BLANK = { code: "", discount_type: "percentage", discount_value: 10, min_order: 0, max_uses: null, starts_at: null, ends_at: null, active: true };
 
 function CouponsPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const coupons = useRows<any>("coupons", { orderBy: "created_at" });
   const save = useSaveRow("coupons", "coupons");
   const remove = useDeleteRow("coupons", "coupons");

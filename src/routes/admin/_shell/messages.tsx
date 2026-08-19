@@ -11,7 +11,8 @@ export const Route = createFileRoute("/admin/_shell/messages")({
 });
 
 function MessagesPage() {
-  const { data: session } = useAdminSession();
+  const sessionQuery = useAdminSession();
+  const session = sessionQuery.data;
   const messages = useRows<any>("messages", { orderBy: "created_at" });
   const save = useSaveRow("messages", "messages");
   const remove = useDeleteRow("messages", "messages");

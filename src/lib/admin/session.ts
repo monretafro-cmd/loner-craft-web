@@ -69,9 +69,9 @@ export function clearAdminSession() {
 }
 
 export function useAdminSession() {
-  return useQuery({
+  return useQuery<AdminSession | null, Error>({
     queryKey: ["admin", "session"],
-    queryFn: loadAdminSession,
+    queryFn: () => loadAdminSession(),
     staleTime: 60_000,
     gcTime: 60_000,
   });

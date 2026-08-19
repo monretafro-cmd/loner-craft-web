@@ -83,12 +83,6 @@ function PendingPage() {
 
   async function signOut() {
     const { clearAdminSession } = await import("@/lib/admin/session");
-    await supabase.auth.signOut();
-    clearAdminSession();
-    navigate({ to: "/admin/login", replace: true });
-  }
-
-  async function signOut() {
     // Try to get user ID for logging before signing out
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
@@ -101,10 +95,11 @@ function PendingPage() {
       }).catch(() => {});
     }
     await supabase.auth.signOut();
+    clearAdminSession();
     navigate({ to: "/admin/login", replace: true });
   }
 
-  if (checking && !email) {
+  if (checking && !session) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#F7F3EF] p-4 text-[#241812]">
         <Loader2 className="h-8 w-8 animate-spin text-[#8A4D25]" />
