@@ -156,7 +156,6 @@ function InventoryPage() {
                       <Progress 
                         value={stockPercent} 
                         className="h-1.5 bg-stone-100" 
-                        indicatorClassName={isOut ? 'bg-red-500' : isLow ? 'bg-amber-500' : 'bg-[#8A4D25]'}
                       />
                     </div>
                   </TableCell>
