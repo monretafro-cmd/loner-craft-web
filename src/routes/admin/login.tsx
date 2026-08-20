@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Chrome, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useRouterState } from "@tanstack/react-router";
+
 
 export const Route = createFileRoute("/admin/login")({
   component: LoginPage,
@@ -19,19 +19,17 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [oauthError, setOauthError] = useState<string | null>(null);
-  const routerState = useRouterState();
-  const searchParams = new URLSearchParams(routerState.location.search);
-
   useEffect(() => {
-    const error = searchParams.get("error");
-    const errorCode = searchParams.get("error_code");
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+    const errorCode = params.get("error_code");
     
     if (error === "unsupported_provider" || errorCode === "validation_failed") {
       setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
     } else if (error) {
-      setOauthError(searchParams.get("error_description") || "Authentication failed. Please try again.");
+      setOauthError(params.get("error_description") || "Authentication failed. Please try again.");
     }
-  }, [routerState.location.search]);
+  }, []);
 
   const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
