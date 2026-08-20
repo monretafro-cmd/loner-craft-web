@@ -1,26 +1,17 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/auth/callback")({
   component: AuthCallback,
-  beforeLoad: async () => {
-    // Basic server-side check to see if we have a session
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      throw redirect({ to: "/admin" });
-    }
-  }
 });
 
 function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
-      // Supabase client handles the hash fragments automatically on initialization,
-      // but we call getSession to ensure everything is hydrated.
-      const { data: { session }, error } = await supabase.auth.getSession();
+      const { data: { user }, error } = await supabase.auth.getUser();
       
-      if (error || !session) {
+      if (error || !user) {
         console.error("Auth callback error:", error);
         window.location.href = "/admin/login?error=auth_callback_failed";
         return;
