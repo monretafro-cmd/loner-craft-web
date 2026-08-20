@@ -1,36 +1,46 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { getAdminSession } from "@/lib/admin/session";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { requireAdminAuth } from "@/lib/admin/session";
+import { Sidebar } from "@/components/admin_new/layout/Sidebar";
+import { TopBar } from "@/components/admin_new/layout/TopBar";
+import { useState } from "react";
 
 export const Route = createFileRoute("/admin/_shell")({
   beforeLoad: async () => {
-    const { session, profile, error } = await getAdminSession() as any;
-    if (!session || error) throw redirect({ to: "/admin/login" });
-    
-    if (profile.status !== "approved") throw redirect({ to: "/admin/pending" });
-    
-    const isAdmin = profile.user_roles?.some((r: any) => ["admin", "super_admin"].includes(r.role));
-    if (!isAdmin) throw redirect({ to: "/" });
-    
-    return { profile, session };
+    return await requireAdminAuth();
   },
   component: AdminShell,
 });
 
 function AdminShell() {
+  const { profile } = Route.useRouteContext();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-[#F7F3EF]">
-      <aside className="w-64 bg-[#241812] text-white p-4 hidden md:block">
-        <h1 className="text-xl font-bold mb-8">Loner Admin</h1>
-        <nav className="space-y-2">
-          <a href="/admin" className="block p-2 rounded hover:bg-[#8A4D25]">Dashboard</a>
-          <a href="/admin/products" className="block p-2 rounded hover:bg-[#8A4D25]">Products</a>
-          <a href="/admin/orders" className="block p-2 rounded hover:bg-[#8A4D25]">Orders</a>
-          <a href="/admin/settings" className="block p-2 rounded hover:bg-[#8A4D25]">Settings</a>
-        </nav>
-      </aside>
-      <main className="flex-1 p-8">
-        <Outlet />
-      </main>
+    <div className="flex h-screen bg-[#F7F3EF] overflow-hidden">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:flex lg:flex-shrink-0">
+        <Sidebar profile={profile} />
+      </div>
+
+      {/* Mobile Drawer */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true">
+          <div className="fixed inset-0 bg-stone-600 bg-opacity-75" aria-hidden="true" onClick={() => setIsSidebarOpen(false)}></div>
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#241812] transition duration-300 ease-in-out">
+            <Sidebar profile={profile} onMobileClose={() => setIsSidebarOpen(false)} />
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col w-0 flex-1 overflow-hidden">
+        <TopBar onOpenSidebar={() => setIsSidebarOpen(true)} profile={profile} />
+        
+        <main className="flex-1 relative overflow-y-auto focus:outline-none p-4 lg:p-8">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
