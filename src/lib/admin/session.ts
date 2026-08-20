@@ -12,10 +12,10 @@ export async function getAdminSession() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return { session: null, profile: null, error: "No active session" };
 
-    // Fetch profile and roles
+    // Fetch profile and roles - using a manual join approach or separate queries if the relation is problematic
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
-      .select("*, user_roles(role)")
+      .select("*")
       .eq("id", session.user.id)
       .single();
 
@@ -23,11 +23,16 @@ export async function getAdminSession() {
       return { session: null, profile: null, error: "Profile lookup failed" };
     }
 
-    let adminProfile = profile;
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", session.user.id);
+
+    let adminProfile = profile ? { ...profile, user_roles: roles || [] } : null;
 
     // Hardcode Owner logic
     if (session.user.email === OWNER_EMAIL) {
-      if (!profile || profile.status !== "approved" || !profile.is_owner) {
+      if (!adminProfile || adminProfile.status !== "approved" || !adminProfile.is_owner) {
         // Ensure owner profile exists and is correctly set in DB
         const { data: updatedProfile } = await supabase
           .from("profiles")
@@ -36,22 +41,22 @@ export async function getAdminSession() {
             email: OWNER_EMAIL,
             status: "approved",
             is_owner: true,
-            full_name: session.user.user_metadata.full_name || "Owner",
-            avatar_url: session.user.user_metadata.avatar_url,
+            full_name: session.user.user_metadata?.full_name || "Owner",
+            avatar_url: session.user.user_metadata?.avatar_url,
           })
-          .select("*, user_roles(role)")
+          .select("*")
           .single();
         
         // Ensure super_admin role
-        const hasSuperAdmin = updatedProfile?.user_roles?.some((r: any) => r.role === "super_admin");
-        if (!hasSuperAdmin) {
-          await supabase.from("user_roles").upsert({
+        const { data: updatedRoles } = await supabase
+          .from("user_roles")
+          .upsert({
             user_id: session.user.id,
             role: "super_admin"
-          });
-        }
-        
-        adminProfile = { ...updatedProfile, status: "approved", is_owner: true };
+          })
+          .select("role");
+
+        adminProfile = { ...(updatedProfile as any), user_roles: updatedRoles || [{ role: "super_admin" }], status: "approved", is_owner: true };
       }
     }
 
@@ -61,15 +66,15 @@ export async function getAdminSession() {
         .from("profiles")
         .insert({
           id: session.user.id,
-          email: session.user.email,
+          email: session.user.email || "",
           status: "pending",
           is_owner: false,
-          full_name: session.user.user_metadata.full_name,
-          avatar_url: session.user.user_metadata.avatar_url,
+          full_name: session.user.user_metadata?.full_name || "",
+          avatar_url: session.user.user_metadata?.avatar_url || "",
         })
-        .select("*, user_roles(role)")
+        .select("*")
         .single();
-      adminProfile = newProfile;
+      adminProfile = newProfile ? { ...newProfile, user_roles: [] } : null;
     }
 
     return { session, profile: adminProfile };
@@ -91,16 +96,16 @@ export async function requireAdminAuth() {
     throw redirect({ to: "/admin/login" });
   }
 
-  if (profile.status === "blocked") {
+  if (profile?.status === "blocked") {
     await supabase.auth.signOut();
     throw redirect({ to: "/admin/login" });
   }
 
-  if (profile.status !== "approved") {
+  if (profile?.status !== "approved") {
     throw redirect({ to: "/admin/pending" });
   }
 
-  const isAdmin = profile.is_owner || profile.user_roles?.some((r: any) => ["admin", "super_admin"].includes(r.role));
+  const isAdmin = profile?.is_owner || profile?.user_roles?.some((r: any) => ["admin", "super_admin"].includes(r.role));
   
   if (!isAdmin) {
     throw redirect({ to: "/" });
