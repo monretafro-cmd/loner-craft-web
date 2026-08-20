@@ -9,10 +9,9 @@ export async function getAdminSession() {
   );
 
   const check = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return { session: null, profile: null, error: "No active session" };
+    const { data: { session }, error: authError } = await supabase.auth.getSession();
+    if (authError || !session) return { session: null, profile: null, error: "No active session" };
 
-    // Fetch profile and roles - using a manual join approach or separate queries if the relation is problematic
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("*")
@@ -30,10 +29,8 @@ export async function getAdminSession() {
 
     let adminProfile = profile ? { ...profile, user_roles: roles || [] } : null;
 
-    // Hardcode Owner logic
     if (session.user.email === OWNER_EMAIL) {
       if (!adminProfile || adminProfile.status !== "approved" || !adminProfile.is_owner) {
-        // Ensure owner profile exists and is correctly set in DB
         const { data: updatedProfile } = await supabase
           .from("profiles")
           .upsert({
@@ -47,7 +44,6 @@ export async function getAdminSession() {
           .select("*")
           .single();
         
-        // Ensure super_admin role
         const { data: updatedRoles } = await supabase
           .from("user_roles")
           .upsert({
@@ -61,7 +57,6 @@ export async function getAdminSession() {
     }
 
     if (!adminProfile) {
-      // Create a pending profile if it doesn't exist
       const { data: newProfile } = await supabase
         .from("profiles")
         .insert({
