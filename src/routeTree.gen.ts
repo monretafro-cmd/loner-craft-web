@@ -30,6 +30,7 @@ import { Route as AdminProductsRouteImport } from './routes/admin/products'
 import { Route as AdminPendingRouteImport } from './routes/admin/pending'
 import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminAccessRouteImport } from './routes/admin/access'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -137,6 +138,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAccessRoute = AdminAccessRouteImport.update({
+  id: '/admin/access',
+  path: '/admin/access',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminShellRoute = AdminShellRouteImport.update({
   id: '/admin/_shell',
   path: '/admin',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AdminShellRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pending': typeof AdminPendingRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pending': typeof AdminPendingRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin/_shell': typeof AdminShellRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/pending': typeof AdminPendingRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wishlist'
     | '/admin'
+    | '/admin/access'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/pending'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wishlist'
     | '/admin'
+    | '/admin/access'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/pending'
@@ -280,6 +291,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wishlist'
     | '/admin/_shell'
+    | '/admin/access'
     | '/admin/login'
     | '/admin/orders'
     | '/admin/pending'
@@ -305,6 +317,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   WishlistRoute: typeof WishlistRoute
   AdminShellRoute: typeof AdminShellRoute
+  AdminAccessRoute: typeof AdminAccessRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPendingRoute: typeof AdminPendingRoute
@@ -463,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/access': {
+      id: '/admin/access'
+      path: '/admin/access'
+      fullPath: '/admin/access'
+      preLoaderRoute: typeof AdminAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/_shell': {
       id: '/admin/_shell'
       path: '/admin'
@@ -489,6 +509,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   WishlistRoute: WishlistRoute,
   AdminShellRoute: AdminShellRoute,
+  AdminAccessRoute: AdminAccessRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminPendingRoute: AdminPendingRoute,
