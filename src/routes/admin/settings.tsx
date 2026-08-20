@@ -13,27 +13,25 @@ function AdminSettingsPage() {
   const { data: config, refetch } = useQuery({
     queryKey: ["admin", "site-config"],
     queryFn: async () => {
-      // @ts-ignore - Dynamic table check
       const { data, error } = await supabase
-        .from("homepage_content" as any)
+        .from("homepage_content")
         .select("*")
         .eq("section", "global_settings")
         .single();
       
       if (error && error.code !== "PGRST116") throw error;
-      return data?.content || { maintenance_mode: false, free_shipping_threshold: 500 };
+      return (data as any)?.content || { maintenance_mode: false, free_shipping_threshold: 500 };
     },
   });
 
   const toggleMaintenance = async (checked: boolean) => {
-    // @ts-ignore
     const { error } = await supabase
-      .from("homepage_content" as any)
+      .from("homepage_content")
       .upsert({ 
         section: "global_settings",
         content: { ...config, maintenance_mode: checked },
         active: true
-      }, { onConflict: "section" });
+      } as any, { onConflict: "section" });
     
     if (error) {
       toast.error("Failed to update settings");
@@ -67,8 +65,9 @@ function AdminSettingsPage() {
             <div className="flex items-center gap-2">
               <input 
                 type="number" 
-                defaultValue={config?.free_shipping_threshold || 500}
-                className="flex h-10 w-32 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                readOnly
+                value={config?.free_shipping_threshold || 500}
+                className="flex h-10 w-32 rounded-md border border-input bg-stone-50 px-3 py-2 text-sm"
               />
               <span className="text-stone-500 font-medium">MAD</span>
             </div>
