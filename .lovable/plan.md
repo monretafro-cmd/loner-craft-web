@@ -1,57 +1,30 @@
-# Plan: Fix Super Admin Account Access and Route Guards
+# Plan: Re-implement Loner Leather Admin Panel
 
-The goal is to ensure the official Super Admin account (`valaverde05@gmail.com`) can access the admin dashboard directly without being redirected to the "Pending" page. This involves database correction, server-side synchronization logic updates, and frontend route guard hardening.
+Restore the administrative capabilities for the Loner Leather brand, enabling control over orders, products, images, and site settings.
 
-## User Review Required
+## 1. Authentication & Security
+- Implement `src/lib/admin/session.ts` with Supabase auth and an 8-second timeout guard.
+- Create `src/routes/admin/login.tsx` for secure entry.
+- Implement `src/routes/admin/_shell.tsx` as the main admin route guard (Super Admin check).
+- Create `src/routes/admin/pending.tsx` for users awaiting approval.
 
-> [!IMPORTANT]
-> I will be updating the database records for `valaverde05@gmail.com` to ensure it has the `super_admin` role and `approved` status. I will also be modifying the route guards and session logic.
+## 2. Admin UI Components
+- **AdminShell**: Layout with responsive sidebar (Desktop) and drawer (Mobile).
+- **AdminSidebar**: Dark brown (#241812) theme with links to Dashboard, Orders, Inventory, and Settings.
+- **AdminUI**: Shared primitive components for tables, stats cards, and forms.
 
-## Proposed Changes
+## 3. Core Admin Routes
+- **Dashboard (`/admin`)**: Real-time sales stats, order summaries, and stock alerts.
+- **Orders (`/admin/orders`)**: CRUD for customer orders (COD status tracking).
+- **Inventory (`/admin/products`)**: Full product management including multi-image uploads and localized descriptions.
+- **Site Settings (`/admin/settings`)**: Controls for site-wide content and featured products.
+- **Audit Logs (`/admin/logs`)**: Record of all administrative actions.
 
-### Database Corrections
-- Ensure the profile for `872f1e78-7cc4-434a-b8e5-e9265a688047` (`valaverde05@gmail.com`) has `status = 'approved'`.
-- Ensure there is a record in `user_roles` for this UID with `role = 'super_admin'`.
-- Remove any duplicate or stale pending profiles if they exist.
-
-### Server-Side Logic (`src/lib/admin/access.functions.ts`)
-- Harden `syncAdminAccess` to ensure the initial owner always gets the `super_admin` role and `approved` status on every successful login.
-- Add debug logging (temporary) to verify UID and email matches during synchronization.
-
-### Session Management (`src/lib/admin/session.ts`)
-- Improve `loadAdminSession` to be more resilient and ensure the role is correctly mapped for the initial owner even during the first few seconds of a session.
-
-### Route Guards (`src/routes/admin/_shell.tsx`)
-- Refactor `beforeLoad` to strictly enforce the redirect logic:
-  - `approved` + `role` -> Allow access.
-  - `pending` -> `/admin/pending`.
-  - Otherwise -> `/admin/login`.
-- Ensure session verification completes before making redirect decisions.
-
-### Verification
-- I will use `lovable auth-session` to sign in as the user in the sandbox.
-- I will run a Playwright script to verify that navigating to `/admin` lands on the dashboard and not the pending page.
+## 4. Integration
+- Connect existing Supabase tables (`products`, `orders`, `profiles`, `audit_logs`) to the new UI.
+- Ensure Super Admin role is correctly handled for `valaverde05@gmail.com`.
 
 ## Technical Details
-
-### Database Migration
-```sql
--- Ensure super_admin role for owner
-INSERT INTO public.user_roles (user_id, role)
-SELECT '872f1e78-7cc4-434a-b8e5-e9265a688047', 'super_admin'
-ON CONFLICT (user_id, role) DO NOTHING;
-
--- Ensure approved status for owner profile
-UPDATE public.profiles
-SET status = 'approved',
-    updated_at = now()
-WHERE id = '872f1e78-7cc4-434a-b8e5-e9265a688047';
-```
-
-### Route Guard Logic
-```typescript
-if (!session) throw redirect({ to: "/admin/login" });
-if (session.status === "approved" && session.role) return { session };
-if (session.status === "pending") throw redirect({ to: "/admin/pending" });
-throw redirect({ to: "/admin/login" });
-```
+- **Theme**: Primary #241812 (Dark Brown), Accents #8A4D25 (Leather Brown), Background #F7F3EF (Warm Cream).
+- **Framework**: TanStack Start v1 (React 19).
+- **Security**: Supabase RLS policies enforced; admin functions isolated in `private` schema.
