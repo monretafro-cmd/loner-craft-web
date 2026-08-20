@@ -35,7 +35,7 @@ function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/admin`,
+        redirectTo: `${window.location.origin}/admin/auth/callback`,
       },
     });
     if (error) toast.error(error.message);
