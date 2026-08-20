@@ -28,6 +28,7 @@ import { Route as AdminPendingRouteImport } from './routes/admin/pending'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell.index'
+import { Route as AdminAuthCallbackRouteImport } from './routes/admin/auth/callback'
 import { Route as AdminShellSettingsRouteImport } from './routes/admin/_shell.settings'
 import { Route as AdminShellProductsRouteImport } from './routes/admin/_shell.products'
 import { Route as AdminShellOrdersRouteImport } from './routes/admin/_shell.orders'
@@ -132,6 +133,11 @@ const AdminShellIndexRoute = AdminShellIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminShellRoute,
 } as any)
+const AdminAuthCallbackRoute = AdminAuthCallbackRouteImport.update({
+  id: '/admin/auth/callback',
+  path: '/admin/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminShellSettingsRoute = AdminShellSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -200,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/': typeof AdminShellIndexRoute
 }
 export interface FileRoutesByTo {
@@ -228,6 +235,7 @@ export interface FileRoutesByTo {
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin': typeof AdminShellIndexRoute
 }
 export interface FileRoutesById {
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/admin/_shell/orders': typeof AdminShellOrdersRoute
   '/admin/_shell/products': typeof AdminShellProductsRoute
   '/admin/_shell/settings': typeof AdminShellSettingsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/_shell/': typeof AdminShellIndexRoute
 }
 export interface FileRouteTypes {
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
+    | '/admin/auth/callback'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -317,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
+    | '/admin/auth/callback'
     | '/admin'
   id:
     | '__root__'
@@ -346,6 +357,7 @@ export interface FileRouteTypes {
     | '/admin/_shell/orders'
     | '/admin/_shell/products'
     | '/admin/_shell/settings'
+    | '/admin/auth/callback'
     | '/admin/_shell/'
   fileRoutesById: FileRoutesById
 }
@@ -368,6 +380,7 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPendingRoute: typeof AdminPendingRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  AdminAuthCallbackRoute: typeof AdminAuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellIndexRouteImport
       parentRoute: typeof AdminShellRoute
     }
+    '/admin/auth/callback': {
+      id: '/admin/auth/callback'
+      path: '/admin/auth/callback'
+      fullPath: '/admin/auth/callback'
+      preLoaderRoute: typeof AdminAuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/_shell/settings': {
       id: '/admin/_shell/settings'
       path: '/settings'
@@ -611,6 +631,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminPendingRoute: AdminPendingRoute,
   ProductSlugRoute: ProductSlugRoute,
+  AdminAuthCallbackRoute: AdminAuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
