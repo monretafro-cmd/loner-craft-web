@@ -1,7 +1,7 @@
 /**
  * Public Shop page data layer.
  *
- * Everything on /shop is driven by the admin panel (Lovable Cloud tables).
+ * Everything on /shop is driven by the backend (Lovable Cloud tables).
  * Local catalog data is used only as an instant fallback so the page never
  * renders empty — during SSR, while the first fetch resolves, or if the
  * database has not been filled in yet.
