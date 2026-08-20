@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
@@ -14,19 +13,27 @@ function AdminSettingsPage() {
   const { data: config, refetch } = useQuery({
     queryKey: ["admin", "site-config"],
     queryFn: async () => {
+      // @ts-ignore - Dynamic table check
       const { data, error } = await supabase
-        .from("site_config")
+        .from("homepage_content" as any)
         .select("*")
+        .eq("section", "global_settings")
         .single();
+      
       if (error && error.code !== "PGRST116") throw error;
-      return data || { maintenance_mode: false, free_shipping_threshold: 500 };
+      return data?.content || { maintenance_mode: false, free_shipping_threshold: 500 };
     },
   });
 
   const toggleMaintenance = async (checked: boolean) => {
+    // @ts-ignore
     const { error } = await supabase
-      .from("site_config")
-      .upsert({ id: config?.id || undefined, maintenance_mode: checked });
+      .from("homepage_content" as any)
+      .upsert({ 
+        section: "global_settings",
+        content: { ...config, maintenance_mode: checked },
+        active: true
+      }, { onConflict: "section" });
     
     if (error) {
       toast.error("Failed to update settings");
