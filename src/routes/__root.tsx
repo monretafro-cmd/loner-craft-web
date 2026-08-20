@@ -171,6 +171,16 @@ function RootComponent() {
 
 function InnerComponent() {
   const { pathname } = useRouterState({ select: (state) => ({ pathname: state.location.pathname }) });
+  const isAdminPath = pathname.startsWith("/admin");
+
+  if (isAdminPath) {
+    return (
+      <StoreProvider>
+        <Outlet />
+        <Toaster position="top-right" />
+      </StoreProvider>
+    );
+  }
 
   return (
     <StoreProvider>
