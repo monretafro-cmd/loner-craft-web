@@ -175,19 +175,15 @@ function InnerComponent() {
   return (
     <StoreProvider>
       <div className="site-reveal flex min-h-screen flex-col overflow-x-clip">
-        {!isAdmin && <Navbar />}
+        <Navbar />
         <main className="flex-1">
           <Outlet />
         </main>
-        {!isAdmin && <Footer />}
+        <Footer />
       </div>
-      {!isAdmin && (
-        <>
-          <BrandLoader />
-          <CartDrawer />
-          <FloatingActions />
-        </>
-      )}
+      <BrandLoader />
+      <CartDrawer />
+      <FloatingActions />
       <Toaster position="bottom-left" />
     </StoreProvider>
   );
