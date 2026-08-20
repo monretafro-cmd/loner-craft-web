@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Chrome } from "lucide-react";
+import { Chrome, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useRouterState } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin/login")({
   component: LoginPage,
@@ -16,6 +18,20 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [oauthError, setOauthError] = useState<string | null>(null);
+  const routerState = useRouterState();
+  const searchParams = new URLSearchParams(routerState.location.search);
+
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const errorCode = searchParams.get("error_code");
+    
+    if (error === "unsupported_provider" || errorCode === "validation_failed") {
+      setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
+    } else if (error) {
+      setOauthError(searchParams.get("error_description") || "Authentication failed. Please try again.");
+    }
+  }, [routerState.location.search]);
 
   const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -59,6 +75,12 @@ function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {oauthError && (
+              <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{oauthError}</AlertDescription>
+              </Alert>
+            )}
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
