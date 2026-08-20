@@ -34,7 +34,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
-export const Route = createFileRoute("/admin/orders")({
+export const Route = createFileRoute("/admin/_shell/orders")({
   component: OrdersPage,
 });
 

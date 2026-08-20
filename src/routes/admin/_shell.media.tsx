@@ -16,7 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/admin/media")({
+export const Route = createFileRoute("/admin/_shell/media")({
   component: MediaLibraryPage,
 });
 

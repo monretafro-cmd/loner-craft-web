@@ -33,7 +33,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/admin/products")({
+export const Route = createFileRoute("/admin/_shell/products")({
   component: ProductsPage,
 });
 

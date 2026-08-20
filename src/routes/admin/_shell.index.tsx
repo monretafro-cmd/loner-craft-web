@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/admin/")({
+export const Route = createFileRoute("/admin/_shell/")({
   component: DashboardPage,
 });
 

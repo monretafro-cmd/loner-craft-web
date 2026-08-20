@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/admin/customers")({
+export const Route = createFileRoute("/admin/_shell/customers")({
   component: CustomersPage,
 });
 

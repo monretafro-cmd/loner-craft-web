@@ -12,7 +12,7 @@ import {
   Database
 } from "lucide-react";
 
-export const Route = createFileRoute("/admin/settings")({
+export const Route = createFileRoute("/admin/_shell/settings")({
   component: SettingsPage,
 });
 

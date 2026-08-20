@@ -24,7 +24,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
-export const Route = createFileRoute("/admin/inventory")({
+export const Route = createFileRoute("/admin/_shell/inventory")({
   component: InventoryPage,
 });
 

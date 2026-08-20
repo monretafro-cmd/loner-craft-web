@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 
-export const Route = createFileRoute("/admin/audit")({
+export const Route = createFileRoute("/admin/_shell/audit")({
   component: AuditLogPage,
 });
 

@@ -35,7 +35,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin/access")({
+export const Route = createFileRoute("/admin/_shell/access")({
   component: AccessPage,
 });
 
