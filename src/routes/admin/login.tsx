@@ -8,8 +8,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Chrome, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
-// Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.
+import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/admin/login")({
   component: LoginPage,
@@ -33,13 +32,22 @@ function LoginPage() {
   }, []);
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/admin/auth/callback`,
+    setOauthError(null);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/admin/auth/callback`,
+      extraParams: {
+        prompt: "select_account",
       },
     });
-    if (error) toast.error(error.message);
+
+    if (result.error) {
+      setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
+      return;
+    }
+
+    if (!result.redirected) {
+      window.location.href = "/admin";
+    }
   };
 
   const handleEmailLogin = async (e: React.FormEvent) => {
