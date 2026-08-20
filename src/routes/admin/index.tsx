@@ -7,7 +7,6 @@ import {
   Users, 
   Package, 
   AlertTriangle,
-  MapPin,
   Clock,
   ChevronRight,
   Wallet
@@ -16,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/")({
   component: DashboardPage,
@@ -25,7 +25,7 @@ function DashboardPage() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["admin", "stats"],
     queryFn: () => adminApi.stats(),
-    refetchInterval: 30000, // Auto-refresh every 30s
+    refetchInterval: 30000,
   });
 
   if (isLoading) {
@@ -44,10 +44,12 @@ function DashboardPage() {
     );
   }
 
+  const lowStockCount = stats?.lowStockCount ?? 0;
+
   const statCards = [
     {
       title: "Sales Today",
-      value: `${(stats?.salesToday || 0).toLocaleString()} MAD`,
+      value: `${(stats?.salesToday ?? 0).toLocaleString()} MAD`,
       icon: TrendingUp,
       trend: "+12.5%",
       trendColor: "text-green-600",
@@ -56,7 +58,7 @@ function DashboardPage() {
     },
     {
       title: "Total Orders",
-      value: stats?.orderCount || 0,
+      value: stats?.orderCount ?? 0,
       icon: ShoppingCart,
       trend: "4 pending",
       trendColor: "text-amber-600",
@@ -65,7 +67,7 @@ function DashboardPage() {
     },
     {
       title: "Total Customers",
-      value: stats?.customerCount || 0,
+      value: stats?.customerCount ?? 0,
       icon: Users,
       trend: "New this week",
       trendColor: "text-blue-600",
@@ -74,10 +76,10 @@ function DashboardPage() {
     },
     {
       title: "Active Products",
-      value: stats?.productCount || 0,
+      value: stats?.productCount ?? 0,
       icon: Package,
-      trend: stats?.lowStockCount > 0 ? `${stats.lowStockCount} low stock` : "All in stock",
-      trendColor: stats?.lowStockCount > 0 ? "text-red-600" : "text-stone-500",
+      trend: lowStockCount > 0 ? `${lowStockCount} low stock` : "All in stock",
+      trendColor: lowStockCount > 0 ? "text-red-600" : "text-stone-500",
       bgColor: "bg-stone-50",
       iconColor: "text-stone-600"
     }
@@ -96,7 +98,6 @@ function DashboardPage() {
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat, i) => (
           <Card key={i} className="border-none shadow-sm overflow-hidden group">
@@ -121,7 +122,6 @@ function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Orders */}
         <Card className="lg:col-span-2 border-none shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b border-stone-100 pb-4">
             <CardTitle className="text-lg font-serif">Recent Orders</CardTitle>
@@ -177,7 +177,6 @@ function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Quick Insights */}
         <div className="space-y-6">
           <Card className="border-none shadow-sm">
             <CardHeader>
@@ -210,8 +209,8 @@ function DashboardPage() {
               <div>
                 <h4 className="font-serif text-lg">Inventory Check</h4>
                 <p className="text-stone-400 text-xs mt-1">
-                  {stats?.lowStockCount > 0 
-                    ? `You have ${stats.lowStockCount} items running low on stock. Time to restock!` 
+                  {lowStockCount > 0 
+                    ? `You have ${lowStockCount} items running low on stock. Time to restock!` 
                     : "All inventory levels are healthy. Great job!"}
                 </p>
               </div>
@@ -220,7 +219,7 @@ function DashboardPage() {
                 variant="outline" 
                 className="w-full border-stone-700 hover:bg-[#32241b] text-white"
               >
-                <Link to="/admin/inventory">Manage Inventory</Link>
+                <Link to="/admin/products">Manage Inventory</Link>
               </Button>
             </CardContent>
           </Card>
