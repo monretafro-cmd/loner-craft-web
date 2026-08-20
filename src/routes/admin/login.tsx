@@ -27,7 +27,7 @@ function LoginPage() {
     if (error === "unsupported_provider" || errorCode === "validation_failed") {
       setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
     } else if (error) {
-      setOauthError(params.get("error_description") || "Authentication failed. Please try again.");
+      setOauthError(params.get("error_description") || "Authentication failed. Please check your credentials or configuration.");
     }
   }, []);
 
