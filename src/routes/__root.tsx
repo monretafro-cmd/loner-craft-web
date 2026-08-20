@@ -171,7 +171,6 @@ function RootComponent() {
 
 function InnerComponent() {
   const { pathname } = useRouterState({ select: (state) => ({ pathname: state.location.pathname }) });
-  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <StoreProvider>
