@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { createFileRoute, Outlet, useNavigate, useRouterState } from '@tanstack/react-router';
 import { useAdminAuth } from '@/lib/admin/auth-context';
 import { Loader2 } from 'lucide-react';
+import { AdminSidebar } from '@/lib/admin/layout/AdminSidebar';
 
 export const Route = createFileRoute('/admin/_shell')({
   component: AdminShell,
@@ -42,8 +43,27 @@ function AdminShell() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EF] font-inter">
-      <Outlet />
+    <div className="min-h-screen bg-[#F7F3EF] font-inter flex flex-col lg:flex-row">
+      <AdminSidebar />
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+        {/* Top Bar */}
+        <header className="hidden lg:flex h-16 bg-white border-b border-[#8A4D25]/10 items-center justify-between px-8 shrink-0">
+          <div className="text-sm text-[#241812]/40">
+            Loner Leather Administration / <span className="text-[#241812] font-medium uppercase tracking-wider">{pathname.split('/').pop() || 'Dashboard'}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <p className="text-sm font-medium text-[#241812] leading-none">Market: Morocco</p>
+              <p className="text-[10px] text-[#8A4D25] uppercase tracking-widest font-bold mt-1">Live Store</p>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Workspace */}
+        <main className="flex-1 overflow-y-auto bg-[#F9F7F5]">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
