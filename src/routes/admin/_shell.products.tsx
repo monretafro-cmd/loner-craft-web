@@ -31,7 +31,7 @@ function AdminProducts() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*, product_images(image_url, is_main)')
+        .select('*, product_images(url, is_main)')
         .order('created_at', { ascending: false });
       
       if (error) throw error;
@@ -39,8 +39,8 @@ function AdminProducts() {
       // Transform data to include the main image URL
       return data.map(product => ({
         ...product,
-        main_image_url: product.product_images?.find((img: any) => img.is_main)?.image_url 
-          || product.product_images?.[0]?.image_url 
+        main_image_url: product.product_images?.find((img: any) => img.is_main)?.url 
+          || product.product_images?.[0]?.url 
           || null
       }));
     }
