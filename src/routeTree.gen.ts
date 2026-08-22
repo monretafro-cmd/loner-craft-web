@@ -24,7 +24,13 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as AdminPendingRouteImport } from './routes/admin/pending'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminShellRouteImport } from './routes/admin/_shell'
+import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell.index'
+import { Route as AdminAuthCallbackRouteImport } from './routes/admin/auth/callback'
+import { Route as AdminShellProductsRouteImport } from './routes/admin/_shell.products'
+import { Route as AdminShellAccessRouteImport } from './routes/admin/_shell.access'
 
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
@@ -101,10 +107,40 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPendingRoute = AdminPendingRouteImport.update({
+  id: '/admin/pending',
+  path: '/admin/pending',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminShellRoute = AdminShellRouteImport.update({
+  id: '/admin/_shell',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminShellIndexRoute = AdminShellIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminAuthCallbackRoute = AdminAuthCallbackRouteImport.update({
+  id: '/admin/auth/callback',
+  path: '/admin/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminShellProductsRoute = AdminShellProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellAccessRoute = AdminShellAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => AdminShellRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -122,8 +158,14 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/access': typeof AdminShellAccessRoute
+  '/admin/products': typeof AdminShellProductsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin/': typeof AdminShellIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -141,7 +183,12 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/access': typeof AdminShellAccessRoute
+  '/admin/products': typeof AdminShellProductsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin': typeof AdminShellIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -159,8 +206,14 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/_shell': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/_shell/access': typeof AdminShellAccessRoute
+  '/admin/_shell/products': typeof AdminShellProductsRoute
+  '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin/_shell/': typeof AdminShellIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,8 +232,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/wishlist'
+    | '/admin'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
+    | '/admin/access'
+    | '/admin/products'
+    | '/admin/auth/callback'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,7 +257,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wishlist'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
+    | '/admin/access'
+    | '/admin/products'
+    | '/admin/auth/callback'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -215,8 +279,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/wishlist'
+    | '/admin/_shell'
     | '/admin/login'
+    | '/admin/pending'
     | '/product/$slug'
+    | '/admin/_shell/access'
+    | '/admin/_shell/products'
+    | '/admin/auth/callback'
+    | '/admin/_shell/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -234,8 +304,11 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   WishlistRoute: typeof WishlistRoute
+  AdminShellRoute: typeof AdminShellRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminPendingRoute: typeof AdminPendingRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  AdminAuthCallbackRoute: typeof AdminAuthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -345,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/pending': {
+      id: '/admin/pending'
+      path: '/admin/pending'
+      fullPath: '/admin/pending'
+      preLoaderRoute: typeof AdminPendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
@@ -352,8 +432,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/_shell': {
+      id: '/admin/_shell'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_shell/': {
+      id: '/admin/_shell/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminShellIndexRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/auth/callback': {
+      id: '/admin/auth/callback'
+      path: '/admin/auth/callback'
+      fullPath: '/admin/auth/callback'
+      preLoaderRoute: typeof AdminAuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/_shell/products': {
+      id: '/admin/_shell/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminShellProductsRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/access': {
+      id: '/admin/_shell/access'
+      path: '/access'
+      fullPath: '/admin/access'
+      preLoaderRoute: typeof AdminShellAccessRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
   }
 }
+
+interface AdminShellRouteChildren {
+  AdminShellAccessRoute: typeof AdminShellAccessRoute
+  AdminShellProductsRoute: typeof AdminShellProductsRoute
+  AdminShellIndexRoute: typeof AdminShellIndexRoute
+}
+
+const AdminShellRouteChildren: AdminShellRouteChildren = {
+  AdminShellAccessRoute: AdminShellAccessRoute,
+  AdminShellProductsRoute: AdminShellProductsRoute,
+  AdminShellIndexRoute: AdminShellIndexRoute,
+}
+
+const AdminShellRouteWithChildren = AdminShellRoute._addFileChildren(
+  AdminShellRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -370,8 +501,11 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   WishlistRoute: WishlistRoute,
+  AdminShellRoute: AdminShellRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
+  AdminPendingRoute: AdminPendingRoute,
   ProductSlugRoute: ProductSlugRoute,
+  AdminAuthCallbackRoute: AdminAuthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
