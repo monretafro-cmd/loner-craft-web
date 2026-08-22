@@ -88,21 +88,25 @@ export async function requireAdminAuth() {
   const { session, profile, error } = await getAdminSession();
   
   if (!session || error) {
+    console.warn("Auth required: No session or error", error);
     throw redirect({ to: "/admin/login" });
   }
 
   if (profile?.status === "blocked") {
+    console.warn("Auth denied: Profile blocked");
     await supabase.auth.signOut();
     throw redirect({ to: "/admin/login" });
   }
 
   if (profile?.status !== "approved") {
+    console.warn("Auth pending: Status is", profile?.status);
     throw redirect({ to: "/admin/pending" });
   }
 
   const isAdmin = profile?.is_owner || profile?.user_roles?.some((r: any) => ["admin", "super_admin"].includes(r.role));
   
   if (!isAdmin) {
+    console.warn("Auth denied: Not an admin");
     throw redirect({ to: "/" });
   }
 
