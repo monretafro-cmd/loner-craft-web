@@ -29,15 +29,12 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell.index'
 import { Route as AdminAuthCallbackRouteImport } from './routes/admin/auth/callback'
-import { Route as AdminShellWhatsappRouteImport } from './routes/admin/_shell.whatsapp'
 import { Route as AdminShellSettingsRouteImport } from './routes/admin/_shell.settings'
 import { Route as AdminShellProductsRouteImport } from './routes/admin/_shell.products'
 import { Route as AdminShellOrdersRouteImport } from './routes/admin/_shell.orders'
 import { Route as AdminShellMediaRouteImport } from './routes/admin/_shell.media'
 import { Route as AdminShellInventoryRouteImport } from './routes/admin/_shell.inventory'
-import { Route as AdminShellDeliveryRouteImport } from './routes/admin/_shell.delivery'
 import { Route as AdminShellCustomersRouteImport } from './routes/admin/_shell.customers'
-import { Route as AdminShellCategoriesRouteImport } from './routes/admin/_shell.categories'
 import { Route as AdminShellAnalyticsRouteImport } from './routes/admin/_shell.analytics'
 import { Route as AdminShellAccessRouteImport } from './routes/admin/_shell.access'
 
@@ -141,11 +138,6 @@ const AdminAuthCallbackRoute = AdminAuthCallbackRouteImport.update({
   path: '/admin/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminShellWhatsappRoute = AdminShellWhatsappRouteImport.update({
-  id: '/whatsapp',
-  path: '/whatsapp',
-  getParentRoute: () => AdminShellRoute,
-} as any)
 const AdminShellSettingsRoute = AdminShellSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -171,19 +163,9 @@ const AdminShellInventoryRoute = AdminShellInventoryRouteImport.update({
   path: '/inventory',
   getParentRoute: () => AdminShellRoute,
 } as any)
-const AdminShellDeliveryRoute = AdminShellDeliveryRouteImport.update({
-  id: '/delivery',
-  path: '/delivery',
-  getParentRoute: () => AdminShellRoute,
-} as any)
 const AdminShellCustomersRoute = AdminShellCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
-  getParentRoute: () => AdminShellRoute,
-} as any)
-const AdminShellCategoriesRoute = AdminShellCategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
   getParentRoute: () => AdminShellRoute,
 } as any)
 const AdminShellAnalyticsRoute = AdminShellAnalyticsRouteImport.update({
@@ -218,15 +200,12 @@ export interface FileRoutesByFullPath {
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
-  '/admin/categories': typeof AdminShellCategoriesRoute
   '/admin/customers': typeof AdminShellCustomersRoute
-  '/admin/delivery': typeof AdminShellDeliveryRoute
   '/admin/inventory': typeof AdminShellInventoryRoute
   '/admin/media': typeof AdminShellMediaRoute
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
-  '/admin/whatsapp': typeof AdminShellWhatsappRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/': typeof AdminShellIndexRoute
 }
@@ -250,15 +229,12 @@ export interface FileRoutesByTo {
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
   '/admin/analytics': typeof AdminShellAnalyticsRoute
-  '/admin/categories': typeof AdminShellCategoriesRoute
   '/admin/customers': typeof AdminShellCustomersRoute
-  '/admin/delivery': typeof AdminShellDeliveryRoute
   '/admin/inventory': typeof AdminShellInventoryRoute
   '/admin/media': typeof AdminShellMediaRoute
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
   '/admin/settings': typeof AdminShellSettingsRoute
-  '/admin/whatsapp': typeof AdminShellWhatsappRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin': typeof AdminShellIndexRoute
 }
@@ -284,15 +260,12 @@ export interface FileRoutesById {
   '/product/$slug': typeof ProductSlugRoute
   '/admin/_shell/access': typeof AdminShellAccessRoute
   '/admin/_shell/analytics': typeof AdminShellAnalyticsRoute
-  '/admin/_shell/categories': typeof AdminShellCategoriesRoute
   '/admin/_shell/customers': typeof AdminShellCustomersRoute
-  '/admin/_shell/delivery': typeof AdminShellDeliveryRoute
   '/admin/_shell/inventory': typeof AdminShellInventoryRoute
   '/admin/_shell/media': typeof AdminShellMediaRoute
   '/admin/_shell/orders': typeof AdminShellOrdersRoute
   '/admin/_shell/products': typeof AdminShellProductsRoute
   '/admin/_shell/settings': typeof AdminShellSettingsRoute
-  '/admin/_shell/whatsapp': typeof AdminShellWhatsappRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/_shell/': typeof AdminShellIndexRoute
 }
@@ -319,15 +292,12 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/admin/access'
     | '/admin/analytics'
-    | '/admin/categories'
     | '/admin/customers'
-    | '/admin/delivery'
     | '/admin/inventory'
     | '/admin/media'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
-    | '/admin/whatsapp'
     | '/admin/auth/callback'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -351,15 +321,12 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/admin/access'
     | '/admin/analytics'
-    | '/admin/categories'
     | '/admin/customers'
-    | '/admin/delivery'
     | '/admin/inventory'
     | '/admin/media'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
-    | '/admin/whatsapp'
     | '/admin/auth/callback'
     | '/admin'
   id:
@@ -384,15 +351,12 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/admin/_shell/access'
     | '/admin/_shell/analytics'
-    | '/admin/_shell/categories'
     | '/admin/_shell/customers'
-    | '/admin/_shell/delivery'
     | '/admin/_shell/inventory'
     | '/admin/_shell/media'
     | '/admin/_shell/orders'
     | '/admin/_shell/products'
     | '/admin/_shell/settings'
-    | '/admin/_shell/whatsapp'
     | '/admin/auth/callback'
     | '/admin/_shell/'
   fileRoutesById: FileRoutesById
@@ -561,13 +525,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/_shell/whatsapp': {
-      id: '/admin/_shell/whatsapp'
-      path: '/whatsapp'
-      fullPath: '/admin/whatsapp'
-      preLoaderRoute: typeof AdminShellWhatsappRouteImport
-      parentRoute: typeof AdminShellRoute
-    }
     '/admin/_shell/settings': {
       id: '/admin/_shell/settings'
       path: '/settings'
@@ -603,25 +560,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellInventoryRouteImport
       parentRoute: typeof AdminShellRoute
     }
-    '/admin/_shell/delivery': {
-      id: '/admin/_shell/delivery'
-      path: '/delivery'
-      fullPath: '/admin/delivery'
-      preLoaderRoute: typeof AdminShellDeliveryRouteImport
-      parentRoute: typeof AdminShellRoute
-    }
     '/admin/_shell/customers': {
       id: '/admin/_shell/customers'
       path: '/customers'
       fullPath: '/admin/customers'
       preLoaderRoute: typeof AdminShellCustomersRouteImport
-      parentRoute: typeof AdminShellRoute
-    }
-    '/admin/_shell/categories': {
-      id: '/admin/_shell/categories'
-      path: '/categories'
-      fullPath: '/admin/categories'
-      preLoaderRoute: typeof AdminShellCategoriesRouteImport
       parentRoute: typeof AdminShellRoute
     }
     '/admin/_shell/analytics': {
@@ -644,30 +587,24 @@ declare module '@tanstack/react-router' {
 interface AdminShellRouteChildren {
   AdminShellAccessRoute: typeof AdminShellAccessRoute
   AdminShellAnalyticsRoute: typeof AdminShellAnalyticsRoute
-  AdminShellCategoriesRoute: typeof AdminShellCategoriesRoute
   AdminShellCustomersRoute: typeof AdminShellCustomersRoute
-  AdminShellDeliveryRoute: typeof AdminShellDeliveryRoute
   AdminShellInventoryRoute: typeof AdminShellInventoryRoute
   AdminShellMediaRoute: typeof AdminShellMediaRoute
   AdminShellOrdersRoute: typeof AdminShellOrdersRoute
   AdminShellProductsRoute: typeof AdminShellProductsRoute
   AdminShellSettingsRoute: typeof AdminShellSettingsRoute
-  AdminShellWhatsappRoute: typeof AdminShellWhatsappRoute
   AdminShellIndexRoute: typeof AdminShellIndexRoute
 }
 
 const AdminShellRouteChildren: AdminShellRouteChildren = {
   AdminShellAccessRoute: AdminShellAccessRoute,
   AdminShellAnalyticsRoute: AdminShellAnalyticsRoute,
-  AdminShellCategoriesRoute: AdminShellCategoriesRoute,
   AdminShellCustomersRoute: AdminShellCustomersRoute,
-  AdminShellDeliveryRoute: AdminShellDeliveryRoute,
   AdminShellInventoryRoute: AdminShellInventoryRoute,
   AdminShellMediaRoute: AdminShellMediaRoute,
   AdminShellOrdersRoute: AdminShellOrdersRoute,
   AdminShellProductsRoute: AdminShellProductsRoute,
   AdminShellSettingsRoute: AdminShellSettingsRoute,
-  AdminShellWhatsappRoute: AdminShellWhatsappRoute,
   AdminShellIndexRoute: AdminShellIndexRoute,
 }
 
