@@ -27,6 +27,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as AdminPendingRouteImport } from './routes/admin/pending'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
+import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell.index'
 import { Route as AdminAuthCallbackRouteImport } from './routes/admin/auth/callback'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -119,6 +120,11 @@ const AdminShellRoute = AdminShellRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminShellIndexRoute = AdminShellIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminShellRoute,
+} as any)
 const AdminAuthCallbackRoute = AdminAuthCallbackRouteImport.update({
   id: '/admin/auth/callback',
   path: '/admin/auth/callback',
@@ -140,11 +146,12 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
-  '/admin': typeof AdminShellRoute
+  '/admin': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin/': typeof AdminShellIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -161,11 +168,11 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
-  '/admin': typeof AdminShellRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin': typeof AdminShellIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -183,11 +190,12 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
-  '/admin/_shell': typeof AdminShellRoute
+  '/admin/_shell': typeof AdminShellRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
+  '/admin/_shell/': typeof AdminShellIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,6 +219,7 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/auth/callback'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,11 +236,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/wishlist'
-    | '/admin'
     | '/admin/login'
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/auth/callback'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/auth/callback'
+    | '/admin/_shell/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -270,7 +280,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   WishlistRoute: typeof WishlistRoute
-  AdminShellRoute: typeof AdminShellRoute
+  AdminShellRoute: typeof AdminShellRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPendingRoute: typeof AdminPendingRoute
   ProductSlugRoute: typeof ProductSlugRoute
@@ -405,6 +415,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/_shell/': {
+      id: '/admin/_shell/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminShellIndexRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
     '/admin/auth/callback': {
       id: '/admin/auth/callback'
       path: '/admin/auth/callback'
@@ -414,6 +431,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminShellRouteChildren {
+  AdminShellIndexRoute: typeof AdminShellIndexRoute
+}
+
+const AdminShellRouteChildren: AdminShellRouteChildren = {
+  AdminShellIndexRoute: AdminShellIndexRoute,
+}
+
+const AdminShellRouteWithChildren = AdminShellRoute._addFileChildren(
+  AdminShellRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -430,7 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   WishlistRoute: WishlistRoute,
-  AdminShellRoute: AdminShellRoute,
+  AdminShellRoute: AdminShellRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminPendingRoute: AdminPendingRoute,
   ProductSlugRoute: ProductSlugRoute,

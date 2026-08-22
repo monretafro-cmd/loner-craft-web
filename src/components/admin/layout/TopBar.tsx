@@ -61,7 +61,7 @@ export function TopBar({ onOpenSidebar, profile }: TopBarProps) {
             <DropdownMenuLabel>Admin Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/admin/settings" className="cursor-pointer">Settings</Link>
+              <Link to="/admin" className="cursor-pointer">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
