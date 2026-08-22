@@ -1,7 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User } from "@supabase/supabase-js";
-import { useNavigate } from "@tanstack/react-router";
 
 export type AdminStatus = 'pending' | 'approved' | 'blocked' | 'unauthenticated' | 'loading' | 'error';
 export type AdminRole = 'admin' | 'super_admin' | null;
@@ -29,7 +28,7 @@ interface AdminAuthContextType {
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
 const OWNER_EMAIL = "valaverde05@gmail.com";
-const SESSION_TIMEOUT_MS = 8000;
+const SESSION_TIMEOUT_MS = 15000; // Increased timeout for slower environments
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -66,9 +65,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
           .from("profiles")
           .select("*, user_roles(role)")
           .eq("id", session.user.id)
-          .single();
-
-        if (profileError && profileError.code !== "PGRST116") throw profileError;
+          .maybeSingle(); // Use maybeSingle to avoid 406 on missing row
 
         let currentProfile: AdminProfile | null = null;
         
@@ -82,7 +79,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
               status: "approved",
               is_owner: true,
               full_name: session.user.user_metadata?.full_name || "Owner",
-            })
+            }, { onConflict: 'id' })
             .select("*, user_roles(role)")
             .single();
 
@@ -94,7 +91,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
             await supabase.from("user_roles").upsert({
               user_id: session.user.id,
               role: "super_admin"
-            });
+            }, { onConflict: 'user_id,role' });
           }
 
           currentProfile = {
@@ -146,7 +143,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
           setProfile(currentProfile);
           setStatus(currentProfile.status);
         }
-
       };
 
       await Promise.race([fetchSession(), timeoutPromise]);
