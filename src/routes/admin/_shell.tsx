@@ -1,21 +1,29 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
 import { AdminAuthProvider, useAdminAuth } from "@/lib/admin/auth-context";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Sidebar } from "@/components/admin/layout/Sidebar";
 import { TopBar } from "@/components/admin/layout/TopBar";
 import { useState } from "react";
 
 export const Route = createFileRoute("/admin/_shell")({
-  beforeLoad: async ({ location }) => {
-    // Basic structural check - real session check happens in the provider + layout
-    return {};
-  },
   component: AdminShellGuard,
 });
 
 function AdminShellGuard() {
   const { status, isLoading, profile } = useAdminAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
+
+  // Handle redirects in useEffect to avoid throwing during render which can be swallowed
+  useEffect(() => {
+    if (!isLoading) {
+      if (status === 'unauthenticated' || status === 'error') {
+        window.location.href = "/admin/login";
+      } else if (status === 'pending') {
+        window.location.href = "/admin/pending";
+      }
+    }
+  }, [status, isLoading, pathname]);
 
   if (isLoading) {
     return (
@@ -28,23 +36,19 @@ function AdminShellGuard() {
     );
   }
 
-  if (status === 'unauthenticated' || status === 'error') {
-    throw redirect({ to: "/admin/login" });
-  }
-
-  if (status === 'pending') {
-    throw redirect({ to: "/admin/pending" });
-  }
-
-  if (status === 'blocked') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#241812] p-4 text-center">
-        <div className="bg-[#F7F3EF] p-8 rounded-lg max-w-md">
-          <h1 className="text-2xl font-serif text-red-600 mb-4">Access Blocked</h1>
-          <p className="text-stone-600">Your administrative access has been revoked. Please contact the owner.</p>
+  // Final fallback to prevent content flash while redirecting
+  if (status !== 'approved') {
+    if (status === 'blocked') {
+      return (
+        <div className="flex min-h-screen items-center justify-center bg-[#241812] p-4 text-center">
+          <div className="bg-[#F7F3EF] p-8 rounded-lg max-w-md">
+            <h1 className="text-2xl font-serif text-red-600 mb-4">Access Blocked</h1>
+            <p className="text-stone-600">Your administrative access has been revoked. Please contact the owner.</p>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null; 
   }
 
   return (
