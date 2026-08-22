@@ -156,12 +156,22 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    refreshSession();
+    const initSession = async () => {
+      // Check if we are returning from OAuth (PKCE)
+      const code = new URLSearchParams(window.location.search).get("code");
+      if (code) {
+        console.log("OAuth code detected, waiting for exchange...");
+        // The callback page handles exchangeCodeForSession, 
+        // but we need to wait here or refresh after exchange
+      }
+      await refreshSession();
+    };
+
+    initSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth event:", event);
-      if (event === 'SIGNED_IN') {
-        // Force refresh on sign in to ensure profile is loaded/created
+      console.log("Auth event:", event, !!session);
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
         refreshSession();
       } else if (event === 'TOKEN_REFRESHED') {
         if (session) {
