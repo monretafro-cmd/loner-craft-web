@@ -99,22 +99,22 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
           currentProfile = {
             id: ownerProfile.id,
-            email: ownerProfile.email,
+            email: ownerProfile.email || "",
             status: 'approved',
             role: 'super_admin',
             is_owner: true,
-            full_name: ownerProfile.full_name,
-            avatar_url: ownerProfile.avatar_url
+            full_name: ownerProfile.full_name || undefined,
+            avatar_url: ownerProfile.avatar_url || undefined
           };
         } else if (profileData) {
           currentProfile = {
             id: profileData.id,
-            email: profileData.email,
+            email: profileData.email || "",
             status: profileData.status as AdminStatus,
             role: (profileData as any).user_roles?.[0]?.role as AdminRole,
             is_owner: profileData.is_owner || false,
-            full_name: profileData.full_name,
-            avatar_url: profileData.avatar_url
+            full_name: profileData.full_name || undefined,
+            avatar_url: profileData.avatar_url || undefined
           };
         } else {
           // New admin signup - create pending profile
@@ -134,16 +134,19 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
           
           currentProfile = {
             id: newProfile.id,
-            email: newProfile.email,
+            email: newProfile.email || "",
             status: 'pending',
             role: null,
             is_owner: false,
-            full_name: newProfile.full_name
+            full_name: newProfile.full_name || undefined
           };
         }
 
-        setProfile(currentProfile);
-        setStatus(currentProfile.status);
+        if (currentProfile) {
+          setProfile(currentProfile);
+          setStatus(currentProfile.status);
+        }
+
       };
 
       await Promise.race([fetchSession(), timeoutPromise]);
