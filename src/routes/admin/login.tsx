@@ -81,7 +81,85 @@ function LoginPage() {
           <CardHeader className="space-y-1 pb-6">
             <CardTitle className="text-2xl font-serif text-[#241812]">Admin Login</CardTitle>
             <CardDescription className="text-stone-500">
-              Enter your credentials to access the management suite.
+              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+                                        
+                                            
+                                            Fix the Google login integration for the Loner Leather Admin Panel.
+
+The current Supabase error is:
+
+Unsupported provider: missing OAuth secret
+
+This means Google OAuth is enabled in the frontend but the Supabase Google provider is missing its OAuth credentials.
+
+Do not change the Admin login design.
+
+Configure and verify the authentication flow correctly.
+
+Requirements:
+
+1. Keep Email + Password login working.
+
+2. Keep Continue with Google.
+
+3. Use Supabase Auth for Google authentication.
+
+4. Verify the Google provider in Supabase has:
+
+   * Google Client ID
+   * Google Client Secret
+
+5. Do not place the Google Client Secret in frontend code.
+
+6. Use the Supabase OAuth callback URL required by the current Supabase project as the Google Authorized Redirect URI.
+
+7. After Supabase completes Google authentication, redirect the user back to the application callback:
+
+/admin/auth/callback
+
+8. From the application callback:
+
+   * restore the Supabase session
+   * read the authenticated user
+   * verify the admin profile
+   * redirect to /admin
+
+OWNER:
+
+[valaverde05@gmail.com](mailto:valaverde05@gmail.com)
+
+This account must resolve to:
+
+status = approved
+role = super_admin
+is_owner = true
+
+and redirect directly to:
+
+/admin
+
+Do not send this account to /admin/pending.
+
+If the Google provider credentials are not configured in Supabase, disable the Google button and show:
+
+Google sign-in needs configuration.
+
+Do not redirect users to a raw Supabase JSON error page.
+
+After Google credentials are configured, test:
+
+1. Open /admin/login
+2. Click Continue with Google
+3. Google account selector opens
+4. Select [valaverde05@gmail.com](mailto:valaverde05@gmail.com)
+5. Authentication succeeds
+6. Supabase session is created
+7. Return to /admin/auth/callback
+8. Redirect to /admin
+9. Refresh /admin
+10. Session remains active
+
+Do not report completion until the full Google login flow works.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
