@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-query";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi } from "@/lib/admin/api";
 import { useAdminAuth } from "@/lib/admin/auth-context";
@@ -22,10 +21,11 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
-import { createFileRoute as createRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createRoute("/admin/_shell/access")({
+export const Route = createFileRoute("/admin/_shell/access")({
   component: AccessPage,
 });
 
