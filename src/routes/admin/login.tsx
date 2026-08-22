@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useAdminAuth } from "@/lib/admin/auth-context";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
-import { Chrome, AlertCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Chrome, AlertCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { lovable } from "@/integrations/lovable";
 
@@ -15,55 +15,50 @@ export const Route = createFileRoute("/admin/login")({
 });
 
 function LoginPage() {
+  const { status, profile } = useAdminAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [oauthError, setOauthError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get("error");
-    const errorCode = params.get("error_code");
-    
-    if (error === "unsupported_provider" || errorCode === "validation_failed") {
-      setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
-    } else if (error) {
-      setOauthError(params.get("error_description") || "Authentication failed. Please check your credentials or configuration.");
+    if (status === 'approved') {
+      navigate({ to: "/admin" });
+    } else if (status === 'pending') {
+      navigate({ to: "/admin/pending" });
     }
-  }, []);
-
-  const handleGoogleLogin = async () => {
-    setOauthError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/admin/auth/callback`,
-      extraParams: {
-        prompt: "select_account",
-      },
-    });
-
-    if (result.error) {
-      setOauthError("Google sign-in is temporarily unavailable. Please use email and password or try again later.");
-      return;
-    }
-
-    if (!result.redirected) {
-      window.location.href = "/admin";
-    }
-  };
+  }, [status, navigate]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    if (error) {
-      toast.error(error.message);
-    } else {
-      window.location.href = "/admin";
+
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) throw authError;
+      // Success will be handled by the AdminAuthProvider state change
+    } catch (err: any) {
+      setError(err.message || "Invalid credentials");
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setError(null);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/admin/auth/callback`,
+      extraParams: { prompt: "select_account" },
+    });
+
+    if (result.error) {
+      setError("Google sign-in is not configured yet.");
+    }
   };
 
   return (
@@ -76,21 +71,19 @@ function LoginPage() {
 
         <Card className="bg-[#F7F3EF] border-none shadow-2xl">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-serif text-[#241812]">Login</CardTitle>
+            <CardTitle className="text-2xl font-serif text-[#241812]">Admin Login</CardTitle>
             <CardDescription className="text-stone-500">
-              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-                                        
-                                            
-                                            can u fixed login to my panel admin with my gmail account i try to login but panel sing out to me
+              Enter your credentials to access the management suite.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {oauthError && (
+            {error && (
               <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{oauthError}</AlertDescription>
+                <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
+
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -107,7 +100,7 @@ function LoginPage() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <a href="#" className="text-xs text-[#8A4D25] hover:underline">Forgot?</a>
+                  <button type="button" className="text-xs text-[#8A4D25] hover:underline">Forgot Password?</button>
                 </div>
                 <Input 
                   id="password" 
@@ -123,6 +116,7 @@ function LoginPage() {
                 disabled={loading}
                 className="w-full bg-[#8A4D25] hover:bg-[#241812] text-white py-6 text-base"
               >
+                {loading ? <Loader2 className="animate-spin mr-2" /> : null}
                 {loading ? "Authenticating..." : "Login to Admin"}
               </Button>
             </form>

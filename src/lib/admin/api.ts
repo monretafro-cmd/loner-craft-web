@@ -3,23 +3,24 @@ import { supabase } from "@/integrations/supabase/client";
 export const adminApi = {
   stats: async () => {
     // Basic stats aggregation
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     const [products, orders, customers, lowStock] = await Promise.all([
       supabase.from("products").select("id", { count: "exact", head: true }),
-      supabase.from("orders").select("total, created_at, status, customer_name, city, order_number", { count: "exact" }),
+      supabase.from("orders").select("total, created_at, status, customer_name, city, order_number"),
       supabase.from("customers").select("id", { count: "exact", head: true }),
       supabase.from("products").select("id", { count: "exact", head: true }).lt("stock", 5)
     ]);
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
+    const orderCount = orders.data?.length || 0;
     const salesToday = (orders.data || [])
       .filter(o => new Date(o.created_at) >= today)
       .reduce((acc, curr) => acc + (Number(curr.total) || 0), 0);
 
     return {
       productCount: products.count || 0,
-      orderCount: orders.count || 0,
+      orderCount,
       customerCount: customers.count || 0,
       lowStockCount: lowStock.count || 0,
       salesToday,
@@ -42,17 +43,9 @@ export const adminApi = {
       if (error) throw error;
       return data;
     },
-    // We'll add more methods as we build the pages
-  },
-
-  orders: {
-    list: async () => {
-      const { data, error } = await supabase
-        .from("orders")
-        .select("*")
-        .order("created_at", { ascending: false });
+    delete: async (id: string) => {
+      const { error } = await supabase.from("products").delete().eq("id", id);
       if (error) throw error;
-      return data;
     }
   },
 

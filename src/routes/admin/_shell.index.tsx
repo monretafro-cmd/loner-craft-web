@@ -60,7 +60,7 @@ function DashboardPage() {
       title: "Total Orders",
       value: stats?.orderCount ?? 0,
       icon: ShoppingCart,
-      trend: "4 pending",
+      trend: "Recent activity",
       trendColor: "text-amber-600",
       bgColor: "bg-amber-50",
       iconColor: "text-amber-600"
@@ -125,7 +125,7 @@ function DashboardPage() {
         <Card className="lg:col-span-2 border-none shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b border-stone-100 pb-4">
             <CardTitle className="text-lg font-serif">Recent Orders</CardTitle>
-            <Link to="/admin/orders" className="text-sm text-[#8A4D25] hover:underline flex items-center gap-1">
+            <Link to="/admin" className="text-sm text-[#8A4D25] hover:underline flex items-center gap-1">
               View all <ChevronRight size={14} />
             </Link>
           </CardHeader>
@@ -188,7 +188,7 @@ function DashboardPage() {
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-medium text-stone-700">Storefront Online</span>
                 </div>
-                <Link to="/admin/settings" className="text-xs text-[#8A4D25] hover:underline">Manage</Link>
+                <Link to="/admin" className="text-xs text-[#8A4D25] hover:underline">Manage</Link>
               </div>
               
               <div className="flex items-center justify-between p-3 bg-stone-50 rounded-lg">
@@ -219,7 +219,7 @@ function DashboardPage() {
                 variant="outline" 
                 className="w-full border-stone-700 hover:bg-[#32241b] text-white"
               >
-                <Link to="/admin/products">Manage Inventory</Link>
+                <Link to="/admin">Manage Inventory</Link>
               </Button>
             </CardContent>
           </Card>

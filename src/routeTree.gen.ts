@@ -35,7 +35,7 @@ import { Route as AdminShellOrdersRouteImport } from './routes/admin/_shell.orde
 import { Route as AdminShellMediaRouteImport } from './routes/admin/_shell.media'
 import { Route as AdminShellInventoryRouteImport } from './routes/admin/_shell.inventory'
 import { Route as AdminShellCustomersRouteImport } from './routes/admin/_shell.customers'
-import { Route as AdminShellAuditRouteImport } from './routes/admin/_shell.audit'
+import { Route as AdminShellAnalyticsRouteImport } from './routes/admin/_shell.analytics'
 import { Route as AdminShellAccessRouteImport } from './routes/admin/_shell.access'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -168,9 +168,9 @@ const AdminShellCustomersRoute = AdminShellCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AdminShellRoute,
 } as any)
-const AdminShellAuditRoute = AdminShellAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
+const AdminShellAnalyticsRoute = AdminShellAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AdminShellRoute,
 } as any)
 const AdminShellAccessRoute = AdminShellAccessRouteImport.update({
@@ -199,7 +199,7 @@ export interface FileRoutesByFullPath {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
-  '/admin/audit': typeof AdminShellAuditRoute
+  '/admin/analytics': typeof AdminShellAnalyticsRoute
   '/admin/customers': typeof AdminShellCustomersRoute
   '/admin/inventory': typeof AdminShellInventoryRoute
   '/admin/media': typeof AdminShellMediaRoute
@@ -228,7 +228,7 @@ export interface FileRoutesByTo {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
-  '/admin/audit': typeof AdminShellAuditRoute
+  '/admin/analytics': typeof AdminShellAnalyticsRoute
   '/admin/customers': typeof AdminShellCustomersRoute
   '/admin/inventory': typeof AdminShellInventoryRoute
   '/admin/media': typeof AdminShellMediaRoute
@@ -259,7 +259,7 @@ export interface FileRoutesById {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/_shell/access': typeof AdminShellAccessRoute
-  '/admin/_shell/audit': typeof AdminShellAuditRoute
+  '/admin/_shell/analytics': typeof AdminShellAnalyticsRoute
   '/admin/_shell/customers': typeof AdminShellCustomersRoute
   '/admin/_shell/inventory': typeof AdminShellInventoryRoute
   '/admin/_shell/media': typeof AdminShellMediaRoute
@@ -291,7 +291,7 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/access'
-    | '/admin/audit'
+    | '/admin/analytics'
     | '/admin/customers'
     | '/admin/inventory'
     | '/admin/media'
@@ -320,7 +320,7 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/access'
-    | '/admin/audit'
+    | '/admin/analytics'
     | '/admin/customers'
     | '/admin/inventory'
     | '/admin/media'
@@ -350,7 +350,7 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/_shell/access'
-    | '/admin/_shell/audit'
+    | '/admin/_shell/analytics'
     | '/admin/_shell/customers'
     | '/admin/_shell/inventory'
     | '/admin/_shell/media'
@@ -567,11 +567,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellCustomersRouteImport
       parentRoute: typeof AdminShellRoute
     }
-    '/admin/_shell/audit': {
-      id: '/admin/_shell/audit'
-      path: '/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminShellAuditRouteImport
+    '/admin/_shell/analytics': {
+      id: '/admin/_shell/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminShellAnalyticsRouteImport
       parentRoute: typeof AdminShellRoute
     }
     '/admin/_shell/access': {
@@ -586,7 +586,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminShellRouteChildren {
   AdminShellAccessRoute: typeof AdminShellAccessRoute
-  AdminShellAuditRoute: typeof AdminShellAuditRoute
+  AdminShellAnalyticsRoute: typeof AdminShellAnalyticsRoute
   AdminShellCustomersRoute: typeof AdminShellCustomersRoute
   AdminShellInventoryRoute: typeof AdminShellInventoryRoute
   AdminShellMediaRoute: typeof AdminShellMediaRoute
@@ -598,7 +598,7 @@ interface AdminShellRouteChildren {
 
 const AdminShellRouteChildren: AdminShellRouteChildren = {
   AdminShellAccessRoute: AdminShellAccessRoute,
-  AdminShellAuditRoute: AdminShellAuditRoute,
+  AdminShellAnalyticsRoute: AdminShellAnalyticsRoute,
   AdminShellCustomersRoute: AdminShellCustomersRoute,
   AdminShellInventoryRoute: AdminShellInventoryRoute,
   AdminShellMediaRoute: AdminShellMediaRoute,

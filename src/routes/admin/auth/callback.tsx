@@ -1,31 +1,32 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/lib/admin/auth-context";
 
 export const Route = createFileRoute("/admin/auth/callback")({
   component: AuthCallback,
 });
 
 function AuthCallback() {
+  const { status, refreshSession } = useAdminAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const handleCallback = async () => {
-      // Small delay to ensure session is persisted
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error || !session) {
-        console.error("Auth callback error:", error);
-        window.location.href = "/admin/login?error=auth_callback_failed";
-        return;
-      }
-
-      // Session established, redirect to dashboard
-      window.location.href = "/admin";
-    };
-
-    handleCallback();
-  }, []);
+    // Session is handled by onAuthStateChange in AdminAuthProvider
+    // but we can trigger a refresh if needed
+    if (status === 'approved') {
+      navigate({ to: "/admin" });
+    } else if (status === 'pending') {
+      navigate({ to: "/admin/pending" });
+    } else if (status === 'unauthenticated' || status === 'error') {
+      // Small delay to allow session to settle
+      const timer = setTimeout(() => {
+        if (status === 'unauthenticated' || status === 'error') {
+          navigate({ to: "/admin/login" });
+        }
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [status, navigate]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#241812]">

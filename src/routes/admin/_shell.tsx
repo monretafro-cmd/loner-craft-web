@@ -1,32 +1,68 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { requireAdminAuth } from "@/lib/admin/session";
-import { Sidebar } from "@/components/admin_new/layout/Sidebar";
-import { TopBar } from "@/components/admin_new/layout/TopBar";
+import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
+import { AdminAuthProvider, useAdminAuth } from "@/lib/admin/auth-context";
+import { ReactNode, useEffect } from "react";
+import { Sidebar } from "@/components/admin/layout/Sidebar";
+import { TopBar } from "@/components/admin/layout/TopBar";
 import { useState } from "react";
 
 export const Route = createFileRoute("/admin/_shell")({
-  beforeLoad: async () => {
-    return await requireAdminAuth();
-  },
-  component: AdminShell,
+  component: AdminShellGuard,
 });
 
-function AdminShell() {
-  const { profile } = Route.useRouteContext();
+function AdminShellGuard() {
+  const { status, isLoading, profile } = useAdminAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
+
+  // Handle redirects in useEffect to avoid throwing during render which can be swallowed
+  useEffect(() => {
+    if (!isLoading) {
+      if (status === 'unauthenticated' || status === 'error') {
+        window.location.href = "/admin/login";
+      } else if (status === 'pending') {
+        window.location.href = "/admin/pending";
+      }
+    }
+  }, [status, isLoading, pathname]);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#241812]">
+        <div className="text-center">
+          <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-[#8A4D25] border-t-transparent mx-auto"></div>
+          <p className="font-serif text-white tracking-widest uppercase animate-pulse">Verifying Session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Final fallback to prevent content flash while redirecting
+  if (status !== 'approved') {
+    if (status === 'blocked') {
+      return (
+        <div className="flex min-h-screen items-center justify-center bg-[#241812] p-4 text-center">
+          <div className="bg-[#F7F3EF] p-8 rounded-lg max-w-md">
+            <h1 className="text-2xl font-serif text-red-600 mb-4">Access Blocked</h1>
+            <p className="text-stone-600">Your administrative access has been revoked. Please contact the owner.</p>
+          </div>
+        </div>
+      );
+    }
+    return null; 
+  }
 
   return (
     <div className="flex h-screen bg-[#F7F3EF] overflow-hidden">
-      {/* Desktop Sidebar */}
+      {/* Sidebar - Desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <Sidebar profile={profile} />
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Sidebar - Mobile */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 bg-stone-600 bg-opacity-75" aria-hidden="true" onClick={() => setIsSidebarOpen(false)}></div>
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#241812] transition duration-300 ease-in-out">
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="fixed inset-0 bg-stone-900/80 backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)}></div>
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#241812] h-full transition-transform">
             <Sidebar profile={profile} onMobileClose={() => setIsSidebarOpen(false)} />
           </div>
         </div>

@@ -1,260 +1,230 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi } from "@/lib/admin/api";
+import { useAdminAuth } from "@/lib/admin/auth-context";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
-  Search, 
+  ShieldCheck, 
   UserPlus, 
-  Shield, 
-  ShieldAlert, 
-  MoreVertical, 
-  CheckCircle2, 
-  Ban, 
-  UserMinus,
-  Mail,
-  Calendar
+  MoreHorizontal, 
+  CheckCircle, 
+  XCircle, 
+  AlertCircle,
+  ShieldAlert,
+  Shield,
+  Clock
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { format } from "date-fns";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin/_shell/access")({
   component: AccessPage,
 });
 
 function AccessPage() {
+  const { profile: currentAdmin } = useAdminAuth();
   const queryClient = useQueryClient();
   const { data: profiles, isLoading } = useQuery({
-    queryKey: ["admin", "profiles"],
+    queryKey: ["admin", "access"],
     queryFn: () => adminApi.access.listProfiles(),
   });
 
   const updateStatusMutation = useMutation({
-    mutationFn: ({ id, status }: { id: string, status: string }) => 
-      adminApi.access.updateStatus(id, status),
+    mutationFn: ({ id, status }: { id: string; status: string }) => adminApi.access.updateStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "profiles"] });
-      toast.success("User status updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["admin", "access"] });
+      toast.success("User access updated");
     },
-    onError: (error: any) => {
-      toast.error(error.message || "Failed to update user status");
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to update access");
     }
   });
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="h-10 w-full bg-stone-200 animate-pulse rounded"></div>
-        <div className="h-[500px] w-full bg-stone-100 animate-pulse rounded-xl"></div>
-      </div>
-    );
-  }
+  const handleStatusChange = (id: string, status: string, userEmail: string) => {
+    if (userEmail === "valaverde05@gmail.com") {
+      toast.error("The owner account cannot be modified");
+      return;
+    }
+    updateStatusMutation.mutate({ id, status });
+  };
 
-  const pendingUsers = profiles?.filter(p => p.status === 'pending') || [];
-  const approvedUsers = profiles?.filter(p => p.status === 'approved') || [];
-  const blockedUsers = profiles?.filter(p => p.status === 'blocked') || [];
-
-  const UserTable = ({ users }: { users: any[] }) => (
-    <Table>
-      <TableHeader>
-        <TableRow className="bg-stone-50 hover:bg-stone-50">
-          <TableHead>User</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Joined</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {users.map((user: any) => (
-          <TableRow key={user.id}>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <Avatar className="h-9 w-9 border border-stone-200">
-                  <AvatarImage src={user.avatar_url} />
-                  <AvatarFallback className="bg-stone-200 text-stone-600">
-                    {user.full_name?.charAt(0) || user.email?.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-[#241812]">
-                    {user.full_name || "New User"}
-                    {user.is_owner && (
-                      <Badge className="ml-2 bg-[#8A4D25] hover:bg-[#8A4D25] text-[9px] h-4">OWNER</Badge>
-                    )}
-                  </span>
-                  <div className="flex items-center gap-1 text-[10px] text-stone-400">
-                    <Mail size={10} />
-                    {user.email}
-                  </div>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>
-              {user.user_roles?.map((r: any) => (
-                <Badge key={r.role} variant="outline" className="capitalize bg-stone-50 border-stone-200 text-stone-600">
-                  {r.role.replace('_', ' ')}
-                </Badge>
-              )) || <span className="text-xs text-stone-400 italic">No role</span>}
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-1 text-xs text-stone-500">
-                <Calendar size={12} />
-                {format(new Date(user.created_at), "MMM d, yyyy")}
-              </div>
-            </TableCell>
-            <TableCell>
-              <Badge 
-                className={
-                  user.status === 'approved' ? 'bg-green-100 text-green-700 border-none' :
-                  user.status === 'blocked' ? 'bg-red-100 text-red-700 border-none' :
-                  'bg-amber-100 text-amber-700 border-none'
-                }
-              >
-                {user.status}
-              </Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              {user.is_owner ? (
-                <Button variant="ghost" disabled size="sm">
-                  <Shield size={16} className="text-stone-300" />
-                </Button>
-              ) : (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <MoreVertical size={16} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    {user.status !== 'approved' && (
-                      <DropdownMenuItem 
-                        onClick={() => updateStatusMutation.mutate({ id: user.id, status: 'approved' })}
-                        className="cursor-pointer gap-2 text-green-600"
-                      >
-                        <CheckCircle2 size={14} /> Approve Access
-                      </DropdownMenuItem>
-                    )}
-                    {user.status !== 'blocked' && (
-                      <DropdownMenuItem 
-                        onClick={() => updateStatusMutation.mutate({ id: user.id, status: 'blocked' })}
-                        className="cursor-pointer gap-2 text-red-600"
-                      >
-                        <Ban size={14} /> Block User
-                      </DropdownMenuItem>
-                    )}
-                    {user.status === 'blocked' && (
-                      <DropdownMenuItem 
-                        onClick={() => updateStatusMutation.mutate({ id: user.id, status: 'approved' })}
-                        className="cursor-pointer gap-2"
-                      >
-                        <CheckCircle2 size={14} /> Unblock
-                      </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem className="cursor-pointer gap-2">
-                      <ShieldAlert size={14} /> Change Role
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer gap-2 text-red-600 focus:bg-red-50 focus:text-red-600">
-                      <UserMinus size={14} /> Remove Access
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
-            </TableCell>
-          </TableRow>
-        ))}
-        {users.length === 0 && (
-          <TableRow>
-            <TableCell colSpan={5} className="h-32 text-center text-stone-400 italic">
-              No users in this list
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  );
+  const isSuperAdmin = currentAdmin?.role === 'super_admin' || currentAdmin?.is_owner;
 
   return (
-    <div className="space-y-6 pb-10">
+    <div className="space-y-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-serif text-[#241812]">Admins & Access</h1>
-          <p className="text-stone-500 text-sm mt-1">Manage team members and permissions</p>
+          <p className="text-stone-500 text-sm mt-1">Manage administrative roles and permissions</p>
         </div>
-        <Button className="bg-[#8A4D25] hover:bg-[#241812] text-white gap-2">
-          <UserPlus size={18} />
-          Invite Admin
-        </Button>
+        {isSuperAdmin && (
+          <Button className="bg-[#8A4D25] hover:bg-[#241812] text-white">
+            <UserPlus size={18} className="mr-2" />
+            Invite Admin
+          </Button>
+        )}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
-        <div className="p-4 border-b border-stone-100 bg-stone-50/50">
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" size={18} />
-            <Input 
-              placeholder="Search by name or email..." 
-              className="pl-10 border-stone-200"
-            />
-          </div>
-        </div>
-
-        <Tabs defaultValue="approved" className="w-full">
-          <div className="px-4 border-b border-stone-100">
-            <TabsList className="bg-transparent border-none gap-6 h-12">
-              <TabsTrigger 
-                value="pending" 
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#8A4D25] data-[state=active]:bg-transparent px-0 text-stone-500 data-[state=active]:text-[#8A4D25]"
-              >
-                Pending 
-                {pendingUsers.length > 0 && (
-                  <Badge className="ml-2 bg-amber-500 hover:bg-amber-500 h-5 w-5 p-0 flex items-center justify-center">
-                    {pendingUsers.length}
-                  </Badge>
-                )}
-              </TabsTrigger>
-              <TabsTrigger 
-                value="approved" 
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#8A4D25] data-[state=active]:bg-transparent px-0 text-stone-500 data-[state=active]:text-[#8A4D25]"
-              >
-                Approved
-              </TabsTrigger>
-              <TabsTrigger 
-                value="blocked" 
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#8A4D25] data-[state=active]:bg-transparent px-0 text-stone-500 data-[state=active]:text-[#8A4D25]"
-              >
-                Blocked
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          <TabsContent value="pending" className="m-0">
-            <UserTable users={pendingUsers} />
-          </TabsContent>
-          <TabsContent value="approved" className="m-0">
-            <UserTable users={approvedUsers} />
-          </TabsContent>
-          <TabsContent value="blocked" className="m-0">
-            <UserTable users={blockedUsers} />
-          </TabsContent>
-        </Tabs>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <Card className="border-none shadow-sm bg-[#241812] text-white">
+          <CardContent className="p-6 flex items-center gap-4">
+            <div className="p-3 bg-[#8A4D25]/20 rounded-xl">
+              <ShieldCheck className="text-[#8A4D25]" size={24} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider">Super Admins</p>
+              <h3 className="text-2xl font-bold">{profiles?.filter((p: any) => p.user_roles?.some((r: any) => r.role === 'super_admin')).length || 0}</h3>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-sm">
+          <CardContent className="p-6 flex items-center gap-4">
+            <div className="p-3 bg-stone-100 rounded-xl">
+              <Shield className="text-stone-600" size={24} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-stone-500 uppercase tracking-wider">Total Admins</p>
+              <h3 className="text-2xl font-bold text-[#241812]">{profiles?.filter((p: any) => p.status === 'approved').length || 0}</h3>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-sm">
+          <CardContent className="p-6 flex items-center gap-4">
+            <div className="p-3 bg-amber-50 rounded-xl">
+              <Clock className="text-amber-600" size={24} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-stone-500 uppercase tracking-wider">Pending Requests</p>
+              <h3 className="text-2xl font-bold text-[#241812]">{profiles?.filter((p: any) => p.status === 'pending').length || 0}</h3>
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      <Card className="border-none shadow-sm overflow-hidden">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-stone-50 text-stone-500 text-xs uppercase font-semibold">
+                  <th className="px-6 py-4">Administrator</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Role</th>
+                  <th className="px-6 py-4">Joined</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {isLoading ? (
+                  [...Array(3)].map((_, i) => (
+                    <tr key={i} className="animate-pulse">
+                      <td colSpan={5} className="px-6 py-4 h-16 bg-stone-50/50"></td>
+                    </tr>
+                  ))
+                ) : profiles?.map((profile: any) => (
+                  <tr key={profile.id} className="hover:bg-stone-50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${profile.is_owner ? 'bg-[#8A4D25]' : 'bg-stone-300'}`}>
+                          {profile.full_name?.charAt(0) || profile.email?.charAt(0) || "?"}
+                        </div>
+                        <div>
+                          <div className="text-sm font-bold text-[#241812] flex items-center gap-1.5">
+                            {profile.email}
+                            {profile.is_owner && (
+                              <Badge className="bg-[#8A4D25]/10 text-[#8A4D25] hover:bg-[#8A4D25]/10 border-none text-[10px] py-0">Owner</Badge>
+                            )}
+                          </div>
+                          <div className="text-xs text-stone-500">{profile.full_name || "No name set"}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Badge className={
+                        profile.status === 'approved' 
+                          ? 'bg-green-100 text-green-700 hover:bg-green-100 border-none' 
+                          : profile.status === 'blocked'
+                          ? 'bg-red-100 text-red-700 hover:bg-red-100 border-none'
+                          : 'bg-amber-100 text-amber-700 hover:bg-amber-100 border-none'
+                      }>
+                        {profile.status}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-stone-600">
+                      {profile.user_roles?.[0]?.role || "None"}
+                    </td>
+                    <td className="px-6 py-4 text-xs text-stone-500">
+                      {new Date(profile.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {!profile.is_owner && isSuperAdmin && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0 hover:bg-stone-100">
+                              <MoreHorizontal size={16} />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            {profile.status === 'pending' && (
+                              <DropdownMenuItem 
+                                className="cursor-pointer gap-2 text-green-600"
+                                onClick={() => handleStatusChange(profile.id, 'approved', profile.email)}
+                              >
+                                <CheckCircle size={14} /> Approve Access
+                              </DropdownMenuItem>
+                            )}
+                            {profile.status === 'approved' && (
+                              <DropdownMenuItem 
+                                className="cursor-pointer gap-2 text-red-600"
+                                onClick={() => handleStatusChange(profile.id, 'blocked', profile.email)}
+                              >
+                                <ShieldAlert size={14} /> Block Admin
+                              </DropdownMenuItem>
+                            )}
+                            {profile.status === 'blocked' && (
+                              <DropdownMenuItem 
+                                className="cursor-pointer gap-2 text-green-600"
+                                onClick={() => handleStatusChange(profile.id, 'approved', profile.email)}
+                              >
+                                <CheckCircle size={14} /> Restore Access
+                              </DropdownMenuItem>
+                            )}
+                            {profile.status === 'pending' && (
+                              <DropdownMenuItem 
+                                className="cursor-pointer gap-2 text-stone-600"
+                                onClick={() => handleStatusChange(profile.id, 'blocked', profile.email)}
+                              >
+                                <XCircle size={14} /> Reject Request
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {!isSuperAdmin && (
+        <Alert className="bg-amber-50 border-amber-200">
+          <AlertCircle className="h-4 w-4 text-amber-600" />
+          <AlertDescription className="text-amber-700">
+            Only Super Admins can manage administrative access and roles.
+          </AlertDescription>
+        </Alert>
+      )}
     </div>
   );
 }

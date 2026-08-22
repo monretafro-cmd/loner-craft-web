@@ -1,18 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, LogOut, MessageCircle } from "lucide-react";
+import { Clock, LogOut, MessageCircle, RefreshCw } from "lucide-react";
+import { useAdminAuth } from "@/lib/admin/auth-context";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/admin/pending")({
   component: PendingPage,
 });
 
 function PendingPage() {
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/admin/login";
-  };
+  const { status, signOut, refreshSession, isLoading } = useAdminAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (status === 'approved') {
+      navigate({ to: "/admin" });
+    } else if (status === 'unauthenticated') {
+      navigate({ to: "/admin/login" });
+    }
+  }, [status, navigate]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#241812] p-4">
@@ -38,20 +45,21 @@ function PendingPage() {
             <ul className="list-disc list-inside space-y-2 text-sm text-stone-600">
               <li>The Owner has been notified of your request</li>
               <li>Once approved, you will gain access to your assigned role</li>
-              <li>You can try refreshing this page periodically</li>
             </ul>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button 
-              onClick={() => window.location.reload()}
+              onClick={() => refreshSession()}
+              disabled={isLoading}
               className="flex-1 bg-[#8A4D25] hover:bg-[#241812] text-white py-6"
             >
+              {isLoading ? <RefreshCw className="animate-spin mr-2" size={18} /> : null}
               Check Status
             </Button>
             <Button 
               variant="outline"
-              onClick={handleSignOut}
+              onClick={() => signOut()}
               className="flex-1 border-stone-300 py-6 hover:bg-stone-50 gap-2"
             >
               <LogOut size={18} />

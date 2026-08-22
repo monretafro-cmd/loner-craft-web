@@ -1,115 +1,115 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Settings, Shield, Bell, User, Globe, Palette, Truck, Database } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { 
-  Settings as SettingsIcon, 
-  Globe, 
-  ShieldCheck, 
-  MessageCircle, 
-  Bell, 
-  CreditCard,
-  ChevronRight,
-  Database
-} from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/admin/_shell/settings")({
   component: SettingsPage,
 });
 
 function SettingsPage() {
-  const sections = [
-    {
-      title: "Store Details",
-      description: "Business name, location, and currency settings",
-      icon: SettingsIcon,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50"
-    },
-    {
-      title: "Localization",
-      description: "Enable/disable languages (EN, FR, AR) and regions",
-      icon: Globe,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50"
-    },
-    {
-      title: "Payments & COD",
-      description: "Manage Cash on Delivery and payment gateways",
-      icon: CreditCard,
-      color: "text-amber-600",
-      bgColor: "bg-amber-50"
-    },
-    {
-      title: "WhatsApp API",
-      description: "Configure message templates and business numbers",
-      icon: MessageCircle,
-      color: "text-green-600",
-      bgColor: "bg-green-50"
-    },
-    {
-      title: "Notifications",
-      description: "Admin alerts for new orders and low stock",
-      icon: Bell,
-      color: "text-indigo-600",
-      bgColor: "bg-indigo-50"
-    },
-    {
-      title: "Security & RLS",
-      description: "Harden database access and audit log settings",
-      icon: ShieldCheck,
-      color: "text-red-600",
-      bgColor: "bg-red-50"
-    }
-  ];
-
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
       <div>
         <h1 className="text-3xl font-serif text-[#241812]">Settings</h1>
-        <p className="text-stone-500 text-sm mt-1">Configure your administration environment</p>
+        <p className="text-stone-500 text-sm mt-1">Configure your store and administrative preferences</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sections.map((section, i) => (
-          <Card key={i} className="border-none shadow-sm cursor-pointer hover:shadow-md transition-shadow group">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-6">
-                <div className={`${section.bgColor} ${section.color} p-4 rounded-xl group-hover:scale-105 transition-transform`}>
-                  <section.icon size={28} />
+      <Tabs defaultValue="general" className="w-full">
+        <TabsList className="bg-stone-100 p-1 border border-stone-200">
+          <TabsTrigger value="general" className="data-[state=active]:bg-white">General</TabsTrigger>
+          <TabsTrigger value="auth" className="data-[state=active]:bg-white">Authentication</TabsTrigger>
+          <TabsTrigger value="notifications" className="data-[state=active]:bg-white">Notifications</TabsTrigger>
+          <TabsTrigger value="appearance" className="data-[state=active]:bg-white">Appearance</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="general" className="mt-6 space-y-6">
+          <Card className="border-none shadow-sm">
+            <CardHeader className="border-b border-stone-100">
+              <CardTitle className="text-lg font-serif flex items-center gap-2">
+                <Globe size={18} className="text-[#8A4D25]" /> Store Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="store-name">Store Name</Label>
+                  <Input id="store-name" defaultValue="Loner Leather" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-serif text-[#241812] group-hover:text-[#8A4D25] transition-colors">{section.title}</h3>
-                  <p className="text-sm text-stone-500 mt-1">{section.description}</p>
+                <div className="space-y-2">
+                  <Label htmlFor="support-email">Support Email</Label>
+                  <Input id="support-email" defaultValue="support@lonerleather.com" />
                 </div>
-                <ChevronRight className="text-stone-300 group-hover:text-[#8A4D25] transition-colors" />
+                <div className="space-y-2">
+                  <Label htmlFor="currency">Store Currency</Label>
+                  <Input id="currency" defaultValue="MAD" disabled />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="timezone">Timezone</Label>
+                  <Input id="timezone" defaultValue="(GMT+01:00) Casablanca" />
+                </div>
+              </div>
+              <Button className="bg-[#8A4D25] hover:bg-[#241812] text-white">Save Changes</Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="auth" className="mt-6 space-y-6">
+          <Card className="border-none shadow-sm">
+            <CardHeader className="border-b border-stone-100">
+              <CardTitle className="text-lg font-serif flex items-center gap-2">
+                <Shield size={18} className="text-[#8A4D25]" /> Security & Authentication
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-[#241812]">Google OAuth</p>
+                  <p className="text-xs text-stone-500">Enable Google sign-in for administrators</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between border-t border-stone-100 pt-6">
+                <div>
+                  <p className="text-sm font-bold text-[#241812]">Two-Factor Authentication</p>
+                  <p className="text-xs text-stone-500">Require a second verification step for all admins</p>
+                </div>
+                <Switch />
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
+        </TabsContent>
 
-      <Card className="border-none shadow-sm bg-stone-900 text-white overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-10">
-          <Database size={120} />
-        </div>
-        <CardHeader>
-          <CardTitle className="font-serif">Maintenance Mode</CardTitle>
-          <CardDescription className="text-stone-400">
-            Temporarily disable the storefront for all users except admins
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-4 h-4 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-              <span className="font-medium">System status: Normal</span>
-            </div>
-            <Button variant="outline" className="border-stone-700 hover:bg-stone-800 text-white whitespace-nowrap">
-              Enable Maintenance Mode
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        <TabsContent value="notifications" className="mt-6 space-y-6">
+           <Card className="border-none shadow-sm">
+            <CardHeader className="border-b border-stone-100">
+              <CardTitle className="text-lg font-serif flex items-center gap-2">
+                <Bell size={18} className="text-[#8A4D25]" /> Notifications
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-[#241812]">New Order Alerts</p>
+                  <p className="text-xs text-stone-500">Get notified immediately when a new order is placed</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between border-t border-stone-100 pt-6">
+                <div>
+                  <p className="text-sm font-bold text-[#241812]">Inventory Alerts</p>
+                  <p className="text-xs text-stone-500">Receive notifications when stock levels are low</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

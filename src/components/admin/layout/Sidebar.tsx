@@ -21,7 +21,7 @@ import {
   LogOut,
   X
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/lib/admin/auth-context";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -31,6 +31,7 @@ interface SidebarProps {
 
 export function Sidebar({ profile, onMobileClose }: SidebarProps) {
   const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
+  const { signOut } = useAdminAuth();
 
   const navigation = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -40,31 +41,19 @@ export function Sidebar({ profile, onMobileClose }: SidebarProps) {
     { name: "Customers", href: "/admin/customers", icon: Users },
     { name: "Inventory", href: "/admin/inventory", icon: Warehouse },
     { name: "Media Library", href: "/admin/media", icon: ImageIcon },
-    { name: "Discounts", href: "/admin/discounts", icon: Percent },
-    { name: "Reviews", href: "/admin/reviews", icon: MessageSquare },
-    { name: "Messages", href: "/admin/messages", icon: MessageSquare },
     { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     { type: "divider", label: "Site Management" },
-    { name: "Homepage", href: "/admin/homepage", icon: Home },
-    { name: "Shop Page", href: "/admin/shop-config", icon: Store },
     { name: "Delivery", href: "/admin/delivery", icon: Truck },
     { name: "WhatsApp", href: "/admin/whatsapp", icon: MessageCircle },
-    { name: "Notifications", href: "/admin/notifications", icon: Bell },
     { type: "divider", label: "System" },
     { name: "Admins & Access", href: "/admin/access", icon: ShieldCheck },
-    { name: "Audit Log", href: "/admin/audit", icon: FileText },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/admin/login";
-  };
 
   return (
     <div className="flex flex-col w-64 h-full bg-[#241812] text-stone-200">
       <div className="flex items-center justify-between h-16 px-6 bg-[#1a120d]">
-        <span className="text-xl font-serif font-bold text-white tracking-wider">LONER ADMIN</span>
+        <span className="text-xl font-serif font-bold text-white tracking-wider uppercase">Loner Admin</span>
         {onMobileClose && (
           <button onClick={onMobileClose} className="lg:hidden text-stone-400 hover:text-white">
             <X size={20} />
@@ -95,7 +84,7 @@ export function Sidebar({ profile, onMobileClose }: SidebarProps) {
               className={cn(
                 "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors group",
                 isActive 
-                  ? "bg-[#8A4D25] text-white" 
+                  ? "bg-[#8A4D25] text-white shadow-lg" 
                   : "text-stone-400 hover:bg-[#32241b] hover:text-white"
               )}
             >
@@ -112,8 +101,17 @@ export function Sidebar({ profile, onMobileClose }: SidebarProps) {
       </nav>
 
       <div className="p-4 bg-[#1a120d] border-t border-[#32241b]">
+        <div className="flex items-center gap-3 px-3 py-2 mb-4">
+          <div className="w-8 h-8 rounded-full bg-[#8A4D25] flex items-center justify-center text-white text-xs font-bold">
+            {profile?.full_name?.charAt(0) || "A"}
+          </div>
+          <div className="overflow-hidden">
+            <p className="text-sm font-medium text-white truncate">{profile?.full_name || "Admin"}</p>
+            <p className="text-xs text-stone-500 truncate">{profile?.role || "Manager"}</p>
+          </div>
+        </div>
         <button
-          onClick={handleLogout}
+          onClick={() => signOut()}
           className="flex items-center w-full px-3 py-2 text-sm font-medium text-stone-400 rounded-md hover:bg-red-900/20 hover:text-red-400 transition-colors"
         >
           <LogOut className="mr-3 h-5 w-5" />
