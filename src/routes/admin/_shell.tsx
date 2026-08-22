@@ -18,9 +18,9 @@ function AdminShellGuard() {
   useEffect(() => {
     if (!isLoading) {
       if (status === 'unauthenticated' || status === 'error') {
-        window.location.href = "/admin/login";
+        navigate({ to: "/admin/login", replace: true });
       } else if (status === 'pending') {
-        window.location.href = "/admin/pending";
+        navigate({ to: "/admin/pending", replace: true });
       }
     }
   }, [status, isLoading, pathname]);

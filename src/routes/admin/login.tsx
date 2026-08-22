@@ -51,13 +51,21 @@ function LoginPage() {
 
   const handleGoogleLogin = async () => {
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/admin/auth/callback`,
-      extraParams: { prompt: "select_account" },
-    });
-
-    if (result.error) {
-      setError("Google sign-in is not configured yet.");
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/admin/auth/callback`,
+          queryParams: {
+            prompt: 'select_account',
+            access_type: 'offline',
+          }
+        }
+      });
+      if (error) throw error;
+    } catch (err: any) {
+      console.error("Google login error:", err);
+      setError(err.message || "Google sign-in is not configured yet.");
     }
   };
 
