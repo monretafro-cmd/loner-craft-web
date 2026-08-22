@@ -31,11 +31,18 @@ function AdminProducts() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*')
+        .select('*, product_images(image_url, is_main)')
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data;
+
+      // Transform data to include the main image URL
+      return data.map(product => ({
+        ...product,
+        main_image_url: product.product_images?.find((img: any) => img.is_main)?.image_url 
+          || product.product_images?.[0]?.image_url 
+          || null
+      }));
     }
   });
 
@@ -119,8 +126,8 @@ function AdminProducts() {
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="w-12 h-12 bg-[#F7F3EF] rounded border border-[#8A4D25]/10 flex items-center justify-center overflow-hidden flex-shrink-0">
-                          {product.image_url ? (
-                            <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
+                          {product.main_image_url ? (
+                            <img src={product.main_image_url} alt={product.name} className="w-full h-full object-cover" />
                           ) : (
                             <ImageIcon className="w-6 h-6 text-[#241812]/10" />
                           )}
