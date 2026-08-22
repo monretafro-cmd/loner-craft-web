@@ -20,6 +20,7 @@ import { BrandLoader } from "@/components/site/BrandLoader";
 import { StoreProvider } from "@/lib/store";
 import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
+import { AdminAuthProvider } from "@/lib/admin/auth-context";
 
 
 function NotFoundComponent() {
