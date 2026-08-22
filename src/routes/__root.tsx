@@ -20,7 +20,7 @@ import { BrandLoader } from "@/components/site/BrandLoader";
 import { StoreProvider } from "@/lib/store";
 import { I18nProvider } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
-import { AdminAuthProvider } from "@/lib/admin/auth-context";
+
 
 function NotFoundComponent() {
   return (
@@ -163,11 +163,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AdminAuthProvider>
-        <I18nProvider>
-          <InnerComponent />
-        </I18nProvider>
-      </AdminAuthProvider>
+      <I18nProvider>
+        <InnerComponent />
+      </I18nProvider>
     </QueryClientProvider>
   );
 }
