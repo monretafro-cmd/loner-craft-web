@@ -76,6 +76,34 @@ function AdminLoginPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setLocalError(null);
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/admin/auth/callback`,
+        },
+      });
+
+      if (error) {
+        if (error.message.includes('missing OAuth secret') || error.message.includes('Unsupported provider')) {
+          setLocalError('Google sign-in is not configured. Please contact the administrator.');
+          toast.error('Google sign-in is not configured.');
+        } else {
+          setLocalError(error.message);
+          toast.error(error.message);
+        }
+      }
+    } catch (err: any) {
+      setLocalError('An error occurred during Google sign-in');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#241812] px-4 font-inter text-[#F7F3EF]">
       <div className="w-full max-w-[420px]">
