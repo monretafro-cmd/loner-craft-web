@@ -106,7 +106,7 @@ function AdminOrders() {
                       <div className="text-[10px] text-[#241812]/40">{order.customers?.phone}</div>
                     </td>
                     <td className="px-6 py-4 text-sm font-bold text-[#241812] text-right">
-                      {order.total_amount} MAD
+                      {order.total} MAD
                     </td>
                     <td className="px-6 py-4">
                       <span className={cn(
