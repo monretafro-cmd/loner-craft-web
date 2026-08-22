@@ -9,9 +9,12 @@ export const Route = createFileRoute("/admin/auth/callback")({
 function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
-      const { data: { user }, error } = await supabase.auth.getUser();
+      // Small delay to ensure session is persisted
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      if (error || !user) {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error || !session) {
         console.error("Auth callback error:", error);
         window.location.href = "/admin/login?error=auth_callback_failed";
         return;

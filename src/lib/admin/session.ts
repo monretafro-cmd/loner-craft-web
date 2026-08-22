@@ -30,7 +30,11 @@ export async function getAdminSession() {
     let adminProfile = profile ? { ...profile, user_roles: roles || [] } : null;
 
     if (session.user.email === OWNER_EMAIL) {
-      if (!adminProfile || adminProfile.status !== "approved" || !adminProfile.is_owner) {
+      // The user is the owner, ensure they have the role and are approved
+      const hasSuperAdmin = roles?.some(r => r.role === 'super_admin');
+      
+      if (!adminProfile || adminProfile.status !== "approved" || !adminProfile.is_owner || !hasSuperAdmin) {
+        console.log("Auto-approving owner...");
         const { data: updatedProfile } = await supabase
           .from("profiles")
           .upsert({
@@ -44,15 +48,19 @@ export async function getAdminSession() {
           .select("*")
           .single();
         
-        const { data: updatedRoles } = await supabase
+        await supabase
           .from("user_roles")
           .upsert({
             user_id: session.user.id,
             role: "super_admin"
-          })
-          .select("role");
+          });
 
-        adminProfile = { ...(updatedProfile as any), user_roles: updatedRoles || [{ role: "super_admin" }], status: "approved", is_owner: true };
+        const { data: finalRoles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id);
+
+        adminProfile = { ...(updatedProfile as any), user_roles: finalRoles || [{ role: "super_admin" }], status: "approved", is_owner: true };
       }
     }
 
@@ -88,21 +96,25 @@ export async function requireAdminAuth() {
   const { session, profile, error } = await getAdminSession();
   
   if (!session || error) {
+    console.warn("Auth required: No session or error", error);
     throw redirect({ to: "/admin/login" });
   }
 
   if (profile?.status === "blocked") {
+    console.warn("Auth denied: Profile blocked");
     await supabase.auth.signOut();
     throw redirect({ to: "/admin/login" });
   }
 
   if (profile?.status !== "approved") {
+    console.warn("Auth pending: Status is", profile?.status);
     throw redirect({ to: "/admin/pending" });
   }
 
   const isAdmin = profile?.is_owner || profile?.user_roles?.some((r: any) => ["admin", "super_admin"].includes(r.role));
   
   if (!isAdmin) {
+    console.warn("Auth denied: Not an admin");
     throw redirect({ to: "/" });
   }
 
