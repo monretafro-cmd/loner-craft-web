@@ -29,8 +29,20 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminShellRouteImport } from './routes/admin/_shell'
 import { Route as AdminShellIndexRouteImport } from './routes/admin/_shell.index'
 import { Route as AdminAuthCallbackRouteImport } from './routes/admin/auth/callback'
+import { Route as AdminShellShopPageRouteImport } from './routes/admin/_shell.shop-page'
+import { Route as AdminShellSettingsRouteImport } from './routes/admin/_shell.settings'
+import { Route as AdminShellReviewsRouteImport } from './routes/admin/_shell.reviews'
 import { Route as AdminShellProductsRouteImport } from './routes/admin/_shell.products'
 import { Route as AdminShellOrdersRouteImport } from './routes/admin/_shell.orders'
+import { Route as AdminShellMessagesRouteImport } from './routes/admin/_shell.messages'
+import { Route as AdminShellMediaRouteImport } from './routes/admin/_shell.media'
+import { Route as AdminShellInventoryRouteImport } from './routes/admin/_shell.inventory'
+import { Route as AdminShellHomepageRouteImport } from './routes/admin/_shell.homepage'
+import { Route as AdminShellDeliveryRouteImport } from './routes/admin/_shell.delivery'
+import { Route as AdminShellCustomersRouteImport } from './routes/admin/_shell.customers'
+import { Route as AdminShellCategoriesRouteImport } from './routes/admin/_shell.categories'
+import { Route as AdminShellAuditRouteImport } from './routes/admin/_shell.audit'
+import { Route as AdminShellAnalyticsRouteImport } from './routes/admin/_shell.analytics'
 import { Route as AdminShellAccessRouteImport } from './routes/admin/_shell.access'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -133,6 +145,21 @@ const AdminAuthCallbackRoute = AdminAuthCallbackRouteImport.update({
   path: '/admin/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminShellShopPageRoute = AdminShellShopPageRouteImport.update({
+  id: '/shop-page',
+  path: '/shop-page',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellSettingsRoute = AdminShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellReviewsRoute = AdminShellReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminShellRoute,
+} as any)
 const AdminShellProductsRoute = AdminShellProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -141,6 +168,51 @@ const AdminShellProductsRoute = AdminShellProductsRouteImport.update({
 const AdminShellOrdersRoute = AdminShellOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellMessagesRoute = AdminShellMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellMediaRoute = AdminShellMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellInventoryRoute = AdminShellInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellHomepageRoute = AdminShellHomepageRouteImport.update({
+  id: '/homepage',
+  path: '/homepage',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellDeliveryRoute = AdminShellDeliveryRouteImport.update({
+  id: '/delivery',
+  path: '/delivery',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellCustomersRoute = AdminShellCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellCategoriesRoute = AdminShellCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellAuditRoute = AdminShellAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminShellRoute,
+} as any)
+const AdminShellAnalyticsRoute = AdminShellAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AdminShellRoute,
 } as any)
 const AdminShellAccessRoute = AdminShellAccessRouteImport.update({
@@ -169,8 +241,20 @@ export interface FileRoutesByFullPath {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
+  '/admin/analytics': typeof AdminShellAnalyticsRoute
+  '/admin/audit': typeof AdminShellAuditRoute
+  '/admin/categories': typeof AdminShellCategoriesRoute
+  '/admin/customers': typeof AdminShellCustomersRoute
+  '/admin/delivery': typeof AdminShellDeliveryRoute
+  '/admin/homepage': typeof AdminShellHomepageRoute
+  '/admin/inventory': typeof AdminShellInventoryRoute
+  '/admin/media': typeof AdminShellMediaRoute
+  '/admin/messages': typeof AdminShellMessagesRoute
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
+  '/admin/reviews': typeof AdminShellReviewsRoute
+  '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/shop-page': typeof AdminShellShopPageRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/': typeof AdminShellIndexRoute
 }
@@ -193,8 +277,20 @@ export interface FileRoutesByTo {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/access': typeof AdminShellAccessRoute
+  '/admin/analytics': typeof AdminShellAnalyticsRoute
+  '/admin/audit': typeof AdminShellAuditRoute
+  '/admin/categories': typeof AdminShellCategoriesRoute
+  '/admin/customers': typeof AdminShellCustomersRoute
+  '/admin/delivery': typeof AdminShellDeliveryRoute
+  '/admin/homepage': typeof AdminShellHomepageRoute
+  '/admin/inventory': typeof AdminShellInventoryRoute
+  '/admin/media': typeof AdminShellMediaRoute
+  '/admin/messages': typeof AdminShellMessagesRoute
   '/admin/orders': typeof AdminShellOrdersRoute
   '/admin/products': typeof AdminShellProductsRoute
+  '/admin/reviews': typeof AdminShellReviewsRoute
+  '/admin/settings': typeof AdminShellSettingsRoute
+  '/admin/shop-page': typeof AdminShellShopPageRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin': typeof AdminShellIndexRoute
 }
@@ -219,8 +315,20 @@ export interface FileRoutesById {
   '/admin/pending': typeof AdminPendingRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/_shell/access': typeof AdminShellAccessRoute
+  '/admin/_shell/analytics': typeof AdminShellAnalyticsRoute
+  '/admin/_shell/audit': typeof AdminShellAuditRoute
+  '/admin/_shell/categories': typeof AdminShellCategoriesRoute
+  '/admin/_shell/customers': typeof AdminShellCustomersRoute
+  '/admin/_shell/delivery': typeof AdminShellDeliveryRoute
+  '/admin/_shell/homepage': typeof AdminShellHomepageRoute
+  '/admin/_shell/inventory': typeof AdminShellInventoryRoute
+  '/admin/_shell/media': typeof AdminShellMediaRoute
+  '/admin/_shell/messages': typeof AdminShellMessagesRoute
   '/admin/_shell/orders': typeof AdminShellOrdersRoute
   '/admin/_shell/products': typeof AdminShellProductsRoute
+  '/admin/_shell/reviews': typeof AdminShellReviewsRoute
+  '/admin/_shell/settings': typeof AdminShellSettingsRoute
+  '/admin/_shell/shop-page': typeof AdminShellShopPageRoute
   '/admin/auth/callback': typeof AdminAuthCallbackRoute
   '/admin/_shell/': typeof AdminShellIndexRoute
 }
@@ -246,8 +354,20 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/access'
+    | '/admin/analytics'
+    | '/admin/audit'
+    | '/admin/categories'
+    | '/admin/customers'
+    | '/admin/delivery'
+    | '/admin/homepage'
+    | '/admin/inventory'
+    | '/admin/media'
+    | '/admin/messages'
     | '/admin/orders'
     | '/admin/products'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/shop-page'
     | '/admin/auth/callback'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -270,8 +390,20 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/access'
+    | '/admin/analytics'
+    | '/admin/audit'
+    | '/admin/categories'
+    | '/admin/customers'
+    | '/admin/delivery'
+    | '/admin/homepage'
+    | '/admin/inventory'
+    | '/admin/media'
+    | '/admin/messages'
     | '/admin/orders'
     | '/admin/products'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/shop-page'
     | '/admin/auth/callback'
     | '/admin'
   id:
@@ -295,8 +427,20 @@ export interface FileRouteTypes {
     | '/admin/pending'
     | '/product/$slug'
     | '/admin/_shell/access'
+    | '/admin/_shell/analytics'
+    | '/admin/_shell/audit'
+    | '/admin/_shell/categories'
+    | '/admin/_shell/customers'
+    | '/admin/_shell/delivery'
+    | '/admin/_shell/homepage'
+    | '/admin/_shell/inventory'
+    | '/admin/_shell/media'
+    | '/admin/_shell/messages'
     | '/admin/_shell/orders'
     | '/admin/_shell/products'
+    | '/admin/_shell/reviews'
+    | '/admin/_shell/settings'
+    | '/admin/_shell/shop-page'
     | '/admin/auth/callback'
     | '/admin/_shell/'
   fileRoutesById: FileRoutesById
@@ -465,6 +609,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/_shell/shop-page': {
+      id: '/admin/_shell/shop-page'
+      path: '/shop-page'
+      fullPath: '/admin/shop-page'
+      preLoaderRoute: typeof AdminShellShopPageRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/settings': {
+      id: '/admin/_shell/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminShellSettingsRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/reviews': {
+      id: '/admin/_shell/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminShellReviewsRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
     '/admin/_shell/products': {
       id: '/admin/_shell/products'
       path: '/products'
@@ -479,6 +644,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShellOrdersRouteImport
       parentRoute: typeof AdminShellRoute
     }
+    '/admin/_shell/messages': {
+      id: '/admin/_shell/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminShellMessagesRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/media': {
+      id: '/admin/_shell/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminShellMediaRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/inventory': {
+      id: '/admin/_shell/inventory'
+      path: '/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AdminShellInventoryRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/homepage': {
+      id: '/admin/_shell/homepage'
+      path: '/homepage'
+      fullPath: '/admin/homepage'
+      preLoaderRoute: typeof AdminShellHomepageRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/delivery': {
+      id: '/admin/_shell/delivery'
+      path: '/delivery'
+      fullPath: '/admin/delivery'
+      preLoaderRoute: typeof AdminShellDeliveryRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/customers': {
+      id: '/admin/_shell/customers'
+      path: '/customers'
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof AdminShellCustomersRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/categories': {
+      id: '/admin/_shell/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminShellCategoriesRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/audit': {
+      id: '/admin/_shell/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminShellAuditRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
+    '/admin/_shell/analytics': {
+      id: '/admin/_shell/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminShellAnalyticsRouteImport
+      parentRoute: typeof AdminShellRoute
+    }
     '/admin/_shell/access': {
       id: '/admin/_shell/access'
       path: '/access'
@@ -491,15 +719,39 @@ declare module '@tanstack/react-router' {
 
 interface AdminShellRouteChildren {
   AdminShellAccessRoute: typeof AdminShellAccessRoute
+  AdminShellAnalyticsRoute: typeof AdminShellAnalyticsRoute
+  AdminShellAuditRoute: typeof AdminShellAuditRoute
+  AdminShellCategoriesRoute: typeof AdminShellCategoriesRoute
+  AdminShellCustomersRoute: typeof AdminShellCustomersRoute
+  AdminShellDeliveryRoute: typeof AdminShellDeliveryRoute
+  AdminShellHomepageRoute: typeof AdminShellHomepageRoute
+  AdminShellInventoryRoute: typeof AdminShellInventoryRoute
+  AdminShellMediaRoute: typeof AdminShellMediaRoute
+  AdminShellMessagesRoute: typeof AdminShellMessagesRoute
   AdminShellOrdersRoute: typeof AdminShellOrdersRoute
   AdminShellProductsRoute: typeof AdminShellProductsRoute
+  AdminShellReviewsRoute: typeof AdminShellReviewsRoute
+  AdminShellSettingsRoute: typeof AdminShellSettingsRoute
+  AdminShellShopPageRoute: typeof AdminShellShopPageRoute
   AdminShellIndexRoute: typeof AdminShellIndexRoute
 }
 
 const AdminShellRouteChildren: AdminShellRouteChildren = {
   AdminShellAccessRoute: AdminShellAccessRoute,
+  AdminShellAnalyticsRoute: AdminShellAnalyticsRoute,
+  AdminShellAuditRoute: AdminShellAuditRoute,
+  AdminShellCategoriesRoute: AdminShellCategoriesRoute,
+  AdminShellCustomersRoute: AdminShellCustomersRoute,
+  AdminShellDeliveryRoute: AdminShellDeliveryRoute,
+  AdminShellHomepageRoute: AdminShellHomepageRoute,
+  AdminShellInventoryRoute: AdminShellInventoryRoute,
+  AdminShellMediaRoute: AdminShellMediaRoute,
+  AdminShellMessagesRoute: AdminShellMessagesRoute,
   AdminShellOrdersRoute: AdminShellOrdersRoute,
   AdminShellProductsRoute: AdminShellProductsRoute,
+  AdminShellReviewsRoute: AdminShellReviewsRoute,
+  AdminShellSettingsRoute: AdminShellSettingsRoute,
+  AdminShellShopPageRoute: AdminShellShopPageRoute,
   AdminShellIndexRoute: AdminShellIndexRoute,
 }
 
