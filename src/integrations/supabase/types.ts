@@ -14,42 +14,143 @@ export type Database = {
   }
   public: {
     Tables: {
-      admin_invitations: {
+      admin_access_requests: {
         Row: {
-          accepted_at: string | null
-          accepted_by: string | null
           created_at: string
-          created_by: string | null
           email: string
-          expires_at: string | null
+          full_name: string | null
           id: string
-          revoked: boolean
-          role: Database["public"]["Enums"]["app_role"]
+          reason: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          reason?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      admin_audit_logs: {
+        Row: {
+          action: string
+          admin_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          ip_address: string | null
+          new_data: Json | null
+          old_data: Json | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          admin_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          ip_address?: string | null
+          new_data?: Json | null
+          old_data?: Json | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          ip_address?: string | null
+          new_data?: Json | null
+          old_data?: Json | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_audit_logs_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "admin_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          is_owner: boolean
+          last_login_at: string | null
+          role: string
+          status: string
           updated_at: string
         }
         Insert: {
-          accepted_at?: string | null
-          accepted_by?: string | null
+          avatar_url?: string | null
           created_at?: string
-          created_by?: string | null
           email: string
-          expires_at?: string | null
-          id?: string
-          revoked?: boolean
-          role?: Database["public"]["Enums"]["app_role"]
+          full_name?: string | null
+          id: string
+          is_owner?: boolean
+          last_login_at?: string | null
+          role?: string
+          status?: string
           updated_at?: string
         }
         Update: {
-          accepted_at?: string | null
-          accepted_by?: string | null
+          avatar_url?: string | null
           created_at?: string
-          created_by?: string | null
           email?: string
-          expires_at?: string | null
+          full_name?: string | null
           id?: string
-          revoked?: boolean
-          role?: Database["public"]["Enums"]["app_role"]
+          is_owner?: boolean
+          last_login_at?: string | null
+          role?: string
+          status?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      admin_roles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          permissions: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          permissions?: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          permissions?: Json
         }
         Relationships: []
       }

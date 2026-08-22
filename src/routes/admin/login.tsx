@@ -1,235 +1,235 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useAdminAuth } from "@/lib/admin/auth-context";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Chrome, AlertCircle, Loader2 } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { lovable } from "@/integrations/lovable";
+import React, { useState, useEffect } from 'react';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { supabase } from '@/integrations/supabase/client';
+import { useAdminAuth } from '@/lib/admin/auth-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2, Mail, Lock, ShieldAlert } from 'lucide-react';
+import { toast } from 'sonner';
 
-export const Route = createFileRoute("/admin/login")({
-  component: LoginPage,
+export const Route = createFileRoute('/admin/login')({
+  component: AdminLoginPage,
 });
 
-function LoginPage() {
-  const { status, profile } = useAdminAuth();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function AdminLoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const { status, profile, error: authError } = useAdminAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (status === 'approved') {
-      navigate({ to: "/admin" });
+    if (status === 'authenticated' && profile?.status === 'approved') {
+      navigate({ to: '/admin', replace: true });
     } else if (status === 'pending') {
-      navigate({ to: "/admin/pending" });
+      navigate({ to: '/admin/pending', replace: true });
     }
-  }, [status, navigate]);
+  }, [status, profile, navigate]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
+    setLocalError(null);
 
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (authError) throw authError;
-      // Success will be handled by the AdminAuthProvider state change
+      if (error) {
+        setLocalError(error.message);
+        toast.error(error.message);
+      } else {
+        toast.success('Successfully signed in');
+      }
     } catch (err: any) {
-      setError(err.message || "Invalid credentials");
+      setLocalError(err.message || 'An unexpected error occurred');
+      toast.error('An unexpected error occurred');
+    } finally {
       setLoading(false);
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error('Please enter your email address first');
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/admin/auth/callback?type=recovery`,
+      });
+
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success('Password reset email sent');
+      }
+    } catch (err: any) {
+      toast.error('Failed to send reset email');
+    }
+  };
+
   const handleGoogleLogin = async () => {
-    setError(null);
+    setLoading(true);
+    setLocalError(null);
+
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/admin/auth/callback`,
-          queryParams: {
-            prompt: 'select_account',
-            access_type: 'offline',
-          }
-        }
+        },
       });
-      if (error) throw error;
+
+      if (error) {
+        if (error.message.includes('missing OAuth secret') || error.message.includes('Unsupported provider')) {
+          setLocalError('Google sign-in is not configured. Please contact the administrator.');
+          toast.error('Google sign-in is not configured.');
+        } else {
+          setLocalError(error.message);
+          toast.error(error.message);
+        }
+      }
     } catch (err: any) {
-      console.error("Google login error:", err);
-      setError(err.message || "Google sign-in is not configured yet.");
+      setLocalError('An error occurred during Google sign-in');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#241812] p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-serif text-white tracking-widest uppercase">Loner Leather</h1>
-          <p className="text-stone-400 font-light italic">Administration Suite</p>
+    <div className="flex min-h-screen items-center justify-center bg-[#241812] px-4 font-inter text-[#F7F3EF]">
+      <div className="w-full max-w-[420px]">
+        <div className="mb-8 text-center">
+          <img src="/logo.png" alt="Loner Leather" className="mx-auto mb-4 h-16 w-auto" />
+          <h1 className="font-cormorant text-3xl font-bold tracking-tight text-[#F7F3EF]">
+            ADMIN PORTAL
+          </h1>
+          <p className="mt-2 text-[#F7F3EF]/60">Secure access for Loner Leather administration</p>
         </div>
 
-        <Card className="bg-[#F7F3EF] border-none shadow-2xl">
-          <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-serif text-[#241812]">Admin Login</CardTitle>
-            <CardDescription className="text-stone-500">
-              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-                                        
-                                            
-                                            Fix the Google login integration for the Loner Leather Admin Panel.
-
-The current Supabase error is:
-
-Unsupported provider: missing OAuth secret
-
-This means Google OAuth is enabled in the frontend but the Supabase Google provider is missing its OAuth credentials.
-
-Do not change the Admin login design.
-
-Configure and verify the authentication flow correctly.
-
-Requirements:
-
-1. Keep Email + Password login working.
-
-2. Keep Continue with Google.
-
-3. Use Supabase Auth for Google authentication.
-
-4. Verify the Google provider in Supabase has:
-
-   * Google Client ID
-   * Google Client Secret
-
-5. Do not place the Google Client Secret in frontend code.
-
-6. Use the Supabase OAuth callback URL required by the current Supabase project as the Google Authorized Redirect URI.
-
-7. After Supabase completes Google authentication, redirect the user back to the application callback:
-
-/admin/auth/callback
-
-8. From the application callback:
-
-   * restore the Supabase session
-   * read the authenticated user
-   * verify the admin profile
-   * redirect to /admin
-
-OWNER:
-
-[valaverde05@gmail.com](mailto:valaverde05@gmail.com)
-
-This account must resolve to:
-
-status = approved
-role = super_admin
-is_owner = true
-
-and redirect directly to:
-
-/admin
-
-Do not send this account to /admin/pending.
-
-If the Google provider credentials are not configured in Supabase, disable the Google button and show:
-
-Google sign-in needs configuration.
-
-Do not redirect users to a raw Supabase JSON error page.
-
-After Google credentials are configured, test:
-
-1. Open /admin/login
-2. Click Continue with Google
-3. Google account selector opens
-4. Select [valaverde05@gmail.com](mailto:valaverde05@gmail.com)
-5. Authentication succeeds
-6. Supabase session is created
-7. Return to /admin/auth/callback
-8. Redirect to /admin
-9. Refresh /admin
-10. Session remains active
-
-Do not report completion until the full Google login flow works.
+        <Card className="border-[#8A4D25]/20 bg-[#2A1D16] text-[#F7F3EF]">
+          <CardHeader>
+            <CardTitle className="font-cormorant text-2xl">Sign In</CardTitle>
+            <CardDescription className="text-[#F7F3EF]/60">
+              Enter your credentials to access the admin dashboard
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            {error && (
-              <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+          <form onSubmit={handleEmailLogin}>
+            <CardContent className="space-y-4">
+              {(localError || authError) && (
+                <Alert variant="destructive" className="border-red-500/50 bg-red-500/10 text-red-400">
+                  <ShieldAlert className="h-4 w-4" />
+                  <AlertDescription>{localError || authError}</AlertDescription>
+                </Alert>
+              )}
 
-            <form onSubmit={handleEmailLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
-                  required 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border-stone-300 focus:ring-[#8A4D25] focus:border-[#8A4D25]"
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <button type="button" className="text-xs text-[#8A4D25] hover:underline">Forgot Password?</button>
+                <Label htmlFor="email">Email Address</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#F7F3EF]/40" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="valaverde05@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="border-[#8A4D25]/20 bg-[#241812] pl-10 text-[#F7F3EF] placeholder:text-[#F7F3EF]/20 focus-visible:ring-[#8A4D25]"
+                  />
                 </div>
-                <Input 
-                  id="password" 
-                  type="password" 
-                  required 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="border-stone-300 focus:ring-[#8A4D25] focus:border-[#8A4D25]"
-                />
               </div>
-              <Button 
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-xs text-[#8A4D25] hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#F7F3EF]/40" />
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="border-[#8A4D25]/20 bg-[#241812] pl-10 text-[#F7F3EF] placeholder:text-[#F7F3EF]/20 focus-visible:ring-[#8A4D25]"
+                  />
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-4">
+              <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#8A4D25] hover:bg-[#241812] text-white py-6 text-base"
+                className="w-full bg-[#8A4D25] text-[#F7F3EF] hover:bg-[#8A4D25]/90"
               >
-                {loading ? <Loader2 className="animate-spin mr-2" /> : null}
-                {loading ? "Authenticating..." : "Login to Admin"}
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Authenticating...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
               </Button>
-            </form>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-stone-300"></span>
+              
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[#8A4D25]/10"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-[#2A1D16] px-2 text-[#F7F3EF]/40">Or continue with</span>
+                </div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[#F7F3EF] px-2 text-stone-500">Or continue with</span>
-              </div>
-            </div>
 
-            <Button 
-              variant="outline" 
-              onClick={handleGoogleLogin}
-              className="w-full border-stone-300 py-6 hover:bg-stone-50 flex items-center justify-center gap-2"
-            >
-              <Chrome className="h-5 w-5" />
-              Continue with Google
-            </Button>
-          </CardContent>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleGoogleLogin}
+                disabled={loading}
+                className="w-full border-[#8A4D25]/20 bg-transparent text-[#F7F3EF] hover:bg-[#8A4D25]/10"
+              >
+                <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Continue with Google
+              </Button>
+
+              <div className="text-center text-[10px] text-[#F7F3EF]/40 uppercase tracking-widest">
+                Authorized Personnel Only
+              </div>
+            </CardFooter>
+          </form>
         </Card>
-
-        <p className="text-center text-stone-500 text-xs">
-          &copy; {new Date().getFullYear()} Loner Leather. Restricted Access.
-        </p>
       </div>
     </div>
   );

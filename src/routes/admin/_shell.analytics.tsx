@@ -1,19 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import React from 'react';
+import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/admin/_shell/analytics")({
-  component: AnalyticsPage,
-});
-
-function AnalyticsPage() {
-  return (
-    <div className="space-y-6 pb-12">
-      <div>
-        <h1 className="text-3xl font-serif text-[#241812]">Analytics</h1>
-        <p className="text-stone-500 text-sm mt-1">Store performance and sales insights</p>
-      </div>
-      <div className="bg-white p-12 rounded-lg border border-stone-200 text-center">
-        <p className="text-stone-400 italic">Analytics dashboard coming soon.</p>
+export const Route = createFileRoute('/admin/_shell/analytics')({
+  component: () => (
+    <div className="p-8">
+      <h1 className="font-cormorant text-3xl font-bold text-[#241812] uppercase tracking-widest">analytics</h1>
+      <div className="mt-8 bg-white border border-[#8A4D25]/10 rounded-lg p-12 text-center text-[#241812]/40 italic">
+        Module coming soon as part of the new Loner Leather Admin rebuild.
       </div>
     </div>
-  );
-}
+  ),
+});
