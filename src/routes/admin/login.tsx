@@ -78,7 +78,10 @@ function LoginPage() {
           <CardHeader className="space-y-1 pb-6">
             <CardTitle className="text-2xl font-serif text-[#241812]">Login</CardTitle>
             <CardDescription className="text-stone-500">
-              Enter your credentials to access the management panel
+              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+                                        
+                                            
+                                            can u fixed login to my panel admin with my gmail account i try to login but panel sing out to me
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
