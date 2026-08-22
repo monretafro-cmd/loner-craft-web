@@ -28,7 +28,7 @@ interface AdminAuthContextType {
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
 
 const OWNER_EMAIL = "valaverde05@gmail.com";
-const SESSION_TIMEOUT_MS = 15000; // Increased timeout for slower environments
+const SESSION_TIMEOUT_MS = 8000; // Requirement: 8 seconds max callback wait
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -156,11 +156,20 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    refreshSession();
+    const initSession = async () => {
+      await refreshSession();
+    };
+
+    initSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      console.log("Auth event:", event, !!session);
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
         refreshSession();
+      } else if (event === 'TOKEN_REFRESHED') {
+        if (session) {
+          setUser(session.user);
+        }
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
         setProfile(null);

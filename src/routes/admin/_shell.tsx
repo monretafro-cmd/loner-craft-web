@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useRouterState, useNavigate } from "@tanstack/react-router";
 import { AdminAuthProvider, useAdminAuth } from "@/lib/admin/auth-context";
 import { ReactNode, useEffect } from "react";
 import { Sidebar } from "@/components/admin/layout/Sidebar";
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/admin/_shell")({
 
 function AdminShellGuard() {
   const { status, isLoading, profile } = useAdminAuth();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { pathname } = useRouterState({ select: (s) => ({ pathname: s.location.pathname }) });
 
@@ -18,9 +19,9 @@ function AdminShellGuard() {
   useEffect(() => {
     if (!isLoading) {
       if (status === 'unauthenticated' || status === 'error') {
-        window.location.href = "/admin/login";
+        navigate({ to: "/admin/login", replace: true });
       } else if (status === 'pending') {
-        window.location.href = "/admin/pending";
+        navigate({ to: "/admin/pending", replace: true });
       }
     }
   }, [status, isLoading, pathname]);
